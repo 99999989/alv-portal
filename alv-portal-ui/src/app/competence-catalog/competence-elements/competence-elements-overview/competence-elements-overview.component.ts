@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-element/competence-element.repository';
@@ -10,10 +10,10 @@ import {
 } from '../../../shared/backend-services/competence-element/competence-element.types';
 import { CompetenceElementModalComponent } from '../../shared/competence-element-modal/competence-element-modal.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { merge, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CompetenceElementsFilterModalComponent } from '../competence-elements-filter-modal/competence-elements-filter-modal.component';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
-import { SortButtonComponent } from '../../shared/sort-button/sort-button.component';
+import { DEFAULT_PAGE_SIZE } from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -35,8 +35,6 @@ export class CompetenceElementsOverviewComponent extends AbstractSubscriber impl
   };
 
   private page = 0;
-
-  private readonly DEFAULT_PAGE_SIZE = 50;
 
   constructor(private modalService: ModalService,
               private authenticationService: AuthenticationService,
@@ -66,7 +64,7 @@ export class CompetenceElementsOverviewComponent extends AbstractSubscriber impl
         types: this.filter.types,
       },
       page: this.page++,
-      size: this.DEFAULT_PAGE_SIZE,
+      size: DEFAULT_PAGE_SIZE,
       sort: this.sortAsc ? 'alphabetically_asc' : 'alphabetically_desc',
     }).pipe(
     ).subscribe(response => {
