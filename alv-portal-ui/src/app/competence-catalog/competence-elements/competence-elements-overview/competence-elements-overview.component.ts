@@ -13,7 +13,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { Observable } from 'rxjs';
 import { CompetenceElementsFilterModalComponent } from '../competence-elements-filter-modal/competence-elements-filter-modal.component';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
-import { DEFAULT_PAGE_SIZE } from '../../shared/constants';
+import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -65,7 +65,7 @@ export class CompetenceElementsOverviewComponent extends AbstractSubscriber impl
       },
       page: this.page++,
       size: DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? 'alphabetically_asc' : 'alphabetically_desc',
+      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
     }).pipe(
     ).subscribe(response => {
       this.competenceElements = [...(this.competenceElements || []), ...response.content];

@@ -7,7 +7,7 @@ import { ChFicheRepository } from '../../../shared/backend-services/ch-fiche/ch-
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ChFiche } from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DEFAULT_PAGE_SIZE } from '../../shared/constants';
+import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
 
 @Component({
   selector: 'alv-ch-fiches-overview',
@@ -56,7 +56,7 @@ export class ChFichesOverviewComponent extends AbstractSubscriber implements OnI
       },
       page: this.page++,
       size: DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? 'alphabetically_asc' : 'alphabetically_desc'
+      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
     }).pipe(
     ).subscribe(response => {
       this.chFiches = [...(this.chFiches || []), ...response.content];

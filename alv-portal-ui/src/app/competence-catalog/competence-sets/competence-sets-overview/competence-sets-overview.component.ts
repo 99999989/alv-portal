@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DEFAULT_PAGE_SIZE } from '../../shared/constants';
+import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-sets-overview',
@@ -63,7 +63,7 @@ export class CompetenceSetsOverviewComponent extends AbstractSubscriber implemen
       },
       page: this.page++,
       size: DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? 'alphabetically_asc' : 'alphabetically_desc',
+      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
     }).pipe(
     ).subscribe(response => {
       this.competenceSets = [...(this.competenceSets || []), ...response.content];
