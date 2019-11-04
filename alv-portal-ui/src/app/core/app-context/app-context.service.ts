@@ -29,7 +29,7 @@ export class AppContextService {
       isDesktopMenuShown: isAnyUser,
       appTitle: 'portal.context.competence-catalog.app-title',
       logoUrl: 'portal.context.competence-catalog.logo-filename',
-      homeUrl: ['kk', 'competence-sets']
+      homeUrl: ['kk', 'ch-fiches']
     }
   ];
 

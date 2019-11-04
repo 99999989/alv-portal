@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import {
+  faAddressBook as farAddressBook,
   faCircle as farCircle,
   faFileImage as farFileImage,
   faFilePdf as farFilePdf,
@@ -156,6 +157,7 @@ export class IconsLibraryService {
 
   private addRegularIcons() {
     this.library.addIcons(
+      farAddressBook,
       farCircle,
       farFileImage,
       farFilePdf,

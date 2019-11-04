@@ -10,6 +10,7 @@ import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-element/competence-element.repository';
 import { NotificationsService } from '../../../core/notifications.service';
+import { getModalTitle } from '../utils/translation-utils';
 
 @Component({
   selector: 'alv-competence-element-modal',
@@ -19,6 +20,8 @@ import { NotificationsService } from '../../../core/notifications.service';
 export class CompetenceElementModalComponent implements OnInit {
 
   @Input() competenceElement: CompetenceElement;
+
+  @Input() isReadonly = false;
 
   typeOptions$: Observable<SelectableOption[]> = of([{
       value: null,
@@ -33,6 +36,8 @@ export class CompetenceElementModalComponent implements OnInit {
   );
 
   form: FormGroup;
+
+  modalTitle: string;
 
   isEdit = false;
 
@@ -58,6 +63,7 @@ export class CompetenceElementModalComponent implements OnInit {
       this.form.patchValue(this.competenceElement);
       this.isEdit = true;
     }
+    this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
   }
 
   submit() {
@@ -67,6 +73,7 @@ export class CompetenceElementModalComponent implements OnInit {
       this.createElement();
     }
   }
+
 
   cancel() {
     this.modal.dismiss();

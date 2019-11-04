@@ -1,0 +1,56 @@
+<div class="container-fluid pt-4 pt-lg-5 px-lg-5"
+     *ngIf="{
+          isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async
+     } as observables"
+     (scrolled)="onScroll()"
+     [fromRoot]="true"
+     [infiniteScrollThrottle]="50"
+     [immediateCheck]="true"
+     infiniteScroll>
+  <div class="row">
+    <div class="col-12 col-lg-9 col-xl-10">
+      <div class="d-flex justify-content-between align-items-end position-relative">
+        <h2 class="pr-5 mb-4 d-flex">
+          <fa-icon [icon]="['far', 'address-book']"
+                   class="text-primary mr-1"
+                   [fixedWidth]="true">
+          </fa-icon>
+          {{ 'portal.competence-catalog.ch-fiches.overview.title' | translate }}
+        </h2>
+      </div>
+
+      <alv-input-field [alvControl]="query"
+                       label="portal.competence-catalog.ch-fiches.overview.search-label">
+      </alv-input-field>
+
+      <a *ngIf="observables.isCompetenceCatalogEditor"
+         routerLink="./create"
+         class="btn btn-text btn-text-icon btn-block btn-truncate my-3 d-block d-lg-none">
+        <fa-icon [icon]="['fas', 'plus']"
+                 class="mr-1"></fa-icon>
+        {{'portal.global.enter' | translate}}
+      </a>
+
+      <alv-competence-item *ngFor="let chFiche of chFiches"
+                           [multiLanguageTitle]="chFiche.title"
+                           [type]="'portal.competence-catalog.ch-fiches.type' | translate"
+                           [superTitle]="chFiche.id"
+                           (itemClick)="editChFiche(chFiche)"
+                           [isItemClickable]="true">
+      </alv-competence-item>
+
+    </div>
+    <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
+      <div class="actions-container">
+        <a *ngIf="observables.isCompetenceCatalogEditor"
+           routerLink="./create"
+           class="add-fiche-button btn btn-text btn-text-icon btn-block btn-truncate mb-1">
+          <fa-icon [icon]="['fas', 'plus']"
+                   class="mr-1"></fa-icon>
+          {{'portal.global.enter' | translate}}
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>

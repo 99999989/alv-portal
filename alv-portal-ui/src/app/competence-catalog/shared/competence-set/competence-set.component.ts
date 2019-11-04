@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
 import {
   CompetenceElement,
@@ -11,6 +11,10 @@ import { CompetenceElementSearchModalComponent } from '../../competence-sets/com
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CompetenceElementModalComponent } from '../competence-element-modal/competence-element-modal.component';
+import {
+  CompetenceCatalogAction
+} from '../shared-competence-catalog.types';
+import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 
 @Component({
   selector: 'alv-competence-set',
@@ -22,15 +26,26 @@ export class CompetenceSetComponent implements OnInit {
 
   @Input() competenceSet: CompetenceSetSearchResult;
 
-  @Input() isEditable: boolean;
+  @Input() isReadonly = false;
 
-  @Input() showEditSetButton: boolean;
+  @Input() isInnerElementsReadonly = false;
+
+  @Input() showActionButtons: boolean;
 
   @Input() isCollapsed = true;
 
   @Input() showErrors: boolean;
 
+  @Input() actions: ActionDefinition<CompetenceCatalogAction>[];
+
+  @Output() actionClick = new EventEmitter<CompetenceCatalogAction>();
+
   elementType = ElementType;
+
+  subElementTypes = [
+    ElementType.KNOW_HOW_INDICATOR,
+    ElementType.KNOWLEDGE
+  ];
 
   knowHowIndicators: CompetenceElement[];
 
@@ -39,6 +54,18 @@ export class CompetenceSetComponent implements OnInit {
   collapsed = {
     [ElementType.KNOW_HOW_INDICATOR]: true,
     [ElementType.KNOWLEDGE]: true
+  };
+
+  linkElementAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.LINK,
+    icon: ['fas', 'search-plus'],
+    label: 'portal.competence-catalog.competence-sets.actions.search-and-add'
+  };
+
+  unlinkElementAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.UNLINK,
+    icon: ['fas', 'unlink'],
+    label: 'portal.competence-catalog.competence-sets.actions.unlink'
   };
 
   constructor(private competenceElementRepository: CompetenceElementRepository,
@@ -54,15 +81,13 @@ export class CompetenceSetComponent implements OnInit {
     this.loadCompetenceElementsIfRequired();
   }
 
-  openUpdateElementModal(competenceElement: CompetenceElement, type: ElementType) {
-    if (!this.isEditable) {
-      return;
-    }
+  viewCompetenceElementModal(competenceElement: CompetenceElement) {
     const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
     modalRef.componentInstance.competenceElement = competenceElement;
+    modalRef.componentInstance.isReadonly = true;
     modalRef.result
       .then(updatedCompetenceElement => {
-        if (type === ElementType.KNOW_HOW) {
+        if (competenceElement.type === ElementType.KNOW_HOW) {
           this.competenceSet.knowHow = updatedCompetenceElement;
         } else {
           this.loadCompetenceElements().subscribe();
@@ -70,22 +95,6 @@ export class CompetenceSetComponent implements OnInit {
       })
       .catch(() => {
       });
-  }
-
-  unlinkCompetenceElement(competenceElement: CompetenceElement) {
-    this.openUnlinkConfirmModal().then(result => {
-      const indexToRemove = this.competenceSet.competenceElementIds.indexOf(competenceElement.id);
-      this.competenceSet.competenceElementIds.splice(indexToRemove, 1);
-      this.loadCompetenceElements().subscribe();
-    }).catch(err => {
-    });
-  }
-
-  unlinkKnowHow(competenceElement: CompetenceElement) {
-    this.openUnlinkConfirmModal().then(result => {
-      this.competenceSet.knowHow = null;
-    }).catch(err => {
-    });
   }
 
   addKnowHow() {
@@ -99,12 +108,41 @@ export class CompetenceSetComponent implements OnInit {
       });
   }
 
-  addKnowHowIndicator() {
-    this.addCompetenceElement(ElementType.KNOW_HOW_INDICATOR);
+  getElementsByType(elementType: ElementType): CompetenceElement[] {
+    if (elementType === ElementType.KNOW_HOW_INDICATOR) {
+      return this.knowHowIndicators;
+    }
+    if (elementType === ElementType.KNOWLEDGE) {
+      return this.knowledgeItems;
+    }
   }
 
-  addKnowledgeItem() {
-    this.addCompetenceElement(ElementType.KNOWLEDGE);
+  handleSubElementsActionClick(action: CompetenceCatalogAction, competenceElement: CompetenceElement) {
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkCompetenceElement(competenceElement);
+    }
+  }
+
+  handleKnowHowActionClick(action: CompetenceCatalogAction, competenceElement: CompetenceElement) {
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkKnowHow(competenceElement);
+    }
+  }
+
+  private unlinkCompetenceElement(competenceElement: CompetenceElement) {
+    this.openUnlinkConfirmModal().then(result => {
+      const indexToRemove = this.competenceSet.competenceElementIds.indexOf(competenceElement.id);
+      this.competenceSet.competenceElementIds.splice(indexToRemove, 1);
+      this.loadCompetenceElements().subscribe();
+    }).catch(err => {
+    });
+  }
+
+  private unlinkKnowHow(competenceElement: CompetenceElement) {
+    this.openUnlinkConfirmModal().then(result => {
+      this.competenceSet.knowHow = null;
+    }).catch(err => {
+    });
   }
 
   private openUnlinkConfirmModal(): Promise<CompetenceElement> {

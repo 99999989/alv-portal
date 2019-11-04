@@ -6,6 +6,9 @@ import { debounceTime, map, takeUntil } from 'rxjs/operators';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { ActionDefinition } from '../../../shared/backend-services/shared.types';
+import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'alv-competence-sets-overview',
@@ -20,11 +23,19 @@ export class CompetenceSetsOverviewComponent extends AbstractSubscriber implemen
 
   isCompetenceCatalogEditor$: Observable<boolean>;
 
+  editCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.EDIT,
+    icon: ['fas', 'pen'],
+    label: 'portal.competence-catalog.competence-sets.edit-button.tooltip'
+  };
+
   private page = 0;
 
-  private readonly DEFAULT_PAGE_SIZE = 20;
+  private readonly DEFAULT_PAGE_SIZE = 50;
 
   constructor(private competenceSetRepository: CompetenceSetRepository,
+              private router: Router,
+              private route: ActivatedRoute,
               private authenticationService: AuthenticationService) {
     super();
   }
@@ -55,6 +66,12 @@ export class CompetenceSetsOverviewComponent extends AbstractSubscriber implemen
     ).subscribe(response => {
       this.competenceSets = [...(this.competenceSets || []), ...response.content];
     });
+  }
+
+  handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
+    if (action === CompetenceCatalogAction.EDIT) {
+      this.router.navigate(['edit', competenceSet.id], { relativeTo: this.route });
+    }
   }
 
   private reload() {

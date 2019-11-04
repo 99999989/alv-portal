@@ -79,18 +79,25 @@ export const EALV_MAIN_MENU_ENTRIES: MenuEntry[] = [
 
 export const CC_MAIN_MENU_ENTRIES: MenuEntry[] = [
   {
+    id: 'ch-fiches',
+    iconProp: ['far', 'address-book'],
+    labelKey: 'portal.competence-catalog.menu-entries.ch-fiches',
+    path: ['kk', 'ch-fiches'],
+    userPredicate: isAnyUser
+  },
+  {
     id: 'competence-sets',
     iconProp: ['far', 'list-alt'],
     labelKey: 'portal.competence-catalog.menu-entries.competence-sets',
     path: ['kk', 'competence-sets'],
-    userPredicate: (u) => isAnyUser()
+    userPredicate: isAnyUser
   },
   {
     id: 'competence-elements',
     iconProp: ['fas', 'list-ul'],
     labelKey: 'portal.competence-catalog.menu-entries.competence-elements',
     path: ['kk', 'competence-elements'],
-    userPredicate: (u) => isAnyUser()
+    userPredicate: isAnyUser
   }
 ];
 
@@ -177,13 +184,13 @@ export const SETTINGS_MENU_ENTRIES: MenuEntry[] = [
   }
 ];
 
-export const MENU_ENTRIES: {[appContext: string]: MenuDefinition} = {
-  [AppContext.EALV]: <MenuDefinition> {
+export const MENU_ENTRIES: { [appContext: string]: MenuDefinition } = {
+  [AppContext.EALV]: <MenuDefinition>{
     mainMenuEntries: EALV_MAIN_MENU_ENTRIES,
     onlineFormsMenuEntries: ONLINE_FORMS_MENU_ENTRIES,
     settingsMenuEntries: SETTINGS_MENU_ENTRIES
   },
-  [AppContext.COMPETENCE_CATALOG]: <MenuDefinition> {
+  [AppContext.COMPETENCE_CATALOG]: <MenuDefinition>{
     mainMenuEntries: CC_MAIN_MENU_ENTRIES,
     onlineFormsMenuEntries: [],
     settingsMenuEntries: []

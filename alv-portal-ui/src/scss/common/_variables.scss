@@ -20,4 +20,5 @@ $z-index-footer: 100000;
 $z-index-typeahead-menu: $z-index-dropdown-menu;
 $z-index-tooltip: $z-index-typeahead-menu - 1;
 
-
+/* Global CSS values */
+$box-shadow-default: 1px 1px 5px rgba(0, 0, 0, 0.35);

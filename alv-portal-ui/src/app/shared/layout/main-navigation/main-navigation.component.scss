@@ -133,9 +133,16 @@
     border-right: none;
     border-bottom: none;
     color: $color-white;
-
+    min-height: 45px;
+    .nav-app-title {
+      font-size: 1.25em;
+      text-align: left;
+    }
     i.fas, .svg-inline--fa {
       font-size: 26px;
+    }
+    .menu-toggle-icon {
+      margin-right: 1px;
     }
   }
 

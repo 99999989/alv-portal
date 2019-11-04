@@ -15,12 +15,14 @@
   </div>
   <button class="nav-item menu-toggle"
           (click)="toggleDesktopSideNav()">
-    <fa-icon *ngIf="!mainNavigationCollapsed"
-             class="ml-2"
-             [icon]="['fas', 'caret-left']"></fa-icon>
-    <fa-icon *ngIf="mainNavigationCollapsed"
-             class="ml-2"
-             [icon]="['fas', 'caret-right']"></fa-icon>
+    <fa-icon class="menu-toggle-icon"
+             [fixedWidth]="true"
+             [icon]="['fas', mainNavigationCollapsed ? 'caret-right' : 'caret-left']">
+    </fa-icon>
+    <span class="nav-text nav-app-title"
+          *alvAppContextCompetenceCatalog>
+      {{'portal.context.competence-catalog.app-title' | translate}}
+    </span>
   </button>
 
   <ng-container *ngIf="(menuDefinition$ | async) as menuDefinition">

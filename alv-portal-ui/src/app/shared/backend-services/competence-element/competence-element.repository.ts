@@ -40,7 +40,7 @@ export class CompetenceElementRepository {
     return this.http.post<CompetenceElement>(this.resourceUrl, competenceElement);
   }
 
-  update(id, competenceElement: UpdateCompetenceElement): Observable<CompetenceElement> {
+  update(id: string, competenceElement: UpdateCompetenceElement): Observable<CompetenceElement> {
     return this.http.put<CompetenceElement>(this.resourceUrl + id, competenceElement);
   }
 

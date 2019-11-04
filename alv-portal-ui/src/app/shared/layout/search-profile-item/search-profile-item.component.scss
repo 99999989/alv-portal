@@ -1,4 +1,5 @@
 @import "../../../../scss/common/colors";
+@import "../../../../scss/common/variables";
 
 :host:first-of-type {
   border-top: 1px solid $color-medium-grey;
@@ -23,7 +24,7 @@
   }
   &:hover {
     cursor: pointer;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.35);
+    box-shadow: $box-shadow-default;
     color: $color-primary;
     z-index: 1;
     .hover-indicator {

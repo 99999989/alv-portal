@@ -16,7 +16,7 @@ button.title-bar {
   }
 }
 
-.edit-button {
+.action-buttons {
   position: absolute;
   right: 7px;
   top: 5px;
@@ -26,15 +26,3 @@ button.title-bar {
   transform-origin: top;
 }
 
-.alv-bar {
-  font-size: 1em;
-  height: 50px;
-  &:focus {
-    box-shadow: none;
-  }
-  border-bottom: 1px solid $color-medium-grey;
-  padding-left: 50px;
-  &.invalid {
-    color: $color-red;
-  }
-}

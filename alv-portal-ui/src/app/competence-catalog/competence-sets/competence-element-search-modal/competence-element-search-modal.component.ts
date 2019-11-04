@@ -6,11 +6,12 @@ import { TypeaheadItem } from '../../../shared/forms/input/typeahead/typeahead-i
 import { map, take } from 'rxjs/operators';
 import {
   CompetenceElement,
-  ElementType,
-  getTranslatedString
+  ElementType
 } from '../../../shared/backend-services/competence-element/competence-element.types';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-element/competence-element.repository';
 import { I18nService } from '../../../core/i18n.service';
+import { DEFAULT_PAGE_SIZE } from '../../../shared/backend-services/request-util';
+import { getTranslatedString } from '../../shared/shared-competence-catalog.types';
 
 @Component({
   selector: 'alv-competence-element-search-modal',
@@ -65,7 +66,7 @@ export class CompetenceElementSearchModalComponent implements OnInit {
   private searchCompetenceElements(term: string): Observable<TypeaheadItem<CompetenceElement>[]> {
     return this.competenceElementRepository.search({
       page: 0,
-      size: 20,
+      size: DEFAULT_PAGE_SIZE,
       body: { query: term, types: [this.elementType] }
     }).pipe(
       map(competenceElementPage => competenceElementPage
@@ -79,7 +80,7 @@ export class CompetenceElementSearchModalComponent implements OnInit {
     return new TypeaheadItem<CompetenceElement>(
       competenceElement.type,
       competenceElement,
-      getTranslatedString(competenceElement.description, this.currentLang),
+      getTranslatedString(competenceElement.description, this.currentLang).value,
       index
     );
   }

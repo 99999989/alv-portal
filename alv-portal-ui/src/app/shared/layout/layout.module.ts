@@ -21,7 +21,6 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { NotificationComponent } from './notifications/notification/notification.component';
-import { HelpButtonComponent } from './help-button/help-button.component';
 import { SharedAuthModule } from '../auth/shared-auth.module';
 import { NotificationsComponent } from './notifications/notifications/notifications.component';
 import { AlertComponent } from './notifications/alert/alert.component';
@@ -83,7 +82,6 @@ import { CollapseDirective } from './collapse-panel/collapse.directive';
     HeaderComponent,
     FooterComponent,
     NotificationComponent,
-    HelpButtonComponent,
     NotificationsComponent,
     AlertComponent,
     ModalComponent,
@@ -127,7 +125,6 @@ import { CollapseDirective } from './collapse-panel/collapse.directive';
     HeaderComponent,
     FooterComponent,
     NotificationComponent,
-    HelpButtonComponent,
     NotificationsComponent,
     AlertComponent,
     ModalComponent,

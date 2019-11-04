@@ -1,0 +1,10 @@
+@import '../../../../../node_modules/bootstrap/scss/functions';
+@import '../../../../../node_modules/bootstrap/scss/variables';
+@import '../../../../../node_modules/bootstrap/scss/mixins';
+
+@include media-breakpoint-up(lg) {
+  .container-fluid {
+    max-width: 1200px;
+    margin-left: 0;
+  }
+}

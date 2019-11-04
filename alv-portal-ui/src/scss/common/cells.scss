@@ -1,4 +1,5 @@
 @import "colors";
+@import "variables";
 @import '../../../node_modules/bootstrap/scss/functions';
 @import '../../../node_modules/bootstrap/scss/variables';
 @import '../../../node_modules/bootstrap/scss/mixins';
@@ -64,7 +65,7 @@
   }
 
   &:hover, &.expanded {
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.35);
+    box-shadow: $box-shadow-default;
     text-decoration: none !important;
 
     .cell:first-of-type {

@@ -1,11 +1,12 @@
 @import "colors";
+@import "variables";
 @import '../../../node_modules/bootstrap/scss/functions';
 @import '../../../node_modules/bootstrap/scss/variables';
 @import '../../../node_modules/bootstrap/scss/mixins';
 
 .alv-panel {
   background-color: $color-grey-transparent;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.35);
+  box-shadow: $box-shadow-default;
   margin: 0.25em;
   padding: 1em 1.5em 0.5em;
   border: 2px solid transparent;

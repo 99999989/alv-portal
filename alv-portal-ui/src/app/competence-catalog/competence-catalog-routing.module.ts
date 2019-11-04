@@ -3,6 +3,13 @@ import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
+    path: 'ch-fiches',
+    loadChildren: './ch-fiches/ch-fiches.module#ChFichesModule',
+    data: {
+      titleKey: 'portal.competence-catalog.ch-fiches.browser-title',
+    }
+  },
+  {
     path: 'competence-sets',
     loadChildren: './competence-sets/competence-sets.module#CompetenceSetsModule',
     data: {
@@ -18,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'competence-sets'
+    redirectTo: 'ch-fiches'
   }
 ];
 

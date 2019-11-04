@@ -35,6 +35,8 @@ export function createPageableURLSearchParams(req?: PagedSearchRequest): HttpPar
   return params;
 }
 
+export const DEFAULT_PAGE_SIZE = 20;
+
 export interface PagedSearchRequest {
   page: number;
   size: number;

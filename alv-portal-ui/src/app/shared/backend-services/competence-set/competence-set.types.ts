@@ -28,6 +28,8 @@ export interface CompetenceSetSearchResult {
   competenceElementIds: string[];
 }
 
-export const initialCompetenceSet = {
-  competenceElementIds: []
+export const initialCompetenceSet = () => {
+  return {
+    competenceElementIds: []
+  };
 };

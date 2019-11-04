@@ -34,3 +34,10 @@ export interface OccupationCode {
   type: string;
   mapping?: { value: string; type: string };
 }
+
+export interface CompetenceCatalogOccupationCode {
+  id?: string;
+  value: string;
+  type: string;
+  mappings?: { [key: string]: string };
+}

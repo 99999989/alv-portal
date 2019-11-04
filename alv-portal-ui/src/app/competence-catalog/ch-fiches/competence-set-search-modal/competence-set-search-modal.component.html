@@ -1,0 +1,17 @@
+<alv-modal (cancelAction)="cancel()"
+           (primaryAction)="submit()"
+           cancelLabel="portal.global.cancel"
+           modalTitle="portal.competence-catalog.competence-sets.add-modal.title"
+           primaryLabel="portal.global.add"
+           [formGroup]="form">
+  <fieldset>
+    <legend>{{'portal.competence-catalog.competence-sets.add-modal.search-label' | translate}}</legend>
+    <alv-single-typeahead alvFormControlName="competenceSet"
+                          label="portal.global.search"
+                          [loadItems]="searchCompetenceSetsFn"
+                          (itemSelected)="itemSelected($event)"
+                          [autofocus]="true">
+    </alv-single-typeahead>
+  </fieldset>
+
+</alv-modal>

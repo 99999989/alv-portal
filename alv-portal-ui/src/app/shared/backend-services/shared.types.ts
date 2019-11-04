@@ -1,3 +1,7 @@
+import { Languages } from '../../core/languages.constants';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { CompetenceCatalogAction } from '../../competence-catalog/shared/shared-competence-catalog.types';
+
 export enum Gender {
   MALE = 'MALE',
   FEMALE = 'FEMALE'
@@ -277,4 +281,10 @@ export interface OccupationFilter {
 export interface SearchProfile {
   id: string;
   name: string;
+}
+
+export interface ActionDefinition<T> {
+  name: T;
+  icon?: IconProp;
+  label?: string;
 }

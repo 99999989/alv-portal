@@ -1,4 +1,6 @@
-<div class="container-fluid pt-4 pt-lg-5 px-lg-5">
+<div class="container-fluid pt-4 pt-lg-5 px-lg-5"
+     *ngIf="{isCompetenceCatalogEditor: isCompetenceCatalogEditor$|async} as observables"
+>
   <div class="row">
     <div class="col-12 col-lg-9 col-xl-10">
       <div class="d-flex justify-content-between align-items-end position-relative">
@@ -7,30 +9,36 @@
                    class="text-primary mr-1"
                    [fixedWidth]="true">
           </fa-icon>
-          {{ 'portal.competence-catalog.competence-sets.edit.title-edit-create' | translate }}
+          <span *ngIf="isEdit; else isEnter">
+            {{'portal.competence-catalog.competence-sets.edit.title-edit' | translate}}
+          </span>
+          <ng-template #isEnter>{{ 'portal.competence-catalog.competence-sets.edit.title-enter' | translate }}</ng-template>
         </h2>
       </div>
 
       <alv-competence-set [competenceSet]="competenceSet"
                           [isCollapsed]="false"
-                          [showEditSetButton]="false"
-                          [isEditable]="true"
+                          [showActionButtons]="false"
+                          [isReadonly]="!observables.isCompetenceCatalogEditor"
                           [showErrors]="showErrors">
       </alv-competence-set>
 
       <div class="d-flex justify-content-end my-4 w-100">
         <a class="btn btn-text"
            routerLink="../">
-          {{'portal.global.cancel' | translate}}
+          {{(observables.isCompetenceCatalogEditor ? 'portal.global.cancel': 'entity.action.back') | translate}}
         </a>
         <!--
         <button class="btn btn-secondary ml-1"
-                *ngIf="isEditable">
+                *ngIf="isReadonly">
           {{'portal.global.delete' | translate}}
         </button>
         -->
         <button class="btn btn-primary ml-1"
-                (click)="saveCompetenceSet()">
+                (click)="saveCompetenceSet()"
+                *ngIf="observables.isCompetenceCatalogEditor"
+
+        >
           {{'portal.global.save' | translate}}
         </button>
       </div>

@@ -1,4 +1,5 @@
 <div class="container-fluid pt-4 pt-lg-5 px-lg-5"
+     *ngIf="{isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async } as observables"
      (scrolled)="onScroll()"
      [fromRoot]="true"
      [infiniteScrollThrottle]="50"
@@ -14,13 +15,22 @@
           </fa-icon>
           {{ 'portal.competence-catalog.competence-elements.overview.title' | translate }}
         </h2>
+        <button type="button"
+                class="btn btn-text filter-button"
+                (click)="onFilterClick()">
+          <fa-icon class="mr-0 mr-md-2"
+                   [icon]="['fas', 'filter']"></fa-icon>
+          <span class="d-none d-md-inline">
+        {{'portal.competence-catalog.competence-elements.overview.filter.label' | translate}}
+      </span>
+        </button>
       </div>
 
       <alv-input-field [alvControl]="query"
                        label="portal.competence-catalog.competence-elements.overview.search.placeholder">
       </alv-input-field>
 
-      <button *ngIf="isCompetenceCatalogEditor$ | async"
+      <button *ngIf="observables.isCompetenceCatalogEditor"
               (click)="openCreateModal()"
               class="btn btn-text btn-text-icon btn-block btn-truncate my-3 d-block d-lg-none">
         <fa-icon [icon]="['fas', 'plus']"
@@ -28,16 +38,18 @@
         {{'portal.global.enter' | translate}}
       </button>
 
-      <alv-competence-element *ngFor="let competenceElement of competenceElements"
-                              [competenceElement]="competenceElement"
-                              [isEditable]="isCompetenceCatalogEditor$ | async"
-                              (elementClick)="openUpdateModal($event)">
-      </alv-competence-element>
+      <alv-competence-item *ngFor="let competenceElement of competenceElements"
+                           [multiLanguageTitle]="competenceElement.description"
+                           [type]="'portal.competence-catalog.element-type.' + competenceElement.type | translate"
+                           [superTitle]="competenceElement.id"
+                           [isItemClickable]="true"
+                           (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)">
+      </alv-competence-item>
 
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
       <div class="actions-container">
-        <button *ngIf="isCompetenceCatalogEditor$ | async"
+        <button *ngIf="observables.isCompetenceCatalogEditor"
                 (click)="openCreateModal()"
                 class="add-element-button btn btn-text btn-text-icon btn-block btn-truncate mb-1">
           <fa-icon [icon]="['fas', 'plus']"

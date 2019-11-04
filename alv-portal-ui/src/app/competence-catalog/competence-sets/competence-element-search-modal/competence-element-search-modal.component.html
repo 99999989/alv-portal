@@ -15,31 +15,16 @@
   </fieldset>
 
   <fieldset formGroupName="description">
-    <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.german-title"
-                     alvFormControlName="textDe"
-                     [multiline]="true"
-                     [multilineMinRows]="1"
-                     [readonly]="true">
-    </alv-input-field>
-    <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.french-title"
-                     alvFormControlName="textFr"
-                     [multiline]="true"
-                     [multilineMinRows]="1"
-                     [readonly]="true">
-    </alv-input-field>
-    <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.italian-title"
-                     alvFormControlName="textIt"
-                     [multiline]="true"
-                     [multilineMinRows]="1"
-                     [readonly]="true">
-    </alv-input-field>
-    <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.english-title"
-                     alvFormControlName="textEn"
-                     [multiline]="true"
-                     [multilineMinRows]="1"
-                     [readonly]="true">
-    </alv-input-field>
-
+    <ng-container *ngFor="let formField of ['textDe','textFr','textIt','textEn']">
+      <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.title-{{formField}}"
+                       [alvFormControlName]="formField"
+                       [multiline]="true"
+                       [multilineMinRows]="1"
+                       [showGroupErrors]="true"
+                       [validationMessages]="[{ error: 'atLeastOneRequired', message: 'global.common-phrases.at-least-one-required' }]"
+                       [readonly]="true">
+      </alv-input-field>
+    </ng-container>
   </fieldset>
 
 </alv-modal>

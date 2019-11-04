@@ -9,11 +9,9 @@ import { CompetenceCatalogRoutingModule } from './competence-catalog-routing.mod
     SharedModule,
     CompetenceCatalogRoutingModule
   ],
-  declarations: [
-  ],
+  declarations: [],
   entryComponents: [],
-  providers: [
-  ]
+  providers: []
 })
 export class CompetenceCatalogModule {
 }

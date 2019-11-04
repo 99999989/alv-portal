@@ -1,6 +1,5 @@
-
 @import "../common/colors";
-@import "../common/_variables";
+@import "../common/variables";
 @import '../../../node_modules/bootstrap/scss/functions';
 @import '../../../node_modules/bootstrap/scss/variables';
 @import '../../../node_modules/bootstrap/scss/mixins';
@@ -9,7 +8,7 @@
   border-radius: 0;
   padding: .1rem 0;
   z-index: $z-index-dropdown-menu;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.35);
+  box-shadow: $box-shadow-default;
   overflow-y: auto;
 
   .dropdown-item {

@@ -1,0 +1,14 @@
+<alv-modal (cancelAction)="cancel()"
+           (primaryAction)="filter()"
+           [formGroup]="form"
+           cancelLabel="entity.action.cancel"
+           modalTitle="portal.competence-catalog.competence-elements.filter-modal.title"
+           primaryLabel="entity.action.ok">
+  <fieldset>
+    <alv-checkbox *ngFor="let type of elementTypes"
+                  class="d-block mb-1"
+                  [alvFormControlName]="type"
+                  [label]="'portal.competence-catalog.element-type.' + type">
+    </alv-checkbox>
+  </fieldset>
+</alv-modal>

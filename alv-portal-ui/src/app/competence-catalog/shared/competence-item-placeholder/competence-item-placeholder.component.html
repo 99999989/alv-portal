@@ -1,0 +1,19 @@
+<div class="alv-bar d-flex align-items-center w-100 position-relative"
+     [class.invalid]="showErrors">
+  {{mainText}}
+  <span *ngIf="showErrors">
+      &nbsp;- {{'entity.validation.required' | translate}}
+    </span>
+  <div class="flex-grow-1"></div>
+  <button class="btn btn-icon-sm"
+          (click)="clickHandler.emit()">
+    <fa-icon [icon]="icon"
+             *ngIf="icon"
+    ></fa-icon>
+    <alv-custom-icon class="mr-1"
+                     aria-hidden="true"
+                     *ngIf="customIcon"
+                     [iconKey]="customIcon">
+    </alv-custom-icon>
+  </button>
+</div>

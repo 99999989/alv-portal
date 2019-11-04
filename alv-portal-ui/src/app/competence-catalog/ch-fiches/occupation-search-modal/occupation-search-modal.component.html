@@ -1,0 +1,19 @@
+<alv-modal (cancelAction)="cancel()"
+           (primaryAction)="submit()"
+           cancelLabel="portal.global.cancel"
+           modalTitle="portal.competence-catalog.ch-fiches.occupation-modal.title"
+           primaryLabel="portal.global.add"
+           [formGroup]="form">
+  <fieldset>
+    <legend>{{'portal.competence-catalog.ch-fiches.occupation-modal.search-legend' | translate}}</legend>
+
+    <alv-single-typeahead alvFormControlName="occupation"
+                         label="portal.global.search"
+                         [focusFirst]="true"
+                         [loadItems]="searchOccupationsFn"
+                         [autofocus]="true">
+    </alv-single-typeahead>
+
+  </fieldset>
+
+</alv-modal>

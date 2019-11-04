@@ -1,9 +1,11 @@
 <alv-modal (cancelAction)="cancel()"
            (primaryAction)="submit()"
-           cancelLabel="portal.global.cancel"
-           [modalTitle]="isEdit ? 'entity.action.edit' : 'portal.global.enter'"
+           [cancelLabel]="isReadonly ? 'entity.action.back' : 'portal.global.cancel'"
+           [showPrimaryButton]="!isReadonly"
+           [modalTitle]="modalTitle"
            primaryLabel="portal.global.save"
            [formGroup]="form">
+
   <fieldset>
     <legend *ngIf="!isEdit">{{'portal.competence-catalog.competence-elements.add-modal.what-to-enter-label' | translate}}</legend>
     <alv-select alvFormControlName="type"
@@ -16,31 +18,17 @@
 
   <fieldset formGroupName="description">
     <legend>{{'portal.competence-catalog.competence-elements.add-modal.one-component-per-lang-label' | translate}}</legend>
-    <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.german-title"
-                     alvFormControlName="textDe"
-                     [multiline]="true"
-                     [multilineMinRows]="1"
-                     [showGroupErrors]="true">
-    </alv-input-field>
-    <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.french-title"
-                     alvFormControlName="textFr"
-                     [multiline]="true"
-                     [multilineMinRows]="1"
-                     [showGroupErrors]="true">
-    </alv-input-field>
-    <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.italian-title"
-                     alvFormControlName="textIt"
-                     [multiline]="true"
-                     [multilineMinRows]="1"
-                     [showGroupErrors]="true">
-    </alv-input-field>
-    <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.english-title"
-                     alvFormControlName="textEn"
-                     [multiline]="true"
-                     [multilineMinRows]="1"
-                     [showGroupErrors]="true">
-    </alv-input-field>
-
+    <ng-container *ngFor="let formField of ['textDe','textFr','textIt','textEn']">
+      <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.title-{{formField}}"
+                       [alvFormControlName]="formField"
+                       [multiline]="true"
+                       [readonly]="isReadonly"
+                       [multilineMinRows]="1"
+                       [showGroupErrors]="true"
+                       [validationMessages]="[{ error: 'atLeastOneRequired', message: 'global.common-phrases.at-least-one-required' }]"
+                       >
+      </alv-input-field>
+    </ng-container>
   </fieldset>
 
 </alv-modal>

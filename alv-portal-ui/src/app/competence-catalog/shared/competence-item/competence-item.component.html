@@ -1,0 +1,28 @@
+<div class="position-relative"
+     *ngIf="translatedTitle$ | async as translatedTitle">
+  <button class="competence-item d-flex align-items-center position-relative py-1 pr-3 w-100"
+          [class.disabled]="!isItemClickable"
+          [class.action-buttons-shown]="showActionButtons"
+          (click)="onItemClick()">
+    <span class="hover-indicator h-100"></span>
+    <span class="title-container d-flex flex-column align-items-start">
+      <small class="super-title">
+        {{ type }} <span *ngIf="superTitle">- {{ superTitle }}</span>
+      </small>
+      <pre class="title"
+              [class.wrong-language]="translatedTitle.isWrongLanguage">{{ translatedTitle.value }}</pre>
+    </span>
+    <span class="flex-grow-1"></span>
+  </button>
+  <div class="action-buttons"
+       *ngIf="showActionButtons">
+    <button class="btn btn-icon-sm ml-1"
+            *ngFor="let action of actions"
+            (click)="onActionClick(action.name)"
+            [ngbTooltip]="action.label | translate"
+            container="body"
+            placement="top">
+      <fa-icon [icon]="action.icon"></fa-icon>
+    </button>
+  </div>
+</div>
