@@ -24,46 +24,46 @@
                      [icon]="['fas', 'filter']"></fa-icon>
             <span class="d-none d-md-inline">
       </span>
-          </button>
-          <alv-sort-button (sortClicked)="onSortClick()"
-                           [ngbTooltip]="'portal.global.sort' | translate "
-          ></alv-sort-button>
-        </div>
+        </button>
+        <alv-sort-button (sortClicked)="onSortClick()"
+                         [ngbTooltip]="'portal.global.sort' | translate "
+        ></alv-sort-button>
       </div>
+    </div>
 
-      <alv-input-field [alvControl]="query"
-                       label="portal.competence-catalog.competence-elements.overview.search.placeholder">
-      </alv-input-field>
+    <alv-input-field [alvControl]="query"
+                     label="portal.competence-catalog.competence-elements.overview.search.placeholder">
+    </alv-input-field>
 
+    <button *ngIf="observables.isCompetenceCatalogEditor"
+            (click)="openCreateModal()"
+            class="btn btn-text btn-text-icon btn-block btn-truncate my-3 d-block d-lg-none">
+      <fa-icon [icon]="['fas', 'plus']"
+               class="mr-1"></fa-icon>
+      {{'portal.global.enter' | translate}}
+    </button>
+
+    <alv-competence-item *ngFor="let competenceElement of competenceElements"
+                         [multiLanguageTitle]="competenceElement.description"
+                         [type]="'portal.competence-catalog.element-type.' + competenceElement.type | translate"
+                         [superTitle]="competenceElement.id"
+                         [isItemClickable]="true"
+                         (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)">
+    </alv-competence-item>
+
+  </div>
+  <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
+    <div class="actions-container">
       <button *ngIf="observables.isCompetenceCatalogEditor"
               (click)="openCreateModal()"
-              class="btn btn-text btn-text-icon btn-block btn-truncate my-3 d-block d-lg-none">
+              class="add-element-button btn btn-text btn-text-icon btn-block btn-truncate mb-1">
         <fa-icon [icon]="['fas', 'plus']"
                  class="mr-1"></fa-icon>
         {{'portal.global.enter' | translate}}
       </button>
-
-      <alv-competence-item *ngFor="let competenceElement of competenceElements"
-                           [multiLanguageTitle]="competenceElement.description"
-                           [type]="'portal.competence-catalog.element-type.' + competenceElement.type | translate"
-                           [superTitle]="competenceElement.id"
-                           [isItemClickable]="true"
-                           (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)">
-      </alv-competence-item>
-
     </div>
-    <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
-      <div class="actions-container">
-        <button *ngIf="observables.isCompetenceCatalogEditor"
-                (click)="openCreateModal()"
-                class="add-element-button btn btn-text btn-text-icon btn-block btn-truncate mb-1">
-          <fa-icon [icon]="['fas', 'plus']"
-                   class="mr-1"></fa-icon>
-          {{'portal.global.enter' | translate}}
-        </button>
-      </div>
 
-    </div>
   </div>
+</div>
 
 </div>
