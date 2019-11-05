@@ -32,7 +32,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
 
   constructor(private modalService: ModalService,
               protected authenticationService: AuthenticationService,
-              private competenceElementRepository: CompetenceElementRepository) {
+              private itemsRepository: CompetenceElementRepository) {
     super(authenticationService);
   }
 
@@ -50,7 +50,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
   }
 
   onScroll() {
-    this.competenceElementRepository.search({
+    this.itemsRepository.search({
       body: {
         query: this.query.value || '',
         types: this.filter.types,

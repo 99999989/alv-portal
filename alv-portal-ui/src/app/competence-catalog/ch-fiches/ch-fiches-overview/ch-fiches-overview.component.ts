@@ -19,7 +19,7 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
 
   items: ChFiche[];
 
-  constructor(private chFicheRepository: ChFicheRepository,
+  constructor(private itemsRepository: ChFicheRepository,
               private router: Router,
               private route: ActivatedRoute,
               protected authenticationService: AuthenticationService) {
@@ -39,7 +39,7 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
   }
 
   onScroll() {
-    this.chFicheRepository.search({
+    this.itemsRepository.search({
       body: {
         query: this.query.value || ''
       },

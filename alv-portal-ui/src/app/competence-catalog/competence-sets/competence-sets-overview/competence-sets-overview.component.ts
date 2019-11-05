@@ -27,7 +27,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
     label: 'portal.competence-catalog.competence-sets.edit-button.tooltip'
   };
 
-  constructor(private competenceSetRepository: CompetenceSetRepository,
+  constructor(private itemsRepository: CompetenceSetRepository,
               private router: Router,
               private route: ActivatedRoute,
               protected authenticationService: AuthenticationService) {
@@ -47,7 +47,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
   }
 
   onScroll() {
-    this.competenceSetRepository.search({
+    this.itemsRepository.search({
       body: {
         query: this.query.value || ''
       },
