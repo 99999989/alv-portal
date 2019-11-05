@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { createPageableURLSearchParams, PagedSearchRequest } from '../request-util';
-import { Page } from '../shared.types';
+import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
+import { Page } from '../../shared.types';
 import {
   CompetenceSet, CompetenceSetSearchResult,
   CreateCompetenceSet,

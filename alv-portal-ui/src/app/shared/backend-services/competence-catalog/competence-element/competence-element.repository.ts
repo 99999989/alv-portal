@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { createPageableURLSearchParams, PagedSearchRequest } from '../request-util';
+import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
 import {
   CompetenceElement,
   CreateCompetenceElement,
   UpdateCompetenceElement
 } from './competence-element.types';
-import { Page } from '../shared.types';
+import { Page } from '../../shared.types';
 
 @Injectable({ providedIn: 'root' })
 export class CompetenceElementRepository {

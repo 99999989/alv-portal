@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { createPageableURLSearchParams, PagedSearchRequest } from '../request-util';
+import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
 
-import { Page } from '../shared.types';
+import { Page } from '../../shared.types';
 import { ChFiche, CreateChFiche, UpdateChFiche } from './ch-fiche.types';
 
 @Injectable({ providedIn: 'root' })

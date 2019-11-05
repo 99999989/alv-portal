@@ -4,8 +4,8 @@ import {
   CompetenceSet,
   CompetenceSetSearchResult,
   initialCompetenceSet
-} from '../../../shared/backend-services/competence-set/competence-set.types';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
+} from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { NotificationsService } from '../../../core/notifications.service';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { RightsAwareComponent } from '../../shared/rights-aware/rights-aware.component';

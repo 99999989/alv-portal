@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CompetenceSet } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSet } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { NotificationsService } from '../../../core/notifications.service';
 import {
   ChFiche,
   initialChFiche
-} from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
-import { ChFicheRepository } from '../../../shared/backend-services/ch-fiche/ch-fiche.repository';
+} from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { RightsAwareComponent } from '../../shared/rights-aware/rights-aware.component';
 

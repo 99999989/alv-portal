@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { ChFicheRepository } from '../../../shared/backend-services/ch-fiche/ch-fiche.repository';
+import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { ChFiche } from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
+import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
 import { OverviewComponent } from '../../shared/overview/overview.component';

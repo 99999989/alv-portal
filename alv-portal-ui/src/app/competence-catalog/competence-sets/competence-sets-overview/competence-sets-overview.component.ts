@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { FormControl } from '@angular/forms';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
