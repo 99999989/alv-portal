@@ -10,21 +10,20 @@ import { ActionDefinition } from '../../../shared/backend-services/shared.types'
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
+import { OverviewComponent } from '../../shared/overview/overview.component';
 
 @Component({
   selector: 'alv-competence-sets-overview',
   templateUrl: './competence-sets-overview.component.html',
   styleUrls: ['./competence-sets-overview.component.scss']
 })
-export class CompetenceSetsOverviewComponent extends AbstractSubscriber implements OnInit {
+export class CompetenceSetsOverviewComponent extends OverviewComponent implements OnInit {
 
   query = new FormControl();
 
   competenceSets: CompetenceSetSearchResult[] = [];
 
   sortAsc = true;
-
-  isCompetenceCatalogEditor$: Observable<boolean>;
 
   editCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.EDIT,
@@ -37,11 +36,12 @@ export class CompetenceSetsOverviewComponent extends AbstractSubscriber implemen
   constructor(private competenceSetRepository: CompetenceSetRepository,
               private router: Router,
               private route: ActivatedRoute,
-              private authenticationService: AuthenticationService) {
-    super();
+              protected authenticationService: AuthenticationService) {
+    super(authenticationService);
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.onScroll();
 
     this.query.valueChanges.pipe(
@@ -50,10 +50,6 @@ export class CompetenceSetsOverviewComponent extends AbstractSubscriber implemen
       .subscribe(value => {
         this.reload();
       });
-
-    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
-    );
   }
 
   onScroll() {
