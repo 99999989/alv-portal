@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { I18nService } from '../../../core/i18n.service';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import {
-  CompetenceCatalogAction, getTranslatedString, TranslatedString,
+  CompetenceCatalogAction,
+  getTranslatedString,
+  TranslatedString,
   TranslatedStringToCurrentLanguage
 } from '../shared-competence-catalog.types';
 

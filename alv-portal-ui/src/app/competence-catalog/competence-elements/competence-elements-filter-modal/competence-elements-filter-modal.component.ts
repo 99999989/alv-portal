@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { of } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';

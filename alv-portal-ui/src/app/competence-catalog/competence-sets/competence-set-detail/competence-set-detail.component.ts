@@ -7,8 +7,6 @@ import {
 } from '../../../shared/backend-services/competence-set/competence-set.types';
 import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
 import { NotificationsService } from '../../../core/notifications.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { RightsAwareComponent } from '../../shared/rights-aware/rights-aware.component';
 
