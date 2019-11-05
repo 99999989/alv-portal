@@ -13,7 +13,7 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
   templateUrl: './ch-fiches-overview.component.html',
   styleUrls: ['./ch-fiches-overview.component.scss']
 })
-export class ChFichesOverviewComponent extends OverviewComponent implements OnInit {
+export class ChFichesOverviewComponent extends OverviewComponent<ChFiche> implements OnInit {
 
 
   constructor(protected itemsRepository: ChFicheRepository,

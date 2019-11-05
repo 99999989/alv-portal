@@ -15,7 +15,7 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
   templateUrl: './competence-sets-overview.component.html',
   styleUrls: ['./competence-sets-overview.component.scss']
 })
-export class CompetenceSetsOverviewComponent extends OverviewComponent implements OnInit {
+export class CompetenceSetsOverviewComponent extends OverviewComponent<CompetenceSetSearchResult> implements OnInit {
 
   editCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.EDIT,

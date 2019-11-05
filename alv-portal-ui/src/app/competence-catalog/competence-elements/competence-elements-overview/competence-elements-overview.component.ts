@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -19,7 +18,7 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
   templateUrl: './competence-elements-overview.component.html',
   styleUrls: ['./competence-elements-overview.component.scss']
 })
-export class CompetenceElementsOverviewComponent extends OverviewComponent implements OnInit {
+export class CompetenceElementsOverviewComponent extends OverviewComponent<CompetenceElement> implements OnInit {
 
   filter: CompetenceElementFilterValues = {
     types: Object.values(ElementType)
@@ -78,6 +77,20 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
       })
       .catch(() => {
       });
+  }
+  onScroll() {
+    this.itemsRepository.search({
+      body: {
+        query: this.query.value || '',
+        types: this.filter.types,
+      },
+      page: this.page++,
+      size: DEFAULT_PAGE_SIZE,
+      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
+    }).pipe(
+    ).subscribe(response => {
+      this.items = [...(this.items || []), ...response.content];
+    });
   }
 
 }

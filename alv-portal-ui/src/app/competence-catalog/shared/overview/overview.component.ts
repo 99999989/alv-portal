@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { RightsAwareComponent } from '../rights-aware/rights-aware.component';
 import { SearchService } from '../../../shared/backend-services/competence-catalog/search-service';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../constants';
 import { FormControl } from '@angular/forms';
-import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
 
 
-export class OverviewComponent extends RightsAwareComponent implements OnInit {
+export class OverviewComponent<T> extends RightsAwareComponent implements OnInit {
 
   query = new FormControl();
 
-  items: ChFiche[];
+  items: T[];
 
   sortAsc = true;
 
