@@ -1,10 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
-enum Order {
-  ASC = 'ascending',
-  DESC = 'descending'
-}
-
 @Component({
   selector: 'alv-sort-button',
   templateUrl: './sort-button.component.html',
