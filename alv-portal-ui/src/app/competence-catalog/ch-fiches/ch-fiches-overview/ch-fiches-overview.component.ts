@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
@@ -23,14 +22,6 @@ export class ChFichesOverviewComponent extends OverviewComponent<ChFiche> implem
 
   ngOnInit() {
     super.ngOnInit();
-    this.onScroll();
-
-    this.query.valueChanges.pipe(
-      debounceTime(300),
-      takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.reload();
-      });
   }
 
 

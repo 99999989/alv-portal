@@ -4,6 +4,7 @@ import { RightsAwareComponent } from '../rights-aware/rights-aware.component';
 import { SearchService } from '../../../shared/backend-services/competence-catalog/search-service';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../constants';
 import { FormControl } from '@angular/forms';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 
 export class OverviewComponent<T> extends RightsAwareComponent implements OnInit {
@@ -20,6 +21,17 @@ export class OverviewComponent<T> extends RightsAwareComponent implements OnInit
               protected itemsRepository: SearchService<any>
   ) {
     super(authenticationService);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.onScroll();
+    this.query.valueChanges.pipe(
+      debounceTime(300),
+      takeUntil(this.ngUnsubscribe))
+      .subscribe(value => {
+        this.reload();
+      });
   }
 
   onSortClick() {

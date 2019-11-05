@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
-import { debounceTime, takeUntil } from 'rxjs/operators';
 import {
   CompetenceElement,
   ElementType
@@ -33,15 +32,6 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
 
   ngOnInit() {
     super.ngOnInit();
-    this.onScroll();
-
-    this.query.valueChanges.pipe(
-      debounceTime(300),
-      takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.reload();
-      });
-
   }
 
   openCreateModal() {

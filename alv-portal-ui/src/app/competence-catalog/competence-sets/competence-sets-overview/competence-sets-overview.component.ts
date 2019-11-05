@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
-import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
@@ -30,14 +29,6 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
 
   ngOnInit() {
     super.ngOnInit();
-    this.onScroll();
-
-    this.query.valueChanges.pipe(
-      debounceTime(300),
-      takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.reload();
-      });
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
