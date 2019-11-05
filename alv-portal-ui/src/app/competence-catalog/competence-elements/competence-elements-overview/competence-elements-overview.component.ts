@@ -23,7 +23,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
 
   query = new FormControl();
 
-  competenceElements: CompetenceElement[] = [];
+  items: CompetenceElement[] = [];
 
   filter: CompetenceElementFilterValues = {
     types: Object.values(ElementType)
@@ -60,7 +60,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
       sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
     }).pipe(
     ).subscribe(response => {
-      this.competenceElements = [...(this.competenceElements || []), ...response.content];
+      this.items = [...(this.items || []), ...response.content];
     });
   }
 
@@ -101,7 +101,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
 
   reload() {
     this.page = 0;
-    this.competenceElements = [];
+    this.items = [];
     this.onScroll();
   }
 

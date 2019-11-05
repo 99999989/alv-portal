@@ -43,7 +43,7 @@
       {{'portal.global.enter' | translate}}
     </button>
 
-    <alv-interactive-list-item *ngFor="let competenceElement of competenceElements"
+    <alv-interactive-list-item *ngFor="let competenceElement of items"
                                [multiLanguageTitle]="competenceElement.description"
                                [type]="'portal.competence-catalog.element-type.' + competenceElement.type | translate"
                                [superTitle]="competenceElement.id"

@@ -36,7 +36,7 @@
         {{'portal.global.enter' | translate}}
       </a>
 
-      <alv-interactive-list-item *ngFor="let chFiche of chFiches"
+      <alv-interactive-list-item *ngFor="let chFiche of items"
                                  [multiLanguageTitle]="chFiche.title"
                                  [type]="'portal.competence-catalog.ch-fiches.type' | translate"
                                  [superTitle]="chFiche.id"

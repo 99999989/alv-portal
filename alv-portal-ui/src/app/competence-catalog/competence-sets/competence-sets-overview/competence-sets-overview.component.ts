@@ -19,7 +19,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
 
   query = new FormControl();
 
-  competenceSets: CompetenceSetSearchResult[] = [];
+  items: CompetenceSetSearchResult[] = [];
 
   editCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.EDIT,
@@ -56,7 +56,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
       sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
     }).pipe(
     ).subscribe(response => {
-      this.competenceSets = [...(this.competenceSets || []), ...response.content];
+      this.items = [...(this.items || []), ...response.content];
     });
   }
 
@@ -69,7 +69,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
 
   reload() {
     this.page = 0;
-    this.competenceSets = [];
+    this.items = [];
     this.onScroll();
   }
 }

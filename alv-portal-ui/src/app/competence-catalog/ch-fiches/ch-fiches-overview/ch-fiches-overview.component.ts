@@ -17,7 +17,7 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
 
   query = new FormControl();
 
-  chFiches: ChFiche[];
+  items: ChFiche[];
 
   constructor(private chFicheRepository: ChFicheRepository,
               private router: Router,
@@ -48,7 +48,7 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
       sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
     }).pipe(
     ).subscribe(response => {
-      this.chFiches = [...(this.chFiches || []), ...response.content];
+      this.items = [...(this.items || []), ...response.content];
     });
   }
 
@@ -58,7 +58,7 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
 
   reload() {
     this.page = 0;
-    this.chFiches = [];
+    this.items = [];
     this.onScroll();
   }
 }
