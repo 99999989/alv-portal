@@ -9,6 +9,7 @@ import { CompetenceElementModalComponent } from './competence-element-modal/comp
 import { InteractiveListItemComponent } from './interactive-list-item/interactive-list-item.component';
 import { CompetenceItemPlaceholderComponent } from './competence-item-placeholder/competence-item-placeholder.component';
 import { SortButtonComponent } from './sort-button/sort-button.component';
+import { OverviewComponent } from './overview/overview.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { SortButtonComponent } from './sort-button/sort-button.component';
     InteractiveListItemComponent,
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
+    OverviewComponent,
   ],
   providers: [],
   entryComponents: [
@@ -35,6 +37,7 @@ import { SortButtonComponent } from './sort-button/sort-button.component';
     CompetenceItemsCollapsePanelComponent,
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
+    OverviewComponent
   ]
 })
 export class SharedCompetenceCatalogModule {

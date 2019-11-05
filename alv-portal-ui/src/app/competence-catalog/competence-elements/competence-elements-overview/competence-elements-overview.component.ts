@@ -14,21 +14,20 @@ import { Observable } from 'rxjs';
 import { CompetenceElementsFilterModalComponent } from '../competence-elements-filter-modal/competence-elements-filter-modal.component';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
+import { OverviewComponent } from '../../shared/overview/overview.component';
 
 @Component({
   selector: 'alv-competence-elements-overview',
   templateUrl: './competence-elements-overview.component.html',
   styleUrls: ['./competence-elements-overview.component.scss']
 })
-export class CompetenceElementsOverviewComponent extends AbstractSubscriber implements OnInit {
+export class CompetenceElementsOverviewComponent extends OverviewComponent implements OnInit {
 
   query = new FormControl();
 
   sortAsc = true;
 
   competenceElements: CompetenceElement[] = [];
-
-  isCompetenceCatalogEditor$: Observable<boolean>;
 
   filter: CompetenceElementFilterValues = {
     types: Object.values(ElementType)
@@ -37,17 +36,15 @@ export class CompetenceElementsOverviewComponent extends AbstractSubscriber impl
   private page = 0;
 
   constructor(private modalService: ModalService,
-              private authenticationService: AuthenticationService,
+              protected authenticationService: AuthenticationService,
               private competenceElementRepository: CompetenceElementRepository) {
-    super();
+    super(authenticationService);
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.onScroll();
 
-    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
-    );
     this.query.valueChanges.pipe(
       debounceTime(300),
       takeUntil(this.ngUnsubscribe))
