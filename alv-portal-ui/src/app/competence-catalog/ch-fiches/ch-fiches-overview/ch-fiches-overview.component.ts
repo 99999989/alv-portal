@@ -40,9 +40,4 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
     this.router.navigate(['edit', chFiche.id], { relativeTo: this.route });
   }
 
-  reload() {
-    this.page = 0;
-    this.items = [];
-    this.onScroll();
-  }
 }

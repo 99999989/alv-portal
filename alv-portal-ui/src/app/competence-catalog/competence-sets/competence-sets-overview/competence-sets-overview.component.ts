@@ -48,10 +48,4 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
     }
   }
 
-
-  reload() {
-    this.page = 0;
-    this.items = [];
-    this.onScroll();
-  }
 }

@@ -80,11 +80,4 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
       });
   }
 
-  reload() {
-    this.page = 0;
-    this.items = [];
-    this.onScroll();
-  }
-
-
 }

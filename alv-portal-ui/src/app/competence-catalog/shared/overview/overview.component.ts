@@ -43,7 +43,9 @@ export class OverviewComponent extends RightsAwareComponent implements OnInit {
   }
 
   reload() {
-    this.throwNotImplementedError();
+    this.page = 0;
+    this.items = [];
+    this.onScroll();
   }
 
   private throwNotImplementedError() {
