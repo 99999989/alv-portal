@@ -10,13 +10,14 @@ import { NotificationsService } from '../../../core/notifications.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { RightsAwareComponent } from '../../shared/rights-aware/rights-aware.component';
 
 @Component({
   selector: 'alv-competence-set-detail',
   templateUrl: './competence-set-detail.component.html',
   styleUrls: ['./competence-set-detail.component.scss']
 })
-export class CompetenceSetDetailComponent implements OnInit {
+export class CompetenceSetDetailComponent extends RightsAwareComponent implements OnInit {
 
   competenceSet: CompetenceSetSearchResult;
 
@@ -24,20 +25,18 @@ export class CompetenceSetDetailComponent implements OnInit {
 
   showErrors: boolean;
 
-  isCompetenceCatalogEditor$: Observable<boolean>;
-
   constructor(private route: ActivatedRoute,
               private router: Router,
               private notificationsService: NotificationsService,
-              private authenticationService: AuthenticationService,
-              private competenceSetRepository: CompetenceSetRepository) { }
+              protected authenticationService: AuthenticationService,
+              private competenceSetRepository: CompetenceSetRepository) {
+    super(authenticationService);
+  }
 
   ngOnInit() {
+    super.ngOnInit();
     this.isEdit = !!this.route.snapshot.data.competenceSet;
     this.competenceSet = this.route.snapshot.data.competenceSet || initialCompetenceSet();
-    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
-    );
   }
 
   saveCompetenceSet() {
