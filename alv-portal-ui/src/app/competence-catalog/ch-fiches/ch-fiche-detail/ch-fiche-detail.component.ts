@@ -7,16 +7,15 @@ import {
   initialChFiche
 } from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
 import { ChFicheRepository } from '../../../shared/backend-services/ch-fiche/ch-fiche.repository';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { RightsAwareComponent } from '../../shared/rights-aware/rights-aware.component';
 
 @Component({
   selector: 'alv-competence-set-detail',
   templateUrl: './ch-fiche-detail.component.html',
   styleUrls: ['./ch-fiche-detail.component.scss']
 })
-export class ChFicheDetailComponent implements OnInit {
+export class ChFicheDetailComponent extends RightsAwareComponent implements OnInit {
 
   chFiche: ChFiche;
 
@@ -24,21 +23,19 @@ export class ChFicheDetailComponent implements OnInit {
 
   showErrors: boolean;
 
-  isCompetenceCatalogEditor$: Observable<boolean>;
-
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private notificationsService: NotificationsService,
-              private authenticationService: AuthenticationService,
-              private chFicheRepository: ChFicheRepository) { }
+              protected authenticationService: AuthenticationService,
+              private chFicheRepository: ChFicheRepository) {
+    super(authenticationService);
+  }
 
   ngOnInit() {
+    super.ngOnInit();
     this.isEdit = !!this.route.snapshot.data.chFiche;
     this.chFiche = this.route.snapshot.data.chFiche || initialChFiche();
-    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
-    );
   }
 
   saveChFiche() {
