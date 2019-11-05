@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
-import { FormControl } from '@angular/forms';
 import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 
 @Component({
