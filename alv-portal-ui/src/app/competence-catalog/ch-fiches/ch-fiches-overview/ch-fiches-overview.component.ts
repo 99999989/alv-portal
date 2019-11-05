@@ -8,20 +8,18 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { ChFiche } from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
+import { OverviewComponent } from '../../shared/overview/overview.component';
 
 @Component({
   selector: 'alv-ch-fiches-overview',
   templateUrl: './ch-fiches-overview.component.html',
   styleUrls: ['./ch-fiches-overview.component.scss']
 })
-export class ChFichesOverviewComponent extends AbstractSubscriber implements OnInit {
+export class ChFichesOverviewComponent extends OverviewComponent implements OnInit {
 
   query = new FormControl();
 
   sortAsc = true;
-
-
-  isCompetenceCatalogEditor$: Observable<boolean>;
 
   chFiches: ChFiche[];
 
@@ -30,11 +28,12 @@ export class ChFichesOverviewComponent extends AbstractSubscriber implements OnI
   constructor(private chFicheRepository: ChFicheRepository,
               private router: Router,
               private route: ActivatedRoute,
-              private authenticationService: AuthenticationService) {
-    super();
+              protected authenticationService: AuthenticationService) {
+    super(authenticationService);
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.onScroll();
 
     this.query.valueChanges.pipe(
@@ -43,10 +42,6 @@ export class ChFichesOverviewComponent extends AbstractSubscriber implements OnI
       .subscribe(value => {
         this.reload();
       });
-
-    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
-    );
   }
 
   onScroll() {
