@@ -23,8 +23,6 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
 
   competenceSets: CompetenceSetSearchResult[] = [];
 
-  sortAsc = true;
-
   editCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.EDIT,
     icon: ['fas', 'pen'],
@@ -72,12 +70,8 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
     }
   }
 
-  onSortClick() {
-    this.sortAsc = !this.sortAsc;
-    this.reload();
-  }
 
-  private reload() {
+  reload() {
     this.page = 0;
     this.competenceSets = [];
     this.onScroll();

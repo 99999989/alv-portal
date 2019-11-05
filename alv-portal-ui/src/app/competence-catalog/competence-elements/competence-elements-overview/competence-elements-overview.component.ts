@@ -25,8 +25,6 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
 
   query = new FormControl();
 
-  sortAsc = true;
-
   competenceElements: CompetenceElement[] = [];
 
   filter: CompetenceElementFilterValues = {
@@ -104,12 +102,9 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
       });
   }
 
-  onSortClick() {
-    this.sortAsc = !this.sortAsc;
-    this.reload();
-  }
 
-  private reload() {
+
+  reload() {
     this.page = 0;
     this.competenceElements = [];
     this.onScroll();

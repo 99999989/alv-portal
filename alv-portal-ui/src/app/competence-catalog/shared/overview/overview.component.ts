@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractSubscriber } from '../../../core/abstract-subscriber';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { RightsAwareComponent } from '../rights-aware/rights-aware.component';
 
@@ -12,9 +9,21 @@ import { RightsAwareComponent } from '../rights-aware/rights-aware.component';
 })
 export class OverviewComponent extends RightsAwareComponent implements OnInit {
 
+  sortAsc = true;
+
   constructor(protected authenticationService: AuthenticationService,
   ) {
     super(authenticationService);
+  }
+
+  onSortClick() {
+    this.sortAsc = !this.sortAsc;
+    this.reload();
+  }
+
+  reload() {
+    throw new Error('You are not supposed to call this directly from OverviewComponent,' +
+      ' you need to implement your version of reload');
   }
 
 }
