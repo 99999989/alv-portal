@@ -8,9 +8,10 @@ import {
   UpdateCompetenceElement
 } from './competence-element.types';
 import { Page } from '../../shared.types';
+import { SearchService } from '../search-service';
 
 @Injectable({ providedIn: 'root' })
-export class CompetenceElementRepository {
+export class CompetenceElementRepository implements SearchService<CompetenceElement> {
 
   private readonly resourceUrl = '/competencecatalog-service/api/competence-elements/';
 

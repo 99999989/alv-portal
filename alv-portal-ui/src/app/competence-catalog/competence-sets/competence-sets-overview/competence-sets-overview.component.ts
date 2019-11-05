@@ -17,21 +17,17 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
 })
 export class CompetenceSetsOverviewComponent extends OverviewComponent implements OnInit {
 
-  query = new FormControl();
-
-  items: CompetenceSetSearchResult[] = [];
-
   editCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.EDIT,
     icon: ['fas', 'pen'],
     label: 'portal.competence-catalog.competence-sets.edit-button.tooltip'
   };
 
-  constructor(private itemsRepository: CompetenceSetRepository,
+  constructor(protected itemsRepository: CompetenceSetRepository,
               private router: Router,
               private route: ActivatedRoute,
               protected authenticationService: AuthenticationService) {
-    super(authenticationService);
+    super(authenticationService, itemsRepository);
   }
 
   ngOnInit() {
@@ -44,20 +40,6 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
       .subscribe(value => {
         this.reload();
       });
-  }
-
-  onScroll() {
-    this.itemsRepository.search({
-      body: {
-        query: this.query.value || ''
-      },
-      page: this.page++,
-      size: DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
-    }).pipe(
-    ).subscribe(response => {
-      this.items = [...(this.items || []), ...response.content];
-    });
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {

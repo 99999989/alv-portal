@@ -26,8 +26,6 @@ import { RightsAwareComponent } from './rights-aware/rights-aware.component';
     InteractiveListItemComponent,
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
-    OverviewComponent,
-    RightsAwareComponent,
   ],
   providers: [],
   entryComponents: [
@@ -39,8 +37,6 @@ import { RightsAwareComponent } from './rights-aware/rights-aware.component';
     CompetenceItemsCollapsePanelComponent,
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
-    OverviewComponent,
-    RightsAwareComponent
   ]
 })
 export class SharedCompetenceCatalogModule {

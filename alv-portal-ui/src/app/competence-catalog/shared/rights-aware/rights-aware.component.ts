@@ -4,10 +4,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { map } from 'rxjs/operators';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
 
-@Component({
-  selector: 'alv-rights-aware',
-  template: '',
-})
+
 export class RightsAwareComponent extends AbstractSubscriber implements OnInit {
 
   isCompetenceCatalogEditor$: Observable<boolean>;

@@ -10,9 +10,10 @@ import {
 } from './competence-set.types';
 import { flatMap, map, withLatestFrom } from 'rxjs/operators';
 import { CompetenceElementRepository } from '../competence-element/competence-element.repository';
+import { SearchService } from '../search-service';
 
 @Injectable({ providedIn: 'root' })
-export class CompetenceSetRepository {
+export class CompetenceSetRepository implements SearchService<CompetenceSetSearchResult> {
 
   private readonly resourceUrl = '/competencecatalog-service/api/competence-sets/';
 

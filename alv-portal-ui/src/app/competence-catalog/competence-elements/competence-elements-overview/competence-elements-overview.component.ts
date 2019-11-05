@@ -21,10 +21,6 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
 })
 export class CompetenceElementsOverviewComponent extends OverviewComponent implements OnInit {
 
-  query = new FormControl();
-
-  items: CompetenceElement[] = [];
-
   filter: CompetenceElementFilterValues = {
     types: Object.values(ElementType)
   };
@@ -32,8 +28,8 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
 
   constructor(private modalService: ModalService,
               protected authenticationService: AuthenticationService,
-              private itemsRepository: CompetenceElementRepository) {
-    super(authenticationService);
+              protected itemsRepository: CompetenceElementRepository) {
+    super(authenticationService, itemsRepository);
   }
 
   ngOnInit() {
@@ -47,21 +43,6 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
         this.reload();
       });
 
-  }
-
-  onScroll() {
-    this.itemsRepository.search({
-      body: {
-        query: this.query.value || '',
-        types: this.filter.types,
-      },
-      page: this.page++,
-      size: DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
-    }).pipe(
-    ).subscribe(response => {
-      this.items = [...(this.items || []), ...response.content];
-    });
   }
 
   openCreateModal() {

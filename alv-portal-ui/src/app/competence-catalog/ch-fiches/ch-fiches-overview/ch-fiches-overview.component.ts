@@ -15,15 +15,12 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
 })
 export class ChFichesOverviewComponent extends OverviewComponent implements OnInit {
 
-  query = new FormControl();
 
-  items: ChFiche[];
-
-  constructor(private itemsRepository: ChFicheRepository,
+  constructor(protected itemsRepository: ChFicheRepository,
               private router: Router,
               private route: ActivatedRoute,
               protected authenticationService: AuthenticationService) {
-    super(authenticationService);
+    super(authenticationService, itemsRepository);
   }
 
   ngOnInit() {
@@ -38,19 +35,6 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
       });
   }
 
-  onScroll() {
-    this.itemsRepository.search({
-      body: {
-        query: this.query.value || ''
-      },
-      page: this.page++,
-      size: DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
-    }).pipe(
-    ).subscribe(response => {
-      this.items = [...(this.items || []), ...response.content];
-    });
-  }
 
   editChFiche(chFiche: ChFiche) {
     this.router.navigate(['edit', chFiche.id], { relativeTo: this.route });
