@@ -11,6 +11,8 @@ export class OverviewComponent extends RightsAwareComponent implements OnInit {
 
   sortAsc = true;
 
+  protected page = 0;
+
   constructor(protected authenticationService: AuthenticationService,
   ) {
     super(authenticationService);

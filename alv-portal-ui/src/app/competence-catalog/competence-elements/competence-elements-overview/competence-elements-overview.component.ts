@@ -29,7 +29,6 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
     types: Object.values(ElementType)
   };
 
-  private page = 0;
 
   constructor(private modalService: ModalService,
               protected authenticationService: AuthenticationService,
@@ -99,8 +98,6 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent imple
       .catch(() => {
       });
   }
-
-
 
   reload() {
     this.page = 0;

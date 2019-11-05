@@ -27,8 +27,6 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent implement
     label: 'portal.competence-catalog.competence-sets.edit-button.tooltip'
   };
 
-  private page = 0;
-
   constructor(private competenceSetRepository: CompetenceSetRepository,
               private router: Router,
               private route: ActivatedRoute,

@@ -19,8 +19,6 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
 
   chFiches: ChFiche[];
 
-  private page = 0;
-
   constructor(private chFicheRepository: ChFicheRepository,
               private router: Router,
               private route: ActivatedRoute,
