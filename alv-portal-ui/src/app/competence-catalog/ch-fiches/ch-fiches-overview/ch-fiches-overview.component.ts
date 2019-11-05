@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { AbstractSubscriber } from '../../../core/abstract-subscriber';
-import { Observable } from 'rxjs';
 import { ChFicheRepository } from '../../../shared/backend-services/ch-fiche/ch-fiche.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ChFiche } from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
@@ -18,8 +16,6 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
 export class ChFichesOverviewComponent extends OverviewComponent implements OnInit {
 
   query = new FormControl();
-
-  sortAsc = true;
 
   chFiches: ChFiche[];
 
@@ -62,12 +58,7 @@ export class ChFichesOverviewComponent extends OverviewComponent implements OnIn
     this.router.navigate(['edit', chFiche.id], { relativeTo: this.route });
   }
 
-  onSortClick() {
-    this.sortAsc = !this.sortAsc;
-    this.reload();
-  }
-
-  private reload() {
+  reload() {
     this.page = 0;
     this.chFiches = [];
     this.onScroll();
