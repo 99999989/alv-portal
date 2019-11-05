@@ -14,8 +14,8 @@
                     placement="bottom-right">
     </alv-date-input>
     <ng-container *ngFor="let link of LEGAL_TERMS_LINKS">
-      <alv-input-field label="portal.admin.legal-terms-management.header.{{ link }}"
-                       alvFormControlName="{{ link }}">
+      <alv-input-field [label]="'portal.admin.legal-terms-management.header.'" + link
+                       [alvFormControlName=]="link">
       </alv-input-field>
     </ng-container>
   </fieldset>
@@ -33,7 +33,7 @@
       {{'portal.admin.legal-terms-management.header.' + link | translate}}
     </small>
     <p>
-      <a class="url-break" href="{{ form.get(link).value }}" target="_blank">
+      <a class="url-break" [href]="form.get(link).value" target="_blank">
         {{ form.get(link).value }}
       </a>
     </p>
