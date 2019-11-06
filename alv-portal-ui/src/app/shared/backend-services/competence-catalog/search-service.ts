@@ -5,7 +5,5 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export abstract class SearchService<T> {
-  search(request: PagedSearchRequest): Observable<Page<T>> {
-    return null;
-  }
+  abstract search(request: PagedSearchRequest): Observable<Page<T>>;
 }
