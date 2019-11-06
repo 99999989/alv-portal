@@ -1206,7 +1206,8 @@ portal.competence-catalog.competence-sets.actions.unlink,Verknüpfung aufheben,R
 portal.competence-catalog.competence-sets.overview.competence-set-panel-header,Kompetenz-Set,Skill set,Ensemble de compétences,Set di competenze,
 portal.competence-catalog.competence-sets.overview.header,Kompetenz-Sets,Skill sets,Ensembles de compétences,Set di competenze,
 portal.competence-catalog.competence-sets.overview.search-label,"Suche nach Handlungswissen, ID Handlungswissen, ID Kompetenz-Set","Search by know-how, know-how ID, skill set ID","Recherche par savoirs-faire, ID savoirs-faire, ID ensemble de compétences","Ricerca per competenze operative, ID competenze operative, ID set di competenze"
-portal.competence-catalog.competence-sets.edit.title-edit-create,Kompetenz-Set - Erfassen/Bearbeiten, Skill set - enter/edit, Saisir/modifier ensemble de compétences, Registrare/elaborare set di competenze,
+portal.competence-catalog.competence-sets.edit.title-enter,Kompetenz-Set - Erfassen, Skill set - enter, Saisir ensemble de compétences, Registrare set di competenze,
+portal.competence-catalog.competence-sets.edit.title-edit,Kompetenz-Set - Bearbeiten, Skill set - edit, Modifier ensemble de compétences, Elaborare set di competenze,
 portal.competence-catalog.competence-sets.edit-button.tooltip,Bearbeiten,Edit,Éditer/modifier,Elaborare,
 portal.competence-catalog.competence-sets.added-success-notification,Kompetenz-Set wurde erfolgreich gespeichert.,Skill set was successfully saved.,Ensemble de compétences a été sauvegardée avec succès.,Set di competenze è stato salvate con successo.,
 portal.competence-catalog.competence-sets.overview.delete-confirmation.title,Verknüpfung aufheben,Remove link,Annuler la connexion,Sopprimere collegamento,

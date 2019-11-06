@@ -33,7 +33,7 @@ export class CompetenceElementsOverviewComponent extends AbstractSubscriber impl
 
   private page = 0;
 
-  private readonly DEFAULT_PAGE_SIZE = 20;
+  private readonly DEFAULT_PAGE_SIZE = 50;
 
   constructor(private modalService: ModalService,
               private authenticationService: AuthenticationService,
@@ -80,9 +80,11 @@ export class CompetenceElementsOverviewComponent extends AbstractSubscriber impl
       });
   }
 
-  openUpdateModal(competenceElement: CompetenceElement) {
+  openUpdateModal(competenceElement: CompetenceElement, isReadonly: boolean) {
     const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
-    modalRef.componentInstance.competenceElement = competenceElement;
+    const componentInstance = <CompetenceElementModalComponent>modalRef.componentInstance;
+    componentInstance.competenceElement = competenceElement;
+    componentInstance.isReadonly = isReadonly;
     modalRef.result
       .then(updatedCompetenceElement => {
         this.reload();

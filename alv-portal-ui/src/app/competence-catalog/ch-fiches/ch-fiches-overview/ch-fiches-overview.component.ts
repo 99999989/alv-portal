@@ -23,7 +23,7 @@ export class ChFichesOverviewComponent extends AbstractSubscriber implements OnI
 
   private page = 0;
 
-  private readonly DEFAULT_PAGE_SIZE = 20;
+  private readonly DEFAULT_PAGE_SIZE = 50;
 
   constructor(private chFicheRepository: ChFicheRepository,
               private router: Router,

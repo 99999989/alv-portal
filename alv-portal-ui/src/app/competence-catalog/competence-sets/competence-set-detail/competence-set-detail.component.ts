@@ -7,6 +7,9 @@ import {
 } from '../../../shared/backend-services/competence-set/competence-set.types';
 import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
 import { NotificationsService } from '../../../core/notifications.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -21,14 +24,20 @@ export class CompetenceSetDetailComponent implements OnInit {
 
   showErrors: boolean;
 
+  isCompetenceCatalogEditor$: Observable<boolean>;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private notificationsService: NotificationsService,
+              private authenticationService: AuthenticationService,
               private competenceSetRepository: CompetenceSetRepository) { }
 
   ngOnInit() {
     this.isEdit = !!this.route.snapshot.data.competenceSet;
     this.competenceSet = this.route.snapshot.data.competenceSet || initialCompetenceSet();
+    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
+      map(user => user && user.isCompetenceCatalogEditor())
+    );
   }
 
   saveCompetenceSet() {

@@ -3,7 +3,9 @@
      [fromRoot]="true"
      [infiniteScrollThrottle]="50"
      [immediateCheck]="true"
-     infiniteScroll>
+     infiniteScroll
+     *ngIf="{isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async} as observables"
+>
   <div class="row">
     <div class="col-12 col-lg-9 col-xl-10">
       <div class="d-flex justify-content-between align-items-end position-relative">
@@ -20,7 +22,7 @@
                        [label]="'portal.competence-catalog.competence-sets.overview.search-label'">
       </alv-input-field>
 
-      <a *ngIf="isCompetenceCatalogEditor$ | async"
+      <a *ngIf="observables.isCompetenceCatalogEditor"
          routerLink="./create"
          class="btn btn-text btn-text-icon btn-block btn-truncate my-3 d-block d-lg-none">
         <fa-icon [icon]="['fas', 'plus']"
@@ -30,7 +32,9 @@
 
       <alv-competence-set *ngFor="let competenceSet of competenceSets"
                           [competenceSet]="competenceSet"
-                          [showActionButtons]="isCompetenceCatalogEditor$ | async"
+                          [isInnerElementsReadonly]="true"
+                          [isReadonly]="observables.isCompetenceCatalogEditor"
+                          [showActionButtons]="observables.isCompetenceCatalogEditor"
                           [actions]="[editCompetenceSetAction]"
                           (actionClick)="handleCompetenceSetActionClick($event, competenceSet)">
       </alv-competence-set>
@@ -38,7 +42,7 @@
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
       <div class="actions-container">
-        <a *ngIf="isCompetenceCatalogEditor$ | async"
+        <a *ngIf="observables.isCompetenceCatalogEditor"
            routerLink="./create"
            class="add-set-button btn btn-text btn-text-icon btn-block btn-truncate mb-1">
           <fa-icon [icon]="['fas', 'plus']"

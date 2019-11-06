@@ -26,7 +26,9 @@ export class CompetenceSetComponent implements OnInit {
 
   @Input() competenceSet: CompetenceSetSearchResult;
 
-  @Input() isEditable: boolean;
+  @Input() isReadonly = false;
+
+  @Input() isInnerElementsReadonly = false;
 
   @Input() showActionButtons: boolean;
 
@@ -79,12 +81,10 @@ export class CompetenceSetComponent implements OnInit {
     this.loadCompetenceElementsIfRequired();
   }
 
-  openUpdateElementModal(competenceElement: CompetenceElement) {
-    if (!this.isEditable) {
-      return;
-    }
+  viewCompetenceElementModal(competenceElement: CompetenceElement) {
     const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
     modalRef.componentInstance.competenceElement = competenceElement;
+    modalRef.componentInstance.isReadonly = true;
     modalRef.result
       .then(updatedCompetenceElement => {
         if (competenceElement.type === ElementType.KNOW_HOW) {

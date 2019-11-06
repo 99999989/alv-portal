@@ -31,7 +31,7 @@ export class CompetenceSetsOverviewComponent extends AbstractSubscriber implemen
 
   private page = 0;
 
-  private readonly DEFAULT_PAGE_SIZE = 20;
+  private readonly DEFAULT_PAGE_SIZE = 50;
 
   constructor(private competenceSetRepository: CompetenceSetRepository,
               private router: Router,

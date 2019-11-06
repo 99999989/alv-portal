@@ -1,4 +1,7 @@
 <div class="container-fluid pt-4 pt-lg-5 px-lg-5"
+     *ngIf="{
+          isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async
+     } as observables"
      (scrolled)="onScroll()"
      [fromRoot]="true"
      [infiniteScrollThrottle]="50"
@@ -20,7 +23,7 @@
                        label="portal.competence-catalog.ch-fiches.overview.search-label">
       </alv-input-field>
 
-      <a *ngIf="isCompetenceCatalogEditor$ | async"
+      <a *ngIf="observables.isCompetenceCatalogEditor"
          routerLink="./create"
          class="btn btn-text btn-text-icon btn-block btn-truncate my-3 d-block d-lg-none">
         <fa-icon [icon]="['fas', 'plus']"
@@ -31,15 +34,15 @@
       <alv-competence-item *ngFor="let chFiche of chFiches"
                            [multiLanguageTitle]="chFiche.title"
                            [type]="'portal.competence-catalog.ch-fiches.type' | translate"
-                           [superTitle]="'ID ' + chFiche.id"
+                           [superTitle]="chFiche.id"
                            (itemClick)="editChFiche(chFiche)"
-                           [isItemClickable]="isCompetenceCatalogEditor$ | async">
+                           [isItemClickable]="true">
       </alv-competence-item>
 
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
       <div class="actions-container">
-        <a *ngIf="isCompetenceCatalogEditor$ | async"
+        <a *ngIf="observables.isCompetenceCatalogEditor"
            routerLink="./create"
            class="add-fiche-button btn btn-text btn-text-icon btn-block btn-truncate mb-1">
           <fa-icon [icon]="['fas', 'plus']"

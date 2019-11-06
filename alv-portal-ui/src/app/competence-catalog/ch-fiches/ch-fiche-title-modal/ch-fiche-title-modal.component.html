@@ -1,6 +1,7 @@
 <alv-modal (cancelAction)="cancel()"
            (primaryAction)="submit()"
-           cancelLabel="portal.global.cancel"
+           [cancelLabel]="isReadonly ? 'entity.action.back' : 'portal.global.cancel'"
+           [showPrimaryButton]="!isReadonly"
            modalTitle="portal.competence-catalog.ch-fiches.add-modal.title"
            primaryLabel="portal.global.save"
            [formGroup]="form">
@@ -11,7 +12,7 @@
                      [multilineMinRows]="1"
                      [showGroupErrors]="true"
                      [validationMessages]="[{ error: 'atLeastOneRequired', message: 'global.common-phrases.at-least-one-required' }]"
-                     [readonly]="false">
+                     [readonly]="isReadonly">
     </alv-input-field>
   </ng-container>
 </alv-modal>

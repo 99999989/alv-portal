@@ -36,6 +36,9 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
 
   @Input() showErrors: boolean;
 
+  @Input()
+  isReadonly = false;
+
   IconKey = IconKey;
 
 
@@ -148,10 +151,11 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
     return this.chFiche.competences.filter(competence => competence.type === competenceType);
   }
 
-  editFicheName() {
+  editFicheName(isReadonly: boolean) {
     const modalRef = this.modalService.openMedium(ChFicheTitleModalComponent);
+    (<ChFicheTitleModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
     if (this.chFiche.title) {
-      (<ChFicheTitleModalComponent> modalRef.componentInstance).chFicheTitle = this.chFiche.title;
+      (<ChFicheTitleModalComponent>modalRef.componentInstance).chFicheTitle = this.chFiche.title;
     }
     modalRef.result
       .then((multiLanguageTitle) => {
@@ -219,6 +223,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
       content: 'portal.competence-catalog.competence-sets.overview.delete-confirmation.text'
     }).result;
   }
+
 }
 
 interface ResolvedOccupation {

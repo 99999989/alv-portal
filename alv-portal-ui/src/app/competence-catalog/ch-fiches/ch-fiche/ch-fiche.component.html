@@ -1,62 +1,69 @@
-<alv-competence-item *ngIf="chFiche.title; else noTitle"
-                     [showActionButtons]="false"
-                     [isItemClickable]="true"
-                     (itemClick)="editFicheName()"
-                     [multiLanguageTitle]="chFiche.title"
-                     [superTitle]="chFiche.id ? 'ID ' + chFiche.id : ''"
-                     [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
+<ng-container >
 
-</alv-competence-item>
-<ng-template #noTitle>
-  <alv-competence-item-placeholder [customIcon]="IconKey.EDIT_PLUS"
-                                   [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
-                                   (clickHandler)="editFicheName()"
-                                   [showErrors]="showErrors"
-  >
-  </alv-competence-item-placeholder>
-</ng-template>
+<!--   Title-->
+  <alv-competence-item *ngIf="chFiche.title; else noTitle"
+                       [showActionButtons]="false"
+                       [isItemClickable]="true"
+                       (itemClick)="editFicheName(isReadonly)"
+                       [multiLanguageTitle]="chFiche.title"
+                       [superTitle]="chFiche.id || ''"
+                       [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
 
+  </alv-competence-item>
+  <ng-template #noTitle>
+    <alv-competence-item-placeholder [customIcon]="IconKey.EDIT_PLUS"
+                                     [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
+                                     (clickHandler)="editFicheName(isReadonly)"
+                                     [showErrors]="showErrors"
+    >
+    </alv-competence-item-placeholder>
+  </ng-template>
 
-<alv-competence-items-collapse-panel label="portal.competence-catalog.ch-fiches.label.occupations"
-                                     class="d-block mt-2"
-                                     [id]="chFiche.id"
-                                     [isCollapsed]="collapsed.OCCUPATIONS"
-                                     [isEmpty]="!chFiche.occupations.length"
-                                     [darkMode]="true"
-                                     [showActionButtons]="true"
-                                     [actions]="[linkOccupationAction]"
-                                     (actionClick)="handleOccupationActionClick($event)">
-  <alv-competence-item *ngFor="let resolvedOccupation of resolvedOccupations; let index = index"
-                       [type]="'CH-ISCO5 ' + resolvedOccupation.occupation.chIsco5"
-                       [superTitle]="'BFS ' + resolvedOccupation.occupation.bfsCode"
-                       [multiLanguageTitle]="{
+<!--Occupations-->
+  <alv-competence-items-collapse-panel label="portal.competence-catalog.ch-fiches.label.occupations"
+                                       class="d-block mt-2"
+                                       [id]="chFiche.id"
+                                       [isCollapsed]="collapsed.OCCUPATIONS"
+                                       [isEmpty]="!chFiche.occupations.length"
+                                       [darkMode]="true"
+                                       [showActionButtons]="!isReadonly"
+                                       [actions]="[linkOccupationAction]"
+                                       (actionClick)="handleOccupationActionClick($event)">
+    <alv-competence-item *ngFor="let resolvedOccupation of resolvedOccupations; let index = index"
+                         [type]="'CH-ISCO5 ' + resolvedOccupation.occupation.chIsco5"
+                         [superTitle]="'BFS ' + resolvedOccupation.occupation.bfsCode"
+                         [multiLanguageTitle]="{
                          textDe: resolvedOccupation.labelData.default,
                          textFr: resolvedOccupation.labelData.default,
                          textIt: resolvedOccupation.labelData.default,
                          textEn: resolvedOccupation.labelData.default
                          }"
-                       [isItemClickable]="false"
-                       [showActionButtons]="true"
-                       [actions]="[unlinkAction]"
-                       (actionClick)="unlinkOccupation(index)">
-  </alv-competence-item>
-</alv-competence-items-collapse-panel>
+                         [isItemClickable]="false"
+                         [showActionButtons]="!isReadonly"
+                         [actions]="[unlinkAction]"
+                         (actionClick)="unlinkOccupation(index)">
+    </alv-competence-item>
+  </alv-competence-items-collapse-panel>
 
-<alv-competence-items-collapse-panel *ngFor="let competenceType of competenceTypes"
-                                     class="d-block mt-2"
-                                     [id]="chFiche.id + competenceType"
-                                     [label]="'portal.competence-catalog.ch-fiches.label.' + competenceType"
-                                     [showActionButtons]="true"
-                                     [isCollapsed]="collapsed[competenceType]"
-                                     [isEmpty]="!getCompetencesByType(competenceType).length"
-                                     [darkMode]="true"
-                                     [actions]="[linkCompetenceAction]"
-                                     (actionClick)="handleCompetenceSetActionClick($event, competenceType)"
-                                     (toggleClick)="toggleCompetences(competenceType, $event)">
-  <alv-competence-set *ngFor="let competenceSet of competences[competenceType]; let index = index"
-                      [competenceSet]="competenceSet"
-                      [actions]="[unlinkAction]"
-                      [showActionButtons]="true"
-                      (actionClick)="handleCompetenceSetActionClick($event, competenceType, competenceSet)">
-  </alv-competence-set>
-</alv-competence-items-collapse-panel>
+<!--  Related competence sets-->
+  <alv-competence-items-collapse-panel *ngFor="let competenceType of competenceTypes"
+                                       class="d-block mt-2"
+                                       [id]="chFiche.id + competenceType"
+                                       [label]="'portal.competence-catalog.ch-fiches.label.' + competenceType"
+                                       [showActionButtons]="!isReadonly"
+                                       [isCollapsed]="collapsed[competenceType]"
+                                       [isEmpty]="!getCompetencesByType(competenceType).length"
+                                       [darkMode]="true"
+                                       [actions]="[linkCompetenceAction]"
+                                       (actionClick)="handleCompetenceSetActionClick($event, competenceType)"
+                                       (toggleClick)="toggleCompetences(competenceType, $event)">
+    <alv-competence-set *ngFor="let competenceSet of competences[competenceType]; let index = index"
+                        [competenceSet]="competenceSet"
+                        [actions]="[unlinkAction]"
+                        [isInnerElementsReadonly]="true"
+                        [isReadonly]="isReadonly"
+                        [showActionButtons]="!isReadonly"
+                        (actionClick)="handleCompetenceSetActionClick($event, competenceType, competenceSet)">
+    </alv-competence-set>
+  </alv-competence-items-collapse-panel>
+</ng-container>
