@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TypeaheadItem } from '../../../shared/forms/input/typeahead/typeahead-item';
 import { take } from 'rxjs/operators';
-import { CompetenceElement } from '../../../shared/backend-services/competence-element/competence-element.types';
 import { I18nService } from '../../../core/i18n.service';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
 import { Observable } from 'rxjs';
 import { OccupationTypeaheadItem } from '../../../shared/occupations/occupation-typeahead-item';
 import { OccupationSuggestionService } from '../../../shared/occupations/occupation-suggestion.service';

@@ -30,9 +30,11 @@ export function createPageableURLSearchParams(req?: PagedSearchRequest): HttpPar
 
 export const DEFAULT_PAGE_SIZE = 20;
 
+export type RequestBody = Record<string, any>;
+
 export interface PagedSearchRequest {
   page: number;
   size: number;
   sort?: string | Array<string>;
-  body?: {[p: string]: any};
+  body?: RequestBody;
 }

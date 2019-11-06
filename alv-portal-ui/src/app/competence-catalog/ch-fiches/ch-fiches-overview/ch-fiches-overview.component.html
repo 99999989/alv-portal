@@ -36,13 +36,13 @@
         {{'portal.global.enter' | translate}}
       </a>
 
-      <alv-competence-item *ngFor="let chFiche of chFiches"
-                           [multiLanguageTitle]="chFiche.title"
-                           [type]="'portal.competence-catalog.ch-fiches.type' | translate"
-                           [superTitle]="chFiche.id"
-                           (itemClick)="editChFiche(chFiche)"
-                           [isItemClickable]="true">
-      </alv-competence-item>
+      <alv-interactive-list-item *ngFor="let chFiche of items"
+                                 [multiLanguageTitle]="chFiche.title"
+                                 [type]="'portal.competence-catalog.ch-fiches.type' | translate"
+                                 [superTitle]="chFiche.id"
+                                 (itemClick)="editChFiche(chFiche)"
+                                 [isItemClickable]="true">
+      </alv-interactive-list-item>
 
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">

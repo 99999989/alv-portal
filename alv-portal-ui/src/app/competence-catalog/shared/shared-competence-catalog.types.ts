@@ -1,6 +1,5 @@
 import { Languages } from '../../core/languages.constants';
-import { ActionDefinition } from '../../shared/backend-services/shared.types';
-import { ElementType } from '../../shared/backend-services/competence-element/competence-element.types';
+import { ElementType } from '../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 
 export interface TranslatedString {
   textDe: string;

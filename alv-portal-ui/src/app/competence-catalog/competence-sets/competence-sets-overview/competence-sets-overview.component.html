@@ -35,7 +35,7 @@
         {{'portal.global.enter' | translate}}
       </a>
 
-      <alv-competence-set *ngFor="let competenceSet of competenceSets"
+      <alv-competence-set *ngFor="let competenceSet of items"
                           [competenceSet]="competenceSet"
                           [isInnerElementsReadonly]="true"
                           [isReadonly]="observables.isCompetenceCatalogEditor"
