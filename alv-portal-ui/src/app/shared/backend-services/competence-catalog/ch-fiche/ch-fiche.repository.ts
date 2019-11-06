@@ -8,7 +8,7 @@ import { ChFiche, CreateChFiche, UpdateChFiche } from './ch-fiche.types';
 import { SearchService } from '../search-service';
 
 @Injectable({ providedIn: 'root' })
-export class ChFicheRepository implements SearchService<ChFiche>{
+export class ChFicheRepository implements SearchService<ChFiche> {
 
   private readonly resourceUrl = '/competencecatalog-service/api/ch-fiches/';
 
