@@ -8,14 +8,14 @@ import {
 import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { NotificationsService } from '../../../core/notifications.service';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { RightsAwareComponent } from '../../shared/rights-aware/rights-aware.component';
+import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 
 @Component({
   selector: 'alv-competence-set-detail',
   templateUrl: './competence-set-detail.component.html',
   styleUrls: ['./competence-set-detail.component.scss']
 })
-export class CompetenceSetDetailComponent extends RightsAwareComponent implements OnInit {
+export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   competenceSet: CompetenceSetSearchResult;
 

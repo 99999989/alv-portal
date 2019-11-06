@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { map } from 'rxjs/operators';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
 
 
-export class RightsAwareComponent extends AbstractSubscriber implements OnInit {
+export class CompetenceCatalogEditorAwareComponent extends AbstractSubscriber implements OnInit {
 
   isCompetenceCatalogEditor$: Observable<boolean>;
 
@@ -16,7 +16,7 @@ export class RightsAwareComponent extends AbstractSubscriber implements OnInit {
 
   ngOnInit() {
     this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
+      map(user => !!user && user.isCompetenceCatalogEditor())
     );
   }
 

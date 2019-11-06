@@ -8,14 +8,14 @@ import {
 } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
 import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { RightsAwareComponent } from '../../shared/rights-aware/rights-aware.component';
+import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 
 @Component({
   selector: 'alv-competence-set-detail',
   templateUrl: './ch-fiche-detail.component.html',
   styleUrls: ['./ch-fiche-detail.component.scss']
 })
-export class ChFicheDetailComponent extends RightsAwareComponent implements OnInit {
+export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   chFiche: ChFiche;
 

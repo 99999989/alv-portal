@@ -1,13 +1,13 @@
 import { OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { RightsAwareComponent } from '../rights-aware/rights-aware.component';
+import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { SearchService } from '../../../shared/backend-services/competence-catalog/search-service';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../constants';
 import { FormControl } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 
-export class OverviewComponent<T> extends RightsAwareComponent implements OnInit {
+export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   query = new FormControl();
 

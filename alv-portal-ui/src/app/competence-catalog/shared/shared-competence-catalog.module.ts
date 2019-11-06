@@ -9,8 +9,6 @@ import { CompetenceElementModalComponent } from './competence-element-modal/comp
 import { InteractiveListItemComponent } from './interactive-list-item/interactive-list-item.component';
 import { CompetenceItemPlaceholderComponent } from './competence-item-placeholder/competence-item-placeholder.component';
 import { SortButtonComponent } from './sort-button/sort-button.component';
-import { OverviewComponent } from './overview/overview.component';
-import { RightsAwareComponent } from './rights-aware/rights-aware.component';
 
 @NgModule({
   imports: [
