@@ -5,6 +5,7 @@ import { SearchService } from '../../../shared/backend-services/competence-catal
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../constants';
 import { FormControl } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { RequestBody } from '../../../shared/backend-services/request-util';
 
 
 export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent implements OnInit {
@@ -39,17 +40,21 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
     this.reload();
   }
 
-  onScroll() {
+  protected loadItems(body: RequestBody) {
     this.itemsRepository.search({
-      body: {
-        query: this.query.value || ''
-      },
+      body,
       page: this.page++,
       size: DEFAULT_PAGE_SIZE,
       sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
     }).pipe(
     ).subscribe(response => {
       this.items = [...(this.items || []), ...response.content];
+    });
+  }
+
+  onScroll() {
+    this.loadItems({
+      query: this.query.value || ''
     });
   }
 

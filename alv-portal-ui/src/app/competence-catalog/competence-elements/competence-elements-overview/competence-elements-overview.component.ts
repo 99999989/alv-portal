@@ -9,7 +9,6 @@ import { CompetenceElementModalComponent } from '../../shared/competence-element
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceElementsFilterModalComponent } from '../competence-elements-filter-modal/competence-elements-filter-modal.component';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
-import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../../shared/constants';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 
 @Component({
@@ -68,18 +67,11 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
       .catch(() => {
       });
   }
+
   onScroll() {
-    this.itemsRepository.search({
-      body: {
-        query: this.query.value || '',
-        types: this.filter.types,
-      },
-      page: this.page++,
-      size: DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
-    }).pipe(
-    ).subscribe(response => {
-      this.items = [...(this.items || []), ...response.content];
+    this.loadItems({
+      query: this.query.value || '',
+      types: this.filter.types,
     });
   }
 
