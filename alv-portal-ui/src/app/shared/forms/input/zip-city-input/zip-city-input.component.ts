@@ -47,13 +47,13 @@ export class ZipCityInputComponent implements OnInit {
   validators = zipCityDefaultValidators;
 
   @Input()
-  zipCityLabel: string;
+  zipCityLabel?: string;
 
   @Input()
-  zipLabel: string;
+  zipLabel?: string;
 
   @Input()
-  cityLabel: string;
+  cityLabel?: string;
 
   zipAndCity: FormGroup;
 
@@ -82,6 +82,10 @@ export class ZipCityInputComponent implements OnInit {
 
   ngOnInit(): void {
     const {zipCityAutoComplete, zipCode, city} = this.zipCityFormValue;
+
+    this.zipCityLabel = this.zipCityLabel || 'home.tools.job-publication.locality.zipcode';
+    this.zipLabel = this.zipLabel || 'home.tools.job-publication.locality.zip';
+    this.cityLabel = this.cityLabel || 'home.tools.job-publication.locality.city';
 
     this.zipAndCity = this.fb.group({
       zipCityAutoComplete: [{value: zipCityAutoComplete, disabled: this.parentForm.disabled}, this.validators.zipCityAutoComplete],

@@ -24,7 +24,7 @@ import { AbstractSubscriber } from '../../../core/abstract-subscriber';
 import { ProofOfWorkEffortsRepository } from '../../../shared/backend-services/work-efforts/proof-of-work-efforts.repository';
 import { ActivatedRoute, Router } from '@angular/router';
 import { patternInputValidator } from '../../../shared/forms/input/input-field/pattern-input.validator';
-import { EMAIL_REGEX, URL_REGEX } from '../../../shared/forms/regex-patterns';
+import { URL_REGEX } from '../../../shared/forms/regex-patterns';
 import { LinkPanelId } from '../../../shared/layout/link-panel/link-panel.component';
 import {
   ZipCityFormValue,
@@ -104,7 +104,7 @@ export class WorkEffortFormComponent extends AbstractSubscriber implements OnIni
       requiredBefore: 'portal.work-efforts.edit-form.error.date-required-before'
     },
     {
-      error: 'required', 
+      error: 'required',
       message: 'portal.online-forms.validation.required'
     }
   ];

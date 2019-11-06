@@ -41,10 +41,7 @@
 
   <alv-zip-city-input [parentForm]="postAddress"
                       [zipCityFormValue]="postAddressFormValue.zipAndCity"
-                      [countryIsoCode]="countryIsoCode$ | async"
-                      zipCityLabel="home.tools.job-publication.locality.zipcode"
-                      cityLabel="home.tools.job-publication.locality.city"
-                      zipLabel="home.tools.job-publication.locality.zip">
+                      [countryIsoCode]="countryIsoCode$ | async">
   </alv-zip-city-input>
 
   <alv-select label="home.tools.job-publication.company.country"
