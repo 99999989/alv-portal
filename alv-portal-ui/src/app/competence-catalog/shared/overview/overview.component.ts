@@ -64,9 +64,4 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
     this.onScroll();
   }
 
-  private throwNotImplementedError() {
-    throw new Error('You are not supposed to call this directly from OverviewComponent,' +
-      ' you need to implement your version of reload');
-  }
-
 }
