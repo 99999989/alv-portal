@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OccupationSuggestionService } from '../../../shared/occupations/occupation-suggestion.service';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
@@ -20,22 +20,20 @@ export class ChFichesOverviewComponent extends OverviewComponent<ChFiche> implem
 
   loadOccupationsFn = this.loadOccupations.bind(this);
 
+  occupationsControl: FormControl = this.fb.control('');
 
   constructor(protected itemsRepository: ChFicheRepository,
-              private fb: FormBuilder,
+              protected fb: FormBuilder,
               private router: Router,
               private route: ActivatedRoute,
               protected authenticationService: AuthenticationService,
               private occupationSuggestionService: OccupationSuggestionService) {
-    super(authenticationService, itemsRepository);
+    super(authenticationService, itemsRepository, fb);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.searchForm = this.fb.group({
-      query: [''],
-      occupations: ['']
-    });
+    this.searchForm.addControl('occupations', this.occupationsControl);
   }
 
   loadOccupations(query: string): Observable<OccupationTypeaheadItem[]> {

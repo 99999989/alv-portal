@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { CompetenceElementsFilterModalComponent } from '../competence-elements-filter-modal/competence-elements-filter-modal.component';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
 import { OverviewComponent } from '../../shared/overview/overview.component';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -25,8 +26,9 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
 
   constructor(private modalService: ModalService,
               protected authenticationService: AuthenticationService,
+              protected fb: FormBuilder,
               protected itemsRepository: CompetenceElementRepository) {
-    super(authenticationService, itemsRepository);
+    super(authenticationService, itemsRepository, fb);
   }
 
   ngOnInit() {

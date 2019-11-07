@@ -6,6 +6,7 @@ import { ActionDefinition } from '../../../shared/backend-services/shared.types'
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OverviewComponent } from '../../shared/overview/overview.component';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'alv-competence-sets-overview',
@@ -22,9 +23,10 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
 
   constructor(protected itemsRepository: CompetenceSetRepository,
               private router: Router,
+              protected fb: FormBuilder,
               private route: ActivatedRoute,
               protected authenticationService: AuthenticationService) {
-    super(authenticationService, itemsRepository);
+    super(authenticationService, itemsRepository, fb);
   }
 
   ngOnInit() {

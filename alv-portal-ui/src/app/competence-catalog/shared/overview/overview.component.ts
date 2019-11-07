@@ -3,7 +3,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { SearchService } from '../../../shared/backend-services/competence-catalog/search-service';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../constants';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { RequestBody } from '../../../shared/backend-services/request-util';
 
@@ -12,6 +12,8 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
 
   query = new FormControl();
 
+  searchForm: FormGroup;
+
   items: T[];
 
   sortAsc = true;
@@ -19,13 +21,16 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
   protected page = 0;
 
   constructor(protected authenticationService: AuthenticationService,
-              protected itemsRepository: SearchService<any>
-  ) {
+              protected itemsRepository: SearchService<any>,
+              protected fb: FormBuilder) {
     super(authenticationService);
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.searchForm = this.fb.group({
+      query: [''],
+    });
     this.onScroll();
     this.query.valueChanges.pipe(
       debounceTime(300),
@@ -33,23 +38,13 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
       .subscribe(value => {
         this.reload();
       });
+    this.searchForm.valueChanges.subscribe(x => console.log(x));
+
   }
 
   onSortClick() {
     this.sortAsc = !this.sortAsc;
     this.reload();
-  }
-
-  protected loadItems(body: RequestBody) {
-    this.itemsRepository.search({
-      body,
-      page: this.page++,
-      size: DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
-    }).pipe(
-    ).subscribe(response => {
-      this.items = [...(this.items || []), ...response.content];
-    });
   }
 
   onScroll() {
@@ -62,6 +57,18 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
     this.page = 0;
     this.items = [];
     this.onScroll();
+  }
+
+  protected loadItems(body: RequestBody) {
+    this.itemsRepository.search({
+      body,
+      page: this.page++,
+      size: DEFAULT_PAGE_SIZE,
+      sort: this.sortAsc ? DEFAULT_SORT.asc : DEFAULT_SORT.desc,
+    }).pipe(
+    ).subscribe(response => {
+      this.items = [...(this.items || []), ...response.content];
+    });
   }
 
 }
