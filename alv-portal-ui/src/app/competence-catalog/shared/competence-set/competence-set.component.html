@@ -25,16 +25,16 @@
   </div>
 </div>
 
-<alv-competence-item *ngIf="competenceSet.knowHow; else knowHowPlaceholder"
-                     [type]="'portal.competence-catalog.element-type.' + competenceSet.knowHow.type | translate"
-                     [superTitle]="competenceSet.knowHow.id"
-                     [multiLanguageTitle]="competenceSet.knowHow.description"
-                     [isItemClickable]="true"
-                     [showActionButtons]="!isReadonly && !isInnerElementsReadonly"
-                     [actions]="[unlinkElementAction]"
-                     (itemClick)=" viewCompetenceElementModal(competenceSet.knowHow) "
-                     (actionClick)="handleKnowHowActionClick($event, competenceSet.knowHow)">
-</alv-competence-item>
+<alv-interactive-list-item *ngIf="competenceSet.knowHow; else knowHowPlaceholder"
+                           [type]="'portal.competence-catalog.element-type.' + competenceSet.knowHow.type | translate"
+                           [superTitle]="competenceSet.knowHow.id"
+                           [multiLanguageTitle]="competenceSet.knowHow.description"
+                           [isItemClickable]="true"
+                           [showActionButtons]="!isReadonly && !isInnerElementsReadonly"
+                           [actions]="[unlinkElementAction]"
+                           (itemClick)=" viewCompetenceElementModal(competenceSet.knowHow) "
+                           (actionClick)="handleKnowHowActionClick($event, competenceSet.knowHow)">
+</alv-interactive-list-item>
 <ng-template #knowHowPlaceholder>
   <alv-competence-item-placeholder [mainText]="'portal.competence-catalog.element-type.KNOW_HOW' | translate"
                                    [showErrors]="showErrors"
@@ -57,16 +57,16 @@
                                        [isCollapsed]="collapsed[subElementType]"
                                        [actions]="[linkElementAction]"
                                        (actionClick)="addCompetenceElement(subElementType)">
-    <alv-competence-item *ngFor="let element of getElementsByType(subElementType)"
-                         [type]="'portal.competence-catalog.element-type.' + subElementType | translate"
-                         [superTitle]="element.id"
-                         [multiLanguageTitle]="element.description"
-                         [isItemClickable]="true"
-                         [showActionButtons]="!isReadonly && !isInnerElementsReadonly"
-                         [actions]="[unlinkElementAction]"
-                         (itemClick)="viewCompetenceElementModal(element)"
-                         (actionClick)="handleSubElementsActionClick($event, element)">
-    </alv-competence-item>
+    <alv-interactive-list-item *ngFor="let element of getElementsByType(subElementType)"
+                               [type]="'portal.competence-catalog.element-type.' + subElementType | translate"
+                               [superTitle]="element.id"
+                               [multiLanguageTitle]="element.description"
+                               [isItemClickable]="true"
+                               [showActionButtons]="!isReadonly && !isInnerElementsReadonly"
+                               [actions]="[unlinkElementAction]"
+                               (itemClick)="viewCompetenceElementModal(element)"
+                               (actionClick)="handleSubElementsActionClick($event, element)">
+    </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
 
 </div>

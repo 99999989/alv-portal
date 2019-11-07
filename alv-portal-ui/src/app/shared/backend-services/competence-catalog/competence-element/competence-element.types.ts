@@ -1,4 +1,4 @@
-import { TranslatedString } from '../../../competence-catalog/shared/shared-competence-catalog.types';
+import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
 
 export enum ElementType {
   KNOW_HOW = 'KNOW_HOW',

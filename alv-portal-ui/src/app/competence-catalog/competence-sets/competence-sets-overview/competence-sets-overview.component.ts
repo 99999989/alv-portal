@@ -1,29 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
-import { FormControl } from '@angular/forms';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { AbstractSubscriber } from '../../../core/abstract-subscriber';
-import { Observable } from 'rxjs';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OverviewComponent } from '../../shared/overview/overview.component';
 
 @Component({
   selector: 'alv-competence-sets-overview',
   templateUrl: './competence-sets-overview.component.html',
   styleUrls: ['./competence-sets-overview.component.scss']
 })
-export class CompetenceSetsOverviewComponent extends AbstractSubscriber implements OnInit {
-
-  query = new FormControl();
-
-  competenceSets: CompetenceSetSearchResult[] = [];
-
-  sortAsc = true;
-
-  isCompetenceCatalogEditor$: Observable<boolean>;
+export class CompetenceSetsOverviewComponent extends OverviewComponent<CompetenceSetSearchResult> implements OnInit {
 
   editCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.EDIT,
@@ -31,44 +20,15 @@ export class CompetenceSetsOverviewComponent extends AbstractSubscriber implemen
     label: 'portal.competence-catalog.competence-sets.edit-button.tooltip'
   };
 
-  private page = 0;
-
-  private readonly DEFAULT_PAGE_SIZE = 50;
-
-  constructor(private competenceSetRepository: CompetenceSetRepository,
+  constructor(protected itemsRepository: CompetenceSetRepository,
               private router: Router,
               private route: ActivatedRoute,
-              private authenticationService: AuthenticationService) {
-    super();
+              protected authenticationService: AuthenticationService) {
+    super(authenticationService, itemsRepository);
   }
 
   ngOnInit() {
-    this.onScroll();
-
-    this.query.valueChanges.pipe(
-      debounceTime(300),
-      takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.reload();
-      });
-
-    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
-    );
-  }
-
-  onScroll() {
-    this.competenceSetRepository.search({
-      body: {
-        query: this.query.value || ''
-      },
-      page: this.page++,
-      size: this.DEFAULT_PAGE_SIZE,
-      sort: this.sortAsc ? 'date_asc' : 'date_desc',
-    }).pipe(
-    ).subscribe(response => {
-      this.competenceSets = [...(this.competenceSets || []), ...response.content];
-    });
+    super.ngOnInit();
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
@@ -77,14 +37,4 @@ export class CompetenceSetsOverviewComponent extends AbstractSubscriber implemen
     }
   }
 
-  onSortClick() {
-    this.sortAsc = !this.sortAsc;
-    this.reload();
-  }
-
-  private reload() {
-    this.page = 0;
-    this.competenceSets = [];
-    this.onScroll();
-  }
 }
