@@ -51,12 +51,12 @@ export class CompetenceElementModalComponent implements OnInit {
     this.form = this.fb.group({
       type: [null, Validators.required],
       description: this.fb.group({
-        textDe: [''],
-        textFr: [''],
-        textIt: [''],
-        textEn: ['']
+        de: [''],
+        fr: [''],
+        it: [''],
+        en: ['']
       }, {
-        validators: [atLeastOneRequiredValidator(['textDe', 'textFr', 'textIt', 'textEn'])]
+        validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
       })
     });
     if (this.competenceElement) {

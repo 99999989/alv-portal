@@ -1,11 +1,13 @@
 import { Languages } from '../../core/languages.constants';
+
 import { ElementType } from '../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 
+
 export interface TranslatedString {
-  textDe: string;
-  textFr: string;
-  textIt: string;
-  textEn: string;
+  de: string;
+  fr: string;
+  it: string;
+  en: string;
 }
 
 export interface TranslatedStringToCurrentLanguage {
@@ -44,7 +46,7 @@ export function getTranslatedString (description: TranslatedString, lang: string
 }
 
 function findStringForLanguage (description: TranslatedString, lang: string) {
-  return description['text' + lang[0].toUpperCase() + lang[1]];
+  return description[lang];
 }
 
 export enum CompetenceCatalogAction {
