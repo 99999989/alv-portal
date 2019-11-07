@@ -1,4 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { OccupationSuggestionService } from '../../../shared/occupations/occupation-suggestion.service';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
+import { OverviewComponent } from '../../shared/overview/overview.component';
+import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
 
 @Component({
   selector: 'alv-ch-fiches-overview',
