@@ -40,10 +40,10 @@ export class CompetenceElementSearchModalComponent implements OnInit {
     this.form = this.fb.group({
       competenceElement: ['', Validators.required],
       description: this.fb.group({
-        textDe: [''],
-        textFr: [''],
-        textIt: [''],
-        textEn: ['']
+        de: [''],
+        fr: [''],
+        it: [''],
+        en: ['']
       })
     });
     this.i18nService.currentLanguage$.pipe(take(1))

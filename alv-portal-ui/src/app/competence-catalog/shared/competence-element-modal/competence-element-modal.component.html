@@ -18,7 +18,7 @@
 
   <fieldset formGroupName="description">
     <legend>{{'portal.competence-catalog.competence-elements.add-modal.one-component-per-lang-label' | translate}}</legend>
-    <ng-container *ngFor="let formField of ['textDe','textFr','textIt','textEn']">
+    <ng-container *ngFor="let formField of ['de','fr','it','en']">
       <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.title-{{formField}}"
                        [alvFormControlName]="formField"
                        [multiline]="true"
