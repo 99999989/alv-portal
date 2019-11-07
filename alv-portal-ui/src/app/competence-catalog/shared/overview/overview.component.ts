@@ -3,14 +3,13 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { SearchService } from '../../../shared/backend-services/competence-catalog/search-service';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../constants';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { RequestBody } from '../../../shared/backend-services/request-util';
 
 
 export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
-  query = new FormControl();
 
   searchForm: FormGroup;
 
@@ -32,13 +31,13 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
       query: [''],
     });
     this.onScroll();
-    this.query.valueChanges.pipe(
+    this.searchForm.valueChanges.pipe(
       debounceTime(300),
       takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.reload();
       });
-    this.searchForm.valueChanges.subscribe(x => console.log(x));
+    // this.searchForm.valueChanges.subscribe(x => console.log(x));
 
   }
 
@@ -49,7 +48,7 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
 
   onScroll() {
     this.loadItems({
-      query: this.query.value || ''
+      query: this.searchForm.get('query').value || ''
     });
   }
 
