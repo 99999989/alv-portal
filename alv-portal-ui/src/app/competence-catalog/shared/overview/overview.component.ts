@@ -4,7 +4,7 @@ import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-edi
 import { SearchService } from '../../../shared/backend-services/competence-catalog/search-service';
 import { DEFAULT_PAGE_SIZE, DEFAULT_SORT } from '../constants';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { RequestBody } from '../../../shared/backend-services/request-util';
 
 
@@ -33,6 +33,7 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
     this.onScroll();
     this.searchForm.valueChanges.pipe(
       debounceTime(300),
+      distinctUntilChanged(),
       takeUntil(this.ngUnsubscribe))
       .subscribe(value => {
         this.reload();

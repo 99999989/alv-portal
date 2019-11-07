@@ -8,6 +8,7 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
 import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
 import { OccupationTypeaheadItem } from '../../../shared/occupations/occupation-typeahead-item';
 import { Observable } from 'rxjs';
+import { JobSearchRequestMapper } from '../../../job-advertisement/job-ad-search/state-management/effects';
 
 @Component({
   selector: 'alv-ch-fiches-overview',
@@ -34,6 +35,17 @@ export class ChFichesOverviewComponent extends OverviewComponent<ChFiche> implem
   ngOnInit() {
     super.ngOnInit();
     this.searchForm.addControl('occupations', this.occupationsControl);
+  }
+
+  onScroll() {
+    this.loadItems({
+      query: this.searchForm.get('query').value || '',
+      occupationCodes: this.isOccupationsNotEmpty() ? JobSearchRequestMapper.mapProfessionCodes(this.searchForm.get('occupations').value) : [],
+    });
+  }
+
+  private isOccupationsNotEmpty() {
+    return this.searchForm.get('occupations') && this.searchForm.get('occupations').value;
   }
 
   loadOccupations(query: string): Observable<OccupationTypeaheadItem[]> {

@@ -37,7 +37,7 @@ export class JobSearchRequestMapper {
     };
   }
 
-  private static mapProfessionCodes(occupationTypeaheadItems: OccupationTypeaheadItem[]): ProfessionCode[] {
+  public static mapProfessionCodes(occupationTypeaheadItems: OccupationTypeaheadItem[]): ProfessionCode[] {
     return occupationTypeaheadItems
       .map((occupationTypeaheadItem: OccupationTypeaheadItem) => occupationTypeaheadItem.payload)
       .map((occupationCode) => {
