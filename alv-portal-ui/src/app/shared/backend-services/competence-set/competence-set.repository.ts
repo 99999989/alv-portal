@@ -60,7 +60,7 @@ export class CompetenceSetRepository {
   }
 
   update(id: string, competenceSet: UpdateCompetenceSet): Observable<CompetenceSet> {
-    return this.http.put<CompetenceSet>(`${this.resourceUrl}/${id}`, competenceSet);
+    return this.http.put<CompetenceSet>(`${this.resourceUrl}${id}`, competenceSet);
   }
 
 }
