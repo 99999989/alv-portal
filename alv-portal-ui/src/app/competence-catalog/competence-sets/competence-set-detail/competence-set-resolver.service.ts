@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 
 @Injectable({
   providedIn: 'root'

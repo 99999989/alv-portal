@@ -17,6 +17,11 @@
           </fa-icon>
           {{ 'portal.competence-catalog.ch-fiches.overview.title' | translate }}
         </h2>
+        <div class="d-flex mb-3 flex-row justify-content-between">
+          <alv-sort-button (sortClicked)="onSortClick()"
+                           [ngbTooltip]="'portal.global.sort' | translate "
+          ></alv-sort-button>
+        </div>
       </div>
 
       <alv-input-field [alvControl]="query"
@@ -31,13 +36,13 @@
         {{'portal.global.enter' | translate}}
       </a>
 
-      <alv-competence-item *ngFor="let chFiche of chFiches"
-                           [multiLanguageTitle]="chFiche.title"
-                           [type]="'portal.competence-catalog.ch-fiches.type' | translate"
-                           [superTitle]="chFiche.id"
-                           (itemClick)="editChFiche(chFiche)"
-                           [isItemClickable]="true">
-      </alv-competence-item>
+      <alv-interactive-list-item *ngFor="let chFiche of items"
+                                 [multiLanguageTitle]="chFiche.title"
+                                 [type]="'portal.competence-catalog.ch-fiches.type' | translate"
+                                 [superTitle]="chFiche.id"
+                                 (itemClick)="editChFiche(chFiche)"
+                                 [isItemClickable]="true">
+      </alv-interactive-list-item>
 
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">

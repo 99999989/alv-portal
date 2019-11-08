@@ -4,18 +4,18 @@ import {
   Competence,
   CompetenceType,
   Occupation
-} from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
-import { CompetenceElement } from '../../../shared/backend-services/competence-element/competence-element.types';
+} from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { CompetenceElement } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceSetSearchModalComponent } from '../competence-set-search-modal/competence-set-search-modal.component';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { forkJoin, Observable, of } from 'rxjs';
 import { flatMap, map, take, takeUntil, tap } from 'rxjs/operators';
 import { OccupationSearchModalComponent } from '../occupation-search-modal/occupation-search-modal.component';
 import { ChFicheTitleModalComponent } from '../ch-fiche-title-modal/ch-fiche-title-modal.component';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import {
   OccupationLabelRepository,
   OccupationTypes
