@@ -4,10 +4,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { TypeaheadItem } from '../../../shared/forms/input/typeahead/typeahead-item';
 import { map, take } from 'rxjs/operators';
-import { CompetenceElement } from '../../../shared/backend-services/competence-element/competence-element.types';
+import { CompetenceElement } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { I18nService } from '../../../core/i18n.service';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { DEFAULT_PAGE_SIZE } from 'src/app/shared/backend-services/request-util';
 import { getTranslatedString } from '../../shared/shared-competence-catalog.types';
 

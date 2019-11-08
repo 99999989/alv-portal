@@ -1,73 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { CompetenceElementRepository } from '../../../shared/backend-services/competence-element/competence-element.repository';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { AbstractSubscriber } from '../../../core/abstract-subscriber';
+import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import {
   CompetenceElement,
   ElementType
-} from '../../../shared/backend-services/competence-element/competence-element.types';
+} from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { CompetenceElementModalComponent } from '../../shared/competence-element-modal/competence-element-modal.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { Observable } from 'rxjs';
 import { CompetenceElementsFilterModalComponent } from '../competence-elements-filter-modal/competence-elements-filter-modal.component';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
+import { OverviewComponent } from '../../shared/overview/overview.component';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'alv-competence-elements-overview',
   templateUrl: './competence-elements-overview.component.html',
   styleUrls: ['./competence-elements-overview.component.scss']
 })
-export class CompetenceElementsOverviewComponent extends AbstractSubscriber implements OnInit {
-
-  query = new FormControl();
-
-  competenceElements: CompetenceElement[] = [];
-
-  isCompetenceCatalogEditor$: Observable<boolean>;
+export class CompetenceElementsOverviewComponent extends OverviewComponent<CompetenceElement> implements OnInit {
 
   filter: CompetenceElementFilterValues = {
     types: Object.values(ElementType)
   };
 
-  private page = 0;
-
-  private readonly DEFAULT_PAGE_SIZE = 50;
 
   constructor(private modalService: ModalService,
-              private authenticationService: AuthenticationService,
-              private competenceElementRepository: CompetenceElementRepository) {
-    super();
+              protected authenticationService: AuthenticationService,
+              protected fb: FormBuilder,
+              protected itemsRepository: CompetenceElementRepository) {
+    super(authenticationService, itemsRepository, fb);
   }
 
   ngOnInit() {
-    this.onScroll();
-
-    this.query.valueChanges.pipe(
-      debounceTime(300),
-      takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.reload();
-      });
-
-    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
-    );
-  }
-
-  onScroll() {
-    this.competenceElementRepository.search({
-      body: {
-        query: this.query.value || '',
-        types: this.filter.types
-      },
-      page: this.page++,
-      size: this.DEFAULT_PAGE_SIZE
-    }).pipe(
-    ).subscribe(response => {
-      this.competenceElements = [...(this.competenceElements || []), ...response.content];
-    });
+    super.ngOnInit();
   }
 
   openCreateModal() {
@@ -105,9 +70,11 @@ export class CompetenceElementsOverviewComponent extends AbstractSubscriber impl
       });
   }
 
-  private reload() {
-    this.page = 0;
-    this.competenceElements = [];
-    this.onScroll();
+  onScroll() {
+    this.loadItems({
+      query: this.searchForm.get('query').value || '',
+      types: this.filter.types,
+    });
   }
+
 }

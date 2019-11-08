@@ -1,19 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import {
   CompetenceElement,
   ElementType
-} from '../../../shared/backend-services/competence-element/competence-element.types';
-import { CompetenceElementRepository } from '../../../shared/backend-services/competence-element/competence-element.repository';
+} from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
+import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { collapseExpandAnimation } from '../../../shared/animations/animations';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceElementSearchModalComponent } from '../../competence-sets/competence-element-search-modal/competence-element-search-modal.component';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CompetenceElementModalComponent } from '../competence-element-modal/competence-element-modal.component';
-import {
-  CompetenceCatalogAction
-} from '../shared-competence-catalog.types';
+import { CompetenceCatalogAction } from '../shared-competence-catalog.types';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 
 @Component({

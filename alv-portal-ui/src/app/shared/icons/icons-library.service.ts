@@ -60,6 +60,8 @@ import {
   faSearchPlus,
   faShare,
   faSort,
+  faSortAlphaDown,
+  faSortAlphaUp,
   faSortDown,
   faSortUp,
   faStar,
@@ -68,7 +70,8 @@ import {
   faSyncAlt,
   faTimes,
   faTrash,
-  faTrashAlt, faUnlink,
+  faTrashAlt,
+  faUnlink,
   faUser,
   faUserCheck,
   faUsers,
@@ -137,6 +140,8 @@ export class IconsLibraryService {
       faListUl,
       faShare,
       faSort,
+      faSortAlphaDown,
+      faSortAlphaUp,
       faSortDown,
       faSortUp,
       faStar,
@@ -146,12 +151,12 @@ export class IconsLibraryService {
       faTimes,
       faTrash,
       faTrashAlt,
+      faUnlink,
       faUser,
       faUserCheck,
       faUserSlash,
       faUsers,
-      faWrench,
-      faUnlink
+      faWrench
     );
   }
 
