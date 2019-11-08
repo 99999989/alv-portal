@@ -7,6 +7,7 @@ import { CompetenceElementsOverviewComponent } from './competence-elements-overv
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedCompetenceCatalogModule } from '../shared/shared-competence-catalog.module';
 import { CompetenceElementsFilterModalComponent } from './competence-elements-filter-modal/competence-elements-filter-modal.component';
+import { CompetenceElementBacklinksComponent } from './competence-elements-overview/competence-element-backlinks/competence-element-backlinks.component';
 
 @NgModule({
   imports: [
@@ -18,10 +19,12 @@ import { CompetenceElementsFilterModalComponent } from './competence-elements-fi
   ],
   declarations: [
     CompetenceElementsOverviewComponent,
-    CompetenceElementsFilterModalComponent
+    CompetenceElementsFilterModalComponent,
+    CompetenceElementBacklinksComponent
   ],
   entryComponents: [
-    CompetenceElementsFilterModalComponent
+    CompetenceElementsFilterModalComponent,
+    CompetenceElementBacklinksComponent
   ],
   providers: [
     ModalService
