@@ -1165,6 +1165,7 @@ portal.competence-catalog.competence-sets.browser-title,Kompetenz-Sets,Skill set
 portal.competence-catalog.element-type.KNOW_HOW,Handlungswissen,Know-how,Savoirs-faire,Competenze operative,
 portal.competence-catalog.element-type.KNOW_HOW_INDICATOR,Handlungswissen Indikator,Know-how indicator,Indicateur des savoirs-faire,Indicatore delle competenze operative,
 portal.competence-catalog.element-type.KNOWLEDGE,Wissen,Knowledge,Savoirs,Conoscenze,
+portal.competence-catalog.competence-elements.overview.backlink,,,,,
 portal.competence-catalog.competence-elements.overview.title,Kompetenz-Bestandteile,Skill components,Composants de compétence,Elementi della competenza,
 portal.competence-catalog.competence-elements.overview.search.placeholder,"Suche nach Bezeichnung, ID","Search by title, ID","Recherche par désignation, ID","Ricerca per denominazione, ID",
 portal.competence-catalog.competence-elements.overview.filter.label,Filter,Filter,Filtre,Filtri,

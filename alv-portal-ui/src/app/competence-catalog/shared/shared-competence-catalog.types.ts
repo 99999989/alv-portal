@@ -48,7 +48,8 @@ function findStringForLanguage (description: TranslatedString, lang: string) {
 }
 
 export enum CompetenceCatalogAction {
-  LINK = 'LINK',
+  LINK = 'LINK', //todo maybe rename to add
+  BACKLINK = 'BACKLINK',
   UNLINK = 'UNLINK',
   EDIT = 'EDIT'
 }

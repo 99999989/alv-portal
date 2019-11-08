@@ -8,9 +8,14 @@ import {
 import { CompetenceElementModalComponent } from '../../shared/competence-element-modal/competence-element-modal.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceElementsFilterModalComponent } from '../competence-elements-filter-modal/competence-elements-filter-modal.component';
-import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
+import {
+  CompetenceCatalogAction,
+  CompetenceElementFilterValues
+} from '../../shared/shared-competence-catalog.types';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
+import { ActionDefinition } from '../../../shared/backend-services/shared.types';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -23,6 +28,11 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
     types: Object.values(ElementType)
   };
 
+  backlinkAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-elements.overview.backlink'
+  };
 
   constructor(private modalService: ModalService,
               protected authenticationService: AuthenticationService,
@@ -77,4 +87,13 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
     });
   }
 
+  handleCompetenceElementActionClick(action: CompetenceCatalogAction, competenceElement: CompetenceElement) {
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openBacklinksModal(competenceElement);
+    }
+  }
+
+  private openBacklinksModal(competenceElement: CompetenceElement) {
+    this.modalService.openConfirm({title: 'test', content: 'test'}); // todo here the modal for the backlinks must be placed
+  }
 }
