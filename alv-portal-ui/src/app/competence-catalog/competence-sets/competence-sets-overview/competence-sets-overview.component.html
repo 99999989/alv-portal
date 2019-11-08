@@ -16,6 +16,11 @@
           </fa-icon>
           {{ 'portal.competence-catalog.competence-sets.overview.header' | translate }}
         </h2>
+        <div class="d-flex mb-3 flex-row justify-content-between">
+          <alv-sort-button (sortClicked)="onSortClick()"
+                           [ngbTooltip]="'portal.global.sort' | translate "
+          ></alv-sort-button>
+        </div>
       </div>
 
       <alv-input-field [alvControl]="query"
@@ -30,7 +35,7 @@
         {{'portal.global.enter' | translate}}
       </a>
 
-      <alv-competence-set *ngFor="let competenceSet of competenceSets"
+      <alv-competence-set *ngFor="let competenceSet of items"
                           [competenceSet]="competenceSet"
                           [isInnerElementsReadonly]="true"
                           [isReadonly]="observables.isCompetenceCatalogEditor"

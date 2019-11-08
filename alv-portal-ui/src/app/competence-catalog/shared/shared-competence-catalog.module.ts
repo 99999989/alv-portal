@@ -6,8 +6,9 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceItemsCollapsePanelComponent } from './competence-items-collapse-panel/competence-items-collapse-panel.component';
 import { RouterModule } from '@angular/router';
 import { CompetenceElementModalComponent } from './competence-element-modal/competence-element-modal.component';
-import { CompetenceItemComponent } from './competence-item/competence-item.component';
+import { InteractiveListItemComponent } from './interactive-list-item/interactive-list-item.component';
 import { CompetenceItemPlaceholderComponent } from './competence-item-placeholder/competence-item-placeholder.component';
+import { SortButtonComponent } from './sort-button/sort-button.component';
 
 @NgModule({
   imports: [
@@ -20,8 +21,9 @@ import { CompetenceItemPlaceholderComponent } from './competence-item-placeholde
     CompetenceSetComponent,
     CompetenceItemsCollapsePanelComponent,
     CompetenceElementModalComponent,
-    CompetenceItemComponent,
+    InteractiveListItemComponent,
     CompetenceItemPlaceholderComponent,
+    SortButtonComponent,
   ],
   providers: [],
   entryComponents: [
@@ -29,9 +31,10 @@ import { CompetenceItemPlaceholderComponent } from './competence-item-placeholde
   ],
   exports: [
     CompetenceSetComponent,
-    CompetenceItemComponent,
+    InteractiveListItemComponent,
     CompetenceItemsCollapsePanelComponent,
     CompetenceItemPlaceholderComponent,
+    SortButtonComponent,
   ]
 })
 export class SharedCompetenceCatalogModule {

@@ -1,15 +1,15 @@
 <ng-container >
 
 <!--   Title-->
-  <alv-competence-item *ngIf="chFiche.title; else noTitle"
-                       [showActionButtons]="false"
-                       [isItemClickable]="true"
-                       (itemClick)="editFicheName(isReadonly)"
-                       [multiLanguageTitle]="chFiche.title"
-                       [superTitle]="chFiche.id || ''"
-                       [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
+  <alv-interactive-list-item *ngIf="chFiche.title; else noTitle"
+                             [showActionButtons]="false"
+                             [isItemClickable]="true"
+                             (itemClick)="editFicheName(isReadonly)"
+                             [multiLanguageTitle]="chFiche.title"
+                             [superTitle]="chFiche.id || ''"
+                             [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
 
-  </alv-competence-item>
+  </alv-interactive-list-item>
   <ng-template #noTitle>
     <alv-competence-item-placeholder [customIcon]="IconKey.EDIT_PLUS"
                                      [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
@@ -29,7 +29,7 @@
                                        [showActionButtons]="!isReadonly"
                                        [actions]="[linkOccupationAction]"
                                        (actionClick)="handleOccupationActionClick($event)">
-    <alv-competence-item *ngFor="let resolvedOccupation of resolvedOccupations; let index = index"
+    <alv-interactive-list-item *ngFor="let resolvedOccupation of resolvedOccupations; let index = index"
                          [type]="'CH-ISCO5 ' + resolvedOccupation.occupation.chIsco5"
                          [superTitle]="'BFS ' + resolvedOccupation.occupation.bfsCode"
                          [multiLanguageTitle]="{
@@ -38,11 +38,11 @@
                          it: resolvedOccupation.labelData.default,
                          en: resolvedOccupation.labelData.default
                          }"
-                         [isItemClickable]="false"
-                         [showActionButtons]="!isReadonly"
-                         [actions]="[unlinkAction]"
-                         (actionClick)="unlinkOccupation(index)">
-    </alv-competence-item>
+                               [isItemClickable]="false"
+                               [showActionButtons]="!isReadonly"
+                               [actions]="[unlinkAction]"
+                               (actionClick)="unlinkOccupation(index)">
+    </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
 
 <!--  Related competence sets-->
