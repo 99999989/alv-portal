@@ -68,7 +68,7 @@ export class CompetenceElementSearchModalComponent implements OnInit {
     return this.competenceElementRepository.search({
       page: 0,
       size: DEFAULT_PAGE_SIZE,
-      sort: DEFAULT_SORT.desc,
+      sort: DEFAULT_SORT.asc,
       body: { query: term, types: [this.elementType] }
     }).pipe(
       map(competenceElementPage => competenceElementPage
