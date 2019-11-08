@@ -26,11 +26,6 @@
       </div>
       <div class="row">
         <div class="col-12 col-lg-6 mb-1 mb-lg-0">
-          <alv-input-field alvFormControlName="query"
-                           label="portal.competence-catalog.ch-fiches.overview.search-label">
-          </alv-input-field>
-        </div>
-        <div class="col-12 col-lg-6 mb-1 mb-lg-0">
           <alv-multi-typeahead [alvControl]="occupationsControl"
                                [editable]="false"
                                [loadItems]="loadOccupationsFn"
@@ -40,6 +35,11 @@
                                tooltip="portal.job-ad.search.query-panel.occupations.tooltip"
           >
           </alv-multi-typeahead>
+        </div>
+        <div class="col-12 col-lg-6 mb-1 mb-lg-0">
+          <alv-input-field alvFormControlName="query"
+                           label="portal.competence-catalog.ch-fiches.overview.search-label">
+          </alv-input-field>
         </div>
       </div>
 

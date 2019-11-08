@@ -38,7 +38,6 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
       .subscribe(value => {
         this.reload();
       });
-    // this.searchForm.valueChanges.subscribe(x => console.log(x));
 
   }
 
