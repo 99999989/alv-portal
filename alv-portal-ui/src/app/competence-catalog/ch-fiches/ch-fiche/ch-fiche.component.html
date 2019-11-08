@@ -29,7 +29,7 @@
                                        [showActionButtons]="!isReadonly"
                                        [actions]="[linkOccupationAction]"
                                        (actionClick)="handleOccupationActionClick($event)">
-    <alv-competence-item *ngFor="let resolvedOccupation of resolvedOccupations; let index = index"
+    <alv-interactive-list-item *ngFor="let resolvedOccupation of resolvedOccupations; let index = index"
                          [type]="'CH-ISCO5 ' + resolvedOccupation.occupation.chIsco5"
                          [superTitle]="'BFS ' + resolvedOccupation.occupation.bfsCode"
                          [multiLanguageTitle]="{
