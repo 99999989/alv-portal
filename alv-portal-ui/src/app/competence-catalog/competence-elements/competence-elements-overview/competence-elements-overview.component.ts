@@ -15,7 +15,7 @@ import {
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceElementBacklinksComponent } from './competence-element-backlinks/competence-element-backlinks.component';
+import { CompetenceElementBacklinksComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlinks.component';
 
 @Component({
   selector: 'alv-competence-elements-overview',

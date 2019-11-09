@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { CompetenceSetBacklinksComponent } from './competence-set-backlinks/competence-set-backlinks.component';
+import { CompetenceSetBacklinksComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlinks.component';
 
 @Component({
   selector: 'alv-competence-sets-overview',
