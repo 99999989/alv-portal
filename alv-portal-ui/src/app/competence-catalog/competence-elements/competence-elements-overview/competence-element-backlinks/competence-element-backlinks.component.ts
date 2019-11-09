@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceSetRepository } from '../../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { CompetenceElement } from '../../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { Observable } from 'rxjs';
-import {
-  CompetenceSet,
-  CompetenceSetSearchResult
-} from '../../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
+import { CompetenceSetSearchResult } from '../../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,7 +15,8 @@ export class CompetenceElementBacklinksComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
               public competenceSetRepository: CompetenceSetRepository,
-              private router: Router
+              private router: Router,
+              @Inject(Window) private win: Window
               ) {
   }
 
@@ -35,7 +33,10 @@ export class CompetenceElementBacklinksComponent implements OnInit {
 
   itemClicked(setSearchResult: CompetenceSetSearchResult) {
     this.activeModal.dismiss();
-    this.router.navigate(['kk', 'competence-sets', 'edit', setSearchResult.id]);
-    // console.log($event);
+    this.openInNewWindow(setSearchResult);
+  }
+
+  private openInNewWindow(setSearchResult: CompetenceSetSearchResult) {
+    this.win.open(this.router.createUrlTree(['kk', 'competence-sets', 'edit', setSearchResult.id]).toString());
   }
 }
