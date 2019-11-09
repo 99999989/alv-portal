@@ -8,6 +8,7 @@ import { SharedCompetenceCatalogModule } from '../shared/shared-competence-catal
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CompetenceSetDetailComponent } from './competence-set-detail/competence-set-detail.component';
 import { CompetenceElementSearchModalComponent } from './competence-element-search-modal/competence-element-search-modal.component';
+import { CompetenceSetBacklinksComponent } from './competence-sets-overview/competence-set-backlinks/competence-set-backlinks.component';
 
 @NgModule({
   imports: [
@@ -20,10 +21,12 @@ import { CompetenceElementSearchModalComponent } from './competence-element-sear
   declarations: [
     CompetenceSetsOverviewComponent,
     CompetenceSetDetailComponent,
-    CompetenceElementSearchModalComponent
+    CompetenceElementSearchModalComponent,
+    CompetenceSetBacklinksComponent
   ],
   entryComponents: [
-    CompetenceElementSearchModalComponent
+    CompetenceElementSearchModalComponent,
+    CompetenceSetBacklinksComponent
   ],
   providers: [
     ModalService

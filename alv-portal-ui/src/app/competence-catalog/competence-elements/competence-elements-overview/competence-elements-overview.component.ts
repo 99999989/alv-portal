@@ -15,7 +15,6 @@ import {
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { CompetenceElementBacklinksComponent } from './competence-element-backlinks/competence-element-backlinks.component';
 
 @Component({
@@ -95,7 +94,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   private openBacklinksModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openMedium(CompetenceElementBacklinksComponent); // todo here the modal for the backlinks must be placed
+    const modalRef = this.modalService.openMedium(CompetenceElementBacklinksComponent);
     (<CompetenceElementBacklinksComponent>modalRef.componentInstance).competenceElement = competenceElement;
   }
 }

@@ -7,6 +7,8 @@ import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.
 import { ActivatedRoute, Router } from '@angular/router';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
+import { ModalService } from '../../../shared/layout/modal/modal.service';
+import { CompetenceSetBacklinksComponent } from './competence-set-backlinks/competence-set-backlinks.component';
 
 @Component({
   selector: 'alv-competence-sets-overview',
@@ -21,8 +23,15 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
     label: 'portal.competence-catalog.competence-sets.edit-button.tooltip'
   };
 
+  backlinkAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
+
   constructor(protected itemsRepository: CompetenceSetRepository,
               private router: Router,
+              private modalService: ModalService,
               protected fb: FormBuilder,
               private route: ActivatedRoute,
               protected authenticationService: AuthenticationService) {
@@ -37,6 +46,14 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
     if (action === CompetenceCatalogAction.EDIT) {
       this.router.navigate(['edit', competenceSet.id], { relativeTo: this.route });
     }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openBacklinksModal(competenceSet);
+    }
+  }
+
+  private openBacklinksModal(competenceSetSearchResult: CompetenceSetSearchResult) {
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinksComponent);
+    (<CompetenceSetBacklinksComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
 }

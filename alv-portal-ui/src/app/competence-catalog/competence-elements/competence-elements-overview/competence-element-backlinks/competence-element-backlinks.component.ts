@@ -5,6 +5,7 @@ import { CompetenceElement } from '../../../../shared/backend-services/competenc
 import { Observable } from 'rxjs';
 import { CompetenceSetSearchResult } from '../../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { Router } from '@angular/router';
+import { WINDOW } from '../../../../core/window.service';
 
 @Component({
   selector: 'alv-competence-element-backlinks',
@@ -16,7 +17,7 @@ export class CompetenceElementBacklinksComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal,
               public competenceSetRepository: CompetenceSetRepository,
               private router: Router,
-              @Inject(Window) private win: Window
+              @Inject(WINDOW) private win: Window
               ) {
   }
 
@@ -33,10 +34,10 @@ export class CompetenceElementBacklinksComponent implements OnInit {
 
   itemClicked(setSearchResult: CompetenceSetSearchResult) {
     this.activeModal.dismiss();
-    this.openInNewWindow(setSearchResult);
+    this.openInNewWindow(setSearchResult.id);
   }
 
-  private openInNewWindow(setSearchResult: CompetenceSetSearchResult) {
-    this.win.open(this.router.createUrlTree(['kk', 'competence-sets', 'edit', setSearchResult.id]).toString());
+  private openInNewWindow(setId: string) {
+    this.win.open(this.router.createUrlTree(['kk', 'competence-sets', 'edit', setId]).toString());
   }
 }
