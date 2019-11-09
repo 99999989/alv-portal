@@ -12,6 +12,7 @@ import { CompetenceElementRepository } from '../../../shared/backend-services/co
 import { I18nService } from '../../../core/i18n.service';
 import { DEFAULT_PAGE_SIZE } from '../../../shared/backend-services/request-util';
 import { getTranslatedString } from '../../shared/shared-competence-catalog.types';
+import { DEFAULT_SORT } from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-element-search-modal',
@@ -67,7 +68,11 @@ export class CompetenceElementSearchModalComponent implements OnInit {
     return this.competenceElementRepository.search({
       page: 0,
       size: DEFAULT_PAGE_SIZE,
-      body: { query: term, types: [this.elementType] }
+      sort: DEFAULT_SORT.asc,
+      body: {
+        query: term,
+        types: [this.elementType]
+      }
     }).pipe(
       map(competenceElementPage => competenceElementPage
         .content
