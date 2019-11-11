@@ -33,7 +33,9 @@
 
       <form [formGroup]="searchForm">
         <alv-input-field alvFormControlName="query"
-                         label="portal.competence-catalog.competence-elements.overview.search.placeholder">
+                         [attr.data-test]="'search-query'"
+                         label="portal.competence-catalog.competence-elements.overview.search.placeholder"
+        >
         </alv-input-field>
       </form>
 
