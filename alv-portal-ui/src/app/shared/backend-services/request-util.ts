@@ -1,4 +1,5 @@
 import { HttpParams } from '@angular/common/http';
+import { noop } from 'rxjs';
 
 export function createRequestOption(req?: any): HttpParams {
   let options: HttpParams = new HttpParams();
@@ -22,10 +23,11 @@ export function createRequestOption(req?: any): HttpParams {
 }
 
 export function createPageableURLSearchParams(req?: PagedSearchRequest): HttpParams {
-  return new HttpParams()
-    .set('page', '' + req.page)
-    .set('sort', '' + req.sort)
-    .set('size', '' + req.size);
+  const params = new HttpParams();
+  req.page ? params.set('page', '' + req.page) : noop();
+  req.sort ? params.set('sort', '' + req.sort) : noop();
+  req.size ? params.set('sort', '' + req.size) : noop();
+  return params;
 }
 
 export const DEFAULT_PAGE_SIZE = 20;
