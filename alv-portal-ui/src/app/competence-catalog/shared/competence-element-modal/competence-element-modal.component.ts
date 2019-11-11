@@ -5,10 +5,10 @@ import { SelectableOption } from '../../../shared/forms/input/selectable-option.
 import {
   CompetenceElement,
   ElementType
-} from '../../../shared/backend-services/competence-element/competence-element.types';
+} from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CompetenceElementRepository } from '../../../shared/backend-services/competence-element/competence-element.repository';
+import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { NotificationsService } from '../../../core/notifications.service';
 import { getModalTitle } from '../utils/translation-utils';
 
@@ -51,12 +51,12 @@ export class CompetenceElementModalComponent implements OnInit {
     this.form = this.fb.group({
       type: [null, Validators.required],
       description: this.fb.group({
-        textDe: [''],
-        textFr: [''],
-        textIt: [''],
-        textEn: ['']
+        de: [''],
+        fr: [''],
+        it: [''],
+        en: ['']
       }, {
-        validators: [atLeastOneRequiredValidator(['textDe', 'textFr', 'textIt', 'textEn'])]
+        validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
       })
     });
     if (this.competenceElement) {

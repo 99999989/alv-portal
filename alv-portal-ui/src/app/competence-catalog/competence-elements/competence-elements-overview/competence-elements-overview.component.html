@@ -7,7 +7,7 @@
      infiniteScroll>
   <div class="row">
     <div class="col-12 col-lg-9 col-xl-10">
-      <div class="d-flex justify-content-between align-items-end position-relative">
+      <div class="d-flex justify-content-between align-items-end">
         <h2 class="pr-5 mb-4 d-flex">
           <fa-icon [icon]="['fas', 'list-ul']"
                    class="text-primary mr-1"
@@ -15,20 +15,28 @@
           </fa-icon>
           {{ 'portal.competence-catalog.competence-elements.overview.title' | translate }}
         </h2>
-        <button type="button"
-                class="btn btn-text filter-button"
-                (click)="onFilterClick()">
-          <fa-icon class="mr-0 mr-md-2"
-                   [icon]="['fas', 'filter']"></fa-icon>
-          <span class="d-none d-md-inline">
-        {{'portal.competence-catalog.competence-elements.overview.filter.label' | translate}}
+        <div class="d-flex mb-3 flex-row justify-content-between">
+          <button type="button"
+                  class="btn btn-text filter-button flex-row"
+                  [ngbTooltip]="'portal.global.filter' | translate "
+                  (click)="onFilterClick()">
+            <fa-icon class="mr-0 mr-md-2"
+                     [icon]="['fas', 'filter']"></fa-icon>
+            <span class="d-none d-md-inline">
       </span>
-        </button>
+          </button>
+          <alv-sort-button (sortClicked)="onSortClick()"
+                           [ngbTooltip]="'portal.global.sort' | translate "
+          ></alv-sort-button>
+        </div>
       </div>
 
-      <alv-input-field [alvControl]="query"
-                       label="portal.competence-catalog.competence-elements.overview.search.placeholder">
-      </alv-input-field>
+      <form [formGroup]="searchForm">
+        <alv-input-field alvFormControlName="query"
+                         label="portal.competence-catalog.competence-elements.overview.search.placeholder">
+        </alv-input-field>
+      </form>
+
 
       <button *ngIf="observables.isCompetenceCatalogEditor"
               (click)="openCreateModal()"
@@ -38,13 +46,13 @@
         {{'portal.global.enter' | translate}}
       </button>
 
-      <alv-competence-item *ngFor="let competenceElement of competenceElements"
-                           [multiLanguageTitle]="competenceElement.description"
-                           [type]="'portal.competence-catalog.element-type.' + competenceElement.type | translate"
-                           [superTitle]="competenceElement.id"
-                           [isItemClickable]="true"
-                           (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)">
-      </alv-competence-item>
+      <alv-interactive-list-item *ngFor="let competenceElement of items"
+                                 [multiLanguageTitle]="competenceElement.description"
+                                 [type]="'portal.competence-catalog.element-type.' + competenceElement.type | translate"
+                                 [superTitle]="competenceElement.id"
+                                 [isItemClickable]="true"
+                                 (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)">
+      </alv-interactive-list-item>
 
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
