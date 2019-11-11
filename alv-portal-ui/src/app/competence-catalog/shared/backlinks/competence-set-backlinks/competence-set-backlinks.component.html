@@ -1,7 +1,7 @@
 <alv-modal (cancelAction)="cancel()"
            [showPrimaryButton]="false"
            cancelLabel="entity.action.back"
-           modalTitle="FIXME"
+           modalTitle="portal.competence-catalog.competence-sets.overview.usage.title"
 >
   <ng-container *ngIf="chFiches$ | async as fiches">
     <alv-interactive-list-item (itemClick)="itemClicked(fiche)"
@@ -12,6 +12,6 @@
                                [type]="'portal.competence-catalog.ch-fiches.overview.title' | translate"
     >
     </alv-interactive-list-item>
-    <div *ngIf="!fiches?.length">This element is not used in the CH-Fiches</div>
+    <div *ngIf="!fiches?.length">This element is not used in the CH-Fiches</div> <!-- FIXME -->
   </ng-container>
 </alv-modal>
