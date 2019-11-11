@@ -1,72 +1,59 @@
 import { Component, OnInit } from '@angular/core';
-import { debounceTime, map, takeUntil } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
-import { AbstractSubscriber } from '../../../core/abstract-subscriber';
-import { Observable } from 'rxjs';
-import { ChFicheRepository } from '../../../shared/backend-services/ch-fiche/ch-fiche.repository';
+import { OccupationSuggestionService } from '../../../shared/occupations/occupation-suggestion.service';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { ChFiche } from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
+import { OverviewComponent } from '../../shared/overview/overview.component';
+import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { OccupationTypeaheadItem } from '../../../shared/occupations/occupation-typeahead-item';
+import { Observable } from 'rxjs';
+import { JobSearchRequestMapper } from '../../../job-advertisement/job-ad-search/state-management/effects';
 
 @Component({
   selector: 'alv-ch-fiches-overview',
   templateUrl: './ch-fiches-overview.component.html',
   styleUrls: ['./ch-fiches-overview.component.scss']
 })
-export class ChFichesOverviewComponent extends AbstractSubscriber implements OnInit {
+export class ChFichesOverviewComponent extends OverviewComponent<ChFiche> implements OnInit {
 
-  query = new FormControl();
+  searchForm: FormGroup;
 
-  isCompetenceCatalogEditor$: Observable<boolean>;
+  loadOccupationsFn = this.loadOccupations.bind(this);
 
-  chFiches: ChFiche[];
+  occupationsControl: FormControl = this.fb.control('');
 
-  private page = 0;
-
-  private readonly DEFAULT_PAGE_SIZE = 50;
-
-  constructor(private chFicheRepository: ChFicheRepository,
+  constructor(protected itemsRepository: ChFicheRepository,
+              protected fb: FormBuilder,
               private router: Router,
               private route: ActivatedRoute,
-              private authenticationService: AuthenticationService) {
-    super();
+              protected authenticationService: AuthenticationService,
+              private occupationSuggestionService: OccupationSuggestionService) {
+    super(authenticationService, itemsRepository, fb);
   }
 
   ngOnInit() {
-    this.onScroll();
-
-    this.query.valueChanges.pipe(
-      debounceTime(300),
-      takeUntil(this.ngUnsubscribe))
-      .subscribe(value => {
-        this.reload();
-      });
-
-    this.isCompetenceCatalogEditor$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => user && user.isCompetenceCatalogEditor())
-    );
+    super.ngOnInit();
+    this.searchForm.addControl('occupations', this.occupationsControl);
   }
 
   onScroll() {
-    this.chFicheRepository.search({
-      body: {
-        query: this.query.value || ''
-      },
-      page: this.page++,
-      size: this.DEFAULT_PAGE_SIZE
-    }).pipe(
-    ).subscribe(response => {
-      this.chFiches = [...(this.chFiches || []), ...response.content];
+    this.loadItems({
+      query: this.searchForm.get('query').value || '',
+      occupationCodes: this.isOccupationsNotEmpty() ? JobSearchRequestMapper.mapProfessionCodes(this.searchForm.get('occupations').value) : [],
     });
+  }
+
+  private isOccupationsNotEmpty() {
+    return this.searchForm.get('occupations') && this.searchForm.get('occupations').value;
+  }
+
+  loadOccupations(query: string): Observable<OccupationTypeaheadItem[]> {
+    return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query);
   }
 
   editChFiche(chFiche: ChFiche) {
     this.router.navigate(['edit', chFiche.id], { relativeTo: this.route });
   }
 
-  private reload() {
-    this.page = 0;
-    this.chFiches = [];
-    this.onScroll();
-  }
 }

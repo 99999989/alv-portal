@@ -4,12 +4,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { TypeaheadItem } from '../../../shared/forms/input/typeahead/typeahead-item';
 import { map, take } from 'rxjs/operators';
-import { CompetenceElement } from '../../../shared/backend-services/competence-element/competence-element.types';
+import { CompetenceElement } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { I18nService } from '../../../core/i18n.service';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { DEFAULT_PAGE_SIZE } from 'src/app/shared/backend-services/request-util';
 import { getTranslatedString } from '../../shared/shared-competence-catalog.types';
+import { DEFAULT_SORT } from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-set-search-modal',
@@ -29,7 +30,8 @@ export class CompetenceSetSearchModalComponent implements OnInit {
   constructor(private modal: NgbActiveModal,
               private fb: FormBuilder,
               private i18nService: I18nService,
-              private competenceSetRepository: CompetenceSetRepository) { }
+              private competenceSetRepository: CompetenceSetRepository) {
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -52,7 +54,14 @@ export class CompetenceSetSearchModalComponent implements OnInit {
   }
 
   private searchCompetenceSets(term: string): Observable<TypeaheadItem<CompetenceSetSearchResult>[]> {
-    return this.competenceSetRepository.search({page: 0, size: DEFAULT_PAGE_SIZE, body: {query: term}}).pipe(
+    return this.competenceSetRepository.search({
+      page: 0,
+      size: DEFAULT_PAGE_SIZE,
+      sort: DEFAULT_SORT.asc,
+      body: {
+        query: term
+      }
+    }).pipe(
       map(competenceSetPage => competenceSetPage
         .content
         .filter(item => this.existingSetIds ? !this.existingSetIds.includes(item.id) : true)
