@@ -104,6 +104,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
         this.updateOccupationLabels(this.chFiche.occupations)
           .subscribe(() => {
             this.collapsed.OCCUPATIONS = false;
+            this.notificationsService.success('portal.competence-catalog.ch-fiches.added-occupation-success-notification');
           });
       })
       .catch(() => {
@@ -115,7 +116,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
       this.chFiche.occupations.splice(index, 1);
       this.updateOccupationLabels(this.chFiche.occupations)
         .subscribe(() => {
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.actions.unlink'); // TODO translations
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-occupation-success-notification');
         });
     }).catch(err => {
     });
@@ -126,7 +127,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
       this.chFiche.competences.splice(index, 1);
       this.loadCompetences(type)
         .subscribe(() => {
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.actions.unlink'); // TODO translations
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
         });
     }).catch(err => {
     });
@@ -143,6 +144,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
         });
         this.loadCompetences(competenceType).subscribe(result => {
           this.collapsed[competenceType] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-competence-set-success-notification');
         });
       })
       .catch(() => {
