@@ -1,7 +1,7 @@
 <alv-modal (cancelAction)="cancel()"
            [showPrimaryButton]="false"
            cancelLabel="entity.action.back"
-           modalTitle="FIXME"
+           modalTitle="portal.competence-catalog.competence-elements.overview.usage.title"
 >
   <ng-container *ngIf="sets$ | async as sets">
     <alv-interactive-list-item *ngFor="let set of sets"
@@ -12,6 +12,6 @@
                                [multiLanguageTitle]="set.knowHow.description"
     >
     </alv-interactive-list-item>
-    <div *ngIf="!sets?.length">This element is not used in the sets</div>
+    <div *ngIf="!sets?.length">This element is not used in the sets</div> <!-- FIXME -->
   </ng-container>
 </alv-modal>
