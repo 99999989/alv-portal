@@ -1,0 +1,26 @@
+<ng-container *ngIf="{competenceSets: competenceSets$ | async} as observables">
+  <alv-modal (cancelAction)="cancel()"
+             (primaryAction)="delete()"
+             [showPrimaryButton]="!observables.competenceSets?.length"
+             cancelLabel="entity.action.cancel"
+             primaryLabel="portal.competence-catalog.competence-elements.overview.delete.confirm"
+             modalTitle="portal.competence-catalog.competence-elements.overview.delete-confirmation.title">
+    <ng-container *ngIf="observables.competenceSets?.length; else noReferences">
+      <alv-alert [hideDismiss]="true"
+                 [notification]="warning">
+      </alv-alert>
+      <alv-interactive-list-item *ngFor="let competenceSet of observables.competenceSets"
+                                 [superTitle]="competenceSet.id"
+                                 [type]="'portal.competence-catalog.competence-sets.overview.competence-set-panel-header' | translate"
+                                 [isItemClickable]="true"
+                                 (itemClick)="itemClicked(competenceSet)"
+                                 [multiLanguageTitle]="competenceSet.knowHow.description">
+      </alv-interactive-list-item>
+    </ng-container>
+    <ng-template #noReferences>
+      <div>
+        {{ 'portal.competence-catalog.competence-elements.overview.delete-confirmation.no-links' | translate:{description: competenceElementId} }}
+      </div>
+    </ng-template>
+  </alv-modal>
+</ng-container>
