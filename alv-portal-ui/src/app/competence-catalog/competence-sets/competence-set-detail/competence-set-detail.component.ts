@@ -55,10 +55,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     this.competenceSetRepository.create({
       knowHowId: this.competenceSet.knowHow.id,
       competenceElementIds: this.competenceSet.competenceElementIds
-    }).subscribe(() => {
-      this.notificationsService.success('portal.competence-catalog.competence-sets.added-success-notification');
-      this.handleSuccess.bind(this);
-    });
+    }).subscribe(this.handleSuccess.bind(this));
   }
 
   private updateCompetenceSet() {
@@ -67,10 +64,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       competenceElementIds: this.competenceSet.competenceElementIds,
       draft: this.competenceSet.draft,
       published: this.competenceSet.published
-    }).subscribe(() => {
-      this.notificationsService.success('portal.competence-catalog.competence-sets.added-success-notification');
-      this.handleSuccess.bind(this);
-    });
+    }).subscribe(this.handleSuccess.bind(this));
   }
 
   deleteCompetenceSet() {
@@ -80,14 +74,15 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       .then(value => {
         this.competenceSetRepository.delete(this.competenceSet.id)
           .subscribe(() => {
-            this.notificationsService.success('Yeah!!!');
-            this.handleSuccess.bind(this);
+            this.notificationsService.success('portal.competence-catalog.competence-sets.deleted-success-notification');
+            this.router.navigate(['kk', 'competence-sets']);
           });
       })
       .catch(() => {});
   }
 
   private handleSuccess(result: CompetenceSet) {
+    this.notificationsService.success('portal.competence-catalog.competence-sets.added-success-notification');
     this.router.navigate(['kk', 'competence-sets']);
   }
 }

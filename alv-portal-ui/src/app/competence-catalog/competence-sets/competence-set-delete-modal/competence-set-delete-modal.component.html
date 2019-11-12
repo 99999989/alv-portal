@@ -2,9 +2,9 @@
   <alv-modal (cancelAction)="cancel()"
              (primaryAction)="submit()"
              [primaryButtonDisabled]="!!observables.chFiches?.length"
-             cancelLabel="portal.global.cancel"
+             cancelLabel="portal.global.no"
              modalTitle="portal.competence-catalog.competence-set.delete-modal.title"
-             primaryLabel="portal.global.delete">
+             primaryLabel="portal.global.yes">
 
     <ng-container *ngIf="!!observables.chFiches?.length">
       <alv-alert [hideDismiss]="true"

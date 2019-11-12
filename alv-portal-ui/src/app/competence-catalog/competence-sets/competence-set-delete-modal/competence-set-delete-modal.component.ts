@@ -22,18 +22,13 @@ export class CompetenceSetDeleteModalComponent implements OnInit {
 
   notificationType: NotificationType;
 
-  private currentLang: string;
-
   constructor(private modal: NgbActiveModal,
-              private i18nService: I18nService,
               private chFicheRepository: ChFicheRepository,
               private router: Router,
               @Inject(WINDOW) private win: Window) {
   }
 
   ngOnInit(): void {
-    this.i18nService.currentLanguage$.pipe(take(1))
-      .subscribe(lang => this.currentLang = lang);
     this.chFiches$ = this.chFicheRepository.findByCompetenceSetId(this.competenceSetId);
   }
 
