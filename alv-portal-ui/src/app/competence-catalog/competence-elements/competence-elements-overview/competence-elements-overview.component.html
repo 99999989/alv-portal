@@ -33,7 +33,9 @@
 
       <form [formGroup]="searchForm">
         <alv-input-field alvFormControlName="query"
-                         label="portal.competence-catalog.competence-elements.overview.search.placeholder">
+                         [attr.data-test]="'search-query'"
+                         label="portal.competence-catalog.competence-elements.overview.search.placeholder"
+        >
         </alv-input-field>
       </form>
 
@@ -51,6 +53,9 @@
                                  [type]="'portal.competence-catalog.element-type.' + competenceElement.type | translate"
                                  [superTitle]="competenceElement.id"
                                  [isItemClickable]="true"
+                                 [showActionButtons]="true"
+                                 [actions]="[backlinkAction]"
+                                 (actionClick)="handleCompetenceElementActionClick($event, competenceElement)"
                                  (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)">
       </alv-interactive-list-item>
 
