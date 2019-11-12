@@ -33,7 +33,6 @@ export class CompetenceElementBacklinksComponent implements OnInit {
   }
 
   itemClicked(setSearchResult: CompetenceSetSearchResult) {
-    this.activeModal.dismiss();
     this.openInNewWindow(setSearchResult.id);
   }
 

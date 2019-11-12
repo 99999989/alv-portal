@@ -33,7 +33,6 @@ export class CompetenceSetBacklinksComponent implements OnInit {
   }
 
   itemClicked(chFiche: ChFiche) {
-    this.activeModal.dismiss();
     this.openInNewWindow(chFiche.id);
   }
 
