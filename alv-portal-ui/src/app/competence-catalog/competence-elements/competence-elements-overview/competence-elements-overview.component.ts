@@ -95,14 +95,14 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
 
   handleCompetenceElementActionClick(action: CompetenceCatalogAction, competenceElement: CompetenceElement) {
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openBacklinksModal(competenceElement);
+      this.openBacklinkModal(competenceElement);
     }
     if (action === CompetenceCatalogAction.DELETE) {
       this.openDeleteModal(competenceElement);
     }
   }
 
-  private openBacklinksModal(competenceElement: CompetenceElement) {
+  private openBacklinkModal(competenceElement: CompetenceElement) {
     const modalRef = this.modalService.openMedium(CompetenceElementBacklinksComponent);
     (<CompetenceElementBacklinksComponent>modalRef.componentInstance).competenceElement = competenceElement;
   }

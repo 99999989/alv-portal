@@ -53,7 +53,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
       this.router.navigate(['edit', competenceSet.id], { relativeTo: this.route });
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openBacklinksModal(competenceSet);
+      this.openBacklinkModal(competenceSet);
     }
     if (action === CompetenceCatalogAction.DELETE) {
       // TODO add modal dialog for deletion
@@ -61,7 +61,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
     }
   }
 
-  private openBacklinksModal(competenceSetSearchResult: CompetenceSetSearchResult) {
+  private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
     const modalRef = this.modalService.openMedium(CompetenceSetBacklinksComponent);
     (<CompetenceSetBacklinksComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
