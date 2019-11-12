@@ -119,7 +119,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
             this.notificationsService.success('portal.competence-catalog.competence-elements.overview.delete.label');
           }, (error) => {
             if (error.error && error.error.businessExceptionType === 'COMPETENCE_ELEMENT_REFERENCED_IN_COMPETENCE_SET') {
-              this.notificationsService.error('')
+              this.notificationsService.error('');
             }
           });
       })
