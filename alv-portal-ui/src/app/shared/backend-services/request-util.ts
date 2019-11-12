@@ -1,5 +1,4 @@
 import { HttpParams } from '@angular/common/http';
-import { noop } from 'rxjs';
 
 export function createRequestOption(req?: any): HttpParams {
   let options: HttpParams = new HttpParams();
@@ -23,10 +22,15 @@ export function createRequestOption(req?: any): HttpParams {
 }
 
 export function createPageableURLSearchParams(req?: PagedSearchRequest): HttpParams {
-  const params = new HttpParams();
-  req.page ? params.set('page', '' + req.page) : noop();
-  req.sort ? params.set('sort', '' + req.sort) : noop();
-  req.size ? params.set('sort', '' + req.size) : noop();
+  let params = new HttpParams()
+    .set('page', '' + req.page)
+    .set('size', '' + req.size);
+  if (req.sort) {
+    if (req.sort instanceof Array) {req.sort.forEach((sort) => params = params.append('sort', sort));
+    } else {
+      params = params.set('sort', req.sort);
+    }
+  }
   return params;
 }
 
