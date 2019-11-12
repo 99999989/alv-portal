@@ -12,6 +12,8 @@
                                [type]="'portal.competence-catalog.ch-fiches.overview.title' | translate"
     >
     </alv-interactive-list-item>
-    <div *ngIf="!fiches?.length">This element is not used in the CH-Fiches</div> <!-- FIXME -->
+    <div *ngIf="!fiches?.length">
+      {{ 'portal.competence-catalog.competence-sets.overview.no-backlink' | translate }}
+    </div>
   </ng-container>
 </alv-modal>

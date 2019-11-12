@@ -12,6 +12,8 @@
                                [multiLanguageTitle]="set.knowHow.description"
     >
     </alv-interactive-list-item>
-    <div *ngIf="!sets?.length">This element is not used in the sets</div> <!-- FIXME -->
+    <div *ngIf="!sets?.length">
+      {{ 'portal.competence-catalog.competence-elements.overview.no-backlink' | translate }}
+    </div>
   </ng-container>
 </alv-modal>
