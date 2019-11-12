@@ -1,0 +1,30 @@
+<ng-container *ngIf="{chFiches: chFiches$ | async} as observables">
+  <alv-modal (cancelAction)="cancel()"
+             (primaryAction)="submit()"
+             [primaryButtonDisabled]="!!observables.chFiches?.length"
+             cancelLabel="portal.global.cancel"
+             modalTitle="portal.competence-catalog.competence-set.delete-modal.title"
+             primaryLabel="portal.global.delete">
+
+    <ng-container *ngIf="!!observables.chFiches?.length">
+      <alv-alert [hideDismiss]="true"
+                 [notification]="{
+           messageKey: 'portal.competence-catalog.competence-set.delete-modal.reference-found-alert',
+           type: notificationType.WARNING
+           }">
+      </alv-alert>
+      <span translate="portal.competence-catalog.competence-set.delete-modal.reference-found"></span>
+      <alv-interactive-list-item *ngFor="let chFiche of observables.chFiches"
+                                 [multiLanguageTitle]="chFiche.title"
+                                 [type]="'portal.competence-catalog.ch-fiches.type' | translate"
+                                 [superTitle]="chFiche.id"
+                                 (itemClick)="chFicheClick(chFiche)"
+                                 [isItemClickable]="true">
+      </alv-interactive-list-item>
+    </ng-container>
+    <ng-container *ngIf="!observables.chFiches?.length">
+      <span translate="portal.competence-catalog.competence-set.delete-modal.confirmation"></span>
+    </ng-container>
+
+  </alv-modal>
+</ng-container>
