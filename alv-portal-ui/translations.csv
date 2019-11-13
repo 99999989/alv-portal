@@ -1189,6 +1189,7 @@ portal.competence-catalog.competence-elements.add-modal.added-success-notificati
 portal.competence-catalog.competence-elements.filter-modal.title,Kompetenz-Bestandteile filtern,Filter skill components,Filtrer les composants de compétence,Filtrare elementi della competenza,
 portal.competence-catalog.competence-sets.actions.search-and-add,Suchen & Hinzufügen,Search and add,Rechercher et ajouter,Cercare & aggiungere,
 portal.competence-catalog.competence-sets.actions.unlink,Verknüpfung aufheben,Remove link,Annuler la connexion,Sopprimere collegamento,
+portal.competence-catalog.competence-sets.overview.delete.confirm,"Ja, löschen","Yes, delete","Oui, supprimer","Sì, cancellare",
 portal.competence-catalog.competence-sets.overview.competence-set-panel-header,Kompetenz-Set,Skill set,Ensemble de compétences,Set di competenze,
 portal.competence-catalog.competence-sets.overview.header,Kompetenz-Sets,Skill sets,Ensembles de compétences,Set di competenze,
 portal.competence-catalog.competence-sets.overview.search-label,"Suche nach Handlungswissen, ID Handlungswissen, ID Kompetenz-Set","Search by know-how, know-how ID, skill set ID","Recherche par savoirs-faire, ID savoirs-faire, ID ensemble de compétences","Ricerca per competenze operative, ID competenze operative, ID set di competenze",

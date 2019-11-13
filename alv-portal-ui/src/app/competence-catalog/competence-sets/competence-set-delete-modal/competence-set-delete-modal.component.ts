@@ -1,13 +1,11 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {ChFicheRepository} from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
-import {take} from 'rxjs/operators';
-import {I18nService} from '../../../core/i18n.service';
-import {Observable} from 'rxjs';
-import {ChFiche} from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
-import {Router} from '@angular/router';
-import {WINDOW} from '../../../core/window.service';
-import {NotificationType} from '../../../shared/layout/notifications/notification.model';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
+import { Observable } from 'rxjs';
+import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { Router } from '@angular/router';
+import { WINDOW } from '../../../core/window.service';
+import { NotificationType } from '../../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-competence-set-delete-modal',
@@ -20,7 +18,11 @@ export class CompetenceSetDeleteModalComponent implements OnInit {
 
   chFiches$: Observable<Array<ChFiche>>;
 
-  notificationType: NotificationType;
+  warning = {
+    type: NotificationType.WARNING,
+    messageKey: 'portal.competence-catalog.competence-set.delete-modal.reference-found-alert',
+    isSticky: true
+  };
 
   constructor(private modal: NgbActiveModal,
               private chFicheRepository: ChFicheRepository,
