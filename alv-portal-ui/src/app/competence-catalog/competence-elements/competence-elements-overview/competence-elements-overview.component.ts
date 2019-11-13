@@ -108,7 +108,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   private openDeleteModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openMedium(CompetenceElementDeleteComponent);
+    const modalRef = this.modalService.openLarge(CompetenceElementDeleteComponent);
     const componentInstance = <CompetenceElementDeleteComponent>modalRef.componentInstance;
     componentInstance.competenceElementId = competenceElement.id;
     modalRef.result

@@ -9,7 +9,7 @@
       <alv-alert [hideDismiss]="true"
                  [notification]="warning">
       </alv-alert>
-      <span translate="portal.competence-catalog.competence-elements.delete-modal.reference-found"></span>
+      <p class="pt-1 mb-sm-1" translate="portal.competence-catalog.competence-elements.delete-modal.reference-found"></p>
       <alv-interactive-list-item *ngFor="let competenceSet of observables.competenceSets"
                                  [superTitle]="competenceSet.id"
                                  [type]="'portal.competence-catalog.competence-sets.overview.competence-set-panel-header' | translate"
@@ -19,9 +19,9 @@
       </alv-interactive-list-item>
     </ng-container>
     <ng-template #noReferences>
-      <div>
-        {{ 'portal.competence-catalog.competence-elements.delete-modal.confirmation' | translate:{description: competenceElementId} }}
-      </div>
+      <span>
+        {{ 'portal.competence-catalog.competence-elements.delete-modal.confirmation' | translate:{competenceElementId: competenceElementId} }}
+      </span>
     </ng-template>
   </alv-modal>
 </ng-container>
