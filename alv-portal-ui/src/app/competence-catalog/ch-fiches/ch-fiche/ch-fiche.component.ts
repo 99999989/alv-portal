@@ -24,6 +24,7 @@ import { I18nService } from '../../../core/i18n.service';
 import { OccupationLabelData } from '../../../shared/backend-services/reference-service/occupation-label.types';
 import { IconKey } from '../../../shared/icons/custom-icon/custom-icon.component';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
+import { NotificationsService } from '../../../core/notifications.service';
 
 @Component({
   selector: 'alv-ch-fiche',
@@ -78,7 +79,8 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   constructor(private modalService: ModalService,
               private i18nService: I18nService,
               private occupationLabelRepository: OccupationLabelRepository,
-              private competenceSetRepository: CompetenceSetRepository) {
+              private competenceSetRepository: CompetenceSetRepository,
+              private notificationsService: NotificationsService) {
     super();
   }
 
@@ -102,6 +104,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
         this.updateOccupationLabels(this.chFiche.occupations)
           .subscribe(() => {
             this.collapsed.OCCUPATIONS = false;
+            this.notificationsService.success('portal.competence-catalog.ch-fiches.added-occupation-success-notification');
           });
       })
       .catch(() => {
@@ -111,7 +114,10 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   unlinkOccupation(index: number) {
     this.openUnlinkConfirmModal().then(result => {
       this.chFiche.occupations.splice(index, 1);
-      this.updateOccupationLabels(this.chFiche.occupations).subscribe();
+      this.updateOccupationLabels(this.chFiche.occupations)
+        .subscribe(() => {
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-occupation-success-notification');
+        });
     }).catch(err => {
     });
   }
@@ -119,7 +125,10 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   unlinkCompetence(type: CompetenceType, index: number) {
     this.openUnlinkConfirmModal().then(result => {
       this.chFiche.competences.splice(index, 1);
-      this.loadCompetences(type).subscribe();
+      this.loadCompetences(type)
+        .subscribe(() => {
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
+        });
     }).catch(err => {
     });
   }
@@ -135,6 +144,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
         });
         this.loadCompetences(competenceType).subscribe(result => {
           this.collapsed[competenceType] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-competence-set-success-notification');
         });
       })
       .catch(() => {
