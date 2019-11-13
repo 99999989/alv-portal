@@ -4,7 +4,7 @@
              [showPrimaryButton]="!observables.chFiches?.length"
              cancelLabel="entity.action.cancel"
              modalTitle="portal.competence-catalog.competence-set.delete-modal.title"
-             primaryLabel="portal.competence-catalog.competence-sets.overview.delete.confirm">
+             primaryLabel="portal.global.delete-confirm">
 
     <ng-container *ngIf="!!observables.chFiches?.length; else noReferences">
       <alv-alert [hideDismiss]="true"
@@ -20,9 +20,7 @@
       </alv-interactive-list-item>
     </ng-container>
     <ng-template #noReferences>
-      <span>
-        {{ 'portal.competence-catalog.competence-set.delete-modal.confirmation' | translate:{competenceSetId: competenceSetId} }}
-      </span>
+      <span [innerHTML]="'portal.competence-catalog.competence-set.delete-modal.confirmation' | translate:{competenceSetId: competenceSetId}"/>
     </ng-template>
   </alv-modal>
 </ng-container>
