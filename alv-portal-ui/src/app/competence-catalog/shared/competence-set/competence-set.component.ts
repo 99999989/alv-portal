@@ -13,6 +13,7 @@ import { tap } from 'rxjs/operators';
 import { CompetenceElementModalComponent } from '../competence-element-modal/competence-element-modal.component';
 import { CompetenceCatalogAction } from '../shared-competence-catalog.types';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
+import { NotificationsService } from '../../../core/notifications.service';
 
 @Component({
   selector: 'alv-competence-set',
@@ -67,7 +68,8 @@ export class CompetenceSetComponent implements OnInit {
   };
 
   constructor(private competenceElementRepository: CompetenceElementRepository,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private notificationsService: NotificationsService) {
   }
 
   ngOnInit() {
@@ -101,6 +103,7 @@ export class CompetenceSetComponent implements OnInit {
     modalRef.result
       .then((competenceElement) => {
         this.competenceSet.knowHow = competenceElement;
+        this.notificationsService.success('portal.competence-catalog.competence-sets.added-competence-element-success-notification');
       })
       .catch(() => {
       });
@@ -131,7 +134,9 @@ export class CompetenceSetComponent implements OnInit {
     this.openUnlinkConfirmModal().then(result => {
       const indexToRemove = this.competenceSet.competenceElementIds.indexOf(competenceElement.id);
       this.competenceSet.competenceElementIds.splice(indexToRemove, 1);
-      this.loadCompetenceElements().subscribe();
+      this.loadCompetenceElements().subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.competence-sets.removed-competence-element-success-notification');
+      });
     }).catch(err => {
     });
   }
@@ -139,6 +144,7 @@ export class CompetenceSetComponent implements OnInit {
   private unlinkKnowHow(competenceElement: CompetenceElement) {
     this.openUnlinkConfirmModal().then(result => {
       this.competenceSet.knowHow = null;
+      this.notificationsService.success('portal.competence-catalog.competence-sets.removed-competence-element-success-notification');
     }).catch(err => {
     });
   }
@@ -159,6 +165,7 @@ export class CompetenceSetComponent implements OnInit {
         this.competenceSet.competenceElementIds.push(competenceElement.id);
         this.loadCompetenceElements().subscribe(result => {
           this.collapsed[type] = false;
+          this.notificationsService.success('portal.competence-catalog.competence-sets.added-competence-element-success-notification');
         });
       })
       .catch(() => {
