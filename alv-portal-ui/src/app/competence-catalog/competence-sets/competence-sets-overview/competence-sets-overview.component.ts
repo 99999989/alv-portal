@@ -29,12 +29,6 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
   };
 
-  deleteCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
-    name: CompetenceCatalogAction.DELETE,
-    icon: ['fas', 'trash'],
-    label: 'portal.competence-catalog.competence-sets.delete-button.tooltip'
-  };
-
   constructor(protected itemsRepository: CompetenceSetRepository,
               private router: Router,
               private modalService: ModalService,
@@ -54,10 +48,6 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
       this.openBacklinkModal(competenceSet);
-    }
-    if (action === CompetenceCatalogAction.DELETE) {
-      // TODO add modal dialog for deletion
-      this.router.navigate(['edit', competenceSet.id], { relativeTo: this.route });
     }
   }
 

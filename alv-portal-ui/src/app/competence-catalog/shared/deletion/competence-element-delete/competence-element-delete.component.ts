@@ -27,7 +27,7 @@ export class CompetenceElementDeleteComponent implements OnInit {
 
   warning = {
     type: NotificationType.WARNING,
-    messageKey: 'portal.competence-catalog.competence-elements.overview.delete-confirmation.links',
+    messageKey: 'portal.competence-catalog.competence-elements.delete-modal.reference-found-alert',
     isSticky: true
   };
 
