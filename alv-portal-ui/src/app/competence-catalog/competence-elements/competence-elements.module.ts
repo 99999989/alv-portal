@@ -18,10 +18,10 @@ import { CompetenceElementsFilterModalComponent } from './competence-elements-fi
   ],
   declarations: [
     CompetenceElementsOverviewComponent,
-    CompetenceElementsFilterModalComponent
+    CompetenceElementsFilterModalComponent,
   ],
   entryComponents: [
-    CompetenceElementsFilterModalComponent
+    CompetenceElementsFilterModalComponent,
   ],
   providers: [
     ModalService
