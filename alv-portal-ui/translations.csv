@@ -1204,7 +1204,7 @@ portal.competence-catalog.competence-sets.deleted-success-notification,Kompetenz
 portal.competence-catalog.competence-set.delete-modal.title,Kompetenz-Set löschen?,,,,
 portal.competence-catalog.competence-set.delete-modal.reference-found-alert,Um dieses Kompetenz-Set zu löschen heben Sie zuerst alle Verknüpfungen von diesem Kompetenz-Set auf.,,,,
 portal.competence-catalog.competence-set.delete-modal.reference-found,Kompetenz-Set wird in folgenden CH Fiches verwendet:,,,,
-portal.competence-catalog.competence-set.delete-modal.confirmation,"Wenn Sie auf ""Ja, löschen"" klicken, wird dieses Kompetenz-Set unwiderruflich gelöscht.",,,,
+portal.competence-catalog.competence-set.delete-modal.confirmation,"Möchten Sie dieses Kompetenz-Set ""{{ competenceSetId }}"" wirklich löschen? Wenn Sie auf ""Ja, löschen"" klicken, wird diese Kompetenz-Set unwiderruflich gelöscht.",,,,
 portal.competence-catalog.competence-sets.overview.delete-confirmation.title,Verknüpfung aufheben,Remove link,Annuler la connexion,Sopprimere collegamento,
 portal.competence-catalog.competence-sets.overview.delete-confirmation.text,Wollen Sie diese Verknüpfung wirklich aufheben?,Do you really want to remove this link?,Voulez-vous vraiment annuler cette connexion?,Vuoi davvero sopprimere questo collegamento?,
 portal.competence-catalog.competence-sets.add-modal.title,Kompetenz-Set hinzufügen,Add skill set,Ajouter ensemble de compétences,Aggiungere set di competenze,

@@ -68,7 +68,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   }
 
   deleteCompetenceSet() {
-    const modalRef = this.modalService.openMedium(CompetenceSetDeleteModalComponent);
+    const modalRef = this.modalService.openLarge(CompetenceSetDeleteModalComponent);
     (<CompetenceSetDeleteModalComponent>modalRef.componentInstance).competenceSetId = this.competenceSet.id;
     modalRef.result
       .then(value => {

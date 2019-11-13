@@ -6,11 +6,11 @@
              modalTitle="portal.competence-catalog.competence-set.delete-modal.title"
              primaryLabel="portal.competence-catalog.competence-sets.overview.delete.confirm">
 
-    <ng-container *ngIf="!!observables.chFiches?.length">
+    <ng-container *ngIf="!!observables.chFiches?.length; else noReferences">
       <alv-alert [hideDismiss]="true"
                  [notification]=warning>
       </alv-alert>
-      <span translate="portal.competence-catalog.competence-set.delete-modal.reference-found"></span>
+      <p class="pt-1 mb-sm-1" translate="portal.competence-catalog.competence-set.delete-modal.reference-found"></p>
       <alv-interactive-list-item *ngFor="let chFiche of observables.chFiches"
                                  [multiLanguageTitle]="chFiche.title"
                                  [type]="'portal.competence-catalog.ch-fiches.type' | translate"
@@ -19,9 +19,10 @@
                                  [isItemClickable]="true">
       </alv-interactive-list-item>
     </ng-container>
-    <ng-container *ngIf="!observables.chFiches?.length">
-      <span translate="portal.competence-catalog.competence-set.delete-modal.confirmation"></span>
-    </ng-container>
-
+    <ng-template #noReferences>
+      <span>
+        {{ 'portal.competence-catalog.competence-set.delete-modal.confirmation' | translate:{competenceSetId: competenceSetId} }}
+      </span>
+    </ng-template>
   </alv-modal>
 </ng-container>
