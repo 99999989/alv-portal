@@ -1,12 +1,12 @@
 <ng-container *ngIf="(chFiches$ | async) as chFiches">
   <alv-modal (cancelAction)="cancel()"
              (primaryAction)="submit()"
-             [showPrimaryButton]="!chFiches?.length"
+             [showPrimaryButton]="!chFiches.length"
              cancelLabel="entity.action.cancel"
              modalTitle="portal.competence-catalog.competence-set.delete-modal.title"
              primaryLabel="portal.global.delete-confirm">
 
-    <ng-container *ngIf="chFiches?.length; else noReferences">
+    <ng-container *ngIf="chFiches.length; else noReferences">
       <alv-alert [hideDismiss]="true"
                  [notification]=warning>
       </alv-alert>
