@@ -57,7 +57,7 @@ export class CompetenceSetSearchModalComponent implements OnInit {
     return this.competenceSetRepository.search({
       page: 0,
       size: DEFAULT_PAGE_SIZE,
-      sort: DEFAULT_SORT.asc,
+      sort: DEFAULT_SORT.alpha_asc,
       body: {
         query: term
       }
