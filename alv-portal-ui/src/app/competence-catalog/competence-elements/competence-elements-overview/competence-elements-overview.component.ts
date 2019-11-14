@@ -15,7 +15,7 @@ import {
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceElementBacklinksComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlinks.component';
+import { CompetenceElementBacklinkComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlink.component';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -94,7 +94,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   private openBacklinksModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openMedium(CompetenceElementBacklinksComponent);
-    (<CompetenceElementBacklinksComponent>modalRef.componentInstance).competenceElement = competenceElement;
+    const modalRef = this.modalService.openMedium(CompetenceElementBacklinkComponent);
+    (<CompetenceElementBacklinkComponent>modalRef.componentInstance).competenceElement = competenceElement;
   }
 }

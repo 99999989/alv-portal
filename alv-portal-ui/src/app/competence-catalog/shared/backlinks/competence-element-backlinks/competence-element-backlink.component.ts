@@ -9,10 +9,10 @@ import { WINDOW } from '../../../../core/window.service';
 
 @Component({
   selector: 'alv-competence-element-backlinks',
-  templateUrl: './competence-element-backlinks.component.html',
-  styleUrls: ['./competence-element-backlinks.component.scss']
+  templateUrl: './competence-element-backlink.component.html',
+  styleUrls: ['./competence-element-backlink.component.scss']
 })
-export class CompetenceElementBacklinksComponent implements OnInit {
+export class CompetenceElementBacklinkComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
               public competenceSetRepository: CompetenceSetRepository,

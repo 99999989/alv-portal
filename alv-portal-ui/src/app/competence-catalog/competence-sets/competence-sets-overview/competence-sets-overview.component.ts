@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { CompetenceSetBacklinksComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlinks.component';
+import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 
 @Component({
   selector: 'alv-competence-sets-overview',
@@ -52,8 +52,8 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
   }
 
   private openBacklinksModal(competenceSetSearchResult: CompetenceSetSearchResult) {
-    const modalRef = this.modalService.openMedium(CompetenceSetBacklinksComponent);
-    (<CompetenceSetBacklinksComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
 }

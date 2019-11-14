@@ -9,8 +9,8 @@ import { CompetenceElementModalComponent } from './competence-element-modal/comp
 import { InteractiveListItemComponent } from './interactive-list-item/interactive-list-item.component';
 import { CompetenceItemPlaceholderComponent } from './competence-item-placeholder/competence-item-placeholder.component';
 import { SortButtonComponent } from './sort-button/sort-button.component';
-import { CompetenceElementBacklinksComponent } from './backlinks/competence-element-backlinks/competence-element-backlinks.component';
-import { CompetenceSetBacklinksComponent } from './backlinks/competence-set-backlinks/competence-set-backlinks.component';
+import { CompetenceElementBacklinkComponent } from './backlinks/competence-element-backlinks/competence-element-backlink.component';
+import { CompetenceSetBacklinkComponent } from './backlinks/competence-set-backlinks/competence-set-backlink.component';
 
 @NgModule({
   imports: [
@@ -26,14 +26,14 @@ import { CompetenceSetBacklinksComponent } from './backlinks/competence-set-back
     InteractiveListItemComponent,
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
-    CompetenceElementBacklinksComponent,
-    CompetenceSetBacklinksComponent
+    CompetenceElementBacklinkComponent,
+    CompetenceSetBacklinkComponent
   ],
   providers: [],
   entryComponents: [
     CompetenceElementModalComponent,
-    CompetenceElementBacklinksComponent,
-    CompetenceSetBacklinksComponent
+    CompetenceElementBacklinkComponent,
+    CompetenceSetBacklinkComponent
 
   ],
   exports: [
@@ -42,8 +42,8 @@ import { CompetenceSetBacklinksComponent } from './backlinks/competence-set-back
     CompetenceItemsCollapsePanelComponent,
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
-    CompetenceElementBacklinksComponent,
-    CompetenceSetBacklinksComponent
+    CompetenceElementBacklinkComponent,
+    CompetenceSetBacklinkComponent
   ]
 })
 export class SharedCompetenceCatalogModule {

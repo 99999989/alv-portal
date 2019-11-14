@@ -9,10 +9,10 @@ import { WINDOW } from '../../../../core/window.service';
 
 @Component({
   selector: 'alv-competence-set-backlinks',
-  templateUrl: './competence-set-backlinks.component.html',
-  styleUrls: ['./competence-set-backlinks.component.scss']
+  templateUrl: './competence-set-backlink.component.html',
+  styleUrls: ['./competence-set-backlink.component.scss']
 })
-export class CompetenceSetBacklinksComponent implements OnInit {
+export class CompetenceSetBacklinkComponent implements OnInit {
 
   competenceSetSearchResult: CompetenceSetSearchResult;
   chFiches$: Observable<ChFiche[]>;
