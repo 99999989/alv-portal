@@ -25,7 +25,8 @@
             <span class="d-none d-md-inline">
       </span>
           </button>
-          <alv-sort-button (sortClicked)="onSortClick()"
+          <alv-sort-button (sortClicked)="onSortClick($event)"
+                           [currentSorting]="sort"
                            [ngbTooltip]="'portal.global.sort' | translate "
           ></alv-sort-button>
         </div>

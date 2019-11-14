@@ -35,7 +35,8 @@ import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-s
   entryComponents: [
     CompetenceElementModalComponent,
     CompetenceElementBacklinkComponent,
-    CompetenceSetBacklinkComponent
+    CompetenceSetBacklinkComponent,
+    CompetenceCatalogSortModalComponent
   ],
   exports: [
     CompetenceSetComponent,
@@ -44,7 +45,8 @@ import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-s
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
     CompetenceElementBacklinkComponent,
-    CompetenceSetBacklinkComponent
+    CompetenceSetBacklinkComponent,
+    CompetenceCatalogSortModalComponent
   ]
 })
 export class SharedCompetenceCatalogModule {

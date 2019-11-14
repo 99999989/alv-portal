@@ -17,7 +17,8 @@
           {{ 'portal.competence-catalog.competence-sets.overview.header' | translate }}
         </h2>
         <div class="d-flex mb-3 flex-row justify-content-between">
-          <alv-sort-button (sortClicked)="onSortClick()"
+          <alv-sort-button (sortClicked)="onSortClick($event)"
+                           [currentSorting]="sort"
                            [ngbTooltip]="'portal.global.sort' | translate "
           ></alv-sort-button>
         </div>
