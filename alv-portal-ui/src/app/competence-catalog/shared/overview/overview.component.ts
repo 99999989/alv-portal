@@ -75,9 +75,9 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
   private mapSortField() {
     switch (this.sort.type) {
       case SortType.CREATED_DATE_DESC:
-        return DEFAULT_SORT.numeric_desc;
+        return DEFAULT_SORT.date_desc;
       case SortType.CREATED_DATE_ASC:
-        return DEFAULT_SORT.numeric_asc;
+        return DEFAULT_SORT.date_asc;
       case SortType.ALPHA_DESC:
         return DEFAULT_SORT.alpha_desc;
       case SortType.ALPHA_ASC:
