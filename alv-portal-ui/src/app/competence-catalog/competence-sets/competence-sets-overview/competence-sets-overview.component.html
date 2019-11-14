@@ -23,7 +23,6 @@
         </div>
       </div>
 
-
       <form [formGroup]="searchForm">
         <alv-input-field alvFormControlName="query"
                          [label]="'portal.competence-catalog.competence-sets.overview.search-label'">
@@ -43,7 +42,7 @@
                           [isInnerElementsReadonly]="true"
                           [isReadonly]="observables.isCompetenceCatalogEditor"
                           [showActionButtons]="observables.isCompetenceCatalogEditor"
-                          [actions]="[editCompetenceSetAction, backlinkAction]"
+                          [actions]="[editCompetenceSetAction, backlinkCompetenceSetAction]"
                           (actionClick)="handleCompetenceSetActionClick($event, competenceSet)">
       </alv-competence-set>
 

@@ -23,7 +23,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
     label: 'portal.competence-catalog.competence-sets.edit-button.tooltip'
   };
 
-  backlinkAction: ActionDefinition<CompetenceCatalogAction> = {
+  backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
@@ -47,13 +47,13 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
       this.router.navigate(['edit', competenceSet.id], { relativeTo: this.route });
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openBacklinksModal(competenceSet);
+      this.openBacklinkModal(competenceSet);
     }
   }
 
-  private openBacklinksModal(competenceSetSearchResult: CompetenceSetSearchResult) {
-    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
-    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+  private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinksComponent);
+    (<CompetenceSetBacklinksComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
 }
