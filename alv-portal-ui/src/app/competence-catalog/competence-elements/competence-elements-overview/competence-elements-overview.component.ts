@@ -13,7 +13,7 @@ import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceElementBacklinkComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlink.component';
-import { CompetenceElementDeleteComponent } from '../../shared/deletion/competence-element-delete/competence-element-delete.component';
+import { CompetenceElementDeleteComponent } from '../competence-element-delete/competence-element-delete.component';
 import { NotificationsService } from '../../../core/notifications.service';
 
 @Component({

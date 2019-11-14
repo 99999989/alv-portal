@@ -8,10 +8,10 @@ import { RouterModule } from '@angular/router';
 import { CompetenceElementModalComponent } from './competence-element-modal/competence-element-modal.component';
 import { InteractiveListItemComponent } from './interactive-list-item/interactive-list-item.component';
 import { CompetenceItemPlaceholderComponent } from './competence-item-placeholder/competence-item-placeholder.component';
-import { SortButtonComponent } from './sort-button/sort-button.component';
+import { SortButtonComponent } from './sort/sort-button/sort-button.component';
 import { CompetenceElementBacklinkComponent } from './backlinks/competence-element-backlinks/competence-element-backlink.component';
 import { CompetenceSetBacklinkComponent } from './backlinks/competence-set-backlinks/competence-set-backlink.component';
-import { CompetenceElementDeleteComponent } from './deletion/competence-element-delete/competence-element-delete.component';
+import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-sort-modal/competence-catalog-sort-modal.component';
 
 @NgModule({
   imports: [
@@ -29,14 +29,13 @@ import { CompetenceElementDeleteComponent } from './deletion/competence-element-
     SortButtonComponent,
     CompetenceElementBacklinkComponent,
     CompetenceSetBacklinkComponent,
-    CompetenceElementDeleteComponent
+    CompetenceCatalogSortModalComponent
   ],
   providers: [],
   entryComponents: [
     CompetenceElementModalComponent,
     CompetenceElementBacklinkComponent,
-    CompetenceSetBacklinkComponent,
-    CompetenceElementDeleteComponent
+    CompetenceSetBacklinkComponent
   ],
   exports: [
     CompetenceSetComponent,
@@ -45,8 +44,7 @@ import { CompetenceElementDeleteComponent } from './deletion/competence-element-
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
     CompetenceElementBacklinkComponent,
-    CompetenceSetBacklinkComponent,
-    CompetenceElementDeleteComponent
+    CompetenceSetBacklinkComponent
   ]
 })
 export class SharedCompetenceCatalogModule {
