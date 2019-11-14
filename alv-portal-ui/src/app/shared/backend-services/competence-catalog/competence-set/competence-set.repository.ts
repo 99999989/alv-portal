@@ -43,8 +43,8 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
     );
   }
 
-  findByCompetenceElementId(competenceElementId: string): Observable<CompetenceSet> {
-    return this.http.get<CompetenceSet>(`${this.findUrl}/byCompetenceElementId`, {
+  findByCompetenceElementId(competenceElementId: string): Observable<CompetenceSetSearchResult[]> {
+    return this.http.get<CompetenceSetSearchResult[]>(`${this.findUrl}/byCompetenceElementId`, {
       params: new HttpParams().set('id', competenceElementId)
     });
   }

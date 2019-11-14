@@ -20,10 +20,10 @@ import { CompetenceElementSearchModalComponent } from './competence-element-sear
   declarations: [
     CompetenceSetsOverviewComponent,
     CompetenceSetDetailComponent,
-    CompetenceElementSearchModalComponent
+    CompetenceElementSearchModalComponent,
   ],
   entryComponents: [
-    CompetenceElementSearchModalComponent
+    CompetenceElementSearchModalComponent,
   ],
   providers: [
     ModalService

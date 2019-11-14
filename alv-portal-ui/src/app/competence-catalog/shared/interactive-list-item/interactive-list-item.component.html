@@ -19,6 +19,7 @@
     <button class="btn btn-icon-sm ml-1"
             *ngFor="let action of actions"
             (click)="onActionClick(action.name)"
+            [attr.data-test]="action.name"
             [ngbTooltip]="action.label | translate"
             container="body"
             placement="top">
