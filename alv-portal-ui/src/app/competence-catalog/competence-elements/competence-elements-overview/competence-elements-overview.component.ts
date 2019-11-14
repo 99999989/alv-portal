@@ -12,7 +12,7 @@ import { CompetenceCatalogAction, CompetenceElementFilterValues } from '../../sh
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceElementBacklinkComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlinks.component';
+import { CompetenceElementBacklinkComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlink.component';
 import { CompetenceElementDeleteComponent } from '../../shared/deletion/competence-element-delete/competence-element-delete.component';
 import { NotificationsService } from '../../../core/notifications.service';
 
@@ -103,8 +103,8 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   private openBacklinkModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openMedium(CompetenceElementBacklinksComponent);
-    (<CompetenceElementBacklinksComponent>modalRef.componentInstance).competenceElement = competenceElement;
+    const modalRef = this.modalService.openMedium(CompetenceElementBacklinkComponent);
+    (<CompetenceElementBacklinkComponent>modalRef.componentInstance).competenceElement = competenceElement;
   }
 
   private openDeleteModal(competenceElement: CompetenceElement) {

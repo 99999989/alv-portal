@@ -52,8 +52,8 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
   }
 
   private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
-    const modalRef = this.modalService.openMedium(CompetenceSetBacklinksComponent);
-    (<CompetenceSetBacklinksComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
 }

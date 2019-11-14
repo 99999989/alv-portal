@@ -8,7 +8,7 @@ import { ChFiche } from '../../../../shared/backend-services/competence-catalog/
 import { WINDOW } from '../../../../core/window.service';
 
 @Component({
-  selector: 'alv-competence-set-backlinks',
+  selector: 'alv-competence-set-backlink',
   templateUrl: './competence-set-backlink.component.html',
   styleUrls: ['./competence-set-backlink.component.scss']
 })

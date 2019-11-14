@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { WINDOW } from '../../../../core/window.service';
 
 @Component({
-  selector: 'alv-competence-element-backlinks',
+  selector: 'alv-competence-element-backlink',
   templateUrl: './competence-element-backlink.component.html',
   styleUrls: ['./competence-element-backlink.component.scss']
 })
