@@ -9,6 +9,8 @@ import { CompetenceSetRepository } from '../../../shared/backend-services/compet
 import { NotificationsService } from '../../../core/notifications.service';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import {ModalService} from '../../../shared/layout/modal/modal.service';
+import {CompetenceSetDeleteModalComponent} from '../competence-set-delete-modal/competence-set-delete-modal.component';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -25,6 +27,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private modalService: ModalService,
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
               private competenceSetRepository: CompetenceSetRepository) {
@@ -62,6 +65,20 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       draft: this.competenceSet.draft,
       published: this.competenceSet.published
     }).subscribe(this.handleSuccess.bind(this));
+  }
+
+  deleteCompetenceSet() {
+    const modalRef = this.modalService.openLarge(CompetenceSetDeleteModalComponent);
+    (<CompetenceSetDeleteModalComponent>modalRef.componentInstance).competenceSetId = this.competenceSet.id;
+    modalRef.result
+      .then(value => {
+        this.competenceSetRepository.delete(this.competenceSet.id)
+          .subscribe(() => {
+            this.notificationsService.success('portal.competence-catalog.competence-sets.deleted-success-notification');
+            this.router.navigate(['kk', 'competence-sets']);
+          });
+      })
+      .catch(() => {});
   }
 
   private handleSuccess(result: CompetenceSet) {

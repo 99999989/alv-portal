@@ -28,17 +28,14 @@
            routerLink="../">
           {{(observables.isCompetenceCatalogEditor ? 'portal.global.cancel': 'entity.action.back') | translate}}
         </a>
-        <!--
         <button class="btn btn-secondary ml-1"
-                *ngIf="isReadonly">
+                (click)="deleteCompetenceSet()"
+                *ngIf="observables.isCompetenceCatalogEditor">
           {{'portal.global.delete' | translate}}
         </button>
-        -->
         <button class="btn btn-primary ml-1"
                 (click)="saveCompetenceSet()"
-                *ngIf="observables.isCompetenceCatalogEditor"
-
-        >
+                *ngIf="observables.isCompetenceCatalogEditor">
           {{'portal.global.save' | translate}}
         </button>
       </div>
