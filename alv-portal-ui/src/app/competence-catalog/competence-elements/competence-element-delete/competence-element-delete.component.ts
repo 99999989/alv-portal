@@ -1,11 +1,11 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CompetenceSetRepository } from '../../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { Router } from '@angular/router';
-import { WINDOW } from '../../../../core/window.service';
+import { WINDOW } from '../../../core/window.service';
 import { Observable } from 'rxjs';
-import { CompetenceSetSearchResult } from '../../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
-import { NotificationType } from '../../../../shared/layout/notifications/notification.model';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
+import { NotificationType } from '../../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-competence-element-delete',
