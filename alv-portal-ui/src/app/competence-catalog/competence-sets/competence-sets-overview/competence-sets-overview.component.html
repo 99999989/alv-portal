@@ -4,7 +4,10 @@
      [infiniteScrollThrottle]="50"
      [immediateCheck]="true"
      infiniteScroll
-     *ngIf="{isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async} as observables"
+     *ngIf="{
+          isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
+          actions: actions$ | async
+     } as observables"
 >
   <div class="row">
     <div class="col-12 col-lg-9 col-xl-10">
@@ -42,8 +45,8 @@
                           [competenceSet]="competenceSet"
                           [isInnerElementsReadonly]="true"
                           [isReadonly]="observables.isCompetenceCatalogEditor"
-                          [showActionButtons]="observables.isCompetenceCatalogEditor"
-                          [actions]="[editCompetenceSetAction, backlinkCompetenceSetAction]"
+                          [actions]="observables.actions"
+                          [showActionButtons]="true"
                           (actionClick)="handleCompetenceSetActionClick($event, competenceSet)">
       </alv-competence-set>
 
