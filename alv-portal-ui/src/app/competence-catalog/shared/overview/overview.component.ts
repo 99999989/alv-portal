@@ -19,7 +19,7 @@ import { DEFAULT_SORT_OPTIONS } from '../constants';
 export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   sort: CompetenceCatalogSortValue = {
-    type: SortType.CREATED_DATE_DESC,
+    type: SortType.DATE_DESC,
     icon: SortIcon.NUMERIC_UP
   };
 
@@ -82,14 +82,14 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
 
   private mapSortField() {
     switch (this.sort.type) {
-      case SortType.CREATED_DATE_DESC:
-        return DEFAULT_SORT_OPTIONS.date_desc;
-      case SortType.CREATED_DATE_ASC:
-        return DEFAULT_SORT_OPTIONS.date_asc;
+      case SortType.DATE_DESC:
+        return DEFAULT_SORT_OPTIONS.DATE_DESC;
+      case SortType.DATE_ASC:
+        return DEFAULT_SORT_OPTIONS.DATE_ASC;
       case SortType.ALPHA_DESC:
-        return DEFAULT_SORT_OPTIONS.alpha_desc;
+        return DEFAULT_SORT_OPTIONS.ALPHA_DESC;
       case SortType.ALPHA_ASC:
-        return DEFAULT_SORT_OPTIONS.alpha_asc;
+        return DEFAULT_SORT_OPTIONS.ALPHA_ASC;
     }
   }
 

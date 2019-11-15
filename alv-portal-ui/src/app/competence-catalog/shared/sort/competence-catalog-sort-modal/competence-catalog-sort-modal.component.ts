@@ -3,7 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SelectableOption } from '../../../../shared/forms/input/selectable-option.model';
-import { CompetenceCatalogSortValue, SortIcon, SortType } from '../../shared-competence-catalog.types';
+import {
+  CompetenceCatalogSortValue,
+  SortIcon,
+  SortType
+} from '../../shared-competence-catalog.types';
 
 @Component({
   selector: 'alv-competence-catalog-sort-modal',
@@ -43,17 +47,17 @@ export class CompetenceCatalogSortModalComponent implements OnInit {
     const type: SortType = this.form.get('sort').value;
     let icon: SortIcon;
     switch (type) {
-      case SortType.CREATED_DATE_DESC:
+      case SortType.DATE_DESC:
         icon = SortIcon.NUMERIC_UP;
         break;
-      case SortType.CREATED_DATE_ASC:
+      case SortType.DATE_ASC:
         icon = SortIcon.NUMERIC_DOWN;
         break;
       case SortType.ALPHA_DESC:
-        icon = SortIcon.ALPHA_UP;
+        icon = SortIcon.ALPHA_DESC;
         break;
       case SortType.ALPHA_ASC:
-        icon = SortIcon.ALPHA_DOWN;
+        icon = SortIcon.ALPHA_ASC;
         break;
     }
     const updatedSorting: CompetenceCatalogSortValue = { type, icon };

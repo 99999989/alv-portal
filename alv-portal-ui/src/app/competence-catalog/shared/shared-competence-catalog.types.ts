@@ -61,8 +61,8 @@ export interface CompetenceCatalogSortValue {
 }
 
 export enum SortType {
-  CREATED_DATE_DESC = 'CREATED_DATE_DESC',
-  CREATED_DATE_ASC = 'CREATED_DATE_ASC',
+  DATE_DESC = 'DATE_DESC',
+  DATE_ASC = 'DATE_ASC',
   ALPHA_DESC = 'ALPHA_DESC',
   ALPHA_ASC = 'ALPHA_ASC'
 }
@@ -70,6 +70,6 @@ export enum SortType {
 export enum SortIcon {
   NUMERIC_DOWN = 'sort-numeric-down',
   NUMERIC_UP = 'sort-numeric-up',
-  ALPHA_DOWN = 'sort-alpha-down',
-  ALPHA_UP = 'sort-alpha-up'
+  ALPHA_ASC = 'sort-alpha-down',
+  ALPHA_DESC = 'sort-alpha-up'
 }
