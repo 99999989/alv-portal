@@ -10,7 +10,7 @@ import { CompetenceSetRepository } from '../../../shared/backend-services/compet
 import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { DEFAULT_PAGE_SIZE } from 'src/app/shared/backend-services/request-util';
 import { getTranslatedString } from '../../shared/shared-competence-catalog.types';
-import { DEFAULT_SORT } from '../../shared/constants';
+import { DEFAULT_SORT_OPTIONS } from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-set-search-modal',
@@ -57,7 +57,7 @@ export class CompetenceSetSearchModalComponent implements OnInit {
     return this.competenceSetRepository.search({
       page: 0,
       size: DEFAULT_PAGE_SIZE,
-      sort: DEFAULT_SORT.alpha_asc,
+      sort: DEFAULT_SORT_OPTIONS.alpha_asc,
       body: {
         query: term
       }

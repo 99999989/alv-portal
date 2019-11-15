@@ -1,5 +1,4 @@
-export const DEFAULT_PAGE_SIZE = 20;
-export const DEFAULT_SORT = {
+export const DEFAULT_SORT_OPTIONS = {
   date_asc: 'date_asc',
   date_desc: 'date_desc',
   alpha_asc: 'alphabetically_asc',

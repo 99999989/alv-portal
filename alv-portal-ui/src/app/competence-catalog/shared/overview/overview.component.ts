@@ -4,9 +4,16 @@ import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-edi
 import { SearchService } from '../../../shared/backend-services/competence-catalog/search-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { DEFAULT_PAGE_SIZE, RequestBody } from '../../../shared/backend-services/request-util';
-import { CompetenceCatalogSortValue, SortIcon, SortType } from '../shared-competence-catalog.types';
-import { DEFAULT_SORT } from '../constants';
+import {
+  DEFAULT_PAGE_SIZE,
+  RequestBody
+} from '../../../shared/backend-services/request-util';
+import {
+  CompetenceCatalogSortValue,
+  SortIcon,
+  SortType
+} from '../shared-competence-catalog.types';
+import { DEFAULT_SORT_OPTIONS } from '../constants';
 
 
 export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent implements OnInit {
@@ -76,13 +83,13 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
   private mapSortField() {
     switch (this.sort.type) {
       case SortType.CREATED_DATE_DESC:
-        return DEFAULT_SORT.date_desc;
+        return DEFAULT_SORT_OPTIONS.date_desc;
       case SortType.CREATED_DATE_ASC:
-        return DEFAULT_SORT.date_asc;
+        return DEFAULT_SORT_OPTIONS.date_asc;
       case SortType.ALPHA_DESC:
-        return DEFAULT_SORT.alpha_desc;
+        return DEFAULT_SORT_OPTIONS.alpha_desc;
       case SortType.ALPHA_ASC:
-        return DEFAULT_SORT.alpha_asc;
+        return DEFAULT_SORT_OPTIONS.alpha_asc;
     }
   }
 
