@@ -8,13 +8,18 @@ import {
 import { CompetenceElementModalComponent } from '../../shared/competence-element-modal/competence-element-modal.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceElementsFilterModalComponent } from '../competence-elements-filter-modal/competence-elements-filter-modal.component';
-import { CompetenceCatalogAction, CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
+import {
+  CompetenceCatalogAction,
+  CompetenceElementFilterValues
+} from '../../shared/shared-competence-catalog.types';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceElementBacklinkComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlink.component';
 import { CompetenceElementDeleteComponent } from '../competence-element-delete/competence-element-delete.component';
 import { NotificationsService } from '../../../core/notifications.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -38,6 +43,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
     icon: ['fas', 'trash'],
     label: 'portal.competence-catalog.competence-elements.overview.delete.label'
   };
+  actions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
   constructor(private modalService: ModalService,
               protected authenticationService: AuthenticationService,
@@ -49,6 +55,9 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
 
   ngOnInit() {
     super.ngOnInit();
+    this.actions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.backlinkCompetenceElementAction, this.deleteCompetenceElementAction] : [this.backlinkCompetenceElementAction])
+    );
   }
 
   openCreateModal() {
