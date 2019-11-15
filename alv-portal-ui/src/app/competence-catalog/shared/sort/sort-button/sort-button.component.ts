@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ModalService } from '../../../../shared/layout/modal/modal.service';
 import { CompetenceCatalogSortModalComponent } from '../competence-catalog-sort-modal/competence-catalog-sort-modal.component';
-import { CompetenceCatalogSortValue } from '../../constants';
+import { CompetenceCatalogSortValue } from '../../shared-competence-catalog.types';
 
 @Component({
   selector: 'alv-sort-button',
@@ -27,7 +27,6 @@ export class SortButtonComponent implements OnInit {
       modalRef.componentInstance.currentSorting = this.currentSorting;
       modalRef.result
         .then(updatedSorting => {
-          this.currentSorting = updatedSorting;
           this.sortClicked.emit(updatedSorting);
         })
         .catch(() => {

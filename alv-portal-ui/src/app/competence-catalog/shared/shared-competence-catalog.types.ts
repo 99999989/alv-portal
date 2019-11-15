@@ -55,4 +55,21 @@ export enum CompetenceCatalogAction {
   DELETE = 'DELETE'
 }
 
+export interface CompetenceCatalogSortValue {
+  type: SortType;
+  icon: SortIcon;
+}
 
+export enum SortType {
+  CREATED_DATE_DESC = 'CREATED_DATE_DESC',
+  CREATED_DATE_ASC = 'CREATED_DATE_ASC',
+  ALPHA_DESC = 'ALPHA_DESC',
+  ALPHA_ASC = 'ALPHA_ASC'
+}
+
+export enum SortIcon {
+  NUMERIC_DOWN = 'sort-numeric-down',
+  NUMERIC_UP = 'sort-numeric-up',
+  ALPHA_DOWN = 'sort-alpha-down',
+  ALPHA_UP = 'sort-alpha-up'
+}

@@ -2,17 +2,18 @@ import { OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { SearchService } from '../../../shared/backend-services/competence-catalog/search-service';
-import { CompetenceCatalogSortValue, DEFAULT_PAGE_SIZE, DEFAULT_SORT, SortIcon, SortType } from '../constants';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { RequestBody } from '../../../shared/backend-services/request-util';
+import { DEFAULT_PAGE_SIZE, RequestBody } from '../../../shared/backend-services/request-util';
+import { CompetenceCatalogSortValue, SortIcon, SortType } from '../shared-competence-catalog.types';
+import { DEFAULT_SORT } from '../constants';
 
 
 export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   sort: CompetenceCatalogSortValue = {
     type: SortType.CREATED_DATE_DESC,
-    icon: SortIcon.NUMERIC_DESC
+    icon: SortIcon.NUMERIC_UP
   };
 
   searchForm: FormGroup;
