@@ -1,4 +1,4 @@
-<ng-container *ngIf="(chFiches$ | async) as chFiches; else placeholder">
+<ng-container *ngIf="(chFiches$ | async) as chFiches">
   <alv-modal (cancelAction)="cancel()"
              (primaryAction)="submit()"
              [showPrimaryButton]="!chFiches.length"
@@ -24,6 +24,3 @@
     </ng-template>
   </alv-modal>
 </ng-container>
-<div #placeholder>
-  Checking the backlinks...
-</div>
