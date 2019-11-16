@@ -4,18 +4,18 @@ import {
   Competence,
   CompetenceType,
   Occupation
-} from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
-import { CompetenceElement } from '../../../shared/backend-services/competence-element/competence-element.types';
+} from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { CompetenceElement } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceSetSearchModalComponent } from '../competence-set-search-modal/competence-set-search-modal.component';
-import { CompetenceSetRepository } from '../../../shared/backend-services/competence-set/competence-set.repository';
+import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { forkJoin, Observable, of } from 'rxjs';
 import { flatMap, map, take, takeUntil, tap } from 'rxjs/operators';
 import { OccupationSearchModalComponent } from '../occupation-search-modal/occupation-search-modal.component';
 import { ChFicheTitleModalComponent } from '../ch-fiche-title-modal/ch-fiche-title-modal.component';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import {
   OccupationLabelRepository,
   OccupationTypes
@@ -24,6 +24,7 @@ import { I18nService } from '../../../core/i18n.service';
 import { OccupationLabelData } from '../../../shared/backend-services/reference-service/occupation-label.types';
 import { IconKey } from '../../../shared/icons/custom-icon/custom-icon.component';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
+import { NotificationsService } from '../../../core/notifications.service';
 
 @Component({
   selector: 'alv-ch-fiche',
@@ -35,6 +36,9 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   @Input() chFiche: ChFiche;
 
   @Input() showErrors: boolean;
+
+  @Input()
+  isReadonly = false;
 
   IconKey = IconKey;
 
@@ -75,7 +79,8 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   constructor(private modalService: ModalService,
               private i18nService: I18nService,
               private occupationLabelRepository: OccupationLabelRepository,
-              private competenceSetRepository: CompetenceSetRepository) {
+              private competenceSetRepository: CompetenceSetRepository,
+              private notificationsService: NotificationsService) {
     super();
   }
 
@@ -99,6 +104,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
         this.updateOccupationLabels(this.chFiche.occupations)
           .subscribe(() => {
             this.collapsed.OCCUPATIONS = false;
+            this.notificationsService.success('portal.competence-catalog.ch-fiches.added-occupation-success-notification');
           });
       })
       .catch(() => {
@@ -108,7 +114,10 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   unlinkOccupation(index: number) {
     this.openUnlinkConfirmModal().then(result => {
       this.chFiche.occupations.splice(index, 1);
-      this.updateOccupationLabels(this.chFiche.occupations).subscribe();
+      this.updateOccupationLabels(this.chFiche.occupations)
+        .subscribe(() => {
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-occupation-success-notification');
+        });
     }).catch(err => {
     });
   }
@@ -116,7 +125,10 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   unlinkCompetence(type: CompetenceType, index: number) {
     this.openUnlinkConfirmModal().then(result => {
       this.chFiche.competences.splice(index, 1);
-      this.loadCompetences(type).subscribe();
+      this.loadCompetences(type)
+        .subscribe(() => {
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
+        });
     }).catch(err => {
     });
   }
@@ -132,6 +144,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
         });
         this.loadCompetences(competenceType).subscribe(result => {
           this.collapsed[competenceType] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-competence-set-success-notification');
         });
       })
       .catch(() => {
@@ -148,10 +161,11 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
     return this.chFiche.competences.filter(competence => competence.type === competenceType);
   }
 
-  editFicheName() {
+  editFicheName(isReadonly: boolean) {
     const modalRef = this.modalService.openMedium(ChFicheTitleModalComponent);
+    (<ChFicheTitleModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
     if (this.chFiche.title) {
-      (<ChFicheTitleModalComponent> modalRef.componentInstance).chFicheTitle = this.chFiche.title;
+      (<ChFicheTitleModalComponent>modalRef.componentInstance).chFicheTitle = this.chFiche.title;
     }
     modalRef.result
       .then((multiLanguageTitle) => {
@@ -219,6 +233,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
       content: 'portal.competence-catalog.competence-sets.overview.delete-confirmation.text'
     }).result;
   }
+
 }
 
 interface ResolvedOccupation {

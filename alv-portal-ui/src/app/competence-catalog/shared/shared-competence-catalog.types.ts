@@ -1,12 +1,11 @@
 import { Languages } from '../../core/languages.constants';
-import { ActionDefinition } from '../../shared/backend-services/shared.types';
-import { ElementType } from '../../shared/backend-services/competence-element/competence-element.types';
+import { ElementType } from '../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 
 export interface TranslatedString {
-  textDe: string;
-  textFr: string;
-  textIt: string;
-  textEn: string;
+  de: string;
+  fr: string;
+  it: string;
+  en: string;
 }
 
 export interface TranslatedStringToCurrentLanguage {
@@ -45,13 +44,32 @@ export function getTranslatedString (description: TranslatedString, lang: string
 }
 
 function findStringForLanguage (description: TranslatedString, lang: string) {
-  return description['text' + lang[0].toUpperCase() + lang[1]];
+  return description[lang];
 }
 
 export enum CompetenceCatalogAction {
   LINK = 'LINK',
+  BACKLINK = 'BACKLINK',
   UNLINK = 'UNLINK',
-  EDIT = 'EDIT'
+  EDIT = 'EDIT',
+  DELETE = 'DELETE'
 }
 
+export interface CompetenceCatalogSortValue {
+  type: SortType;
+  icon: SortIcon;
+}
 
+export enum SortType {
+  DATE_DESC = 'DATE_DESC',
+  DATE_ASC = 'DATE_ASC',
+  ALPHA_DESC = 'ALPHA_DESC',
+  ALPHA_ASC = 'ALPHA_ASC'
+}
+
+export enum SortIcon {
+  NUMERIC_DOWN = 'sort-numeric-down',
+  NUMERIC_UP = 'sort-numeric-up',
+  ALPHA_ASC = 'sort-alpha-down',
+  ALPHA_DESC = 'sort-alpha-up'
+}

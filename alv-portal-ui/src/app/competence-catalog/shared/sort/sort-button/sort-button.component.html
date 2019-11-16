@@ -1,0 +1,9 @@
+<button type="button"
+        [attr.data-test]="'sort-button'"
+        class="btn btn-text sort-button"
+        (click)="onClick()">
+  <fa-icon class="mr-0 mr-md-2"
+           [icon]="['fas', currentSorting.icon]"></fa-icon>
+  <span class="d-none d-md-inline">
+      </span>
+</button>

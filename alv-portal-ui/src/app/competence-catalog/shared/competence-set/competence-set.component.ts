@@ -1,20 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import {
   CompetenceElement,
   ElementType
-} from '../../../shared/backend-services/competence-element/competence-element.types';
-import { CompetenceElementRepository } from '../../../shared/backend-services/competence-element/competence-element.repository';
+} from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
+import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { collapseExpandAnimation } from '../../../shared/animations/animations';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceElementSearchModalComponent } from '../../competence-sets/competence-element-search-modal/competence-element-search-modal.component';
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CompetenceElementModalComponent } from '../competence-element-modal/competence-element-modal.component';
-import {
-  CompetenceCatalogAction
-} from '../shared-competence-catalog.types';
+import { CompetenceCatalogAction } from '../shared-competence-catalog.types';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
+import { NotificationsService } from '../../../core/notifications.service';
+import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { CompetenceElementBacklinkComponent } from '../backlinks/competence-element-backlinks/competence-element-backlink.component';
 
 @Component({
   selector: 'alv-competence-set',
@@ -22,11 +24,13 @@ import { ActionDefinition } from '../../../shared/backend-services/shared.types'
   styleUrls: ['./competence-set.component.scss'],
   animations: [collapseExpandAnimation]
 })
-export class CompetenceSetComponent implements OnInit {
+export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   @Input() competenceSet: CompetenceSetSearchResult;
 
-  @Input() isEditable: boolean;
+  @Input() isReadonly = false;
+
+  @Input() isInnerElementsReadonly = false;
 
   @Input() showActionButtons: boolean;
 
@@ -66,12 +70,33 @@ export class CompetenceSetComponent implements OnInit {
     label: 'portal.competence-catalog.competence-sets.actions.unlink'
   };
 
+  backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
+
+  competenceElementsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+
+
   constructor(private competenceElementRepository: CompetenceElementRepository,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              protected authenticationService: AuthenticationService,
+              private notificationsService: NotificationsService) {
+    super(authenticationService);
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.loadCompetenceElementsIfRequired();
+    this.competenceElementsActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => {
+        if (isEditor && !this.isInnerElementsReadonly) {
+          return [this.linkElementAction, this.unlinkElementAction, this.backlinkCompetenceSetAction];
+        } else {
+          return [this.backlinkCompetenceSetAction];
+        }
+      }));
   }
 
   toggle() {
@@ -79,12 +104,10 @@ export class CompetenceSetComponent implements OnInit {
     this.loadCompetenceElementsIfRequired();
   }
 
-  openUpdateElementModal(competenceElement: CompetenceElement) {
-    if (!this.isEditable) {
-      return;
-    }
+  viewCompetenceElementModal(competenceElement: CompetenceElement) {
     const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
     modalRef.componentInstance.competenceElement = competenceElement;
+    modalRef.componentInstance.isReadonly = true;
     modalRef.result
       .then(updatedCompetenceElement => {
         if (competenceElement.type === ElementType.KNOW_HOW) {
@@ -103,6 +126,7 @@ export class CompetenceSetComponent implements OnInit {
     modalRef.result
       .then((competenceElement) => {
         this.competenceSet.knowHow = competenceElement;
+        this.notificationsService.success('portal.competence-catalog.competence-sets.added-competence-element-success-notification');
       })
       .catch(() => {
       });
@@ -121,11 +145,17 @@ export class CompetenceSetComponent implements OnInit {
     if (action === CompetenceCatalogAction.UNLINK) {
       this.unlinkCompetenceElement(competenceElement);
     }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openBacklinkModal(competenceElement);
+    }
   }
 
   handleKnowHowActionClick(action: CompetenceCatalogAction, competenceElement: CompetenceElement) {
     if (action === CompetenceCatalogAction.UNLINK) {
       this.unlinkKnowHow(competenceElement);
+    }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openBacklinkModal(competenceElement);
     }
   }
 
@@ -133,7 +163,9 @@ export class CompetenceSetComponent implements OnInit {
     this.openUnlinkConfirmModal().then(result => {
       const indexToRemove = this.competenceSet.competenceElementIds.indexOf(competenceElement.id);
       this.competenceSet.competenceElementIds.splice(indexToRemove, 1);
-      this.loadCompetenceElements().subscribe();
+      this.loadCompetenceElements().subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.competence-sets.removed-competence-element-success-notification');
+      });
     }).catch(err => {
     });
   }
@@ -141,6 +173,7 @@ export class CompetenceSetComponent implements OnInit {
   private unlinkKnowHow(competenceElement: CompetenceElement) {
     this.openUnlinkConfirmModal().then(result => {
       this.competenceSet.knowHow = null;
+      this.notificationsService.success('portal.competence-catalog.competence-sets.removed-competence-element-success-notification');
     }).catch(err => {
     });
   }
@@ -161,6 +194,7 @@ export class CompetenceSetComponent implements OnInit {
         this.competenceSet.competenceElementIds.push(competenceElement.id);
         this.loadCompetenceElements().subscribe(result => {
           this.collapsed[type] = false;
+          this.notificationsService.success('portal.competence-catalog.competence-sets.added-competence-element-success-notification');
         });
       })
       .catch(() => {
@@ -171,6 +205,11 @@ export class CompetenceSetComponent implements OnInit {
     if (!this.isCollapsed) {
       this.loadCompetenceElements().subscribe();
     }
+  }
+
+  private openBacklinkModal(competenceElement: CompetenceElement) {
+    const modalRef = this.modalService.openMedium(CompetenceElementBacklinkComponent);
+    (<CompetenceElementBacklinkComponent>modalRef.componentInstance).competenceElement = competenceElement;
   }
 
   private loadCompetenceElements(): Observable<CompetenceElement[]> {

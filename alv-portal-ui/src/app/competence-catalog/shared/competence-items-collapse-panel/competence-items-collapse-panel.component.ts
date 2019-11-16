@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { collapseExpandAnimation } from '../../../shared/animations/animations';
-import {
-  CompetenceCatalogAction
-} from '../shared-competence-catalog.types';
+import { CompetenceCatalogAction } from '../shared-competence-catalog.types';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 
 @Component({

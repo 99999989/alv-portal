@@ -1,0 +1,19 @@
+<alv-modal (cancelAction)="cancel()"
+           [showPrimaryButton]="false"
+           cancelLabel="entity.action.back"
+           modalTitle="portal.competence-catalog.competence-sets.overview.usage.title"
+>
+  <ng-container *ngIf="chFiches$ | async as fiches">
+    <alv-interactive-list-item (itemClick)="itemClicked(fiche)"
+                               *ngFor="let fiche of fiches"
+                               [isItemClickable]="true"
+                               [multiLanguageTitle]="fiche.title"
+                               [superTitle]="fiche.id"
+                               [type]="'portal.competence-catalog.ch-fiches.overview.title' | translate"
+    >
+    </alv-interactive-list-item>
+    <div *ngIf="!fiches?.length">
+      {{ 'portal.competence-catalog.competence-sets.overview.no-backlink' | translate }}
+    </div>
+  </ng-container>
+</alv-modal>
