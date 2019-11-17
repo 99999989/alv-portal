@@ -10,7 +10,8 @@
       <alv-alert [hideDismiss]="true"
                  [notification]="warning">
       </alv-alert>
-      <p class="pt-1 mb-sm-1" translate="portal.competence-catalog.competence-set.delete-modal.reference-found"></p>
+      <p class="pt-1 mb-sm-1"
+         translate="portal.competence-catalog.competence-set.delete-modal.reference-found"></p>
       <alv-interactive-list-item *ngFor="let chFiche of chFiches"
                                  [multiLanguageTitle]="chFiche.title"
                                  [type]="'portal.competence-catalog.ch-fiches.type' | translate"
@@ -20,7 +21,8 @@
       </alv-interactive-list-item>
     </ng-container>
     <ng-template #noReferences>
-      <span [innerHTML]="'portal.competence-catalog.competence-set.delete-modal.confirmation' | translate:{competenceSetId: competenceSetId}"></span>
+      <span [attr.data-test]="'no-backlinks-placeholder'"
+            [innerHTML]="'portal.competence-catalog.competence-set.delete-modal.confirmation' | translate:{competenceSetId: competenceSetId}"></span>
     </ng-template>
   </alv-modal>
 </ng-container>

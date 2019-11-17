@@ -12,7 +12,9 @@
                                [multiLanguageTitle]="set.knowHow.description"
     >
     </alv-interactive-list-item>
-    <div *ngIf="!sets?.length">
+    <div *ngIf="!sets?.length"
+         [attr.data-test]="'no-backlinks-placeholder'"
+    >
       {{ 'portal.competence-catalog.competence-elements.overview.no-backlink' | translate }}
     </div>
   </ng-container>

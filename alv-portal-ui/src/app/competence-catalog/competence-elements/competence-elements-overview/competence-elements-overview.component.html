@@ -37,7 +37,7 @@
 
       <form [formGroup]="searchForm">
         <alv-input-field alvFormControlName="query"
-                         [attr.data-test]="'search-query'"
+                         [attr.data-test]="'search-input'"
                          label="portal.competence-catalog.competence-elements.overview.search.placeholder"
         >
         </alv-input-field>
@@ -46,6 +46,7 @@
 
       <button *ngIf="observables.isCompetenceCatalogEditor"
               (click)="openCreateModal()"
+              [attr.data-test]="'create-button'"
               class="btn btn-text btn-text-icon btn-block btn-truncate my-3 d-block d-lg-none">
         <fa-icon [icon]="['fas', 'plus']"
                  class="mr-1"></fa-icon>
@@ -66,7 +67,9 @@
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
       <div class="actions-container">
+        <!--        todo this is a duplication intended for another screen type. It would be good to reuse the existing button-->
         <button *ngIf="observables.isCompetenceCatalogEditor"
+                [attr.data-test]="'create-button-lagre-screen'"
                 (click)="openCreateModal()"
                 class="add-element-button btn btn-text btn-text-icon btn-block btn-truncate mb-1">
           <fa-icon [icon]="['fas', 'plus']"
