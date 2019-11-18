@@ -29,6 +29,7 @@
 
       <form [formGroup]="searchForm">
         <alv-input-field alvFormControlName="query"
+                         [attr.data-test]="'search-input'"
                          [label]="'portal.competence-catalog.competence-sets.overview.search-label'">
         </alv-input-field>
       </form>
