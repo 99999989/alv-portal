@@ -1,4 +1,6 @@
-<ng-container >
+<ng-container *ngIf="{
+            competenceSetsActions: competenceSetsActions$ | async
+      } as observables">
 
 <!--   Title-->
   <alv-interactive-list-item *ngIf="chFiche.title; else noTitle"
@@ -30,9 +32,9 @@
                                        [actions]="[linkOccupationAction]"
                                        (actionClick)="handleOccupationActionClick($event)">
     <alv-interactive-list-item *ngFor="let resolvedOccupation of resolvedOccupations; let index = index"
-                         [type]="'CH-ISCO5 ' + resolvedOccupation.occupation.chIsco5"
-                         [superTitle]="'BFS ' + resolvedOccupation.occupation.bfsCode"
-                         [multiLanguageTitle]="{
+                               [type]="'CH-ISCO5 ' + resolvedOccupation.occupation.chIsco5"
+                               [superTitle]="'BFS ' + resolvedOccupation.occupation.bfsCode"
+                               [multiLanguageTitle]="{
                          de: resolvedOccupation.labelData.default,
                          fr: resolvedOccupation.labelData.default,
                          it: resolvedOccupation.labelData.default,
@@ -40,7 +42,7 @@
                          }"
                                [isItemClickable]="false"
                                [showActionButtons]="!isReadonly"
-                               [actions]="[unlinkAction]"
+                               [actions]="[unlinkCompetenceSetAction]"
                                (actionClick)="unlinkOccupation(index)">
     </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
@@ -59,7 +61,7 @@
                                        (toggleClick)="toggleCompetences(competenceType, $event)">
     <alv-competence-set *ngFor="let competenceSet of competences[competenceType]; let index = index"
                         [competenceSet]="competenceSet"
-                        [actions]="[unlinkAction]"
+                        [actions]="observables.competenceSetsActions"
                         [isInnerElementsReadonly]="true"
                         [isReadonly]="isReadonly"
                         [showActionButtons]="!isReadonly"
