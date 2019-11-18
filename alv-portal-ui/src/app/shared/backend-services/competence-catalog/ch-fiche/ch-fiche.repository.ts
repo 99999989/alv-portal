@@ -43,4 +43,8 @@ export class ChFicheRepository implements SearchService<ChFiche> {
     return this.http.put<ChFiche>(this.resourceUrl + id, chFiche);
   }
 
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(this.resourceUrl + id);
+  }
+
 }
