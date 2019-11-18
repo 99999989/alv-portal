@@ -7,7 +7,7 @@
   <fieldset>
     <legend>{{'portal.competence-catalog.competence-elements.add-modal.search-existing-label' | translate}}</legend>
     <alv-single-typeahead alvFormControlName="competenceElement"
-                          [attr.data-test]="'competenceElementSearchQuery'"
+                          [attr.data-test]="'competence-element-search-query'"
                           label="portal.global.search"
                           [loadItems]="searchCompetenceElementsFn"
                           (itemSelected)="itemSelected($event)"
