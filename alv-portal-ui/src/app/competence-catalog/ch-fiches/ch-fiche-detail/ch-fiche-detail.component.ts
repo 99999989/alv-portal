@@ -10,6 +10,7 @@ import { ChFicheRepository } from '../../../shared/backend-services/competence-c
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { takeUntil } from 'rxjs/operators';
+import { ModalService } from '../../../shared/layout/modal/modal.service';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -29,6 +30,7 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
               private router: Router,
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
+              private modalService: ModalService,
               private chFicheRepository: ChFicheRepository) {
     super(authenticationService);
   }
@@ -51,11 +53,21 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   deleteChFiche() {
-    this.chFicheRepository.delete(this.chFiche.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-ch-fiche-success-notification');
-        this.router.navigate(['..'], { relativeTo: this.route });
+    const modalRef = this.modalService.openConfirm({
+      title: 'portal.competence-catalog.ch-fiches.delete-modal.title',
+      content: 'portal.competence-catalog.ch-fiches.delete-modal.confirmation',
+      confirmLabel: 'portal.global.delete-confirm'
+    });
+    modalRef.result
+      .then(() => {
+        this.chFicheRepository.delete(this.chFiche.id)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-ch-fiche-success-notification');
+            this.router.navigate(['..'], { relativeTo: this.route });
+          });
+      })
+      .catch(() => {
       });
   }
 
