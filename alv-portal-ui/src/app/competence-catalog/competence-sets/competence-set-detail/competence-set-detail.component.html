@@ -31,7 +31,7 @@
         <button class="btn btn-secondary ml-1"
                 (click)="deleteCompetenceSet()"
                 [attr.data-test]="'delete-button'"
-                *ngIf="observables.isCompetenceCatalogEditor">
+                *ngIf="observables.isCompetenceCatalogEditor && isEdit">
           {{'portal.global.delete' | translate}}
         </button>
         <button class="btn btn-primary ml-1"
