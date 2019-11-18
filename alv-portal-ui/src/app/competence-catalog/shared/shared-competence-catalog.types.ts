@@ -48,10 +48,28 @@ function findStringForLanguage (description: TranslatedString, lang: string) {
 }
 
 export enum CompetenceCatalogAction {
-  LINK = 'LINK', //todo maybe rename to add
+  LINK = 'LINK',
   BACKLINK = 'BACKLINK',
   UNLINK = 'UNLINK',
-  EDIT = 'EDIT'
+  EDIT = 'EDIT',
+  DELETE = 'DELETE'
 }
 
+export interface CompetenceCatalogSortValue {
+  type: SortType;
+  icon: SortIcon;
+}
 
+export enum SortType {
+  DATE_DESC = 'DATE_DESC',
+  DATE_ASC = 'DATE_ASC',
+  ALPHA_DESC = 'ALPHA_DESC',
+  ALPHA_ASC = 'ALPHA_ASC'
+}
+
+export enum SortIcon {
+  NUMERIC_DOWN = 'sort-numeric-down',
+  NUMERIC_UP = 'sort-numeric-up',
+  ALPHA_ASC = 'sort-alpha-down',
+  ALPHA_DESC = 'sort-alpha-up'
+}

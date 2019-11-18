@@ -64,4 +64,7 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
     return this.http.put<CompetenceSet>(`${this.resourceUrl}${id}`, competenceSet);
   }
 
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.resourceUrl}${id}`);
+  }
 }

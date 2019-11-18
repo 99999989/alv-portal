@@ -15,7 +15,11 @@ import {
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceElementBacklinksComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlinks.component';
+import { CompetenceElementBacklinkComponent } from '../../shared/backlinks/competence-element-backlinks/competence-element-backlink.component';
+import { CompetenceElementDeleteComponent } from '../competence-element-delete/competence-element-delete.component';
+import { NotificationsService } from '../../../core/notifications.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -28,21 +32,32 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
     types: Object.values(ElementType)
   };
 
-  backlinkAction: ActionDefinition<CompetenceCatalogAction> = {
+  backlinkCompetenceElementAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-elements.overview.backlink'
   };
 
+  deleteCompetenceElementAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.DELETE,
+    icon: ['fas', 'trash'],
+    label: 'portal.competence-catalog.competence-elements.overview.delete.label'
+  };
+  actions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+
   constructor(private modalService: ModalService,
               protected authenticationService: AuthenticationService,
               protected fb: FormBuilder,
-              protected itemsRepository: CompetenceElementRepository) {
+              protected itemsRepository: CompetenceElementRepository,
+              private notificationsService: NotificationsService) {
     super(authenticationService, itemsRepository, fb);
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.actions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.backlinkCompetenceElementAction, this.deleteCompetenceElementAction] : [this.backlinkCompetenceElementAction])
+    );
   }
 
   openCreateModal() {
@@ -89,12 +104,31 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
 
   handleCompetenceElementActionClick(action: CompetenceCatalogAction, competenceElement: CompetenceElement) {
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openBacklinksModal(competenceElement);
+      this.openBacklinkModal(competenceElement);
+    }
+    if (action === CompetenceCatalogAction.DELETE) {
+      this.openDeleteModal(competenceElement);
     }
   }
 
-  private openBacklinksModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openMedium(CompetenceElementBacklinksComponent);
-    (<CompetenceElementBacklinksComponent>modalRef.componentInstance).competenceElement = competenceElement;
+  private openBacklinkModal(competenceElement: CompetenceElement) {
+    const modalRef = this.modalService.openMedium(CompetenceElementBacklinkComponent);
+    (<CompetenceElementBacklinkComponent>modalRef.componentInstance).competenceElement = competenceElement;
+  }
+
+  private openDeleteModal(competenceElement: CompetenceElement) {
+    const modalRef = this.modalService.openLarge(CompetenceElementDeleteComponent);
+    const componentInstance = <CompetenceElementDeleteComponent>modalRef.componentInstance;
+    componentInstance.competenceElementId = competenceElement.id;
+    modalRef.result
+      .then(idForDeletion => {
+        this.itemsRepository.delete(idForDeletion)
+          .subscribe(() => {
+            this.reload();
+            this.notificationsService.success('portal.competence-catalog.competence-elements.deleted-success-notification');
+          });
+      })
+      .catch(() => {
+      });
   }
 }
