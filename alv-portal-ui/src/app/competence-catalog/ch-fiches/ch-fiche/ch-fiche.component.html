@@ -2,7 +2,7 @@
             competenceSetsActions: competenceSetsActions$ | async
       } as observables">
 
-<!--   Title-->
+  <!--   Title-->
   <alv-interactive-list-item *ngIf="chFiche.title; else noTitle"
                              [showActionButtons]="false"
                              [isItemClickable]="true"
@@ -21,7 +21,7 @@
     </alv-competence-item-placeholder>
   </ng-template>
 
-<!--Occupations-->
+  <!--Occupations-->
   <alv-competence-items-collapse-panel label="portal.competence-catalog.ch-fiches.label.occupations"
                                        class="d-block mt-2"
                                        [id]="chFiche.id"
@@ -35,11 +35,11 @@
                                [type]="'CH-ISCO5 ' + resolvedOccupation.occupation.chIsco5"
                                [superTitle]="'BFS ' + resolvedOccupation.occupation.bfsCode"
                                [multiLanguageTitle]="{
-                         de: resolvedOccupation.labelData.default,
-                         fr: resolvedOccupation.labelData.default,
-                         it: resolvedOccupation.labelData.default,
-                         en: resolvedOccupation.labelData.default
-                         }"
+                                 de: resolvedOccupation.labelData.default,
+                                 fr: resolvedOccupation.labelData.default,
+                                 it: resolvedOccupation.labelData.default,
+                                 en: resolvedOccupation.labelData.default
+                               }"
                                [isItemClickable]="false"
                                [showActionButtons]="!isReadonly"
                                [actions]="[unlinkCompetenceSetAction]"
@@ -47,7 +47,7 @@
     </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
 
-<!--  Related competence sets-->
+  <!--  Related competence sets-->
   <alv-competence-items-collapse-panel *ngFor="let competenceType of competenceTypes"
                                        class="d-block mt-2"
                                        [id]="chFiche.id + competenceType"
