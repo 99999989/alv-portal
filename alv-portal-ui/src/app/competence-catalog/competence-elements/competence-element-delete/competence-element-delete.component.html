@@ -20,8 +20,8 @@
       </alv-interactive-list-item>
     </ng-container>
     <ng-template #noReferences>
-      [attr.data-test]="'no-backlinks-placeholder'"
-      <span [innerHTML]="'portal.competence-catalog.competence-elements.delete-modal.confirmation' | translate:{competenceElementId: competenceElementId}"></span>
+        <span [attr.data-test]="'no-backlinks-placeholder'"
+              [innerHTML]="'portal.competence-catalog.competence-elements.delete-modal.confirmation' | translate:{competenceElementId: competenceElementId}"></span>
     </ng-template>
   </alv-modal>
 </ng-container>
