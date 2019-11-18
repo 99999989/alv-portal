@@ -9,6 +9,7 @@ import {
 import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -47,6 +48,15 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
         this.createChFiche();
       }
     }
+  }
+
+  deleteChFiche() {
+    this.chFicheRepository.delete(this.chFiche.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-ch-fiche-success-notification');
+        this.router.navigate(['..'], { relativeTo: this.route });
+      });
   }
 
   private createChFiche() {
