@@ -13,7 +13,6 @@ import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceSetDeleteModalComponent } from '../competence-set-delete-modal/competence-set-delete-modal.component';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
-import { Observable } from 'rxjs';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 
 @Component({
@@ -33,7 +32,6 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
   };
 
-  actions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
   showErrors: boolean;
 
   constructor(private route: ActivatedRoute,
