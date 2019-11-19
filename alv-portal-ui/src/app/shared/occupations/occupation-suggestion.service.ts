@@ -54,7 +54,7 @@ export class OccupationSuggestionService {
   }
 
   fetchCompetenceCatalogOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, [OccupationTypes.BFS], this.toCompetenceCatalogOccupationCode);
+    return this.fetch(query, [OccupationTypes.BFS, OccupationTypes.CHISCO5], this.toCompetenceCatalogOccupationCode);
   }
 
   private fetch(query: string, occupationTypes: OccupationTypes[], occupationMapping: (o: OccupationLabelSuggestion) => OccupationCode): Observable<OccupationTypeaheadItem[]> {
