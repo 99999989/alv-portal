@@ -7,6 +7,7 @@
   <fieldset>
     <alv-checkbox *ngFor="let type of elementTypes"
                   class="d-block mb-1"
+                  [attr.data-test]="type+'-sort-checkbox'"
                   [alvFormControlName]="type"
                   [label]="'portal.competence-catalog.element-type.' + type">
     </alv-checkbox>

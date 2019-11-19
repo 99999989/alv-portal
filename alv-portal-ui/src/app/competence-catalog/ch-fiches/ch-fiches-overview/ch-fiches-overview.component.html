@@ -30,6 +30,7 @@
           <alv-multi-typeahead [alvControl]="occupationsControl"
                                [editable]="false"
                                [loadItems]="loadOccupationsFn"
+                               [attr.data-test]="'search-by-occupation-input'"
                                class="narrow-form"
                                label="portal.job-ad.search.query-panel.occupations.placeholder"
                                [focusFirst]="true"
@@ -39,6 +40,7 @@
         </div>
         <div class="col-12 col-lg-6 mb-1 mb-lg-0">
           <alv-input-field alvFormControlName="query"
+                           [attr.data-test]="'search-input'"
                            label="portal.competence-catalog.ch-fiches.overview.search-label">
           </alv-input-field>
         </div>
