@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CompetenceSet } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { NotificationsService } from '../../../core/notifications.service';
 import {
+  BusinessExceptionTypes,
   ChFiche,
   initialChFiche
 } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
@@ -100,7 +101,7 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   private handleFailure(error) {
-    if (error.error['business-exception-type'] === 'BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE') {
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE) {
       this.notificationsService.error('portal.competence-catalog.ch-fiches.duplicated-beruf-error-notification');
       return EMPTY;
     }
