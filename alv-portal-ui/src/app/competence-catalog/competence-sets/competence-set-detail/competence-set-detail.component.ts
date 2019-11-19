@@ -9,8 +9,11 @@ import { CompetenceSetRepository } from '../../../shared/backend-services/compet
 import { NotificationsService } from '../../../core/notifications.service';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
-import {ModalService} from '../../../shared/layout/modal/modal.service';
-import {CompetenceSetDeleteModalComponent} from '../competence-set-delete-modal/competence-set-delete-modal.component';
+import { ModalService } from '../../../shared/layout/modal/modal.service';
+import { CompetenceSetDeleteModalComponent } from '../competence-set-delete-modal/competence-set-delete-modal.component';
+import { ActionDefinition } from '../../../shared/backend-services/shared.types';
+import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
+import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -22,6 +25,12 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   competenceSet: CompetenceSetSearchResult;
 
   isEdit: boolean;
+
+  backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
 
   showErrors: boolean;
 
@@ -84,5 +93,16 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   private handleSuccess(result: CompetenceSet) {
     this.notificationsService.success('portal.competence-catalog.competence-sets.added-success-notification');
     this.router.navigate(['kk', 'competence-sets']);
+  }
+
+  handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openBacklinkModal(competenceSet);
+    }
+  }
+
+  private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 }
