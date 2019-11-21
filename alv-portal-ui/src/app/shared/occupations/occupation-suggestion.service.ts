@@ -19,6 +19,9 @@ import {
 
 const translateableOccupationTypes: string[] = [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5];
 
+const OCCUPATION_LABEL_RESOURCE_REFERENCE_SERVICE_2_SEARCH_URL = '/referenceservice-2/api/_search/occupations/label';
+
+
 @Injectable({ providedIn: 'root' })
 export class OccupationSuggestionService {
 
@@ -53,12 +56,15 @@ export class OccupationSuggestionService {
     return this.fetch(query, [OccupationTypes.AVAM], this.toJobPublicationOccupations);
   }
 
-  fetchCompetenceCatalogOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, [OccupationTypes.BFS, OccupationTypes.CHISCO5], this.toCompetenceCatalogOccupationCode);
+  fetchCompetenceCatalogOccupations(query: string, occupationTypes: OccupationTypes[]): Observable<Array<OccupationTypeaheadItem>> {
+    return this.fetch(query, occupationTypes, this.toCompetenceCatalogOccupationCode, OCCUPATION_LABEL_RESOURCE_REFERENCE_SERVICE_2_SEARCH_URL);
   }
 
-  private fetch(query: string, occupationTypes: OccupationTypes[], occupationMapping: (o: OccupationLabelSuggestion) => OccupationCode): Observable<OccupationTypeaheadItem[]> {
-    return this.occupationLabelRepository.suggestOccupations(query, occupationTypes)
+  /**
+   * @param alternativeUrl todo remove as soon as we have only 1 copy of reference service
+   */
+  private fetch(query: string, occupationTypes: OccupationTypes[], occupationMapping: (o: OccupationLabelSuggestion) => OccupationCode, alternativeSearchUrl?: string): Observable<OccupationTypeaheadItem[]> {
+    return this.occupationLabelRepository.suggestOccupations(query, occupationTypes, alternativeSearchUrl)
       .pipe(
         map((occupationLabelAutocomplete) => {
           const occupationItems = occupationLabelAutocomplete.occupations

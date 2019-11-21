@@ -51,12 +51,13 @@ export class OccupationLabelRepository {
    *
    * @param query the query/term
    * @param types of [x28', 'sbn3', 'sbn5'
+   * @param alternativeSearchUrl todo this is a temporary hack that is needed now when we have multiple reference services. This parameter needs to be removed when backend stabilises
    */
-  suggestOccupations(query: string, types: OccupationTypes[]): Observable<OccupationLabelAutocomplete> {
+  suggestOccupations(query: string, types: OccupationTypes[], alternativeSearchUrl?: string): Observable<OccupationLabelAutocomplete> {
     const params = new HttpParams()
       .set('prefix', query)
       .set('types', types.join(','))
       .set('resultSize', DEFAULT_RESPONSE_SIZE);
-    return this.http.get<OccupationLabelAutocomplete>(OCCUPATION_LABEL_RESOURCE_SEARCH_URL, { params });
+    return this.http.get<OccupationLabelAutocomplete>(alternativeSearchUrl || OCCUPATION_LABEL_RESOURCE_SEARCH_URL, { params });
   }
 }

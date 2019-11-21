@@ -6,6 +6,7 @@ import { I18nService } from '../../../core/i18n.service';
 import { Observable } from 'rxjs';
 import { OccupationTypeaheadItem } from '../../../shared/occupations/occupation-typeahead-item';
 import { OccupationSuggestionService } from '../../../shared/occupations/occupation-suggestion.service';
+import { OccupationTypes } from '../../../shared/backend-services/reference-service/occupation-label.repository';
 
 @Component({
   selector: 'alv-competence-set-search-modal',
@@ -44,7 +45,7 @@ export class OccupationSearchModalComponent implements OnInit {
   }
 
   searchOccupations(query: string): Observable<OccupationTypeaheadItem[]> {
-    return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query);
+    return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query, [OccupationTypes.BFS]);
   }
 
   /*
