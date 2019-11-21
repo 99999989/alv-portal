@@ -52,7 +52,6 @@ export class OccupationSearchModalComponent implements OnInit {
   }
 
   submit() {
-    console.log('submit')
     this.modal.close(this.form.get('occupation').value);
   }
 
@@ -64,24 +63,15 @@ export class OccupationSearchModalComponent implements OnInit {
     return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query);
   }
 
-  //
-  // isUsedLocallyValidator(occupation: OccupationTypeaheadItem): boolean {
-  //   return false;
-  // }
-
   isUsedGloballyAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    // console.log(bfsOccupation);
 
     return this.chFicheRepository.findByBfsCode((<OccupationTypeaheadItem>control.value).payload.value).pipe(
       map(chFiches => {
-        console.log(chFiches.length ? { isUsedInFiche: chFiches[0] } : null);
         return chFiches.length ? { isUsedInFiche: chFiches[0] } : null;
       }),
       take(1)
     );
   }
 
-  getErrorMessage(formInputName: string) {
-    return JSON.stringify(this.form.get(formInputName).errors);
-  }
+
 }
