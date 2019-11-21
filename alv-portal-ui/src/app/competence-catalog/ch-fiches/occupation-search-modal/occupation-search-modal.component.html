@@ -1,19 +1,61 @@
-<alv-modal (cancelAction)="cancel()"
-           (primaryAction)="submit()"
-           cancelLabel="portal.global.cancel"
-           modalTitle="portal.competence-catalog.ch-fiches.occupation-modal.title"
-           primaryLabel="portal.global.add"
-           [formGroup]="form">
-  <fieldset>
-    <legend>{{'portal.competence-catalog.ch-fiches.occupation-modal.search-legend' | translate}}</legend>
+<div class="modal-header">
 
-    <alv-single-typeahead alvFormControlName="occupation"
-                         label="portal.global.search"
-                         [focusFirst]="true"
-                         [loadItems]="searchOccupationsFn"
-                         [autofocus]="true">
-    </alv-single-typeahead>
+  <div class="d-flex flex-row align-items-start w-100">
+    <div class="d-flex flex-column w-100">
+      <h2 class="modal-title">
+        {{'portal.competence-catalog.ch-fiches.occupation-modal.title' | translate}}
+      </h2>
+    </div>
 
-  </fieldset>
+    <div class="flex-grow-1"></div>
 
-</alv-modal>
+    <button (click)="cancel()"
+            [attr.aria-label]="'portal.global.close' | translate"
+            class="close"
+            type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+<form (ngSubmit)="submit()"
+      [formGroup]="form">
+  <div class="modal-body">
+
+
+    <fieldset>
+      <legend>{{'portal.competence-catalog.ch-fiches.occupation-modal.search-legend' | translate}}</legend>
+
+      <alv-single-typeahead [autofocus]="true"
+                            [focusFirst]="true"
+                            [loadItems]="searchOccupationsFn"
+                            alvFormControlName="occupation"
+                            label="portal.global.search">
+      </alv-single-typeahead>
+      <small *ngIf="form.get('occupation').getError('isUsedInFiche') as duplicatedFiche"
+             class="validation-message">
+        Occupation is already in use:
+        <a [routerLink]="['kk', 'ch-fiches', 'edit', duplicatedFiche.id]">
+          <alv-multi-language-string [multiLanguageTitle]="duplicatedFiche.title"></alv-multi-language-string>
+        </a>
+
+      </small>
+
+
+    </fieldset>
+  </div>
+  <div class="modal-footer align-items-stretch align-items-md-center flex-column-reverse flex-md-row">
+    <button (click)="cancel()"
+            class="btn btn-text mr-0 mr-md-1 mb-1 mb-md-0"
+            type="button">
+      {{'portal.global.cancel' | translate}}
+    </button>
+
+    <button [disabled]="form.pending || form.invalid"
+            class="btn btn-primary mb-1 mb-md-0 ml-0"
+            type="submit">
+      {{'portal.global.add' | translate}}
+    </button>
+  </div>
+</form>
+
+
