@@ -1,2 +1,2 @@
-<span *ngIf="(titleViewValue$ | async) as titleViewValue"
+<span *ngIf="(viewValue$ | async) as titleViewValue"
       [class.wrong-language]="titleViewValue.isWrongLanguage">{{ titleViewValue.value }}</span>

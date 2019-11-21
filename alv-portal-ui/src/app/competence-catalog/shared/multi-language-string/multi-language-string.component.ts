@@ -15,20 +15,20 @@ import { I18nService } from '../../../core/i18n.service';
 })
 export class MultiLanguageStringComponent {
 
-  titleViewValue$: Observable<TranslatedStringToCurrentLanguage>;
-  private titleModel: TranslatedString;
+  viewValue$: Observable<TranslatedStringToCurrentLanguage>;
+  private modelValue: TranslatedString;
 
   constructor(private i18nService: I18nService) {
   }
 
   get multiLanguageTitle(): TranslatedString {
-    return this.titleModel;
+    return this.modelValue;
   }
 
   @Input()
   set multiLanguageTitle(value: TranslatedString) {
-    this.titleModel = value;
-    this.titleViewValue$ = this.i18nService.currentLanguage$.pipe(
+    this.modelValue = value;
+    this.viewValue$ = this.i18nService.currentLanguage$.pipe(
       map(lang => getTranslatedString(this.multiLanguageTitle, lang))
     );
   }

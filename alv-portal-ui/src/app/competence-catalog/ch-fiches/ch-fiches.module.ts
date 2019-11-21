@@ -26,7 +26,7 @@ import { ChFicheTitleModalComponent } from './ch-fiche-title-modal/ch-fiche-titl
     ChFicheComponent,
     CompetenceSetSearchModalComponent,
     OccupationSearchModalComponent,
-    ChFicheTitleModalComponent,
+    ChFicheTitleModalComponent
   ],
   entryComponents: [
     CompetenceSetSearchModalComponent,
