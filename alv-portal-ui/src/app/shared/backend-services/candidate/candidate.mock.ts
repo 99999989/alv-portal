@@ -1,24 +1,13 @@
-import {
-  CandidateProfile,
-  JobExperience,
-  LanguageSkill,
-  Occupation
-} from './candidate.types';
-import {
-  Availability,
-  CEFR_Level,
-  Degree,
-  Experience,
-  Gender,
-  Graduation,
-  ISCED_1997
-} from '../shared.types';
+import {CandidateProfile, JobExperience, LanguageSkill, Occupation} from './candidate.types';
+import {Availability, CEFR_Level, Degree, Experience, Gender, Graduation, ISCED_1997} from '../shared.types';
 
 export const mockOccupation: Occupation = {
   avamCode: 2323,
   bfsCode: 12123,
   sbn3Code: 121212,
   sbn5Code: 31312,
+  chIsco5Code: 25140,
+  chIsco3Code: 251
 };
 
 
