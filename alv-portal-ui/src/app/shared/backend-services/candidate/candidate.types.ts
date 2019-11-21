@@ -1,14 +1,5 @@
-import {
-  Availability,
-  CEFR_Level,
-  Contact,
-  Degree,
-  Experience,
-  Gender,
-  Graduation,
-  ISCED_1997
-} from '../shared.types';
-import { OccupationCode } from '../reference-service/occupation-label.types';
+import {Availability, CEFR_Level, Contact, Degree, Experience, Gender, Graduation, ISCED_1997} from '../shared.types';
+import {OccupationCode} from '../reference-service/occupation-label.types';
 
 export interface CandidateSearchRequest {
   page: number;
@@ -123,6 +114,8 @@ export interface Occupation {
   bfsCode: number;
   sbn3Code: number;
   sbn5Code: number;
+  chIsco3Code: number;
+  chIsco5Code: number;
 }
 
 export interface EmailContactModal {

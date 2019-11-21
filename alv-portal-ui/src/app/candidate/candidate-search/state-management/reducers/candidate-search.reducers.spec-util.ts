@@ -1,4 +1,4 @@
-import { CandidateProfile } from '../../../../shared/backend-services/candidate/candidate.types';
+import {CandidateProfile} from '../../../../shared/backend-services/candidate/candidate.types';
 import {
   Availability,
   CEFR_Level,
@@ -24,7 +24,7 @@ export function createCandidateProfile(id = 'id'): CandidateProfile {
     preferredWorkRegions: [],
     preferredWorkCantons: ['TG', 'SG', 'GL', 'ZH', 'AG', 'ZG'],
     jobExperiences: [{
-      occupation: { avamCode: 69207, bfsCode: 33302009, sbn3Code: 361, sbn5Code: 36102 },
+      occupation: { avamCode: 69207, bfsCode: 33302009, sbn3Code: 361, sbn5Code: 36102, chIsco5Code: 25140, chIsco3Code: 251 },
       experience: Experience.MORE_THAN_3_YEARS,
       graduation: Graduation.CH,
       degree: Degree.TER_MASTER_FACHHOCHSCHULE,
@@ -33,7 +33,7 @@ export function createCandidateProfile(id = 'id'): CandidateProfile {
       wanted: true,
       lastJob: false
     }, {
-      occupation: { avamCode: 69211, bfsCode: 33301004, sbn3Code: 361, sbn5Code: 36101 },
+      occupation: { avamCode: 69211, bfsCode: 33301004, sbn3Code: 361, sbn5Code: 36101, chIsco5Code: 25140, chIsco3Code: 251 },
       experience: Experience.MORE_THAN_1_YEAR,
       graduation: Graduation.CH,
       degree: Degree.TER_BACHELOR_FACHHOCHSCHULE,
@@ -42,7 +42,7 @@ export function createCandidateProfile(id = 'id'): CandidateProfile {
       wanted: true,
       lastJob: false
     }, {
-      occupation: { avamCode: 15076, bfsCode: 33301058, sbn3Code: 361, sbn5Code: 36101 },
+      occupation: { avamCode: 15076, bfsCode: 33301058, sbn3Code: 361, sbn5Code: 36101, chIsco5Code: 25140, chIsco3Code: 251 },
       experience: Experience.MORE_THAN_3_YEARS,
       graduation: Graduation.CH,
       degree: Degree.TER_MASTER_FACHHOCHSCHULE,
