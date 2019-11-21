@@ -21,6 +21,7 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   findById(id: string): Observable<ChFiche> {
     return this.http.get<ChFiche>(this.resourceUrl + id);
   }
+
   search(request: PagedSearchRequest): Observable<Page<ChFiche>> {
 
     const params = createPageableURLSearchParams(request);
@@ -32,6 +33,15 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   findByCompetenceSetId(competenceSetId: string): Observable<ChFiche[]> {
     return this.http.get<ChFiche[]>(this.findUrl + '/byCompetenceSetId', {
       params: new HttpParams().set('id', competenceSetId)
+    });
+  }
+
+  /**
+   * @return the array length is either 0 or 1
+   */
+  findByBfsCode(bfsCode: string): Observable<ChFiche[]> {
+    return this.http.get<ChFiche[]>(this.findUrl + '/byBfsCodeId', {
+      params: new HttpParams().set('bfsCode', bfsCode)
     });
   }
 
