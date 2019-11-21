@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { OccupationSuggestionService } from '../../../shared/occupations/occupation-suggestion.service';
 import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { OccupationTypeaheadItem } from '../../../shared/occupations/occupation-typeahead-item';
+import { JobSearchRequestMapper } from '../../../job-advertisement/job-ad-search/state-management/effects';
 
 
 @Component({
@@ -64,12 +65,16 @@ export class OccupationSearchModalComponent implements OnInit {
   }
 
   isUsedGloballyAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-
-    return this.chFicheRepository.findByBfsCode((<OccupationTypeaheadItem>control.value).payload.value).pipe(
-      map(chFiches => {
-        return chFiches.length ? { isUsedInFiche: chFiches[0] } : null;
-      }),
-      take(1)
+    return this.chFicheRepository.search({
+      page: 0,
+      size: 1,
+      body: {
+        occupationCodes: JobSearchRequestMapper.mapProfessionCodes([<OccupationTypeaheadItem>control.value]),
+      }
+    }).pipe(
+      map(pageOfFiches => {
+        return pageOfFiches.content.length ? { isUsedInFiche: pageOfFiches.content[0] } : null;
+      })
     );
   }
 

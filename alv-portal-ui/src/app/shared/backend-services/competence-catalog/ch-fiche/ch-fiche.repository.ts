@@ -36,15 +36,6 @@ export class ChFicheRepository implements SearchService<ChFiche> {
     });
   }
 
-  /**
-   * @return the array length is either 0 or 1
-   */
-  findByBfsCode(bfsCode: string): Observable<ChFiche[]> {
-    return this.http.get<ChFiche[]>(this.findUrl + '/byBfsCodeId', {
-      params: new HttpParams().set('bfsCode', bfsCode)
-    });
-  }
-
   create(chFiche: CreateChFiche): Observable<ChFiche> {
     return this.http.post<ChFiche>(this.resourceUrl, chFiche);
   }
