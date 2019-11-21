@@ -21,15 +21,15 @@ export class MultiLanguageStringComponent {
   constructor(private i18nService: I18nService) {
   }
 
-  get multiLanguageString(): TranslatedString {
+  get value(): TranslatedString {
     return this.modelValue;
   }
 
   @Input()
-  set multiLanguageString(value: TranslatedString) {
+  set value(value: TranslatedString) {
     this.modelValue = value;
     this.viewValue$ = this.i18nService.currentLanguage$.pipe(
-      map(lang => getTranslatedString(this.multiLanguageString, lang))
+      map(lang => getTranslatedString(this.value, lang))
     );
   }
 
