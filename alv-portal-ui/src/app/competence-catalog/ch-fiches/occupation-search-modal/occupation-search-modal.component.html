@@ -35,7 +35,7 @@
              class="validation-message">
         Occupation is already in use:
         <a [routerLink]="['kk', 'ch-fiches', 'edit', duplicatedFiche.id]">
-          {{duplicatedFiche.id}} -
+          {{duplicatedFiche.id}} &ndash;
           <alv-multi-language-string [multiLanguageTitle]="duplicatedFiche.title"></alv-multi-language-string>
         </a>
 
