@@ -16,7 +16,7 @@ function matches(jobExperience: JobExperience, occupationCode: { value: string; 
   return (String(avamCode) === occupationCode.value && occupationCode.type.toLowerCase() === 'avam')
     || (String(bfsCode) === occupationCode.value && occupationCode.type.toLowerCase() === 'bfs')
     || (String(chIsco3Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'chisco3')
-    || (String(chIsco5Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'chisco5')
+    || (String(chIsco5Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'chisco5');
 }
 
 function hasOccupationCode(jobExperience: JobExperience, occupationCode: OccupationCode) {

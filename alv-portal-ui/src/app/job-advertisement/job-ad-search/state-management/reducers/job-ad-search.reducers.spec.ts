@@ -302,4 +302,4 @@ describe('jobAdSearchReducers', () => {
         expect(afterAction[key]).toEqual(beforeAction[key]);
       });
   }
-})
+});
