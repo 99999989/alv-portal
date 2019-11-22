@@ -43,8 +43,8 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
     );
   }
 
-  findByCompetenceElementId(competenceElementId: string): Observable<CompetenceSet> {
-    return this.http.get<CompetenceSet>(`${this.findUrl}/byCompetenceElementId`, {
+  findByCompetenceElementId(competenceElementId: string): Observable<CompetenceSetSearchResult[]> {
+    return this.http.get<CompetenceSetSearchResult[]>(`${this.findUrl}/byCompetenceElementId`, {
       params: new HttpParams().set('id', competenceElementId)
     });
   }
@@ -64,4 +64,7 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
     return this.http.put<CompetenceSet>(`${this.resourceUrl}${id}`, competenceSet);
   }
 
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.resourceUrl}${id}`);
+  }
 }

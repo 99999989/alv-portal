@@ -5,6 +5,11 @@ export enum CompetenceType {
   SPECIALIST = 'SPECIALIST'
 }
 
+export enum BusinessExceptionTypes {
+  GENERAL_BUSINESS_EXCEPTION = 'GENERAL_BUSINESS_EXCEPTION',
+  BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE = 'BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE'
+}
+
 export interface ChFiche extends UpdateChFiche {
   id: string;
 }

@@ -4,7 +4,10 @@
      [infiniteScrollThrottle]="50"
      [immediateCheck]="true"
      infiniteScroll
-     *ngIf="{isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async} as observables"
+     *ngIf="{
+          isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
+          actions: actions$ | async
+     } as observables"
 >
   <div class="row">
     <div class="col-12 col-lg-9 col-xl-10">
@@ -17,15 +20,16 @@
           {{ 'portal.competence-catalog.competence-sets.overview.header' | translate }}
         </h2>
         <div class="d-flex mb-3 flex-row justify-content-between">
-          <alv-sort-button (sortClicked)="onSortClick()"
+          <alv-sort-button (sortClicked)="onSortClick($event)"
+                           [currentSorting]="sort"
                            [ngbTooltip]="'portal.global.sort' | translate "
           ></alv-sort-button>
         </div>
       </div>
 
-
       <form [formGroup]="searchForm">
         <alv-input-field alvFormControlName="query"
+                         [attr.data-test]="'search-input'"
                          [label]="'portal.competence-catalog.competence-sets.overview.search-label'">
         </alv-input-field>
       </form>
@@ -42,8 +46,8 @@
                           [competenceSet]="competenceSet"
                           [isInnerElementsReadonly]="true"
                           [isReadonly]="observables.isCompetenceCatalogEditor"
-                          [showActionButtons]="observables.isCompetenceCatalogEditor"
-                          [actions]="[editCompetenceSetAction]"
+                          [actions]="observables.actions"
+                          [showActionButtons]="true"
                           (actionClick)="handleCompetenceSetActionClick($event, competenceSet)">
       </alv-competence-set>
 

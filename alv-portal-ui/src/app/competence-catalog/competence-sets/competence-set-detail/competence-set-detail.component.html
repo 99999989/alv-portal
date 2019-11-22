@@ -18,7 +18,9 @@
 
       <alv-competence-set [competenceSet]="competenceSet"
                           [isCollapsed]="false"
-                          [showActionButtons]="false"
+                          (actionClick)="handleCompetenceSetActionClick($event, competenceSet)"
+                          [actions]="[backlinkCompetenceSetAction]"
+                          [showActionButtons]="true"
                           [isReadonly]="!observables.isCompetenceCatalogEditor"
                           [showErrors]="showErrors">
       </alv-competence-set>
@@ -28,17 +30,16 @@
            routerLink="../">
           {{(observables.isCompetenceCatalogEditor ? 'portal.global.cancel': 'entity.action.back') | translate}}
         </a>
-        <!--
         <button class="btn btn-secondary ml-1"
-                *ngIf="isReadonly">
+                (click)="deleteCompetenceSet()"
+                [attr.data-test]="'delete-button'"
+                *ngIf="observables.isCompetenceCatalogEditor && isEdit">
           {{'portal.global.delete' | translate}}
         </button>
-        -->
         <button class="btn btn-primary ml-1"
                 (click)="saveCompetenceSet()"
-                *ngIf="observables.isCompetenceCatalogEditor"
-
-        >
+                [attr.data-test]="'save-button'"
+                *ngIf="observables.isCompetenceCatalogEditor">
           {{'portal.global.save' | translate}}
         </button>
       </div>

@@ -21,6 +21,7 @@
     <ng-container *ngFor="let formField of ['de','fr','it','en']">
       <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.title-{{formField}}"
                        [alvFormControlName]="formField"
+                       [attr.data-test]="formField+'-description-input'"
                        [multiline]="true"
                        [readonly]="isReadonly"
                        [multilineMinRows]="1"

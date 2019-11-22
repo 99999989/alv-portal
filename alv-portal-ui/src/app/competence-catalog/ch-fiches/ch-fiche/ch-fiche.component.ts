@@ -23,14 +23,17 @@ import {
 import { I18nService } from '../../../core/i18n.service';
 import { OccupationLabelData } from '../../../shared/backend-services/reference-service/occupation-label.types';
 import { IconKey } from '../../../shared/icons/custom-icon/custom-icon.component';
-import { AbstractSubscriber } from '../../../core/abstract-subscriber';
+import { NotificationsService } from '../../../core/notifications.service';
+import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 
 @Component({
   selector: 'alv-ch-fiche',
   templateUrl: './ch-fiche.component.html',
   styleUrls: ['./ch-fiche.component.scss']
 })
-export class ChFicheComponent extends AbstractSubscriber implements OnInit {
+export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   @Input() chFiche: ChFiche;
 
@@ -69,25 +72,38 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
     label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
   };
 
-  unlinkAction: ActionDefinition<CompetenceCatalogAction> = {
+  unlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.UNLINK,
     icon: ['fas', 'unlink'],
     label: 'portal.competence-catalog.ch-fiches.actions.unlink'
   };
+  backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
+
+  competenceSetsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
   constructor(private modalService: ModalService,
               private i18nService: I18nService,
               private occupationLabelRepository: OccupationLabelRepository,
-              private competenceSetRepository: CompetenceSetRepository) {
-    super();
+              private competenceSetRepository: CompetenceSetRepository,
+              protected authenticationService: AuthenticationService,
+              private notificationsService: NotificationsService) {
+    super(authenticationService);
   }
 
   ngOnInit() {
+    super.ngOnInit();
     // Translate all occupations initially and on language change
     this.i18nService.currentLanguage$.pipe(
       flatMap(lang => this.translateOccupations(this.chFiche ? this.chFiche.occupations : [], lang)),
       takeUntil(this.ngUnsubscribe)
     ).subscribe();
+    this.competenceSetsActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.backlinkCompetenceSetAction, this.unlinkCompetenceSetAction] : [this.backlinkCompetenceSetAction])
+    );
   }
 
   addOccupation() {
@@ -102,6 +118,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
         this.updateOccupationLabels(this.chFiche.occupations)
           .subscribe(() => {
             this.collapsed.OCCUPATIONS = false;
+            this.notificationsService.success('portal.competence-catalog.ch-fiches.added-occupation-success-notification');
           });
       })
       .catch(() => {
@@ -111,7 +128,10 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   unlinkOccupation(index: number) {
     this.openUnlinkConfirmModal().then(result => {
       this.chFiche.occupations.splice(index, 1);
-      this.updateOccupationLabels(this.chFiche.occupations).subscribe();
+      this.updateOccupationLabels(this.chFiche.occupations)
+        .subscribe(() => {
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-occupation-success-notification');
+        });
     }).catch(err => {
     });
   }
@@ -119,7 +139,10 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   unlinkCompetence(type: CompetenceType, index: number) {
     this.openUnlinkConfirmModal().then(result => {
       this.chFiche.competences.splice(index, 1);
-      this.loadCompetences(type).subscribe();
+      this.loadCompetences(type)
+        .subscribe(() => {
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
+        });
     }).catch(err => {
     });
   }
@@ -135,6 +158,7 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
         });
         this.loadCompetences(competenceType).subscribe(result => {
           this.collapsed[competenceType] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-competence-set-success-notification');
         });
       })
       .catch(() => {
@@ -172,6 +196,9 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceType: CompetenceType, competenceSet?: CompetenceSetSearchResult) {
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openBacklinkModal(competenceSet);
+    }
     if (action === CompetenceCatalogAction.LINK) {
       this.addCompetence(competenceType);
     }
@@ -203,6 +230,11 @@ export class ChFicheComponent extends AbstractSubscriber implements OnInit {
           });
         })
       );
+  }
+
+  private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
   private loadCompetences(competenceType: CompetenceType) {

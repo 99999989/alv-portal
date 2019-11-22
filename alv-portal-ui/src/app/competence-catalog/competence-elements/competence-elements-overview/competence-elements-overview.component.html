@@ -1,5 +1,8 @@
 <div class="container-fluid pt-4 pt-lg-5 px-lg-5"
-     *ngIf="{isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async } as observables"
+     *ngIf="{
+            isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
+            actions: actions$ | async
+      } as observables"
      (scrolled)="onScroll()"
      [fromRoot]="true"
      [infiniteScrollThrottle]="50"
@@ -25,7 +28,8 @@
             <span class="d-none d-md-inline">
       </span>
           </button>
-          <alv-sort-button (sortClicked)="onSortClick()"
+          <alv-sort-button (sortClicked)="onSortClick($event)"
+                           [currentSorting]="sort"
                            [ngbTooltip]="'portal.global.sort' | translate "
           ></alv-sort-button>
         </div>
@@ -33,13 +37,16 @@
 
       <form [formGroup]="searchForm">
         <alv-input-field alvFormControlName="query"
-                         label="portal.competence-catalog.competence-elements.overview.search.placeholder">
+                         [attr.data-test]="'search-input'"
+                         label="portal.competence-catalog.competence-elements.overview.search.placeholder"
+        >
         </alv-input-field>
       </form>
 
 
       <button *ngIf="observables.isCompetenceCatalogEditor"
               (click)="openCreateModal()"
+              [attr.data-test]="'create-button'"
               class="btn btn-text btn-text-icon btn-block btn-truncate my-3 d-block d-lg-none">
         <fa-icon [icon]="['fas', 'plus']"
                  class="mr-1"></fa-icon>
@@ -51,13 +58,18 @@
                                  [type]="'portal.competence-catalog.element-type.' + competenceElement.type | translate"
                                  [superTitle]="competenceElement.id"
                                  [isItemClickable]="true"
+                                 [showActionButtons]="true"
+                                 [actions]="observables.actions"
+                                 (actionClick)="handleCompetenceElementActionClick($event, competenceElement)"
                                  (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)">
       </alv-interactive-list-item>
 
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
       <div class="actions-container">
+        <!--        todo this is a duplication intended for another screen type. It would be good to reuse the existing button-->
         <button *ngIf="observables.isCompetenceCatalogEditor"
+                [attr.data-test]="'create-button-large-screen'"
                 (click)="openCreateModal()"
                 class="add-element-button btn btn-text btn-text-icon btn-block btn-truncate mb-1">
           <fa-icon [icon]="['fas', 'plus']"

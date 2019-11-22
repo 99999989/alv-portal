@@ -22,6 +22,7 @@
             container="body"
             placement="top"
             (click)="actionClick.emit(action.name)">
+      <!--      todo problem with the abstraction level here. We make the icon fixed, although it's possible that we will receive multiple actions in actions array. Each of these actions will require separate icon, not 'search-plus'-->
       <fa-icon [icon]="['fas', 'search-plus']"></fa-icon>
     </button>
   </div>

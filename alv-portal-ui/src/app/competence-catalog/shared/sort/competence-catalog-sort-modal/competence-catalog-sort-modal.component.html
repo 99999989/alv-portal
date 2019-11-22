@@ -1,0 +1,14 @@
+<alv-modal (primaryAction)="sort()"
+           (cancelAction)="dismiss()"
+           [formGroup]="form"
+           [showCloseButton]="true"
+           modalTitle="portal.competence-catalog.competence-elements.filter-modal.title"
+           primaryLabel="entity.action.ok">
+  <fieldset>
+    <alv-radio-button [options$]="sortTypes$"
+                      class="narrow-form"
+                      name="sort"
+                      alvFormControlName="sort">
+    </alv-radio-button>
+  </fieldset>
+</alv-modal>

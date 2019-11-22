@@ -17,7 +17,7 @@ import {
 } from '../backend-services/reference-service/occupation-label.types';
 
 
-const translateableOccupationTypes: string[] = [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5];
+const translateableOccupationTypes: string[] = [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5];
 
 @Injectable({ providedIn: 'root' })
 export class OccupationSuggestionService {
@@ -42,11 +42,11 @@ export class OccupationSuggestionService {
   }
 
   fetchJobSearchOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, [OccupationTypes.X28, OccupationTypes.SBN3, OccupationTypes.SBN5], this.toJobSearchOccupationCode);
+    return this.fetch(query, [OccupationTypes.X28, OccupationTypes.SBN3, OccupationTypes.SBN5, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5], this.toJobSearchOccupationCode);
   }
 
   fetchCandidateSearchOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5], this.toCandidateSearchOccupationCode);
+    return this.fetch(query, [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5], this.toCandidateSearchOccupationCode);
   }
 
   fetchJobPublicationOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
