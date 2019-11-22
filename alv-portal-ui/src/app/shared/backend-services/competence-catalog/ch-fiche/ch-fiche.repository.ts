@@ -21,6 +21,7 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   findById(id: string): Observable<ChFiche> {
     return this.http.get<ChFiche>(this.resourceUrl + id);
   }
+
   search(request: PagedSearchRequest): Observable<Page<ChFiche>> {
 
     const params = createPageableURLSearchParams(request);
