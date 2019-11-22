@@ -10,9 +10,13 @@ import { catchError, shareReplay } from 'rxjs/operators';
 const DEFAULT_RESPONSE_SIZE = '10';
 const BUFFER_SIZE = 1;
 
-const OCCUPATION_LABEL_RESOURCE_SEARCH_URL = '/referenceservice/api/_search/occupations/label';
+const OCCUPATION_LABEL_RESOURCE_SEARCH_URL_V1 = '/referenceservice/api/_search/occupations/label';
 
-const OCCUPATION_LABEL_RESOURCE_URL = '/referenceservice/api/occupations/label';
+const OCCUPATION_LABEL_RESOURCE_SEARCH_URL_V2 = '/referenceservice-2/api/_search/occupations/label';
+
+const OCCUPATION_LABEL_RESOURCE_URL_V1 = '/referenceservice/api/occupations/label';
+
+const OCCUPATION_LABEL_RESOURCE_URL_V2 = '/referenceservice-2/api/occupations/label';
 
 export enum OccupationTypes {
   AVAM = 'AVAM',
@@ -21,7 +25,12 @@ export enum OccupationTypes {
   SBN5 = 'SBN5',
   BFS = 'BFS',
   CHISCO3 = 'CHISCO3',
-  CHISCO5 = 'CHISCO5'
+  CHISCO5 = 'CHISCO5',
+}
+
+export enum REFERENCE_SERVICE_API_VERSION {
+  V_1,
+  V_2
 }
 
 @Injectable({ providedIn: 'root' })
@@ -32,11 +41,16 @@ export class OccupationLabelRepository {
   constructor(private http: HttpClient) {
   }
 
-  getOccupationLabelsByKey(type: string, value: string, language: string): Observable<OccupationLabelData> {
+  getOccupationLabelsByKey(type: string, value: string, language: string, apiVersion = REFERENCE_SERVICE_API_VERSION.V_1): Observable<OccupationLabelData> {
     const cacheKey = `${type}_${value}_${language}`;
+
+    const url = apiVersion === REFERENCE_SERVICE_API_VERSION.V_1
+      ? OCCUPATION_LABEL_RESOURCE_URL_V1
+      : OCCUPATION_LABEL_RESOURCE_URL_V2;
+
     if (!this.occupationLabelDataCache[cacheKey]) {
       // we cache the observable itself instead of the resolved value because the function is likely to be called in a loop
-      this.occupationLabelDataCache[cacheKey] = this.http.get<OccupationLabelData>(`${OCCUPATION_LABEL_RESOURCE_URL}/${type}/${value}`).pipe(
+      this.occupationLabelDataCache[cacheKey] = this.http.get<OccupationLabelData>(`${url}/${type}/${value}`).pipe(
         shareReplay(BUFFER_SIZE),
         catchError(err => {
           delete this.occupationLabelDataCache[cacheKey];
@@ -50,14 +64,19 @@ export class OccupationLabelRepository {
   /**
    *
    * @param query the query/term
-   * @param types of [x28', 'sbn3', 'sbn5'
-   * @param alternativeSearchUrl todo this is a temporary hack that is needed now when we have multiple reference services. This parameter needs to be removed when backend stabilises
+   * @param types of 'x28', 'sbn3', 'sbn5'
+   * @param apiVersion REFERENCE_SERVICE_API_VERSION.V_1 or REFERENCE_SERVICE_API_VERSION.V_2 default is REFERENCE_SERVICE_API_VERSION.V_1
    */
-  suggestOccupations(query: string, types: OccupationTypes[], alternativeSearchUrl?: string): Observable<OccupationLabelAutocomplete> {
+  suggestOccupations(query: string, types: OccupationTypes[], apiVersion: REFERENCE_SERVICE_API_VERSION): Observable<OccupationLabelAutocomplete> {
     const params = new HttpParams()
       .set('prefix', query)
       .set('types', types.join(','))
       .set('resultSize', DEFAULT_RESPONSE_SIZE);
-    return this.http.get<OccupationLabelAutocomplete>(alternativeSearchUrl || OCCUPATION_LABEL_RESOURCE_SEARCH_URL, { params });
+
+    const url = apiVersion === REFERENCE_SERVICE_API_VERSION.V_1
+      ? OCCUPATION_LABEL_RESOURCE_SEARCH_URL_V1
+      : OCCUPATION_LABEL_RESOURCE_SEARCH_URL_V2;
+
+    return this.http.get<OccupationLabelAutocomplete>(url, { params });
   }
 }
