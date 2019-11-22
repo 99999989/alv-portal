@@ -275,6 +275,7 @@ describe('CandidateSearchEffects', () => {
 
   });
   // TODO FAGO: fix these tests to use chisco5
+  /* tslint:disable */
   // describe('translateOccupationsOnLanguageChanged$', () => {
   //
   //   const occupCode: OccupationCode = { type: 'SBN5', value: '36102' };
@@ -328,6 +329,7 @@ describe('CandidateSearchEffects', () => {
   //   });
   //
   // });
+  /* tslint:enable */
 
   describe('loadNextPage$', () => {
 

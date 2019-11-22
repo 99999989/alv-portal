@@ -183,6 +183,7 @@ describe('jobAdSearchReducers', () => {
     verifyUnchanged(newState, initialState, ['resultList', 'totalCount', 'resultsAreLoading', 'isDirtyResultList']);
   });
   // TODO fago: fix these tests
+  /* tslint:disable */
   // it('OCCUPATION_LANGUAGE_CHANGED_ACTION : should update occupation category for language and value', () => {
   //   // GIVEN
   //   const occupCode: OccupationCode = {id: 'some-id', type: 'SBN3', value: '361'};
@@ -292,6 +293,7 @@ describe('jobAdSearchReducers', () => {
 //
 // });
 //
+  /* tslint:enable */
 // // check if key elements of an object are unchanged
   function verifyUnchanged(afterAction: Object, beforeAction: Object, ignoreFields: Array<string>) {
     Object.keys(afterAction)
