@@ -12,14 +12,11 @@ const ABROAD_CODE = '99';
 const SWISS_CODE = 'CH';
 
 function matches(jobExperience: JobExperience, occupationCode: { value: string; type: string }) {
-  const { avamCode, bfsCode, sbn3Code, sbn5Code, chIsco3Code, chIsco5Code } = jobExperience.occupation;
+  const { avamCode, bfsCode, chIsco3Code, chIsco5Code } = jobExperience.occupation;
   return (String(avamCode) === occupationCode.value && occupationCode.type.toLowerCase() === 'avam')
     || (String(bfsCode) === occupationCode.value && occupationCode.type.toLowerCase() === 'bfs')
     || (String(chIsco3Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'chisco3')
     || (String(chIsco5Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'chisco5')
-    //TODO: remove sbn codes after switch to CH-ISCO
-    || (String(sbn3Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'sbn3')
-    || (String(sbn5Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'sbn5');
 }
 
 function hasOccupationCode(jobExperience: JobExperience, occupationCode: OccupationCode) {
