@@ -37,7 +37,7 @@ export class InteractiveListItemComponent implements OnInit {
   constructor(private i18nService: I18nService) {
   }
 
-  private _multiLanguageTitle: TranslatedString;
+  private _multiLanguageTitle: TranslatedString; // todo use multi-language-string component
 
   get multiLanguageTitle(): TranslatedString {
     return this._multiLanguageTitle;

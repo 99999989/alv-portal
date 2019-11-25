@@ -12,6 +12,7 @@ import { SortButtonComponent } from './sort/sort-button/sort-button.component';
 import { CompetenceElementBacklinkComponent } from './backlinks/competence-element-backlinks/competence-element-backlink.component';
 import { CompetenceSetBacklinkComponent } from './backlinks/competence-set-backlinks/competence-set-backlink.component';
 import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-sort-modal/competence-catalog-sort-modal.component';
+import { MultiLanguageStringComponent } from './multi-language-string/multi-language-string.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-s
     SortButtonComponent,
     CompetenceElementBacklinkComponent,
     CompetenceSetBacklinkComponent,
-    CompetenceCatalogSortModalComponent
+    CompetenceCatalogSortModalComponent,
+    MultiLanguageStringComponent
   ],
   providers: [],
   entryComponents: [
@@ -46,7 +48,8 @@ import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-s
     SortButtonComponent,
     CompetenceElementBacklinkComponent,
     CompetenceSetBacklinkComponent,
-    CompetenceCatalogSortModalComponent
+    CompetenceCatalogSortModalComponent,
+    MultiLanguageStringComponent,
   ]
 })
 export class SharedCompetenceCatalogModule {

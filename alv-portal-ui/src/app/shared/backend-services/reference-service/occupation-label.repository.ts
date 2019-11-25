@@ -21,7 +21,7 @@ export enum OccupationTypes {
   SBN5 = 'SBN5',
   BFS = 'BFS',
   CHISCO3 = 'CHISCO3',
-  CHISCO5 = 'CHISCO5',
+  CHISCO5 = 'CHISCO5'
 }
 
 @Injectable({ providedIn: 'root' })
