@@ -34,7 +34,7 @@ export class JobContentComponent implements OnInit {
   ngOnInit() {
   }
 
-  selectStatus() {
+  getStatus() {
     return JobAdvertisementUtils.resolveJobAdvertisementStatus(this.jobDetailModel.jobAdvertisement);
   }
 
