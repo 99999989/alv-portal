@@ -1221,7 +1221,7 @@ portal.competence-catalog.competence-sets.add-modal.search-label,Suchen,Search,R
 portal.competence-catalog.ch-fiches.browser-title,CH Fiche,CH Fiche,Fiche CH,Fiche CH,
 portal.competence-catalog.ch-fiches.actions.unlink,Verknüpfung aufheben,Remove link,Annuler la connexion,Sopprimere collegamento,
 portal.competence-catalog.ch-fiches.actions.search-and-add,Suchen & Hinzufügen,Search and add,Rechercher et ajouter,Cercare & aggiungere,
-portal.competence-catalog.ch-fiches.overview.search-label,"Suche nach CH-ISCO, ID CH Fiche, Titel CH Fiche","Search by CH-ISCO, CH Fiche ID, CH Fiche title","Recherche par CH-ISCO, ID fiche CH, titre fiche CH","Ricerca per CH-ISCO, ID Fiche CH, titolo Fiche CH",
+portal.competence-catalog.ch-fiches.overview.search-label,"Suche nach ID CH Fiche, Titel CH Fiche","Search by CH Fiche ID, CH Fiche title","Recherche par ID fiche CH, titre fiche CH","Ricerca per ID Fiche CH, titolo Fiche CH",
 portal.competence-catalog.ch-fiches.overview.title,CH Fiche,CH Fiche,Fiche CH,Fiche CH,
 portal.competence-catalog.ch-fiches.type,CH Fiche,CH Fiche,Fiche CH,Fiche CH,
 portal.competence-catalog.ch-fiches.detail.title,CH Fiche - Detailansicht,CH Fiche - Detailed view,Aperçu détaillé fiche CH,Fiche CH - dettagli,
