@@ -18,7 +18,7 @@ import {
 } from '../backend-services/reference-service/occupation-label.types';
 
 
-const translateableOccupationTypes: string[] = [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5];
+const translateableOccupationTypes: string[] = [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5];
 
 type OccupationLabelSuggestionMapper = (o: OccupationLabelSuggestion) => OccupationCode;
 
