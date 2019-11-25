@@ -92,7 +92,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
     this.competenceElementsActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => {
         if (isEditor && !this.isInnerElementsReadonly) {
-          return [this.linkElementAction, this.unlinkElementAction, this.backlinkCompetenceSetAction];
+          return [this.unlinkElementAction, this.backlinkCompetenceSetAction];
         } else {
           return [this.backlinkCompetenceSetAction];
         }
