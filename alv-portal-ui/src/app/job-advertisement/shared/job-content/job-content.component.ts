@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {JobDetailModel} from '../job-detail-model';
-import {JobBadge} from '../job-badges-mapper.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { JobDetailModel } from '../job-detail-model';
+import { JobBadge } from '../job-badges-mapper.service';
+import { JobAdvertisementUtils } from '../../../shared/backend-services/job-advertisement/job-advertisement.utils';
 
 enum JobDetailPanelId {
   JOB_AD_INFO = 'job-ad-info',
@@ -31,6 +32,10 @@ export class JobContentComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  selectStatus() {
+    return JobAdvertisementUtils.resolveJobAdvertisementStatus(this.jobDetailModel.jobAdvertisement);
   }
 
 }
