@@ -11,6 +11,7 @@ import { map, take } from 'rxjs/operators';
 import { I18nService } from '../../../core/i18n.service';
 import { Observable } from 'rxjs';
 import { OccupationSuggestionService } from '../../../shared/occupations/occupation-suggestion.service';
+import { OccupationTypes } from '../../../shared/backend-services/reference-service/occupation-label.repository';
 import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { OccupationTypeaheadItem } from '../../../shared/occupations/occupation-typeahead-item';
 import { JobSearchRequestMapper } from '../../../job-advertisement/job-ad-search/state-management/effects';
@@ -61,7 +62,7 @@ export class OccupationSearchModalComponent implements OnInit {
   }
 
   searchOccupations(query: string): Observable<OccupationTypeaheadItem[]> {
-    return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query);
+    return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query, [OccupationTypes.BFS]);
   }
 
   isUsedGloballyAsyncValidator(control: AbstractControl): Observable<ValidationErrors | null> {

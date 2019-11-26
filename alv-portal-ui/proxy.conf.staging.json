@@ -34,6 +34,11 @@
     "secure": false,
     "loglevel": "debug"
   },
+  "/referenceservice-2/*": {
+    "target": "https://staging.job-room.ch",
+    "secure": false,
+    "loglevel": "debug"
+  },
   "/jobadservice/*": {
     "target": "https://staging.job-room.ch",
     "secure": false,
