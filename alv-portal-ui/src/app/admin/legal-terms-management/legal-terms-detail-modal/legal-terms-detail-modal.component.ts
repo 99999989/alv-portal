@@ -86,14 +86,14 @@ export class LegalTermsDetailModalComponent implements OnInit {
     };
     this.form = this.fb.group({
       effectiveAt: [null, [Validators.required]],
-      termsOfUsageLinkDe: [null, [Validators.required, patternInputValidator(URL_REGEX)]],
-      termsOfUsageLinkEn: [null, [Validators.required, patternInputValidator(URL_REGEX)]],
-      termsOfUsageLinkFr: [null, [Validators.required, patternInputValidator(URL_REGEX)]],
-      termsOfUsageLinkIt: [null, [Validators.required, patternInputValidator(URL_REGEX)]],
-      privacyStatementLinkDe: [null, [Validators.required, patternInputValidator(URL_REGEX)]],
-      privacyStatementLinkEn: [null, [Validators.required, patternInputValidator(URL_REGEX)]],
-      privacyStatementLinkFr: [null, [Validators.required, patternInputValidator(URL_REGEX)]],
-      privacyStatementLinkIt: [null, [Validators.required, patternInputValidator(URL_REGEX)]]
+      termsOfUsageLinkDe: ['', [Validators.required, patternInputValidator(URL_REGEX)]],
+      termsOfUsageLinkEn: ['', [Validators.required, patternInputValidator(URL_REGEX)]],
+      termsOfUsageLinkFr: ['', [Validators.required, patternInputValidator(URL_REGEX)]],
+      termsOfUsageLinkIt: ['', [Validators.required, patternInputValidator(URL_REGEX)]],
+      privacyStatementLinkDe: ['', [Validators.required, patternInputValidator(URL_REGEX)]],
+      privacyStatementLinkEn: ['', [Validators.required, patternInputValidator(URL_REGEX)]],
+      privacyStatementLinkFr: ['', [Validators.required, patternInputValidator(URL_REGEX)]],
+      privacyStatementLinkIt: ['', [Validators.required, patternInputValidator(URL_REGEX)]]
     }, {
       validator: [effectiveAtValidator]
     });
