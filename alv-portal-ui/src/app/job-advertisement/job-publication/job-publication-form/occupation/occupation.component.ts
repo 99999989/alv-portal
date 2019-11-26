@@ -10,10 +10,11 @@ import { OccupationSuggestionService } from '../../../../shared/occupations/occu
 import { OccupationTypeaheadItem } from '../../../../shared/occupations/occupation-typeahead-item';
 import { OccupationFormValue } from './occupation-form-value.types';
 import { I18nService } from '../../../../core/i18n.service';
-import { distinctUntilChanged, filter, flatMap, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, flatMap, map, takeUntil } from 'rxjs/operators';
 import { AbstractSubscriber } from '../../../../core/abstract-subscriber';
 import { JobPublicationFormValueKeys } from '../job-publication-form-value.types';
 import { WorkExperience } from '../../../../shared/backend-services/job-advertisement/job-advertisement.types';
+import { REFERENCE_SERVICE_API_VERSION } from '../../../../shared/backend-services/reference-service/occupation-label.repository';
 
 @Component({
   selector: 'alv-occupation',
@@ -93,7 +94,8 @@ export class OccupationComponent extends AbstractSubscriber implements OnInit {
     this.i18nService.currentLanguage$.pipe(
       distinctUntilChanged(),
       filter(() => !!this.occupation.value.occupationSuggestion),
-      flatMap(lang => this.occupationSuggestionService.translate(this.occupation.value.occupationSuggestion, lang)),
+      flatMap(lang => this.occupationSuggestionService.translate(this.occupation.value.occupationSuggestion, lang, REFERENCE_SERVICE_API_VERSION.V_2)),
+      map((translatedOccupation) => translatedOccupation.label === '' ? null : translatedOccupation),
       takeUntil(this.ngUnsubscribe)
     ).subscribe(translatedOccupation => {
       this.occupation.get('occupationSuggestion').setValue(translatedOccupation);

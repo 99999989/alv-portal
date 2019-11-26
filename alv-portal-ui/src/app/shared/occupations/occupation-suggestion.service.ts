@@ -53,7 +53,7 @@ export class OccupationSuggestionService {
   }
 
   fetchJobPublicationOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, [OccupationTypes.AVAM], this.toJobPublicationOccupations);
+    return this.fetch(query, [OccupationTypes.AVAM], this.toJobPublicationOccupations, REFERENCE_SERVICE_API_VERSION.V_2);
   }
 
   fetchCompetenceCatalogOccupations(query: string, occupationTypes: OccupationTypes[]): Observable<Array<OccupationTypeaheadItem>> {
