@@ -57,7 +57,8 @@ export class OccupationSuggestionService {
   }
 
   fetchCompetenceCatalogOccupations(query: string, occupationTypes: OccupationTypes[]): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, occupationTypes, this.toCompetenceCatalogOccupationCode, REFERENCE_SERVICE_API_VERSION.V_2);
+    return this.fetch(query, occupationTypes, this.toCompetenceCatalogOccupationCode, REFERENCE_SERVICE_API_VERSION.V_2).pipe(
+      map(occupations => occupations.map(o => Object.assign(o, { label: o.label + ' (' + o.payload.type + '-' + o.payload.value + ')' }))));
   }
 
   /**
