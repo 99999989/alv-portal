@@ -83,24 +83,15 @@ export class ProofOfWorkEffortsModel {
 
   private getStatusLabel(): string {
     const baseLabel = 'portal.work-efforts.submit-status.text.';
+    // status 'CLOSED' and 'DRAFT' are not shown in UI
     if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.OPEN ||
       this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.RE_OPENED) {
       return baseLabel + 'open';
     }
     if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED && this.proofOfWorkEfforts.workEfforts.length === 0) {
-      if (this.isWorkEffortLimitReached()) {
-        return baseLabel + 'closed';
-      }
       return baseLabel + 'submitted-without-work-effort';
     }
     return baseLabel + 'submitted';
-  }
-
-  private isWorkEffortLimitReached() {
-    const minDate = deltaDate(new Date(), 0, WORK_EFFORT_MONTHS_DIFF, 0);
-    minDate.setDate(1);
-    const endDate = new Date(this.proofOfWorkEfforts.endDate);
-    return endDate < minDate;
   }
 
 }
