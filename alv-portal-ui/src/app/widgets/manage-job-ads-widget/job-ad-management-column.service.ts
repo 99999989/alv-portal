@@ -77,7 +77,7 @@ export class JobAdManagementColumnService {
             columnName: 'dashboard.job-publication.status',
             sortingEnabled: true,
             render: job => {
-              return 'global.job-publication.status.' + job.status;
+              return 'global.job-publication.status.' + JobAdvertisementUtils.resolveJobAdvertisementStatus(job);
             }
           },
           {

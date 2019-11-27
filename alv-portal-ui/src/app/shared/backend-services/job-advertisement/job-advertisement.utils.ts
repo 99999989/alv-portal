@@ -1,8 +1,4 @@
-import {
-  JobAdvertisement,
-  JobAdvertisementStatus,
-  JobDescription
-} from './job-advertisement.types';
+import { JobAdvertisement, JobAdvertisementStatus, JobDescription } from './job-advertisement.types';
 import { FALLBACK_LANGUAGE } from '../../../core/languages.constants';
 
 export class JobAdvertisementUtils {
@@ -20,6 +16,13 @@ export class JobAdvertisementUtils {
       && statusEnum !== JobAdvertisementStatus.REJECTED
       && statusEnum !== JobAdvertisementStatus.PUBLISHED_RESTRICTED
       && statusEnum !== JobAdvertisementStatus.CANCELLED;
+  }
+
+  static resolveJobAdvertisementStatus(jobAdvertisement: JobAdvertisement): JobAdvertisementStatus {
+    if (jobAdvertisement.status === JobAdvertisementStatus.PUBLISHED_PUBLIC && !jobAdvertisement.publication.publicDisplay) {
+      return JobAdvertisementStatus.NOT_PUBLISHED;
+    }
+    return jobAdvertisement.status;
   }
 
 }

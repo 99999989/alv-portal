@@ -66,6 +66,7 @@ export class FilterManagedJobAdsComponent implements OnInit {
       })
     );
     const statusOptions = Object.values(JobAdvertisementStatus)
+      .filter(status => status !== JobAdvertisementStatus.NOT_PUBLISHED)
       .map(s => ({
         label: 'global.job-publication.status.' + s,
         value: s
