@@ -8,8 +8,6 @@ import {
   ProofOfWorkEffortsStatus
 } from '../../../../shared/backend-services/work-efforts/proof-of-work-efforts.types';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
-import { deltaDate } from '../../../../shared/forms/input/ngb-date-utils';
-import { WORK_EFFORT_MONTHS_DIFF } from '../../work-effort-form/work-effort-form.types';
 
 
 export class ProofOfWorkEffortsModel {
@@ -17,8 +15,6 @@ export class ProofOfWorkEffortsModel {
   id: string;
 
   isSentSuccessfully: boolean;
-
-  isClosed: boolean;
 
   isBeforeEmployment: boolean;
 
@@ -42,10 +38,7 @@ export class ProofOfWorkEffortsModel {
 
     this.id = this.proofOfWorkEfforts.id;
 
-    this.isSentSuccessfully = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED ||
-      this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
-
-    this.isClosed = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
+    this.isSentSuccessfully = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED;
 
     this.isBeforeEmployment = this.proofOfWorkEfforts.controlPeriod.type === ControlPeriodType.BEFORE_UNEMPLOYMENT;
 
