@@ -57,8 +57,7 @@ export interface ControlPeriod {
 export enum ProofOfWorkEffortsStatus {
   RE_OPENED = 'RE_OPENED',
   SUBMITTED = 'SUBMITTED',
-  OPEN = 'OPEN',
-  CLOSED = 'CLOSED' // TODO: no add/edit button for work efforts
+  OPEN = 'OPEN'
 }
 
 export enum ControlPeriodType {
