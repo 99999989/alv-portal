@@ -1,11 +1,18 @@
-import {forkJoin, Observable, of} from 'rxjs';
+import {
+  forkJoin,
+  Observable,
+  of
+} from 'rxjs';
 import {
   OccupationLabelRepository,
   OccupationTypes
 } from '../backend-services/reference-service/occupation-label.repository';
-import {Injectable} from '@angular/core';
-import {OccupationTypeaheadItem, OccupationTypeaheadItemType} from './occupation-typeahead-item';
-import {map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import {
+  OccupationTypeaheadItem,
+  OccupationTypeaheadItemType
+} from './occupation-typeahead-item';
+import { map } from 'rxjs/operators';
 import {
   CompetenceCatalogOccupationCode,
   OccupationCode,
@@ -94,7 +101,7 @@ export class OccupationSuggestionService {
     const occupationCode: OccupationCode = {
       id: occupation.id,
       type: occupation.type,
-      value: occupation.code,
+      value: occupation.code
     };
     if (occupation.type === 'X28' && occupation.mappings && occupation.mappings['AVAM']) {
       occupationCode.mapping = {

@@ -1,8 +1,20 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {EMPTY, Observable} from 'rxjs';
-import {OccupationLabelAutocomplete, OccupationLabelData} from './occupation-label.types';
-import {catchError, shareReplay} from 'rxjs/operators';
+import {
+  HttpClient,
+  HttpParams
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import {
+  EMPTY,
+  Observable
+} from 'rxjs';
+import {
+  OccupationLabelAutocomplete,
+  OccupationLabelData
+} from './occupation-label.types';
+import {
+  catchError,
+  shareReplay
+} from 'rxjs/operators';
 
 const DEFAULT_RESPONSE_SIZE = '10';
 const BUFFER_SIZE = 1;

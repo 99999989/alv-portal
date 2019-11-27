@@ -1,4 +1,8 @@
-import { initialState, JobAdSearchState, JobSearchFilter } from '../state';
+import {
+  initialState,
+  JobAdSearchState,
+  JobSearchFilter
+} from '../state';
 import * as jobActions from '../actions/job-ad-search.actions';
 import { jobAdSearchReducer } from './job-ad-search.reducers';
 import { JobQueryPanelValues } from '../../../../widgets/job-search-widget/job-query-panel/job-query-panel-values';
@@ -16,15 +20,18 @@ import {
   LocalityItem,
   LocalityTypeaheadItem
 } from '../../../../shared/localities/locality-typeahead-item';
-import { ContractType, Sort } from '../../../../shared/backend-services/shared.types';
+import {
+  ContractType,
+  Sort
+} from '../../../../shared/backend-services/shared.types';
 
 const COMMUNAL_CODE_BERN = 351;
 
 describe('jobAdSearchReducers', () => {
 
   /* QUERY PANEL VALUES CHANGED */
-  const occupationCode: OccupationCode = {id: 'some-id', type: 'X28', value: '11000976'};
-  const localityItem: LocalityItem = {communalCode: COMMUNAL_CODE_BERN};
+  const occupationCode: OccupationCode = { id: 'some-id', type: 'X28', value: '11000976' };
+  const localityItem: LocalityItem = { communalCode: COMMUNAL_CODE_BERN };
   const occupation = new OccupationTypeaheadItem(
     OccupationTypeaheadItemType.OCCUPATION, occupationCode, 'Java Applikationsentwickler', 7);
   const keyword = new StringTypeaheadItem('free-text', 'angular', 'angular', 0);
@@ -185,7 +192,7 @@ describe('jobAdSearchReducers', () => {
 
   it('OCCUPATION_LANGUAGE_CHANGED_ACTION : should update occupation category for language and value', () => {
     // GIVEN
-    const occupCode: OccupationCode = {id: 'some-id', type: 'CHISCO3', value: '811'};
+    const occupCode: OccupationCode = { id: 'some-id', type: 'CHISCO3', value: '811' };
     const classificationDE = new OccupationTypeaheadItem(
       OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Bediener von Anlagen für den Bergbau und die Mineralaufbereitung', 10);
     const classificationEN = new OccupationTypeaheadItem(
@@ -198,7 +205,7 @@ describe('jobAdSearchReducers', () => {
       }
     };
 
-    const action = new jobActions.OccupationLanguageChangedAction({occupations: [classificationEN]});
+    const action = new jobActions.OccupationLanguageChangedAction({ occupations: [classificationEN] });
 
     // WHEN
     const newState = jobAdSearchReducer(state, action);
@@ -247,7 +254,7 @@ describe('jobAdSearchReducers', () => {
       createJobAdvertisementWithFavourites('10')
     ];
 
-    const action = new jobActions.NextPageLoadedAction({page: jobAdPageTwo});
+    const action = new jobActions.NextPageLoadedAction({ page: jobAdPageTwo });
 
     // WHEN
     const newState = jobAdSearchReducer(jobAdStateChanged, action);
@@ -263,9 +270,9 @@ describe('jobAdSearchReducers', () => {
   it('JOB_ADVERTISEMENT_DETAIL_LOADED : should update jobAdvertisement and visitedJobAds', () => {
     // GIVEN
     const selectedJobAdOne = jobAdPageOne[0];
-    const visitedJobAdOne = {[selectedJobAdOne.jobAdvertisement.id]: true};
+    const visitedJobAdOne = { [selectedJobAdOne.jobAdvertisement.id]: true };
 
-    let action = new jobActions.JobAdvertisementDetailLoadedAction({jobAdvertisement: selectedJobAdOne.jobAdvertisement});
+    let action = new jobActions.JobAdvertisementDetailLoadedAction({ jobAdvertisement: selectedJobAdOne.jobAdvertisement });
 
     // WHEN
     const newStateOne = jobAdSearchReducer(jobAdStateChanged, action);
@@ -281,7 +288,7 @@ describe('jobAdSearchReducers', () => {
       [selectedJobAdTwo.jobAdvertisement.id]: true
     };
 
-    action = new jobActions.JobAdvertisementDetailLoadedAction({jobAdvertisement: selectedJobAdTwo.jobAdvertisement});
+    action = new jobActions.JobAdvertisementDetailLoadedAction({ jobAdvertisement: selectedJobAdTwo.jobAdvertisement });
 
     // WHEN
     const newStateTwo = jobAdSearchReducer(newStateOne, action);

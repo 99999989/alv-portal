@@ -59,16 +59,16 @@ describe('CandidateSearchEffects', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({'candidateSearch': candidateSearchReducer})
+        StoreModule.forRoot({ 'candidateSearch': candidateSearchReducer })
       ],
       providers: [
         CandidateSearchEffects,
         provideMockActions(() => actions$),
-        {provide: CandidateRepository, useValue: candidateRepository},
-        {provide: OccupationSuggestionService, useValue: occupationSuggestionService},
-        {provide: Router, useValue: router},
-        {provide: CANDIDATE_SEARCH_EFFECTS_DEBOUNCE, useValue: 30},
-        {provide: CANDIDATE_SEARCH_EFFECTS_SCHEDULER, useFactory: getTestScheduler},
+        { provide: CandidateRepository, useValue: candidateRepository },
+        { provide: OccupationSuggestionService, useValue: occupationSuggestionService },
+        { provide: Router, useValue: router },
+        { provide: CANDIDATE_SEARCH_EFFECTS_DEBOUNCE, useValue: 30 },
+        { provide: CANDIDATE_SEARCH_EFFECTS_SCHEDULER, useFactory: getTestScheduler }
       ]
     });
 
@@ -81,11 +81,11 @@ describe('CandidateSearchEffects', () => {
 
     const initResultListAction = new InitializeResultListAction();
 
-    const candidateProfile: any = {id: 1};
+    const candidateProfile: any = { id: 1 };
     const result = [candidateProfile as CandidateProfile];
 
-    const candidateSearchResult = {result, totalCount: 10};
-    const filterAppliedAction = new FilterAppliedAction({page: result, totalCount: 10});
+    const candidateSearchResult = { result, totalCount: 10 };
+    const filterAppliedAction = new FilterAppliedAction({ page: result, totalCount: 10 });
 
     /*
      * action: triggered 'a' after 10 F and 30 F delay
@@ -95,11 +95,11 @@ describe('CandidateSearchEffects', () => {
     it('should return a new FilterAppliedAction on success', () => {
 
       // action
-      actions$ = hot('-a-a--', {a: initResultListAction});
+      actions$ = hot('-a-a--', { a: initResultListAction });
       // response
-      candidateRepository.searchCandidateProfiles.and.returnValue(cold('-b', {b: candidateSearchResult}));
+      candidateRepository.searchCandidateProfiles.and.returnValue(cold('-b', { b: candidateSearchResult }));
       // expected
-      const expected = cold('--c-c', {c: filterAppliedAction});
+      const expected = cold('--c-c', { c: filterAppliedAction });
 
       expect(sut.initCandidateSearch$).toBeObservable(expected);
     });
@@ -113,7 +113,7 @@ describe('CandidateSearchEffects', () => {
     xit('should unsubscribe after FilterAppliedAction is triggered', () => {
 
       // action
-      actions$ = hot('-a-b-b--b-', {a: filterAppliedAction, b: initResultListAction});
+      actions$ = hot('-a-b-b--b-', { a: filterAppliedAction, b: initResultListAction });
       // response
       candidateRepository.searchCandidateProfiles.and.returnValue(cold('|'));
       // expected
@@ -132,15 +132,15 @@ describe('CandidateSearchEffects', () => {
 
       const httpError = new HttpErrorResponse({});
       // action
-      actions$ = hot('-a-a-b', {a: initResultListAction, b: filterAppliedAction});
+      actions$ = hot('-a-a-b', { a: initResultListAction, b: filterAppliedAction });
       // response
       candidateRepository.searchCandidateProfiles.and.returnValues(
         cold('-#', {}, httpError),
-        cold('-c', {c: candidateSearchResult})
+        cold('-c', { c: candidateSearchResult })
       );
       // expected
       const expected = cold('--e-d', {
-        e: new EffectErrorOccurredAction({httpError}),
+        e: new EffectErrorOccurredAction({ httpError }),
         d: filterAppliedAction
       });
 
@@ -154,11 +154,11 @@ describe('CandidateSearchEffects', () => {
     const candidateSearchFilter = initialState.candidateSearchFilter;
     const applyFilterAction = new ApplyFilterAction(candidateSearchFilter);
 
-    const candidateProfile: any = {id: 1};
+    const candidateProfile: any = { id: 1 };
     const result = [candidateProfile as CandidateProfile];
 
-    const candidateSearchResult = {result, totalCount: 10};
-    const filterAppliedAction = new FilterAppliedAction({page: result, totalCount: 10});
+    const candidateSearchResult = { result, totalCount: 10 };
+    const filterAppliedAction = new FilterAppliedAction({ page: result, totalCount: 10 });
 
     const httpError = new HttpErrorResponse({});
 
@@ -170,11 +170,11 @@ describe('CandidateSearchEffects', () => {
     it('should return multiple new FilterAppliedAction on success, including debouncing', () => {
 
       // action
-      actions$ = hot('-a-a----a', {a: applyFilterAction});
+      actions$ = hot('-a-a----a', { a: applyFilterAction });
       // response
-      candidateRepository.searchCandidateProfiles.and.returnValue(cold('-b', {b: candidateSearchResult}));
+      candidateRepository.searchCandidateProfiles.and.returnValue(cold('-b', { b: candidateSearchResult }));
       // expected
-      const expected = cold('-------c----c', {c: filterAppliedAction});
+      const expected = cold('-------c----c', { c: filterAppliedAction });
 
       expect(sut.applyFilter$).toBeObservable(expected);
     });
@@ -187,11 +187,11 @@ describe('CandidateSearchEffects', () => {
     it('should return and EffectErrorOccurredAction on error', () => {
 
       // action
-      actions$ = hot('-a', {a: applyFilterAction});
+      actions$ = hot('-a', { a: applyFilterAction });
       // response
       candidateRepository.searchCandidateProfiles.and.returnValue(cold('#', {}, httpError));
       // expected
-      const expected = cold('----e', {e: new EffectErrorOccurredAction({httpError})});
+      const expected = cold('----e', { e: new EffectErrorOccurredAction({ httpError }) });
 
       expect(sut.applyFilter$).toBeObservable(expected);
     });
@@ -206,15 +206,15 @@ describe('CandidateSearchEffects', () => {
     it('should return an EffectErrorOccurredAction on error, and after it correct value result', () => {
 
       // action
-      actions$ = hot('-a-a---a--a-', {a: applyFilterAction});
+      actions$ = hot('-a-a---a--a-', { a: applyFilterAction });
       // response
       candidateRepository.searchCandidateProfiles.and.returnValues(
         cold('-#', {}, httpError),
-        cold('-b', {b: candidateSearchResult})
+        cold('-b', { b: candidateSearchResult })
       );
       // expected
       const expected = cold('-------e------c', {
-        e: new EffectErrorOccurredAction({httpError}),
+        e: new EffectErrorOccurredAction({ httpError }),
         c: filterAppliedAction
       });
 
@@ -236,9 +236,9 @@ describe('CandidateSearchEffects', () => {
       const applyFilterValuesAction = new ApplyFilterValuesAction(initialState.candidateSearchFilter as FilterPanelValues);
 
       // action
-      actions$ = hot('--a', {a: applyFilterValuesAction});
+      actions$ = hot('--a', { a: applyFilterValuesAction });
       // expected
-      const expected = cold('--b', {b: applyFilterAction});
+      const expected = cold('--b', { b: applyFilterAction });
 
       expect(sut.applyFilterValues$).toBeObservable(expected);
     });
@@ -252,9 +252,9 @@ describe('CandidateSearchEffects', () => {
       const applyQueryValuesAction = new ApplyQueryValuesAction(initialState.candidateSearchFilter as CandidateQueryPanelValues);
 
       // action
-      actions$ = hot('--a', {a: applyQueryValuesAction});
+      actions$ = hot('--a', { a: applyQueryValuesAction });
       // expected
-      const expected = cold('--b', {b: applyFilterAction});
+      const expected = cold('--b', { b: applyFilterAction });
 
       expect(sut.applyQueryValues$).toBeObservable(expected);
     });
@@ -274,9 +274,9 @@ describe('CandidateSearchEffects', () => {
       const filterResetAction = new FilterResetAction(initialState.candidateSearchFilter);
 
       // action
-      actions$ = hot('--a', {a: resetFilterAction});
+      actions$ = hot('--a', { a: resetFilterAction });
       // expected
-      const expected = cold('--(bc)', {b: applyFilterAction, c: filterResetAction});
+      const expected = cold('--(bc)', { b: applyFilterAction, c: filterResetAction });
 
       expect(sut.resetFilter$).toBeObservable(expected);
     });
@@ -284,13 +284,13 @@ describe('CandidateSearchEffects', () => {
   });
   describe('translateOccupationsOnLanguageChanged$', () => {
 
-    const occupCode: OccupationCode = {type: 'CHISCO5', value: '81110'};
+    const occupCode: OccupationCode = { type: 'CHISCO5', value: '81110' };
     const classificationDE = new OccupationTypeaheadItem(
       OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Bergleute und Grubenarbeiter', 2);
     const classificationEN = new OccupationTypeaheadItem(
       OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Mineurs et conducteurs d’installations de mine', 2);
 
-    const languageChangedAction = new LanguageChangedAction({language: 'de'});
+    const languageChangedAction = new LanguageChangedAction({ language: 'de' });
 
     /*
      * action : dispatched languageChangedAction after 10 F delay
@@ -299,7 +299,7 @@ describe('CandidateSearchEffects', () => {
     it('should not return anything if no occupation selected', () => {
 
       // action
-      actions$ = hot('-a--', {a: languageChangedAction});
+      actions$ = hot('-a--', { a: languageChangedAction });
       // expected
       const expected = cold('----');
 
@@ -322,14 +322,14 @@ describe('CandidateSearchEffects', () => {
       store.dispatch(applyFilterAction);
 
       // action
-      actions$ = hot('-a--', {a: languageChangedAction});
+      actions$ = hot('-a--', { a: languageChangedAction });
 
       // response
-      occupationSuggestionService.translateAll.and.returnValue(cold('-b|', {b: [classificationDE]}));
+      occupationSuggestionService.translateAll.and.returnValue(cold('-b|', { b: [classificationDE] }));
 
       // expected
-      const occupationLanguageChangedAction = new OccupationLanguageChangedAction({occupations: [classificationDE]});
-      const expected = cold('--b--', {b: occupationLanguageChangedAction});
+      const occupationLanguageChangedAction = new OccupationLanguageChangedAction({ occupations: [classificationDE] });
+      const expected = cold('--b--', { b: occupationLanguageChangedAction });
 
       expect(sut.translateOccupationsOnLanguageChanged$).toBeObservable(expected);
     });
@@ -338,12 +338,12 @@ describe('CandidateSearchEffects', () => {
 
   describe('loadNextPage$', () => {
 
-    const candidateProfile: any = {id: 1};
+    const candidateProfile: any = { id: 1 };
     const result = [candidateProfile as CandidateProfile];
 
-    const candidateSearchResult = {result, totalCount: 10};
+    const candidateSearchResult = { result, totalCount: 10 };
     const loadNextPageAction = new LoadNextPageAction();
-    const nextPageLoadedAction = new NextPageLoadedAction({pageNumber: 1, page: result});
+    const nextPageLoadedAction = new NextPageLoadedAction({ pageNumber: 1, page: result });
 
     /*
      * action : dispatched loadNextPageAction after 20 F delay
@@ -353,11 +353,11 @@ describe('CandidateSearchEffects', () => {
     it('should load next page', () => {
 
       // action
-      actions$ = hot('--a', {a: loadNextPageAction});
+      actions$ = hot('--a', { a: loadNextPageAction });
       // response
-      candidateRepository.searchCandidateProfiles.and.returnValue(cold('-b', {b: candidateSearchResult}));
+      candidateRepository.searchCandidateProfiles.and.returnValue(cold('-b', { b: candidateSearchResult }));
       // expected
-      const expected = cold('------c', {c: nextPageLoadedAction});
+      const expected = cold('------c', { c: nextPageLoadedAction });
 
       expect(sut.loadNextPage$).toBeObservable(expected);
     });
@@ -374,15 +374,15 @@ describe('CandidateSearchEffects', () => {
       const httpError = new HttpErrorResponse({});
 
       // action
-      actions$ = hot('-a-a---a--a-', {a: loadNextPageAction});
+      actions$ = hot('-a-a---a--a-', { a: loadNextPageAction });
       // response
       candidateRepository.searchCandidateProfiles.and.returnValues(
         cold('-#', {}, httpError),
-        cold('-b', {b: candidateSearchResult})
+        cold('-b', { b: candidateSearchResult })
       );
       // expected
       const expected = cold('-------e------c', {
-        e: new EffectErrorOccurredAction({httpError}),
+        e: new EffectErrorOccurredAction({ httpError }),
         c: nextPageLoadedAction
       });
 
@@ -402,9 +402,9 @@ describe('CandidateSearchEffects', () => {
       const loadPreviousCandidateProfileDetailAction = new LoadPreviousCandidateProfileDetailAction();
 
       // action
-      actions$ = hot('-a', {a: loadPreviousCandidateProfileDetailAction});
+      actions$ = hot('-a', { a: loadPreviousCandidateProfileDetailAction });
       // expected
-      const expected = cold('-b', {b: {type: 'nothing'}});
+      const expected = cold('-b', { b: { type: 'nothing' } });
 
       expect(sut.loadPreviousCandidateProfileDetail$).toBeObservable(expected);
       expect(router.navigate).toHaveBeenCalledWith(['/candidate-search', null]);
@@ -418,16 +418,16 @@ describe('CandidateSearchEffects', () => {
     it('should load next candidate profile detail', () => {
 
       const id = 'candidate-profile-001';
-      const candidateProfile: any = {id};
+      const candidateProfile: any = { id };
       const result = [candidateProfile as CandidateProfile];
 
       const loadNextCandidateProfileDetailAction = new LoadNextCandidateProfileDetailAction();
-      const nextPageLoadedAction = new NextPageLoadedAction({pageNumber: 1, page: result});
+      const nextPageLoadedAction = new NextPageLoadedAction({ pageNumber: 1, page: result });
 
       // action
-      actions$ = hot('-a---b', {a: loadNextCandidateProfileDetailAction, b: nextPageLoadedAction});
+      actions$ = hot('-a---b', { a: loadNextCandidateProfileDetailAction, b: nextPageLoadedAction });
       // expected
-      const expected = cold('-----c', {c: {type: 'nothing'}});
+      const expected = cold('-----c', { c: { type: 'nothing' } });
 
       expect(sut.loadNextCandidateProfileDetail$).toBeObservable(expected);
       expect(router.navigate).toHaveBeenCalledWith(['/candidate-search', id]);
