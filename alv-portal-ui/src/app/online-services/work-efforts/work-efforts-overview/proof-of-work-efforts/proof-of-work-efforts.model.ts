@@ -76,7 +76,6 @@ export class ProofOfWorkEffortsModel {
 
   private getStatusLabel(): string {
     const baseLabel = 'portal.work-efforts.submit-status.text.';
-    // status 'CLOSED' and 'DRAFT' are not shown in UI
     if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.OPEN ||
       this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.RE_OPENED) {
       return baseLabel + 'open';
