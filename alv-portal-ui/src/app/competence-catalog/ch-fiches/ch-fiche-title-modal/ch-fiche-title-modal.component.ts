@@ -13,9 +13,12 @@ export class ChFicheTitleModalComponent implements OnInit {
   form: FormGroup;
 
   @Input()
+  isReadonly = false;
+
+  @Input()
   chFicheTitle: TranslatedString;
 
-  formFields = ['textDe', 'textFr', 'textIt', 'textEn'];
+  formFields = ['de', 'fr', 'it', 'en'];
 
   constructor(private modal: NgbActiveModal,
               private fb: FormBuilder) {
@@ -23,10 +26,10 @@ export class ChFicheTitleModalComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      textDe: [''],
-      textFr: [''],
-      textIt: [''],
-      textEn: ['']
+      de: [''],
+      fr: [''],
+      it: [''],
+      en: ['']
     }, {
       validators: [atLeastOneRequiredValidator(this.formFields)]
     });

@@ -26,8 +26,7 @@ export function createPageableURLSearchParams(req?: PagedSearchRequest): HttpPar
     .set('page', '' + req.page)
     .set('size', '' + req.size);
   if (req.sort) {
-    if (req.sort instanceof Array) {
-      req.sort.forEach((sort) => params = params.append('sort', sort));
+    if (req.sort instanceof Array) {req.sort.forEach((sort) => params = params.append('sort', sort));
     } else {
       params = params.set('sort', req.sort);
     }
@@ -37,9 +36,11 @@ export function createPageableURLSearchParams(req?: PagedSearchRequest): HttpPar
 
 export const DEFAULT_PAGE_SIZE = 20;
 
+export type RequestBody = Record<string, any>;
+
 export interface PagedSearchRequest {
   page: number;
   size: number;
   sort?: string | Array<string>;
-  body?: {[p: string]: any};
+  body?: RequestBody;
 }

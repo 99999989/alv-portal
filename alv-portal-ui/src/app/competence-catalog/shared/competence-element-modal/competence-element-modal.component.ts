@@ -5,11 +5,12 @@ import { SelectableOption } from '../../../shared/forms/input/selectable-option.
 import {
   CompetenceElement,
   ElementType
-} from '../../../shared/backend-services/competence-element/competence-element.types';
+} from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CompetenceElementRepository } from '../../../shared/backend-services/competence-element/competence-element.repository';
+import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { NotificationsService } from '../../../core/notifications.service';
+import { getModalTitle } from '../utils/translation-utils';
 
 @Component({
   selector: 'alv-competence-element-modal',
@@ -19,6 +20,8 @@ import { NotificationsService } from '../../../core/notifications.service';
 export class CompetenceElementModalComponent implements OnInit {
 
   @Input() competenceElement: CompetenceElement;
+
+  @Input() isReadonly = false;
 
   typeOptions$: Observable<SelectableOption[]> = of([{
       value: null,
@@ -34,6 +37,8 @@ export class CompetenceElementModalComponent implements OnInit {
 
   form: FormGroup;
 
+  modalTitle: string;
+
   isEdit = false;
 
   constructor(private fb: FormBuilder,
@@ -46,18 +51,19 @@ export class CompetenceElementModalComponent implements OnInit {
     this.form = this.fb.group({
       type: [null, Validators.required],
       description: this.fb.group({
-        textDe: [''],
-        textFr: [''],
-        textIt: [''],
-        textEn: ['']
+        de: [''],
+        fr: [''],
+        it: [''],
+        en: ['']
       }, {
-        validators: [atLeastOneRequiredValidator(['textDe', 'textFr', 'textIt', 'textEn'])]
+        validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
       })
     });
     if (this.competenceElement) {
       this.form.patchValue(this.competenceElement);
       this.isEdit = true;
     }
+    this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
   }
 
   submit() {
@@ -67,6 +73,7 @@ export class CompetenceElementModalComponent implements OnInit {
       this.createElement();
     }
   }
+
 
   cancel() {
     this.modal.dismiss();

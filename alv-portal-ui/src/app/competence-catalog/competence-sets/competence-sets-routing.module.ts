@@ -2,7 +2,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CompetenceSetsOverviewComponent } from './competence-sets-overview/competence-sets-overview.component';
 import { CompetenceSetDetailComponent } from './competence-set-detail/competence-set-detail.component';
-import { WorkEffortFormResolverService } from '../../online-services/work-efforts/work-effort-form/work-effort-form-resolver.service';
 import { CompetenceSetResolverService } from './competence-set-detail/competence-set-resolver.service';
 
 const routes: Routes = [

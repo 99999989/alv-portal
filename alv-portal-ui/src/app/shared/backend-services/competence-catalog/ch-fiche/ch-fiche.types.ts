@@ -1,8 +1,13 @@
-import { TranslatedString } from '../../../competence-catalog/shared/shared-competence-catalog.types';
+import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
 
 export enum CompetenceType {
   BASIC = 'BASIC',
   SPECIALIST = 'SPECIALIST'
+}
+
+export enum BusinessExceptionTypes {
+  GENERAL_BUSINESS_EXCEPTION = 'GENERAL_BUSINESS_EXCEPTION',
+  BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE = 'BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE'
 }
 
 export interface ChFiche extends UpdateChFiche {

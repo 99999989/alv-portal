@@ -5,16 +5,18 @@ import { Observable } from 'rxjs';
 import { I18nService } from '../../../core/i18n.service';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import {
-  CompetenceCatalogAction, getTranslatedString, TranslatedString,
+  CompetenceCatalogAction,
+  getTranslatedString,
+  TranslatedString,
   TranslatedStringToCurrentLanguage
 } from '../shared-competence-catalog.types';
 
 @Component({
-  selector: 'alv-competence-item',
-  templateUrl: './competence-item.component.html',
-  styleUrls: ['./competence-item.component.scss']
+  selector: 'alv-interactive-list-item',
+  templateUrl: './interactive-list-item.component.html',
+  styleUrls: ['./interactive-list-item.component.scss']
 })
-export class CompetenceItemComponent implements OnInit {
+export class InteractiveListItemComponent implements OnInit {
 
   @Input() superTitle: string;
 
@@ -35,7 +37,7 @@ export class CompetenceItemComponent implements OnInit {
   constructor(private i18nService: I18nService) {
   }
 
-  private _multiLanguageTitle: TranslatedString;
+  private _multiLanguageTitle: TranslatedString; // todo use multi-language-string component
 
   get multiLanguageTitle(): TranslatedString {
     return this._multiLanguageTitle;

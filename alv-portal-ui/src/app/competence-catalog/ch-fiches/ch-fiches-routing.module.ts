@@ -1,7 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ChFichesOverviewComponent } from './ch-fiches-overview/ch-fiches-overview.component';
-import { CompetenceSetResolverService } from '../competence-sets/competence-set-detail/competence-set-resolver.service';
 import { ChFicheDetailComponent } from './ch-fiche-detail/ch-fiche-detail.component';
 import { ChFicheResolverService } from './ch-fiche-detail/ch-fiche-resolver.service';
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { createPageableURLSearchParams, PagedSearchRequest } from '../request-util';
-import { Page } from '../shared.types';
+import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
+import { Page } from '../../shared.types';
 import {
   CompetenceSet, CompetenceSetSearchResult,
   CreateCompetenceSet,
@@ -10,9 +10,10 @@ import {
 } from './competence-set.types';
 import { flatMap, map, withLatestFrom } from 'rxjs/operators';
 import { CompetenceElementRepository } from '../competence-element/competence-element.repository';
+import { SearchService } from '../search-service';
 
 @Injectable({ providedIn: 'root' })
-export class CompetenceSetRepository {
+export class CompetenceSetRepository implements SearchService<CompetenceSetSearchResult> {
 
   private readonly resourceUrl = '/competencecatalog-service/api/competence-sets/';
 
@@ -42,8 +43,8 @@ export class CompetenceSetRepository {
     );
   }
 
-  findByCompetenceElementId(competenceElementId: string): Observable<CompetenceSet> {
-    return this.http.get<CompetenceSet>(`${this.findUrl}/byCompetenceElementId`, {
+  findByCompetenceElementId(competenceElementId: string): Observable<CompetenceSetSearchResult[]> {
+    return this.http.get<CompetenceSetSearchResult[]>(`${this.findUrl}/byCompetenceElementId`, {
       params: new HttpParams().set('id', competenceElementId)
     });
   }
@@ -60,7 +61,10 @@ export class CompetenceSetRepository {
   }
 
   update(id: string, competenceSet: UpdateCompetenceSet): Observable<CompetenceSet> {
-    return this.http.put<CompetenceSet>(`${this.resourceUrl}/${id}`, competenceSet);
+    return this.http.put<CompetenceSet>(`${this.resourceUrl}${id}`, competenceSet);
   }
 
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.resourceUrl}${id}`);
+  }
 }

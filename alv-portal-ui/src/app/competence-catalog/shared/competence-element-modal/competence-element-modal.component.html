@@ -1,7 +1,8 @@
 <alv-modal (cancelAction)="cancel()"
            (primaryAction)="submit()"
-           cancelLabel="portal.global.cancel"
-           [modalTitle]="isEdit ? 'entity.action.edit' : 'portal.global.enter'"
+           [cancelLabel]="isReadonly ? 'entity.action.back' : 'portal.global.cancel'"
+           [showPrimaryButton]="!isReadonly"
+           [modalTitle]="modalTitle"
            primaryLabel="portal.global.save"
            [formGroup]="form">
 
@@ -17,14 +18,16 @@
 
   <fieldset formGroupName="description">
     <legend>{{'portal.competence-catalog.competence-elements.add-modal.one-component-per-lang-label' | translate}}</legend>
-    <ng-container *ngFor="let formField of ['textDe','textFr','textIt','textEn']">
+    <ng-container *ngFor="let formField of ['de','fr','it','en']">
       <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.title-{{formField}}"
                        [alvFormControlName]="formField"
+                       [attr.data-test]="formField+'-description-input'"
                        [multiline]="true"
+                       [readonly]="isReadonly"
                        [multilineMinRows]="1"
                        [showGroupErrors]="true"
                        [validationMessages]="[{ error: 'atLeastOneRequired', message: 'global.common-phrases.at-least-one-required' }]"
-                       [readonly]="false">
+                       >
       </alv-input-field>
     </ng-container>
   </fieldset>

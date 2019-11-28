@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CompetenceSet } from '../../../shared/backend-services/competence-set/competence-set.types';
+import { CompetenceSet } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { NotificationsService } from '../../../core/notifications.service';
 import {
+  BusinessExceptionTypes,
   ChFiche,
   initialChFiche
-} from '../../../shared/backend-services/ch-fiche/ch-fiche.types';
-import { ChFicheRepository } from '../../../shared/backend-services/ch-fiche/ch-fiche.repository';
+} from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import { catchError, takeUntil } from 'rxjs/operators';
+import { ModalService } from '../../../shared/layout/modal/modal.service';
+import { EMPTY, throwError } from 'rxjs';
 
 @Component({
   selector: 'alv-competence-set-detail',
   templateUrl: './ch-fiche-detail.component.html',
   styleUrls: ['./ch-fiche-detail.component.scss']
 })
-export class ChFicheDetailComponent implements OnInit {
+export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   chFiche: ChFiche;
 
@@ -21,12 +27,18 @@ export class ChFicheDetailComponent implements OnInit {
 
   showErrors: boolean;
 
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private notificationsService: NotificationsService,
-              private chFicheRepository: ChFicheRepository) { }
+              protected authenticationService: AuthenticationService,
+              private modalService: ModalService,
+              private chFicheRepository: ChFicheRepository) {
+    super(authenticationService);
+  }
 
   ngOnInit() {
+    super.ngOnInit();
     this.isEdit = !!this.route.snapshot.data.chFiche;
     this.chFiche = this.route.snapshot.data.chFiche || initialChFiche();
   }
@@ -42,13 +54,33 @@ export class ChFicheDetailComponent implements OnInit {
     }
   }
 
+  deleteChFiche() {
+    const modalRef = this.modalService.openConfirm({
+      title: 'portal.competence-catalog.ch-fiches.delete-modal.title',
+      content: 'portal.competence-catalog.ch-fiches.delete-modal.confirmation',
+      confirmLabel: 'portal.global.delete-confirm'
+    });
+    modalRef.result
+      .then(() => {
+        this.chFicheRepository.delete(this.chFiche.id)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
+            this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-ch-fiche-success-notification');
+            this.router.navigate(['..'], { relativeTo: this.route });
+          });
+      })
+      .catch(() => {
+      });
+  }
+
   private createChFiche() {
     this.chFicheRepository.create({
       title: this.chFiche.title,
       description: this.chFiche.description,
       competences: this.chFiche.competences,
       occupations: this.chFiche.occupations
-    }).subscribe(this.handleSuccess.bind(this));
+    }).pipe(catchError(this.handleFailure.bind(this)))
+      .subscribe(this.handleSuccess.bind(this));
   }
 
   private updateChFiche() {
@@ -59,11 +91,22 @@ export class ChFicheDetailComponent implements OnInit {
       occupations: this.chFiche.occupations,
       draft: this.chFiche.draft,
       published: this.chFiche.published
-    }).subscribe(this.handleSuccess.bind(this));
+    }).pipe(catchError(this.handleFailure.bind(this)))
+      .subscribe(this.handleSuccess.bind(this));
   }
 
   private handleSuccess(result: CompetenceSet) {
     this.notificationsService.success('portal.competence-catalog.ch-fiches.added-success-notification');
     this.router.navigate(['kk', 'ch-fiches']);
   }
+
+  private handleFailure(error) {
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE) {
+      this.notificationsService.error('portal.competence-catalog.ch-fiches.duplicated-beruf-error-notification');
+      return EMPTY;
+    }
+    return throwError;
+  }
+
+
 }
