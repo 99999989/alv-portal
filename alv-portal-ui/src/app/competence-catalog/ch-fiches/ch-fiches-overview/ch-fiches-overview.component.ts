@@ -9,6 +9,7 @@ import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-
 import { OccupationTypeaheadItem } from '../../../shared/occupations/occupation-typeahead-item';
 import { Observable } from 'rxjs';
 import { JobSearchRequestMapper } from '../../../job-advertisement/job-ad-search/state-management/effects';
+import { OccupationTypes } from '../../../shared/backend-services/reference-service/occupation-label.repository';
 
 @Component({
   selector: 'alv-ch-fiches-overview',
@@ -49,7 +50,7 @@ export class ChFichesOverviewComponent extends OverviewComponent<ChFiche> implem
   }
 
   loadOccupations(query: string): Observable<OccupationTypeaheadItem[]> {
-    return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query);
+    return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query, [OccupationTypes.BFS, OccupationTypes.CHISCO5]);
   }
 
   editChFiche(chFiche: ChFiche) {

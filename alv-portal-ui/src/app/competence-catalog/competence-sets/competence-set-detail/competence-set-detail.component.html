@@ -18,7 +18,9 @@
 
       <alv-competence-set [competenceSet]="competenceSet"
                           [isCollapsed]="false"
-                          [showActionButtons]="false"
+                          (actionClick)="handleCompetenceSetActionClick($event, competenceSet)"
+                          [actions]="[backlinkCompetenceSetAction]"
+                          [showActionButtons]="true"
                           [isReadonly]="!observables.isCompetenceCatalogEditor"
                           [showErrors]="showErrors">
       </alv-competence-set>

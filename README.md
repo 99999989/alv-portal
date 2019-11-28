@@ -16,3 +16,11 @@ See [Update Guide](docs/UPDATE-GUIDE.md).
 
 See [Debugging Helpers](docs/DEBUGGING-HELPERS.md).
 
+
+
+1) in intellij console set export FONTAWESOME_NPM_AUTH_TOKEN="F210019D-75E0-4C3D-B1D6-CE6A1B68FBFB"
+das gleiche in .bash_profile oder .bashrc, Der Befehl echo $FONTAWESOME_NPM_AUTH_TOKEN sollte ab nun etwas ausgeben.
+2) alle intellij neu starten
+3) FONTAWESOME_NPM_AUTH_TOKEN=TOKEN npm install --save @fortawesome/fontawesome-pro in console ausführen. lange Warten!
+5) in package.json: start:local starten
+6) Einlogen ins portal mit admin admin
