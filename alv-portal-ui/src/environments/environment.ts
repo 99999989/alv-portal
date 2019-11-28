@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  test: false,
   translationBaseUrl: 'assets/i18n/',
   gaTrackingId: null
 };
