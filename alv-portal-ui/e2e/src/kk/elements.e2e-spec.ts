@@ -1,5 +1,6 @@
 import { loginAsKkEditor } from '../auth';
 import { CompetenceElementsOverviewPo } from './pages/competence-elements-overview-po';
+import { browser } from 'protractor';
 
 function createKkElement() {
 
@@ -9,14 +10,17 @@ function deleteKkElement() {
 
 }
 
-describe('not linked KK-elements creation and search', () => {
+fdescribe('not linked KK-elements creation and search', () => {
   let competenceElementsOverviewPo = new CompetenceElementsOverviewPo();
 
   beforeAll(() => {
+    browser.get('/kk');
     loginAsKkEditor();
   });
 
-  it('should navigate to the kk elements overview page', () => {
+  fit('should navigate to the kk elements overview page', () => {
+    browser.pause();
+    browser.debugger();
   });
 
   it('should switch between sorting modes', () => {

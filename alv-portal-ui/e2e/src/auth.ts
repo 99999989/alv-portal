@@ -1,3 +1,7 @@
-export function loginAsKkEditor() {
+import { browser } from 'protractor';
 
+const loginScript = 'sessionStorage.setItem(\'authenticationToken\', \'Bearer eyJhbGciOiJIUzUxMiJ9.eyJhdXRoIjoiUk9MRV9SRUdJU1RSQVRJT04sUk9MRV9LS19FRElUT1IsUk9MRV9BTExPVyIsInVzZXJJZCI6ImZhMDU1NDJmLWUzNzYtMTFlOS05MzNjLTAwNTA1NmFjM2NkYSIsImZpcnN0TmFtZSI6IktrIiwibGFzdE5hbWUiOiJJdWthIiwiZW1haWwiOiJpdWthLXN0YWdpbmcta2stMDAxQHlvcG1haWwuY29tIiwibGFuZ0tleSI6ImVuIiwiZXh0ZXJuYWxJZCI6IjQ2NTkxMSIsInVzZXJQcm9maWxlRXh0SWQiOiI0NjY1MzQiLCJzdWIiOiI0NjU5MTEiLCJleHAiOjE1NzUxMzI1MTh9.tgZJK6xkNsiim4-Lak-Ay6tkkBpdMNNEHQUqGOBmYI0BSOTrVjN0CI8mID50SyXjx1bu02scceyLeoREMU-qcw\');';
+
+export function loginAsKkEditor() {
+  browser.executeScriptWithDescription(loginScript, 'logging in as kk-editor');
 }
