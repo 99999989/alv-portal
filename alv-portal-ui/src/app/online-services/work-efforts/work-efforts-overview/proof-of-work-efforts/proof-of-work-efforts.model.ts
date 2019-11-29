@@ -8,8 +8,6 @@ import {
   ProofOfWorkEffortsStatus
 } from '../../../../shared/backend-services/work-efforts/proof-of-work-efforts.types';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
-import { deltaDate } from '../../../../shared/forms/input/ngb-date-utils';
-import { WORK_EFFORT_MONTHS_DIFF } from '../../work-effort-form/work-effort-form.types';
 
 
 export class ProofOfWorkEffortsModel {
@@ -42,8 +40,8 @@ export class ProofOfWorkEffortsModel {
 
     this.id = this.proofOfWorkEfforts.id;
 
-    this.isSentSuccessfully = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED ||
-      this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
+    this.isSentSuccessfully = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED
+      || this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
 
     this.isClosed = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
 
@@ -87,20 +85,13 @@ export class ProofOfWorkEffortsModel {
       this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.RE_OPENED) {
       return baseLabel + 'open';
     }
+    if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED) {
+      return baseLabel + 'closed';
+    }
     if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED && this.proofOfWorkEfforts.workEfforts.length === 0) {
-      if (this.isWorkEffortLimitReached()) {
-        return baseLabel + 'closed';
-      }
       return baseLabel + 'submitted-without-work-effort';
     }
     return baseLabel + 'submitted';
-  }
-
-  private isWorkEffortLimitReached() {
-    const minDate = deltaDate(new Date(), 0, WORK_EFFORT_MONTHS_DIFF, 0);
-    minDate.setDate(1);
-    const endDate = new Date(this.proofOfWorkEfforts.endDate);
-    return endDate < minDate;
   }
 
 }
