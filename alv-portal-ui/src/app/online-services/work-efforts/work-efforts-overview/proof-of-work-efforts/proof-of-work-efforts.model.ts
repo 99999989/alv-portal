@@ -16,6 +16,8 @@ export class ProofOfWorkEffortsModel {
 
   isSentSuccessfully: boolean;
 
+  isClosed: boolean;
+
   isBeforeEmployment: boolean;
 
   controlPeriodDateString: string;
@@ -38,7 +40,10 @@ export class ProofOfWorkEffortsModel {
 
     this.id = this.proofOfWorkEfforts.id;
 
-    this.isSentSuccessfully = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED;
+    this.isSentSuccessfully = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED
+      || this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
+
+    this.isClosed = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
 
     this.isBeforeEmployment = this.proofOfWorkEfforts.controlPeriod.type === ControlPeriodType.BEFORE_UNEMPLOYMENT;
 
@@ -79,6 +84,9 @@ export class ProofOfWorkEffortsModel {
     if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.OPEN ||
       this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.RE_OPENED) {
       return baseLabel + 'open';
+    }
+    if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED) {
+      return baseLabel + 'closed';
     }
     if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED && this.proofOfWorkEfforts.workEfforts.length === 0) {
       return baseLabel + 'submitted-without-work-effort';
