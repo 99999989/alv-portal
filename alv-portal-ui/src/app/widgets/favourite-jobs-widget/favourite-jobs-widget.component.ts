@@ -58,6 +58,7 @@ export class FavouriteJobsWidgetComponent extends AbstractSubscriber implements 
 
     this.jobFavourites$ = combineLatest(this.currentUser$, actions$)
       .pipe(
+        filter(([currentUser]) => !!currentUser),
         switchMap(([currentUser]) => {
           return this.jobAdFavouritesRepository.searchFavourites({
             body: {
