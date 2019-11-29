@@ -4,6 +4,7 @@ import * as jwt_decode from 'jwt-decode';
 import { CoreState } from '../../state-management/state/core.state.ts';
 import { Store } from '@ngrx/store';
 import { SessionExpiredAction } from '../../state-management/actions/core.actions';
+import { environment } from '../../../../environments/environment';
 
 
 @Injectable({
@@ -20,15 +21,17 @@ export class SessionManagerService {
 
   setToken(token: string): void {
     sessionStorage.setItem(SessionManagerService.TOKEN_NAME, token);
-    if (this.timeout) {
-      clearTimeout(this.timeout);
+    if (!environment.test) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(
+        () => {
+          return this.store.dispatch(new SessionExpiredAction({}));
+        },
+        this.calculateSessionTimeout(jwt_decode(token))
+      );
     }
-    this.timeout = setTimeout(
-      () => {
-        return this.store.dispatch(new SessionExpiredAction({}));
-      },
-      this.calculateSessionTimeout(jwt_decode(token))
-    );
   }
 
   clearToken(): void {
