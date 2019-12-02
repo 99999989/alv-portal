@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import {
   CompetenceElement,
@@ -24,7 +24,7 @@ import { CompetenceElementBacklinkComponent } from '../backlinks/competence-elem
   styleUrls: ['./competence-set.component.scss'],
   animations: [collapseExpandAnimation]
 })
-export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
+export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponent implements OnInit, OnChanges {
 
   @Input() competenceSet: CompetenceSetSearchResult;
 
@@ -97,6 +97,10 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
           return [this.backlinkCompetenceSetAction];
         }
       }));
+  }
+
+  ngOnChanges() {
+    this.loadCompetenceElementsIfRequired();
   }
 
   toggle() {
