@@ -13,6 +13,7 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { catchError, takeUntil } from 'rxjs/operators';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { EMPTY, throwError } from 'rxjs';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -22,6 +23,8 @@ import { EMPTY, throwError } from 'rxjs';
 export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   chFiche: ChFiche;
+
+  createAnotherFormControl: FormControl;
 
   isEdit: boolean;
 
@@ -33,12 +36,14 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
               private modalService: ModalService,
-              private chFicheRepository: ChFicheRepository) {
+              private chFicheRepository: ChFicheRepository,
+              private fb: FormBuilder) {
     super(authenticationService);
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.createAnotherFormControl = this.fb.control(false);
     this.isEdit = !!this.route.snapshot.data.chFiche;
     this.chFiche = this.route.snapshot.data.chFiche || initialChFiche();
   }
@@ -97,7 +102,11 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
 
   private handleSuccess(result: CompetenceSet) {
     this.notificationsService.success('portal.competence-catalog.ch-fiches.added-success-notification');
-    this.router.navigate(['kk', 'ch-fiches']);
+    if (this.createAnotherFormControl.value === true) {
+      this.chFiche = initialChFiche();
+    } else {
+      this.router.navigate(['kk', 'ch-fiches']);
+    }
   }
 
   private handleFailure(error) {

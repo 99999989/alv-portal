@@ -100,6 +100,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   ngOnChanges() {
+    // todo shold be triggered only when the set is changed, now is triggered always
     this.loadCompetenceElementsIfRequired();
   }
 

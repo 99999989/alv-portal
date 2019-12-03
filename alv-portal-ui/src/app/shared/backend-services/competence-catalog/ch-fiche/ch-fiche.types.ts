@@ -11,19 +11,19 @@ export enum BusinessExceptionTypes {
 }
 
 export interface ChFiche extends UpdateChFiche {
-  id: string;
+  id?: string;
 }
 
 export interface CreateChFiche {
-  title: TranslatedString;
-  description: TranslatedString;
+  title?: TranslatedString;
+  description?: TranslatedString;
   occupations: Occupation[];
   competences: Competence[];
 }
 
 export interface UpdateChFiche extends CreateChFiche {
-  draft: boolean;
-  published: boolean;
+  draft?: boolean;
+  published?: boolean;
 }
 
 export interface Occupation {
@@ -36,9 +36,9 @@ export interface Competence {
   competenceSetId: string;
 }
 
-export const initialChFiche = () => {
+export function initialChFiche(): ChFiche {
   return {
     occupations: [],
     competences: []
   };
-};
+}
