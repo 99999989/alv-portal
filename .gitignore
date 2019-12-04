@@ -10,3 +10,9 @@
 *.iml
 *.ipr
 .gtm/
+/alv-portal-ui/pipeline-scripts/from_code/
+/alv-portal-ui/pipeline-scripts/from_csv/
+/alv-portal-ui/reports/documentation/
+/alv-portal-ui/src/assets/
+/alv-portal-ui/cypress.json
+/alv-portal-ui/documentation/
