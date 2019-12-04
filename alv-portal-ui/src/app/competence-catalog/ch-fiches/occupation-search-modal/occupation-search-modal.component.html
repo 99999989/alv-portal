@@ -33,7 +33,7 @@
       </alv-single-typeahead>
       <small *ngIf="form.get('occupation').getError('isUsedInFiche') as duplicatedFiche"
              class="validation-message">
-        Occupation is already in use:
+        {{'portal.competence-catalog.ch-fiches.duplicated-beruf-error-notification' | translate}}
         <a [routerLink]="['kk', 'ch-fiches', 'edit', duplicatedFiche.id]"
            target="_blank">
           {{duplicatedFiche.id}} &ndash;
