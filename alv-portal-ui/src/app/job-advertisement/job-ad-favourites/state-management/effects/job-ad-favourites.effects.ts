@@ -14,7 +14,7 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 import { Action, select, Store } from '@ngrx/store';
-import { asyncScheduler, Observable, of } from 'rxjs';
+import { asyncScheduler, Observable, of, SchedulerLike } from 'rxjs';
 import {
   EffectErrorOccurredAction,
   LAZY_LOADED_MODULE_DESTROYED,
@@ -44,7 +44,6 @@ import {
   ResultListAlreadyInitializedAction
 } from '../actions';
 import { JobAdvertisementSearchResponse } from '../../../../shared/backend-services/job-advertisement/job-advertisement.types';
-import { SchedulerLike } from 'rxjs/src/internal/types';
 import { Router } from '@angular/router';
 import { JobAdFavouritesRepository } from '../../../../shared/backend-services/favourites/job-ad-favourites.repository';
 import { JobAdFavouritesSearchRequestMapper } from '../../job-ad-favourites/job-ad-favourites-search-request.mapper';

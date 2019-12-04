@@ -16,14 +16,13 @@ import { AbstractInput } from '../../abstract-input';
 import { ControlContainer } from '@angular/forms';
 import { InputIdGenerationService } from '../../input-id-generation.service';
 import { InputType } from '../../input-type.enum';
-import { Observable } from 'rxjs/internal/Observable';
+import { EMPTY, Observable } from 'rxjs';
 import { TypeaheadItem } from '../typeahead-item';
 
 import { catchError, debounceTime, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { DOCUMENT } from '@angular/common';
 import { StringTypeaheadItem } from '../string-typeahead-item';
-import { EMPTY } from 'rxjs';
 import { TypeaheadDisplayItem } from '../typeahead-display-item';
 import { ErrorHandlerService } from '../../../../../core/error-handler/error-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -79,9 +78,9 @@ export class MultiTypeaheadComponent extends AbstractInput implements OnInit, Af
 
   @Output() itemSelected = new EventEmitter<TypeaheadItem<any>>();
 
-  @ViewChild(NgbTypeahead, {static: false}) ngbTypeahead: NgbTypeahead;
+  @ViewChild(NgbTypeahead, { static: false }) ngbTypeahead: NgbTypeahead;
 
-  @ViewChild(NgbTooltip, {static: false}) ngbTooltip: NgbTooltip;
+  @ViewChild(NgbTooltip, { static: false }) ngbTooltip: NgbTooltip;
 
   inputValue: string;
 

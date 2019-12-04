@@ -14,7 +14,7 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 import { Action, select, Store } from '@ngrx/store';
-import { asyncScheduler, Observable, of } from 'rxjs';
+import { asyncScheduler, Observable, of, SchedulerLike } from 'rxjs';
 import {
   EffectErrorOccurredAction,
   LAZY_LOADED_MODULE_DESTROYED,
@@ -45,7 +45,6 @@ import {
 } from '../actions';
 import { getCurrentCompanyContactTemplateModel } from '../../../../core/state-management/state/core.state.ts';
 import { ManagedJobAdsSearchResponse } from '../../../../shared/backend-services/job-advertisement/job-advertisement.types';
-import { SchedulerLike } from 'rxjs/src/internal/types';
 import { ManagedJobAdsSearchRequestMapper } from '../../../../widgets/manage-job-ads-widget/managed-job-ads-search-request.mapper';
 import { Router } from '@angular/router';
 import { CompanyContactTemplateModel } from '../../../../core/auth/company-contact-template-model';

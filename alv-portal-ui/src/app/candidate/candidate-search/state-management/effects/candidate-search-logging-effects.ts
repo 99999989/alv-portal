@@ -51,12 +51,12 @@ import {
   getPrevId,
   getSelectedCandidateProfile
 } from '../state';
-import { AsyncScheduler } from 'rxjs/internal/scheduler/AsyncScheduler';
 import {
   CANDIDATE_SEARCH_EFFECTS_DEBOUNCE,
   CANDIDATE_SEARCH_EFFECTS_SCHEDULER
 } from './index';
 import { CandidateProfile } from '../../../../shared/backend-services/candidate/candidate.types';
+import { AsyncScheduler } from 'rxjs/internal/scheduler/AsyncScheduler';
 
 function pluckIds(items: CandidateProfile[]) {
   return items.map(item => item.externalId);

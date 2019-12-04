@@ -1,6 +1,6 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import { AsyncScheduler } from 'rxjs/internal/scheduler/AsyncScheduler';
-import { SchedulerLike } from 'rxjs/src/internal/types';
+import { SchedulerLike } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
   catchError,

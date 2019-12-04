@@ -46,7 +46,7 @@ import {
 import { JobSearchRequestMapper } from './job-search-request.mapper';
 import { Router } from '@angular/router';
 import { JobAdvertisementSearchResponse } from '../../../../shared/backend-services/job-advertisement/job-advertisement.types';
-import { SchedulerLike } from 'rxjs/src/internal/types';
+import { SchedulerLike } from 'rxjs';
 import { AsyncScheduler } from 'rxjs/internal/scheduler/AsyncScheduler';
 import {
   EffectErrorOccurredAction,

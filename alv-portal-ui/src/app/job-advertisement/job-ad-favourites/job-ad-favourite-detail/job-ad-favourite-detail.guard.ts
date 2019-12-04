@@ -4,7 +4,7 @@ import {
   CanDeactivate,
   RouterStateSnapshot
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import {
   FavouriteItemLoadedAction,
   JobAdFavouritesState,
@@ -18,7 +18,6 @@ import { Injectable } from '@angular/core';
 import { JobAdFavouritesRepository } from '../../../shared/backend-services/favourites/job-ad-favourites.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { isAuthenticatedUser } from '../../../core/auth/user.model';
-import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { JobAdFavouriteDetailComponent } from './job-ad-favourite-detail.component';
 
 @Injectable()
@@ -43,7 +42,7 @@ export class JobAdFavouriteDetailGuard implements CanActivate, CanDeactivate<Job
         }
       })
     );
-    return forkJoin(jobAdvertisement$, favouriteItem$).pipe(
+    return forkJoin([jobAdvertisement$, favouriteItem$]).pipe(
       tap(results => {
         const jobAdvertisement = results[0];
         const favouriteItem = results[1];

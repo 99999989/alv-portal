@@ -29,7 +29,7 @@ import {
 } from '../state-management';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ofType } from '@ngrx/effects';
-import { distinctUntilChanged, map, take, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, take, takeUntil, tap } from 'rxjs/operators';
 import { ScrollService } from '../../../core/scroll.service';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
 import { composeResultListItemId } from '../../../shared/layout/result-list-item/result-list-item.component';
@@ -38,7 +38,6 @@ import { FilterPanelValues } from './filter-panel/filter-panel.component';
 import { CandidateQueryPanelValues } from '../../../widgets/candidate-search-widget/candidate-query-panel/candidate-query-panel-values';
 import { LayoutConstants } from '../../../shared/layout/layout-constants.enum';
 import { WINDOW } from '../../../core/window.service';
-import { filter } from 'rxjs/internal/operators/filter';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { UserRole } from '../../../core/auth/user.model';
 import { getCandidateDeleteConfirmModalConfig } from '../../../shared/search-profiles/modal-config.types';

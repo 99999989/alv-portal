@@ -15,7 +15,7 @@ import { AbstractInput } from '../../abstract-input';
 import { ControlContainer } from '@angular/forms';
 import { InputIdGenerationService } from '../../input-id-generation.service';
 import { InputType } from '../../input-type.enum';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import {
   catchError,
@@ -52,7 +52,7 @@ export class SingleTypeaheadComponent extends AbstractInput implements OnInit {
 
   @Output() itemSelected = new EventEmitter<TypeaheadItem<any>>();
 
-  @ViewChild('inputField', {static: false}) inputFieldRef: ElementRef<HTMLInputElement>;
+  @ViewChild('inputField', { static: false }) inputFieldRef: ElementRef<HTMLInputElement>;
 
   helpId = this.id + '-help';
 
