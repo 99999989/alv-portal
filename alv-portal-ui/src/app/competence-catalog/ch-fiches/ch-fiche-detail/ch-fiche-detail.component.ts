@@ -45,7 +45,15 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
     super.ngOnInit();
     this.createAnotherFormControl = this.fb.control(false);
     this.isEdit = !!this.route.snapshot.data.chFiche;
-    this.chFiche = this.route.snapshot.data.chFiche || initialChFiche();
+    if (this.route.snapshot.data.chFiche) {
+      this.chFiche = this.route.snapshot.data.chFiche;
+    } else {
+      this.reset();
+    }
+  }
+
+  reset() {
+    this.chFiche = initialChFiche();
   }
 
   saveChFiche() {
@@ -103,7 +111,7 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
   private handleSuccess(result: CompetenceSet) {
     this.notificationsService.success('portal.competence-catalog.ch-fiches.added-success-notification');
     if (this.createAnotherFormControl.value === true) {
-      this.chFiche = initialChFiche();
+      this.reset();
     } else {
       this.router.navigate(['kk', 'ch-fiches']);
     }

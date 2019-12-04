@@ -10,6 +10,8 @@ export enum BusinessExceptionTypes {
   BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE = 'BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE'
 }
 
+// todo instead of inheritance we need to do duplication, the same way it's done in competence-set-types
+//    see Jira Issue DF-1920
 export interface ChFiche extends UpdateChFiche {
   id?: string;
 }

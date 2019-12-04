@@ -51,7 +51,11 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     super.ngOnInit();
     this.createAnotherFormControl = this.fb.control(false);
     this.isEdit = !!this.route.snapshot.data.competenceSet;
-    this.competenceSet = this.route.snapshot.data.competenceSet || initialCompetenceSetSearchResult();
+    if (this.route.snapshot.data.competenceSet) {
+      this.competenceSet = this.route.snapshot.data.competenceSet;
+    } else {
+      this.reset();
+    }
   }
 
   saveCompetenceSet() {
@@ -99,7 +103,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   private handleSuccess(result: CompetenceSet) {
     this.notificationsService.success('portal.competence-catalog.competence-sets.added-success-notification');
     if (this.createAnotherFormControl.value === true) {
-      this.resetForm();
+      this.reset();
     } else {
       this.router.navigate(['kk', 'competence-sets']);
     }
@@ -116,7 +120,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
-  private resetForm() {
+  private reset() {
     this.competenceSet = initialCompetenceSetSearchResult();
   }
 }

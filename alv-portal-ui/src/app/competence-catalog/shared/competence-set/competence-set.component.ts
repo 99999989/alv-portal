@@ -26,6 +26,8 @@ import { CompetenceElementBacklinkComponent } from '../backlinks/competence-elem
 })
 export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponent implements OnInit, OnChanges {
 
+  //todo figure out how to separate CompetenceSetSearchResult from CompetenceSet, and
+  //   whether we should create a dedicated CompetenceSetSearchResultComponent (DF-1921)
   @Input() competenceSet: CompetenceSetSearchResult;
 
   @Input() isReadonly = false;
