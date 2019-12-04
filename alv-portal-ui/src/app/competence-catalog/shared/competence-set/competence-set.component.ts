@@ -100,7 +100,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   ngOnChanges() {
-    // todo shold be triggered only when the set is changed, now is triggered always
+    // todo see DF-1916 Jira Issue
     this.loadCompetenceElementsIfRequired();
   }
 
