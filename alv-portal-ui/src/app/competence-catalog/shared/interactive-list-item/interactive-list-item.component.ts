@@ -32,6 +32,8 @@ export class InteractiveListItemComponent extends CompetenceCatalogEditorAwareCo
 
   @Input() isPublished: boolean;
 
+  @Input() showStatuses: boolean;
+
   @Input() actions: ActionDefinition<CompetenceCatalogAction>[];
 
   @Output() itemClick = new EventEmitter<void>();
@@ -59,10 +61,10 @@ export class InteractiveListItemComponent extends CompetenceCatalogEditorAwareCo
 
   ngOnInit() {
     super.ngOnInit();
-    if (this.isPublished === undefined
+    if (this.showStatuses && (this.isPublished === undefined
       || this.isPublished === null
       || this.isDraft === undefined
-      || this.isDraft === null) {
+      || this.isDraft === null)) {
       throw new TypeError('Statuses must be provided');
     }
   }

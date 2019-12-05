@@ -36,6 +36,12 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
 
   @Input() isCollapsed = true;
 
+  @Input() isDraft: boolean;
+
+  @Input() isPublished: boolean;
+
+  @Input() showStatuses: boolean;
+
   @Input() showErrors: boolean;
 
   @Input() actions: ActionDefinition<CompetenceCatalogAction>[];
