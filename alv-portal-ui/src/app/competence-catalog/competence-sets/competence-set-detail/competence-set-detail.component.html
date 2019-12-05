@@ -20,6 +20,9 @@
                           [isCollapsed]="false"
                           (actionClick)="handleCompetenceSetActionClick($event, competenceSet)"
                           [actions]="[backlinkCompetenceSetAction]"
+                          [isDraft]="competenceSet.draft"
+                          [isPublished]="competenceSet.published"
+                          [showStatuses]="true"
                           [showActionButtons]="true"
                           [isReadonly]="!observables.isCompetenceCatalogEditor"
                           [showErrors]="showErrors">

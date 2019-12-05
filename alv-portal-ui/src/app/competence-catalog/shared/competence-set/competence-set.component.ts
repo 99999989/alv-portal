@@ -82,6 +82,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
   };
 
+
   competenceElementsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
 

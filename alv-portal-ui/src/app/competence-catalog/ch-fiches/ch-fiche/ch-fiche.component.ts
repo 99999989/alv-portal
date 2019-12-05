@@ -55,7 +55,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   resolvedOccupations: ResolvedOccupation[] = [];
 
-  competences = {
+  competences: { [index: string]: CompetenceSetSearchResult[] } = {
     [CompetenceType.BASIC]: [],
     [CompetenceType.SPECIALIST]: []
   };
