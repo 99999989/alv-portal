@@ -8,9 +8,20 @@
     <span class="title-container d-flex flex-column align-items-start">
       <small class="super-title">
         {{ type }} <span *ngIf="superTitle">- {{ superTitle }}</span>
-      </small>
+      -
+        <ng-container *ngIf="isCompetenceCatalogEditor$ | async">
+            <span>{{isPublished | booleanToText:
+                'portal.competence-catalog.publication-statuses.published':
+                'portal.competence-catalog.publication-statuses.not-published' | translate}}</span>
+            &
+            <span>{{isDraft | booleanToText:
+                'portal.competence-catalog.draft-statuses.draft':
+                'portal.competence-catalog.draft-statuses.not-draft' | translate}}</span>
+          </ng-container>
+        </small>
+
       <pre class="title"
-              [class.wrong-language]="translatedTitle.isWrongLanguage">{{ translatedTitle.value }}</pre>
+           [class.wrong-language]="translatedTitle.isWrongLanguage">{{ translatedTitle.value }}</pre>
     </span>
     <span class="flex-grow-1"></span>
   </button>
