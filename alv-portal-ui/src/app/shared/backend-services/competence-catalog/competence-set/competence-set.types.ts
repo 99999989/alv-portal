@@ -11,6 +11,8 @@ export interface CompetenceSet {
 export interface CreateCompetenceSet {
   knowHowId: string;
   competenceElementIds: string[];
+  draft: boolean;
+  published: boolean;
 }
 
 export interface UpdateCompetenceSet {
