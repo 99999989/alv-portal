@@ -58,12 +58,13 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
 
   ngOnInit() {
     super.ngOnInit();
-    this.form = this.fb.group({
-      published: [false, Validators.required],
-      draft: [true, Validators.required],
-    });
+
     this.isEdit = !!this.route.snapshot.data.competenceSet;
     this.competenceSet = this.route.snapshot.data.competenceSet || initialCompetenceSet();
+    this.form = this.fb.group({
+      published: [this.competenceSet.published, Validators.required],
+      draft: [this.competenceSet.draft, Validators.required],
+    });
   }
 
   saveCompetenceSet() {

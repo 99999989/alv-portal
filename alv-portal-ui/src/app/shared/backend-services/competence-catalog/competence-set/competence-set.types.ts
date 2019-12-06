@@ -32,6 +32,8 @@ export interface CompetenceSetSearchResult {
 
 export const initialCompetenceSet = () => {
   return {
-    competenceElementIds: []
+    competenceElementIds: [],
+    draft: true,
+    published: false
   };
 };
