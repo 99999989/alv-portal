@@ -12,7 +12,12 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { EMPTY, throwError } from 'rxjs';
+import { EMPTY, of, throwError } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  draftRadioButtonOptions,
+  publishedRadioButtonOptions
+} from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -25,11 +30,18 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
 
   isEdit: boolean;
 
+  form: FormGroup;
+
+  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
+
+  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
+
   showErrors: boolean;
 
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private fb: FormBuilder,
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
               private modalService: ModalService,
@@ -41,6 +53,10 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
     super.ngOnInit();
     this.isEdit = !!this.route.snapshot.data.chFiche;
     this.chFiche = this.route.snapshot.data.chFiche || initialChFiche();
+    this.form = this.fb.group({
+      published: [this.chFiche.published, Validators.required],
+      draft: [this.chFiche.draft, Validators.required],
+    });
   }
 
   saveChFiche() {
@@ -78,7 +94,9 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
       title: this.chFiche.title,
       description: this.chFiche.description,
       competences: this.chFiche.competences,
-      occupations: this.chFiche.occupations
+      occupations: this.chFiche.occupations,
+      draft: this.form.get('draft').value,
+      published: this.form.get('published').value
     }).pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
@@ -89,8 +107,8 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
       description: this.chFiche.description,
       competences: this.chFiche.competences,
       occupations: this.chFiche.occupations,
-      draft: this.chFiche.draft,
-      published: this.chFiche.published
+      draft: this.form.get('draft').value,
+      published: this.form.get('published').value
     }).pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }

@@ -18,6 +18,17 @@
       >
       </alv-ch-fiche>
 
+      <form [formGroup]="form"
+            class="mt-3">
+        <alv-radio-button [options$]="publishedRadioButtonOptions$"
+                          alvFormControlName="published"
+                          radioButtonClass="d-inline-flex mr-5"
+        ></alv-radio-button>
+        <alv-radio-button [options$]="draftRadioButtonOptions$"
+                          alvFormControlName="draft"
+                          radioButtonClass="d-inline-flex mr-5"
+        ></alv-radio-button>
+      </form>
       <div class="d-flex justify-content-end my-4 w-100">
         <a class="btn btn-text"
            routerLink="../">
