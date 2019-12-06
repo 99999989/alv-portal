@@ -1,9 +1,9 @@
 os: linux
-dist: xenial
+dist: bionic
 group: stable
 sudo: required
 language: java
-jdk: openjdk8
+jdk: openjdk11
 services:
 - docker
 env:
