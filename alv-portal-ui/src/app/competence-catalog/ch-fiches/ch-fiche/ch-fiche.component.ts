@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
   ChFiche,
   Competence,
@@ -28,12 +28,25 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 
+/*
+ * todo in this file we have 7 subscribe blocks. It's not good because this way when the
+ *   @Input changes, the element is not fully redrawn. Another problem is that the subscriptions
+ *   can get lost and we will end up with the memery leaks.
+ *   Part of the logic should be moved to the dedicated services, and we need to strive to
+ *   using only one async pipe instead of many subscribe blocks.
+ *   The refactor will be done within the frame of DF-1916 Jira Issue
+ */
+const defaultCompetences = () => ({
+  [CompetenceType.BASIC]: [],
+  [CompetenceType.SPECIALIST]: []
+});
+
 @Component({
   selector: 'alv-ch-fiche',
   templateUrl: './ch-fiche.component.html',
   styleUrls: ['./ch-fiche.component.scss']
 })
-export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
+export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent implements OnInit, OnChanges {
 
   @Input() chFiche: ChFiche;
 
@@ -43,7 +56,6 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   isReadonly = false;
 
   IconKey = IconKey;
-
 
   collapsed = {
     OCCUPATIONS: true,
@@ -55,10 +67,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   resolvedOccupations: ResolvedOccupation[] = [];
 
-  competences = {
-    [CompetenceType.BASIC]: [],
-    [CompetenceType.SPECIALIST]: []
-  };
+  competences = defaultCompetences();
 
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
@@ -104,6 +113,15 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     this.competenceSetsActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.backlinkCompetenceSetAction, this.unlinkCompetenceSetAction] : [this.backlinkCompetenceSetAction])
     );
+  }
+
+  ngOnChanges() {
+    this.reset();
+  }
+
+  reset() {
+    this.resolvedOccupations = [];
+    this.competences = defaultCompetences();
   }
 
   addOccupation() {
