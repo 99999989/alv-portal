@@ -67,7 +67,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   resolvedOccupations: ResolvedOccupation[] = [];
 
-  competences = defaultCompetences();
+  competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,

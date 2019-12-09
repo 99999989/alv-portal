@@ -1,4 +1,6 @@
-<ng-container *ngIf="competenceSetsActions$ | async as competenceSetsActions">
+<ng-container *ngIf="{
+    competenceSetsActions: competenceSetsActions$ | async
+  } as observables">
 
   <!--   Title-->
   <alv-interactive-list-item *ngIf="chFiche.title; else noTitle"
@@ -59,7 +61,10 @@
                                        (toggleClick)="toggleCompetences(competenceType, $event)">
     <alv-competence-set *ngFor="let competenceSet of competences[competenceType]; let index = index"
                         [competenceSet]="competenceSet"
-                        [actions]="competenceSetsActions"
+                        [actions]="observables.competenceSetsActions"
+                        [isDraft]="competenceSet.draft"
+                        [isPublished]="competenceSet.published"
+                        [showStatuses]="true"
                         [isInnerElementsReadonly]="true"
                         [isReadonly]="isReadonly"
                         [showActionButtons]="!isReadonly"

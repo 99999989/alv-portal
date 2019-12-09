@@ -47,6 +47,9 @@
                           [isInnerElementsReadonly]="true"
                           [isReadonly]="observables.isCompetenceCatalogEditor"
                           [actions]="observables.actions"
+                          [isDraft]="competenceSet.draft"
+                          [isPublished]="competenceSet.published"
+                          [showStatuses]="true"
                           [showActionButtons]="true"
                           (actionClick)="handleCompetenceSetActionClick($event, competenceSet)">
       </alv-competence-set>
