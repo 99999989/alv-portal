@@ -58,7 +58,10 @@
                                  [multiLanguageTitle]="chFiche.title"
                                  [type]="'portal.competence-catalog.ch-fiches.type' | translate"
                                  [superTitle]="chFiche.id"
+                                 [isDraft]="chFiche.draft"
+                                 [isPublished]="chFiche.published"
                                  (itemClick)="editChFiche(chFiche)"
+                                 [showStatuses]="true"
                                  [isItemClickable]="true">
       </alv-interactive-list-item>
 
