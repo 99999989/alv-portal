@@ -256,6 +256,19 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }).result;
   }
 
+  editFicheDescription(isReadonly: boolean) {
+    const modalRef = this.modalService.openMedium(ChFicheTitleModalComponent);
+    (<ChFicheTitleModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
+    if (this.chFiche.title) {
+      (<ChFicheTitleModalComponent>modalRef.componentInstance).chFicheTitle = this.chFiche.title;
+    }
+    modalRef.result
+      .then((multiLanguageTitle) => {
+        this.chFiche.title = multiLanguageTitle;
+      })
+      .catch(() => {
+      });
+  }
 }
 
 interface ResolvedOccupation {

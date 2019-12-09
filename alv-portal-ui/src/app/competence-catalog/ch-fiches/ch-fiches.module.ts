@@ -11,6 +11,7 @@ import { ChFicheComponent } from './ch-fiche/ch-fiche.component';
 import { CompetenceSetSearchModalComponent } from './competence-set-search-modal/competence-set-search-modal.component';
 import { OccupationSearchModalComponent } from './occupation-search-modal/occupation-search-modal.component';
 import { ChFicheTitleModalComponent } from './ch-fiche-title-modal/ch-fiche-title-modal.component';
+import { ChFicheDescriptionModalComponent } from './ch-fiche-description-modal/ch-fiche-description-modal.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { ChFicheTitleModalComponent } from './ch-fiche-title-modal/ch-fiche-titl
     ChFicheComponent,
     CompetenceSetSearchModalComponent,
     OccupationSearchModalComponent,
-    ChFicheTitleModalComponent
+    ChFicheTitleModalComponent,
+    ChFicheDescriptionModalComponent
   ],
   entryComponents: [
     CompetenceSetSearchModalComponent,

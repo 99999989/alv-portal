@@ -1,19 +1,39 @@
 <ng-container *ngIf="competenceSetsActions$ | async as competenceSetsActions">
 
   <!--   Title-->
-  <alv-interactive-list-item *ngIf="chFiche.title; else noTitle"
-                             [showActionButtons]="false"
+  <div class="mb-2">
+    <alv-interactive-list-item (itemClick)="editFicheName(isReadonly)"
+                               *ngIf="chFiche.title; else noTitle"
+                               [isItemClickable]="true"
+                               [multiLanguageTitle]="chFiche.title"
+                               [showActionButtons]="false"
+                               [superTitle]="chFiche.id || ''"
+                               [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
+
+    </alv-interactive-list-item>
+    <ng-template #noTitle>
+      <alv-competence-item-placeholder (clickHandler)="editFicheName(isReadonly)"
+                                       [customIcon]="IconKey.EDIT_PLUS"
+                                       [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
+                                       [showErrors]="showErrors"
+      >
+      </alv-competence-item-placeholder>
+
+    </ng-template>
+  </div>
+  <!--   Description-->
+  <alv-interactive-list-item (itemClick)="editFicheDescription(isReadonly)"
+                             *ngIf="chFiche.description; else noDescription"
                              [isItemClickable]="true"
-                             (itemClick)="editFicheName(isReadonly)"
                              [multiLanguageTitle]="chFiche.title"
-                             [superTitle]="chFiche.id || ''"
+                             [showActionButtons]="false"
                              [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
 
   </alv-interactive-list-item>
-  <ng-template #noTitle>
-    <alv-competence-item-placeholder [customIcon]="IconKey.EDIT_PLUS"
-                                     [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
-                                     (clickHandler)="editFicheName(isReadonly)"
+  <ng-template #noDescription>
+    <alv-competence-item-placeholder (clickHandler)="editFicheDescription(isReadonly)"
+                                     [customIcon]="IconKey.EDIT_PLUS"
+                                     [mainText]="'portal.competence-catalog.ch-fiches.edit-description'  | translate"
                                      [showErrors]="showErrors"
     >
     </alv-competence-item-placeholder>
