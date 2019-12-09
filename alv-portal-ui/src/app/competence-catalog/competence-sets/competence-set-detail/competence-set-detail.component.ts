@@ -36,6 +36,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
 
   isEdit: boolean;
 
+  readonly = false;
+
   form: FormGroup;
 
   createAnotherFormControl: FormControl;

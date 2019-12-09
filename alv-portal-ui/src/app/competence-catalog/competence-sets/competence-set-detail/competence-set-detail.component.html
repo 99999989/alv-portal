@@ -27,14 +27,15 @@
                           [isReadonly]="!observables.isCompetenceCatalogEditor"
                           [showErrors]="showErrors">
       </alv-competence-set>
-      <hr>
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
     </div>
   </div>
   <div class="row">
     <div class="col-12 col-lg-9 col-xl-10">
-      <form [formGroup]="form">
+      <form *ngIf="observables.isCompetenceCatalogEditor"
+            [formGroup]="form">
+        <hr>
         <alv-radio-button [options$]="publishedRadioButtonOptions$"
                           alvFormControlName="published"
         ></alv-radio-button>
