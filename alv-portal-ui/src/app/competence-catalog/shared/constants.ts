@@ -18,6 +18,6 @@ export const draftRadioButtonOptions = [{
   label: 'portal.competence-catalog.draft-statuses.draft'
 }, {
   value: false,
-  label: 'portal.competence-catalog.draft-statuses.not-draft'
+  label: 'portal.competence-catalog.draft-statuses.approved'
 }
 ];
