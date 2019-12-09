@@ -30,6 +30,7 @@
       </form>
       <div class="d-flex justify-content-end my-4 w-100">
         <alv-checkbox [alvControl]="createAnotherFormControl"
+                      *ngIf="observables.isCompetenceCatalogEditor"
                       class="form-control-plaintext">{{'entity.action.create-another' | translate}}</alv-checkbox>
         <a class="btn btn-text"
            routerLink="../">
