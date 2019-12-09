@@ -19,7 +19,7 @@
       </alv-ch-fiche>
 
       <form [formGroup]="form"
-            *ngIf="isCompetenceCatalogEditor$|async"
+            *ngIf="observables.isCompetenceCatalogEditor"
             class="mt-3">
         <alv-radio-button [options$]="publishedRadioButtonOptions$"
                           alvFormControlName="published"
