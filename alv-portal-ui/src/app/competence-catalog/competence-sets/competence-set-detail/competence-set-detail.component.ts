@@ -19,7 +19,7 @@ import {
   draftRadioButtonOptions,
   publishedRadioButtonOptions
 } from '../../shared/constants';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'alv-competence-set-detail',
