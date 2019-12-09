@@ -19,6 +19,8 @@
       </alv-ch-fiche>
 
       <div class="d-flex justify-content-end my-4 w-100">
+        <alv-checkbox [alvControl]="createAnotherFormControl"
+                      class="form-control-plaintext">{{'entity.action.create-another' | translate}}</alv-checkbox>
         <a class="btn btn-text"
            routerLink="../">
           {{(observables.isCompetenceCatalogEditor ? 'portal.global.cancel': 'entity.action.back') | translate}}
