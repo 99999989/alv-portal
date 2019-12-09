@@ -1168,7 +1168,7 @@ portal.competence-catalog.sorting.DATE_ASC,Erstellungsdatum aufsteigend,Creation
 portal.competence-catalog.sorting.ALPHA_DESC,Alphabetisch absteigend,Alphabetically descending,Ordre alphabétique descendant,In ordine alfabetico decrescente,
 portal.competence-catalog.sorting.ALPHA_ASC,Alphabetisch aufsteigend,Alphabetically ascending,Ordre alphabétique croissant,In ordine alfabetico ascendente,
 portal.competence-catalog.draft-statuses.draft,In Bearbeitung,,,,
-portal.competence-catalog.draft-statuses.not-draft,Freigegeben,,,,
+portal.competence-catalog.draft-statuses.approved,Freigegeben,,,,
 portal.competence-catalog.publication-statuses.published,Publiziert,,,,
 portal.competence-catalog.publication-statuses.not-published,Nicht publiziert,,,,
 portal.competence-catalog.competence-elements.browser-title,Kompetenz-Bestandteile,Skill components,Composants de compétence,Elementi della competenza,
