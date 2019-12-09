@@ -12,13 +12,15 @@ import { CompetenceElementRepository } from '../../../shared/backend-services/co
 import { NotificationsService } from '../../../core/notifications.service';
 import { getModalTitle } from '../utils/translation-utils';
 import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
+import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
 
 @Component({
   selector: 'alv-competence-element-modal',
   templateUrl: './competence-element-modal.component.html',
   styleUrls: ['./competence-element-modal.component.scss']
 })
-export class CompetenceElementModalComponent implements OnInit {
+export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   @Input() competenceElement: CompetenceElement;
 
@@ -51,10 +53,13 @@ export class CompetenceElementModalComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private competenceElementRepository: CompetenceElementRepository,
               private notificationsService: NotificationsService,
-              private modal: NgbActiveModal) {
+              private modal: NgbActiveModal,
+              protected authenticationService: AuthenticationService) {
+    super(authenticationService);
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.resetForm();
     this.createAnotherFormControl = this.fb.control(false);
     this.form = this.fb.group({

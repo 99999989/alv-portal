@@ -31,15 +31,17 @@
       </alv-input-field>
     </ng-container>
   </fieldset>
-  <alv-radio-button [options$]="publishedRadioButtonOptions$"
-                    alvFormControlName="published"
-                    radioButtonClass="d-inline-flex mr-5"
-  ></alv-radio-button>
-  <alv-radio-button [options$]="draftRadioButtonOptions$"
-                    alvFormControlName="draft"
-                    radioButtonClass="d-inline-flex mr-5"
-  ></alv-radio-button>
-
+  <ng-container *ngIf="isCompetenceCatalogEditor$|async">
+    <alv-radio-button [options$]="publishedRadioButtonOptions$"
+                      [readonly]="isReadonly"
+                      alvFormControlName="published"
+                      class="mb-5"
+    ></alv-radio-button>
+    <alv-radio-button [options$]="draftRadioButtonOptions$"
+                      [readonly]="isReadonly"
+                      alvFormControlName="draft"
+    ></alv-radio-button>
+  </ng-container>
 
   <alv-checkbox [alvControl]="createAnotherFormControl">{{'entity.action.create-another' | translate}}</alv-checkbox>
 
