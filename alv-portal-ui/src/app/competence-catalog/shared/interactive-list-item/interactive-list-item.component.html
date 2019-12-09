@@ -16,10 +16,10 @@
             <span>{{isPublished | booleanToText:
                 'portal.competence-catalog.publication-statuses.published':
                 'portal.competence-catalog.publication-statuses.not-published' | translate}}</span>
-            &
+            &nbsp;&&nbsp;
             <span>{{isDraft | booleanToText:
-                'portal.competence-catalog.draft-statuses.draft':
-                'portal.competence-catalog.draft-statuses.not-draft' | translate}}</span>
+              'portal.competence-catalog.draft-statuses.draft':
+              'portal.competence-catalog.draft-statuses.approved' | translate}}</span>
           </ng-container>
         </small>
 

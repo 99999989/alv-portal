@@ -13,7 +13,7 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { catchError, takeUntil } from 'rxjs/operators';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { EMPTY, of, throwError } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   draftRadioButtonOptions,
   publishedRadioButtonOptions
@@ -28,6 +28,8 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
 
   chFiche: ChFiche;
 
+  createAnotherFormControl: FormControl;
+
   isEdit: boolean;
 
   form: FormGroup;
@@ -41,22 +43,31 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private fb: FormBuilder,
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
               private modalService: ModalService,
-              private chFicheRepository: ChFicheRepository) {
+              private chFicheRepository: ChFicheRepository,
+              private fb: FormBuilder) {
     super(authenticationService);
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.createAnotherFormControl = this.fb.control(false);
     this.isEdit = !!this.route.snapshot.data.chFiche;
-    this.chFiche = this.route.snapshot.data.chFiche || initialChFiche();
+    if (this.route.snapshot.data.chFiche) {
+      this.chFiche = this.route.snapshot.data.chFiche;
+    } else {
+      this.reset();
+    }
     this.form = this.fb.group({
       published: [this.chFiche.published, Validators.required],
       draft: [this.chFiche.draft, Validators.required],
     });
+  }
+
+  reset() {
+    this.chFiche = initialChFiche();
   }
 
   saveChFiche() {
@@ -115,7 +126,11 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
 
   private handleSuccess(result: CompetenceSet) {
     this.notificationsService.success('portal.competence-catalog.ch-fiches.added-success-notification');
-    this.router.navigate(['kk', 'ch-fiches']);
+    if (this.createAnotherFormControl.value === true) {
+      this.reset();
+    } else {
+      this.router.navigate(['kk', 'ch-fiches']);
+    }
   }
 
   private handleFailure(error) {

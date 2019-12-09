@@ -63,11 +63,9 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   openCreateModal() {
     const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
     modalRef.result
-      .then(competenceElement => {
-        this.reload();
-      })
-      .catch(() => {
-      });
+      .then(this.reload.bind(this))
+      .catch(this.reload.bind(this));
+
   }
 
   openUpdateModal(competenceElement: CompetenceElement, isReadonly: boolean) {

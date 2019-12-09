@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   CompetenceSet,
   CompetenceSetSearchResult,
-  initialCompetenceSet
+  initialCompetenceSetSearchResult
 } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { NotificationsService } from '../../../core/notifications.service';
@@ -38,6 +38,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
 
   form: FormGroup;
 
+  createAnotherFormControl: FormControl;
+
   backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
@@ -58,9 +60,13 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
 
   ngOnInit() {
     super.ngOnInit();
-
+    this.createAnotherFormControl = this.fb.control(false);
     this.isEdit = !!this.route.snapshot.data.competenceSet;
-    this.competenceSet = this.route.snapshot.data.competenceSet || initialCompetenceSet();
+    if (this.route.snapshot.data.competenceSet) {
+      this.competenceSet = this.route.snapshot.data.competenceSet;
+    } else {
+      this.reset();
+    }
     this.form = this.fb.group({
       published: [this.competenceSet.published, Validators.required],
       draft: [this.competenceSet.draft, Validators.required],
@@ -107,12 +113,17 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
             this.router.navigate(['kk', 'competence-sets']);
           });
       })
-      .catch(() => {});
+      .catch(() => {
+      });
   }
 
   private handleSuccess(result: CompetenceSet) {
     this.notificationsService.success('portal.competence-catalog.competence-sets.added-success-notification');
-    this.router.navigate(['kk', 'competence-sets']);
+    if (this.createAnotherFormControl.value === true) {
+      this.reset();
+    } else {
+      this.router.navigate(['kk', 'competence-sets']);
+    }
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
@@ -124,5 +135,9 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
     const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+  }
+
+  private reset() {
+    this.competenceSet = initialCompetenceSetSearchResult();
   }
 }
