@@ -30,7 +30,7 @@
     "i18n:missing-translations": "node pipeline-scripts/csv_check_missing.js translations.csv",
     "i18n:clashes": "node pipeline-scripts/csv_check_clashes.js ../translations.csv",
     "bundle-report": "webpack-bundle-analyzer target/classes/ch/admin/seco/alvportal/ui/stats.json",
-    "webdriver-update": "webdriver-manager update"
+    "webdriver-update": "webdriver-manager update --versions.chrome=78.0.3904.105"
   },
   "private": true,
   "dependencies": {
