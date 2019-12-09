@@ -13,6 +13,7 @@ import { CompetenceElementBacklinkComponent } from './backlinks/competence-eleme
 import { CompetenceSetBacklinkComponent } from './backlinks/competence-set-backlinks/competence-set-backlink.component';
 import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-sort-modal/competence-catalog-sort-modal.component';
 import { MultiLanguageStringComponent } from './multi-language-string/multi-language-string.component';
+import { BooleanToTextPipe } from './utils/boolean-to-text.pipe';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { MultiLanguageStringComponent } from './multi-language-string/multi-lang
     CompetenceElementBacklinkComponent,
     CompetenceSetBacklinkComponent,
     CompetenceCatalogSortModalComponent,
-    MultiLanguageStringComponent
+    MultiLanguageStringComponent,
+    BooleanToTextPipe
   ],
   providers: [],
   entryComponents: [
@@ -50,6 +52,7 @@ import { MultiLanguageStringComponent } from './multi-language-string/multi-lang
     CompetenceSetBacklinkComponent,
     CompetenceCatalogSortModalComponent,
     MultiLanguageStringComponent,
+    BooleanToTextPipe
   ]
 })
 export class SharedCompetenceCatalogModule {

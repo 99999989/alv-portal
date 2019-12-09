@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { atLeastOneRequiredValidator } from '../../../shared/forms/input/validators/at-least-one-required.validator';
 import { SelectableOption } from '../../../shared/forms/input/selectable-option.model';
 import {
@@ -37,6 +37,8 @@ export class CompetenceElementModalComponent implements OnInit {
 
   form: FormGroup;
 
+  createAnotherFormControl: FormControl;
+
   modalTitle: string;
 
   isEdit = false;
@@ -48,17 +50,8 @@ export class CompetenceElementModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form = this.fb.group({
-      type: [null, Validators.required],
-      description: this.fb.group({
-        de: [''],
-        fr: [''],
-        it: [''],
-        en: ['']
-      }, {
-        validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
-      })
-    });
+    this.resetForm();
+    this.createAnotherFormControl = this.fb.control(false);
     if (this.competenceElement) {
       this.form.patchValue(this.competenceElement);
       this.isEdit = true;
@@ -95,6 +88,24 @@ export class CompetenceElementModalComponent implements OnInit {
 
   private handleSuccess(result) {
     this.notificationsService.success('portal.competence-catalog.competence-elements.add-modal.added-success-notification');
-    this.modal.close(result);
+    if (this.createAnotherFormControl.value === true) {
+      this.resetForm();
+    } else {
+      this.modal.close(result);
+    }
+  }
+
+  private resetForm() {
+    this.form = this.fb.group({
+      type: [null, Validators.required],
+      description: this.fb.group({
+        de: [''],
+        fr: [''],
+        it: [''],
+        en: ['']
+      }, {
+        validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
+      })
+    });
   }
 }

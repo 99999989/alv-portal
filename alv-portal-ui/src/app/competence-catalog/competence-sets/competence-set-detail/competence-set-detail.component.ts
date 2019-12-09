@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   CompetenceSet,
   CompetenceSetSearchResult,
-  initialCompetenceSet
+  initialCompetenceSetSearchResult
 } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { CompetenceSetRepository } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.repository';
 import { NotificationsService } from '../../../core/notifications.service';
@@ -14,6 +14,7 @@ import { CompetenceSetDeleteModalComponent } from '../competence-set-delete-moda
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -25,6 +26,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   competenceSet: CompetenceSetSearchResult;
 
   isEdit: boolean;
+
+  createAnotherFormControl: FormControl;
 
   backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
@@ -39,14 +42,20 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
               private modalService: ModalService,
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
-              private competenceSetRepository: CompetenceSetRepository) {
+              private competenceSetRepository: CompetenceSetRepository,
+              private fb: FormBuilder) {
     super(authenticationService);
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.createAnotherFormControl = this.fb.control(false);
     this.isEdit = !!this.route.snapshot.data.competenceSet;
-    this.competenceSet = this.route.snapshot.data.competenceSet || initialCompetenceSet();
+    if (this.route.snapshot.data.competenceSet) {
+      this.competenceSet = this.route.snapshot.data.competenceSet;
+    } else {
+      this.reset();
+    }
   }
 
   saveCompetenceSet() {
@@ -87,12 +96,17 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
             this.router.navigate(['kk', 'competence-sets']);
           });
       })
-      .catch(() => {});
+      .catch(() => {
+      });
   }
 
   private handleSuccess(result: CompetenceSet) {
     this.notificationsService.success('portal.competence-catalog.competence-sets.added-success-notification');
-    this.router.navigate(['kk', 'competence-sets']);
+    if (this.createAnotherFormControl.value === true) {
+      this.reset();
+    } else {
+      this.router.navigate(['kk', 'competence-sets']);
+    }
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
@@ -104,5 +118,9 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
     const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+  }
+
+  private reset() {
+    this.competenceSet = initialCompetenceSetSearchResult();
   }
 }
