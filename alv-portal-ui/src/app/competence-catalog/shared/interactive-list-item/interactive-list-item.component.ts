@@ -10,13 +10,15 @@ import {
   TranslatedString,
   TranslatedStringToCurrentLanguage
 } from '../shared-competence-catalog.types';
+import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
 
 @Component({
   selector: 'alv-interactive-list-item',
   templateUrl: './interactive-list-item.component.html',
   styleUrls: ['./interactive-list-item.component.scss']
 })
-export class InteractiveListItemComponent implements OnInit {
+export class InteractiveListItemComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   @Input() superTitle: string;
 
@@ -26,6 +28,12 @@ export class InteractiveListItemComponent implements OnInit {
 
   @Input() showActionButtons: boolean;
 
+  @Input() isDraft: boolean;
+
+  @Input() isPublished: boolean;
+
+  @Input() showStatuses: boolean;
+
   @Input() actions: ActionDefinition<CompetenceCatalogAction>[];
 
   @Output() itemClick = new EventEmitter<void>();
@@ -34,7 +42,9 @@ export class InteractiveListItemComponent implements OnInit {
 
   translatedTitle$: Observable<TranslatedStringToCurrentLanguage>;
 
-  constructor(private i18nService: I18nService) {
+  constructor(private i18nService: I18nService,
+              protected authenticationService: AuthenticationService) {
+    super(authenticationService);
   }
 
   private _multiLanguageTitle: TranslatedString; // todo use multi-language-string component
@@ -50,6 +60,13 @@ export class InteractiveListItemComponent implements OnInit {
   }
 
   ngOnInit() {
+    super.ngOnInit();
+    if (this.showStatuses && (this.isPublished === undefined
+      || this.isPublished === null
+      || this.isDraft === undefined
+      || this.isDraft === null)) {
+      throw new TypeError('Statuses must be provided');
+    }
   }
 
   onItemClick() {
