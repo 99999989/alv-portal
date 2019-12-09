@@ -8,7 +8,10 @@ export enum OccupationTypeaheadItemType {
 
 export class OccupationTypeaheadItem extends TypeaheadItem<OccupationCode> {
 
-  constructor(type: OccupationTypeaheadItemType, occupationData: OccupationCode, label: string, order: number) {
+  constructor(public type: OccupationTypeaheadItemType,
+              public occupationData: OccupationCode,
+              public label: string,
+              public order: number) {
     super(type, occupationData, label, order);
   }
 

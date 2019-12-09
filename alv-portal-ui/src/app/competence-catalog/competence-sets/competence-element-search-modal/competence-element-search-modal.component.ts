@@ -85,7 +85,7 @@ export class CompetenceElementSearchModalComponent implements OnInit {
     return new TypeaheadItem<CompetenceElement>(
       competenceElement.type,
       competenceElement,
-      getTranslatedString(competenceElement.description, this.currentLang).value,
+      getTranslatedString(competenceElement.description, this.currentLang).value + ' (' + competenceElement.id + ')',
       index
     );
   }

@@ -9,7 +9,7 @@
     <small *ngIf="showStatusInformation"
            class="text-muted job-ad-status">
       {{'portal.job-detail.status' | translate}}
-      : {{'global.job-publication.status.' + jobDetailModel.jobAdvertisement.status | translate}}
+      : {{'global.job-publication.status.' + getStatus() | translate}}
     </small>
   </h2>
 
