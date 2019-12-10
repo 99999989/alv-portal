@@ -28,8 +28,7 @@
                              *ngIf="chFiche.description; else noDescription"
                              [isItemClickable]="true"
                              [multiLanguageTitle]="chFiche.description"
-                             [showActionButtons]="false"
-                             [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
+                             [showActionButtons]="false">
 
   </alv-interactive-list-item>
   <ng-template #noDescription>

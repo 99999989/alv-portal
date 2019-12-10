@@ -8,6 +8,7 @@
   <ng-container *ngFor="let formField of formFields">
     <alv-input-field [alvFormControlName]="formField"
                      [multilineMinRows]="2"
+                     [maxLength]="1024"
                      [multiline]="true"
                      [readonly]="isReadonly"
                      [showGroupErrors]="true"
