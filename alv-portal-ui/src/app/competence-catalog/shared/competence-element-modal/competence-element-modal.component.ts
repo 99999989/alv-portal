@@ -11,13 +11,16 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { NotificationsService } from '../../../core/notifications.service';
 import { getModalTitle } from '../utils/translation-utils';
+import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
+import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
 
 @Component({
   selector: 'alv-competence-element-modal',
   templateUrl: './competence-element-modal.component.html',
   styleUrls: ['./competence-element-modal.component.scss']
 })
-export class CompetenceElementModalComponent implements OnInit {
+export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   @Input() competenceElement: CompetenceElement;
 
@@ -43,15 +46,35 @@ export class CompetenceElementModalComponent implements OnInit {
 
   isEdit = false;
 
+  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
+
+  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
+
   constructor(private fb: FormBuilder,
               private competenceElementRepository: CompetenceElementRepository,
               private notificationsService: NotificationsService,
-              private modal: NgbActiveModal) {
+              private modal: NgbActiveModal,
+              protected authenticationService: AuthenticationService) {
+    super(authenticationService);
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.resetForm();
     this.createAnotherFormControl = this.fb.control(false);
+    this.form = this.fb.group({
+      type: [null, Validators.required],
+      published: [false, Validators.required],
+      draft: [true, Validators.required],
+      description: this.fb.group({
+        de: [''],
+        fr: [''],
+        it: [''],
+        en: ['']
+      }, {
+        validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
+      })
+    });
     if (this.competenceElement) {
       this.form.patchValue(this.competenceElement);
       this.isEdit = true;
@@ -75,8 +98,8 @@ export class CompetenceElementModalComponent implements OnInit {
   private updateElement() {
     this.competenceElementRepository.update(this.competenceElement.id, {
       description: this.form.get('description').value,
-      draft: this.competenceElement.draft,
-      published: this.competenceElement.published
+      draft: this.form.get('draft').value,
+      published: this.form.get('published').value
     })
       .subscribe(this.handleSuccess.bind(this));
   }

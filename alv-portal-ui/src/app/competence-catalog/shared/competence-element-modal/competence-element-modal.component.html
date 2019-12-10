@@ -27,10 +27,20 @@
                        [multilineMinRows]="1"
                        [showGroupErrors]="true"
                        [validationMessages]="[{ error: 'atLeastOneRequired', message: 'global.common-phrases.at-least-one-required' }]"
-                       >
+      >
       </alv-input-field>
     </ng-container>
   </fieldset>
+  <ng-container *ngIf="isCompetenceCatalogEditor$|async">
+    <alv-radio-button [options$]="publishedRadioButtonOptions$"
+                      [readonly]="isReadonly"
+                      alvFormControlName="published"
+    ></alv-radio-button>
+    <alv-radio-button [options$]="draftRadioButtonOptions$"
+                      [readonly]="isReadonly"
+                      alvFormControlName="draft"
+    ></alv-radio-button>
+  </ng-container>
 
   <alv-checkbox [alvControl]="createAnotherFormControl">{{'entity.action.create-another' | translate}}</alv-checkbox>
 
