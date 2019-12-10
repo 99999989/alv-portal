@@ -18,6 +18,16 @@
       >
       </alv-ch-fiche>
 
+      <form [formGroup]="form"
+            *ngIf="observables.isCompetenceCatalogEditor"
+            class="mt-3">
+        <alv-radio-button [options$]="publishedRadioButtonOptions$"
+                          alvFormControlName="published"
+        ></alv-radio-button>
+        <alv-radio-button [options$]="draftRadioButtonOptions$"
+                          alvFormControlName="draft"
+        ></alv-radio-button>
+      </form>
       <div class="d-flex justify-content-end my-4 w-100">
         <alv-checkbox [alvControl]="createAnotherFormControl"
                       class="form-control-plaintext">{{'entity.action.create-another' | translate}}</alv-checkbox>

@@ -12,8 +12,12 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { EMPTY, throwError } from 'rxjs';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { EMPTY, of, throwError } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  draftRadioButtonOptions,
+  publishedRadioButtonOptions
+} from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -27,6 +31,12 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
   createAnotherFormControl: FormControl;
 
   isEdit: boolean;
+
+  form: FormGroup;
+
+  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
+
+  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
 
   showErrors: boolean;
 
@@ -50,6 +60,10 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
     } else {
       this.reset();
     }
+    this.form = this.fb.group({
+      published: [this.chFiche.published, Validators.required],
+      draft: [this.chFiche.draft, Validators.required],
+    });
   }
 
   reset() {
@@ -91,7 +105,9 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
       title: this.chFiche.title,
       description: this.chFiche.description,
       competences: this.chFiche.competences,
-      occupations: this.chFiche.occupations
+      occupations: this.chFiche.occupations,
+      draft: this.form.get('draft').value,
+      published: this.form.get('published').value
     }).pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
@@ -102,8 +118,8 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
       description: this.chFiche.description,
       competences: this.chFiche.competences,
       occupations: this.chFiche.occupations,
-      draft: this.chFiche.draft,
-      published: this.chFiche.published
+      draft: this.form.get('draft').value,
+      published: this.form.get('published').value
     }).pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }

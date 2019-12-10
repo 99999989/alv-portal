@@ -14,7 +14,12 @@ import { CompetenceSetDeleteModalComponent } from '../competence-set-delete-moda
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { of } from 'rxjs';
+import {
+  draftRadioButtonOptions,
+  publishedRadioButtonOptions
+} from '../../shared/constants';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -25,7 +30,15 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
 
   competenceSet: CompetenceSetSearchResult;
 
+  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
+
+  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
+
   isEdit: boolean;
+
+  readonly = false;
+
+  form: FormGroup;
 
   createAnotherFormControl: FormControl;
 
@@ -38,12 +51,12 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   showErrors: boolean;
 
   constructor(private route: ActivatedRoute,
+              private fb: FormBuilder,
               private router: Router,
               private modalService: ModalService,
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
-              private competenceSetRepository: CompetenceSetRepository,
-              private fb: FormBuilder) {
+              private competenceSetRepository: CompetenceSetRepository) {
     super(authenticationService);
   }
 
@@ -56,6 +69,10 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     } else {
       this.reset();
     }
+    this.form = this.fb.group({
+      published: [this.competenceSet.published, Validators.required],
+      draft: [this.competenceSet.draft, Validators.required],
+    });
   }
 
   saveCompetenceSet() {
@@ -72,7 +89,9 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   private createCompetenceSet() {
     this.competenceSetRepository.create({
       knowHowId: this.competenceSet.knowHow.id,
-      competenceElementIds: this.competenceSet.competenceElementIds
+      competenceElementIds: this.competenceSet.competenceElementIds,
+      draft: this.form.get('draft').value,
+      published: this.form.get('published').value
     }).subscribe(this.handleSuccess.bind(this));
   }
 
@@ -80,8 +99,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     this.competenceSetRepository.update(this.competenceSet.id, {
       knowHowId: this.competenceSet.knowHow.id,
       competenceElementIds: this.competenceSet.competenceElementIds,
-      draft: this.competenceSet.draft,
-      published: this.competenceSet.published
+      draft: this.form.get('draft').value,
+      published: this.form.get('published').value
     }).subscribe(this.handleSuccess.bind(this));
   }
 
