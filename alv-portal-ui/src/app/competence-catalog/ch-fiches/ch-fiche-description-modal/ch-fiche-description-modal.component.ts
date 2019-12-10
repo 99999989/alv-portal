@@ -16,7 +16,7 @@ export class ChFicheDescriptionModalComponent implements OnInit {
   isReadonly = false;
 
   @Input()
-  chFicheTitle: TranslatedString;
+  chFicheDescription: TranslatedString;
 
   formFields = ['de', 'fr', 'it', 'en'];
 
@@ -33,8 +33,8 @@ export class ChFicheDescriptionModalComponent implements OnInit {
     }, {
       validators: [atLeastOneRequiredValidator(this.formFields)]
     });
-    if (this.chFicheTitle) {
-      this.form.patchValue(this.chFicheTitle);
+    if (this.chFicheDescription) {
+      this.form.patchValue(this.chFicheDescription);
     }
   }
 

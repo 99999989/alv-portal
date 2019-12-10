@@ -27,6 +27,7 @@ import { NotificationsService } from '../../../core/notifications.service';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
+import { ChFicheDescriptionModalComponent } from '../ch-fiche-description-modal/ch-fiche-description-modal.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -275,14 +276,14 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   editFicheDescription(isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(ChFicheTitleModalComponent);
-    (<ChFicheTitleModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
-    if (this.chFiche.title) {
-      (<ChFicheTitleModalComponent>modalRef.componentInstance).chFicheTitle = this.chFiche.title;
+    const modalRef = this.modalService.openMedium(ChFicheDescriptionModalComponent);
+    (<ChFicheDescriptionModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
+    if (this.chFiche.description) {
+      (<ChFicheDescriptionModalComponent>modalRef.componentInstance).chFicheDescription = this.chFiche.description;
     }
     modalRef.result
       .then((multiLanguageTitle) => {
-        this.chFiche.title = multiLanguageTitle;
+        this.chFiche.description = multiLanguageTitle;
       })
       .catch(() => {
       });

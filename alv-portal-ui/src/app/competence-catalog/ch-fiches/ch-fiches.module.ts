@@ -33,7 +33,8 @@ import { ChFicheDescriptionModalComponent } from './ch-fiche-description-modal/c
   entryComponents: [
     CompetenceSetSearchModalComponent,
     OccupationSearchModalComponent,
-    ChFicheTitleModalComponent
+    ChFicheTitleModalComponent,
+    ChFicheDescriptionModalComponent
   ],
   providers: [
     ModalService
