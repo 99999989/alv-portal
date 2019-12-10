@@ -21,11 +21,11 @@ export interface CreateChFiche {
   description?: TranslatedString;
   occupations: Occupation[];
   competences: Competence[];
+  draft?: boolean;
+  published?: boolean;
 }
 
 export interface UpdateChFiche extends CreateChFiche {
-  draft?: boolean;
-  published?: boolean;
 }
 
 export interface Occupation {
@@ -40,6 +40,8 @@ export interface Competence {
 
 export function initialChFiche(): ChFiche {
   return {
+    draft: true,
+    published: false,
     occupations: [],
     competences: []
   };
