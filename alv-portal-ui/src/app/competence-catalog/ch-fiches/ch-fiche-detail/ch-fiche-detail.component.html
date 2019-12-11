@@ -29,8 +29,8 @@
         ></alv-radio-button>
       </form>
       <div class="d-flex justify-content-end my-4 w-100">
-        <alv-checkbox *ngIf="observables.isCompetenceCatalogEditor"
-                      [alvControl]="createAnotherFormControl"
+        <alv-checkbox [alvControl]="createAnotherFormControl"
+                      *ngIf="observables.isCompetenceCatalogEditor && !isEdit"
                       class="form-control-plaintext">{{'entity.action.create-another' | translate}}</alv-checkbox>
         <a class="btn btn-text"
            routerLink="../">

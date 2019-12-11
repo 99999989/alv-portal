@@ -60,7 +60,6 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
 
   ngOnInit() {
     super.ngOnInit();
-    this.resetForm();
     this.createAnotherFormControl = this.fb.control(false);
     this.form = this.fb.group({
       type: [null, Validators.required],
@@ -112,23 +111,20 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
   private handleSuccess(result) {
     this.notificationsService.success('portal.competence-catalog.competence-elements.add-modal.added-success-notification');
     if (this.createAnotherFormControl.value === true) {
-      this.resetForm();
+      this.form.reset({
+        type: null,
+        description: {
+          de: '',
+          fr: '',
+          it: '',
+          en: ''
+        },
+        published: false,
+        draft: true
+      });
     } else {
       this.modal.close(result);
     }
   }
 
-  private resetForm() {
-    this.form = this.fb.group({
-      type: [null, Validators.required],
-      description: this.fb.group({
-        de: [''],
-        fr: [''],
-        it: [''],
-        en: ['']
-      }, {
-        validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
-      })
-    });
-  }
 }
