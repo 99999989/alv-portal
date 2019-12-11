@@ -40,8 +40,10 @@
                       [readonly]="isReadonly"
                       alvFormControlName="draft"
     ></alv-radio-button>
+    <alv-checkbox *ngIf="!isReadonly && !isEdit"
+                  [alvControl]="createAnotherFormControl"
+    >{{'entity.action.create-another' | translate}}</alv-checkbox>
   </ng-container>
 
-  <alv-checkbox [alvControl]="createAnotherFormControl">{{'entity.action.create-another' | translate}}</alv-checkbox>
 
 </alv-modal>
