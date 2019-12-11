@@ -1,0 +1,8 @@
+<form [formGroup]="form">
+  {{'portal.competence-catalog.publication-status' | translate}}
+  <alv-checkbox alvFormControlName="published">{{'portal.competence-catalog.publication-statuses.published' | translate}}</alv-checkbox>
+  <alv-checkbox alvFormControlName="notPublished">{{'portal.competence-catalog.publication-statuses.not-published' | translate}}</alv-checkbox>
+  {{'portal.competence-catalog.draft-status' | translate}}
+  <alv-checkbox alvFormControlName="draft">{{'portal.competence-catalog.draft-statuses.draft' | translate}}</alv-checkbox>
+  <alv-checkbox alvFormControlName="approved">{{'portal.competence-catalog.draft-statuses.approved' | translate}}</alv-checkbox>
+</form>
