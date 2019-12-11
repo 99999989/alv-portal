@@ -70,6 +70,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
+  chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
     icon: ['fas', 'search-plus'],
@@ -92,6 +94,11 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
   };
+  deleteChFicheAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.DELETE,
+    icon: ['fas', 'trash'],
+    label: 'portal.competence-catalog.competence-elements.overview.delete.label'
+  };
 
   competenceSetsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
@@ -113,6 +120,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     ).subscribe();
     this.competenceSetsActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.backlinkCompetenceSetAction, this.unlinkCompetenceSetAction] : [this.backlinkCompetenceSetAction])
+    );
+    this.chFicheDescriptionActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.deleteChFicheAction] : [])
     );
   }
 
@@ -287,6 +297,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       })
       .catch(() => {
       });
+  }
+
+  handleDescriptionActionClick(action: CompetenceCatalogAction) {
+    if (action === CompetenceCatalogAction.DELETE) {
+      this.chFiche.description = null;
+    }
   }
 }
 

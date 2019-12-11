@@ -1,7 +1,7 @@
 <ng-container *ngIf="{
-    competenceSetsActions: competenceSetsActions$ | async
+    competenceSetsActions: competenceSetsActions$ | async,
+    chFicheDescriptionActions: chFicheDescriptionActions$ | async
   } as observables">
-
   <!--   Title-->
   <div class="mb-2">
     <alv-interactive-list-item (itemClick)="editFicheName(isReadonly)"
@@ -27,8 +27,11 @@
   <alv-interactive-list-item (itemClick)="editFicheDescription(isReadonly)"
                              *ngIf="chFiche.description; else noDescription"
                              [isItemClickable]="true"
+                             (actionClick)="handleDescriptionActionClick($event)"
+                             [actions]="observables.chFicheDescriptionActions"
                              [multiLanguageTitle]="chFiche.description"
-                             [showActionButtons]="false">
+                             [showActionButtons]="true"
+                             titleClass="font-weight-normal">
 
   </alv-interactive-list-item>
   <ng-template #noDescription>
