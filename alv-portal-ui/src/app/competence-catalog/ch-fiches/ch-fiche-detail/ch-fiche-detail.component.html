@@ -29,11 +29,12 @@
         ></alv-radio-button>
       </form>
       <div class="d-flex justify-content-end my-4 w-100">
-        <alv-checkbox [alvControl]="createAnotherFormControl"
+        <alv-checkbox *ngIf="observables.isCompetenceCatalogEditor"
+                      [alvControl]="createAnotherFormControl"
                       class="form-control-plaintext">{{'entity.action.create-another' | translate}}</alv-checkbox>
         <a class="btn btn-text"
            routerLink="../">
-          {{(observables.isCompetenceCatalogEditor ? 'portal.global.cancel': 'entity.action.back') | translate}}
+          {{(observables.isCompetenceCatalogEditor ? 'portal.global.cancel' : 'entity.action.back') | translate}}
         </a>
         <button class="btn btn-secondary ml-1"
                 (click)="deleteChFiche()"

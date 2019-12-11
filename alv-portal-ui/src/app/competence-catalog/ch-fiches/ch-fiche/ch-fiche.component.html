@@ -1,6 +1,7 @@
 <ng-container *ngIf="{
     competenceSetsActions: competenceSetsActions$ | async,
-    chFicheDescriptionActions: chFicheDescriptionActions$ | async
+    chFicheDescriptionActions: chFicheDescriptionActions$ | async,
+    isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -15,7 +16,7 @@
     </alv-interactive-list-item>
     <ng-template #noTitle>
       <alv-competence-item-placeholder (clickHandler)="editFicheName(isReadonly)"
-                                       [customIcon]="IconKey.EDIT_PLUS"
+                                       [customIcon]="observables.isCompetenceCatalogEditor ? IconKey.EDIT_PLUS : null"
                                        [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
                                        [showErrors]="showErrors"
       >
@@ -30,13 +31,13 @@
                              (actionClick)="handleDescriptionActionClick($event)"
                              [actions]="observables.chFicheDescriptionActions"
                              [multiLanguageTitle]="chFiche.description"
-                             [showActionButtons]="true"
+                             [showActionButtons]="observables.isCompetenceCatalogEditor"
                              titleClass="font-weight-normal">
 
   </alv-interactive-list-item>
   <ng-template #noDescription>
     <alv-competence-item-placeholder (clickHandler)="editFicheDescription(isReadonly)"
-                                     [customIcon]="IconKey.EDIT_PLUS"
+                                     [customIcon]="observables.isCompetenceCatalogEditor ? IconKey.EDIT_PLUS : null"
                                      [mainText]="'portal.competence-catalog.ch-fiches.no-description-placeholder'  | translate"
     >
     </alv-competence-item-placeholder>
