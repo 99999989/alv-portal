@@ -52,7 +52,7 @@ export class ApplicationDocumentsOverviewComponent extends AbstractSubscriber im
 
   selectedSortType = ApplicationDocumentSortType.BY_DATE;
 
-  private readonly MAX_DOCUMENTS_PER_TYPE = 3;
+  private readonly MAX_DOCUMENTS_PER_TYPE = 6;
 
   constructor(private fb: FormBuilder,
               private modalService: ModalService,

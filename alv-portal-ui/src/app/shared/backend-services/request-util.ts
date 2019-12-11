@@ -22,10 +22,16 @@ export function createRequestOption(req?: any): HttpParams {
 }
 
 export function createPageableURLSearchParams(req?: PagedSearchRequest): HttpParams {
-  return new HttpParams()
+  let params = new HttpParams()
     .set('page', '' + req.page)
-    .set('sort', '' + req.sort)
     .set('size', '' + req.size);
+  if (req.sort) {
+    if (req.sort instanceof Array) {req.sort.forEach((sort) => params = params.append('sort', sort));
+    } else {
+      params = params.set('sort', req.sort);
+    }
+  }
+  return params;
 }
 
 export const DEFAULT_PAGE_SIZE = 20;

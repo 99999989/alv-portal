@@ -8,7 +8,12 @@ import { RouterModule } from '@angular/router';
 import { CompetenceElementModalComponent } from './competence-element-modal/competence-element-modal.component';
 import { InteractiveListItemComponent } from './interactive-list-item/interactive-list-item.component';
 import { CompetenceItemPlaceholderComponent } from './competence-item-placeholder/competence-item-placeholder.component';
-import { SortButtonComponent } from './sort-button/sort-button.component';
+import { SortButtonComponent } from './sort/sort-button/sort-button.component';
+import { CompetenceElementBacklinkComponent } from './backlinks/competence-element-backlinks/competence-element-backlink.component';
+import { CompetenceSetBacklinkComponent } from './backlinks/competence-set-backlinks/competence-set-backlink.component';
+import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-sort-modal/competence-catalog-sort-modal.component';
+import { MultiLanguageStringComponent } from './multi-language-string/multi-language-string.component';
+import { BooleanToTextPipe } from './utils/boolean-to-text.pipe';
 
 @NgModule({
   imports: [
@@ -24,10 +29,18 @@ import { SortButtonComponent } from './sort-button/sort-button.component';
     InteractiveListItemComponent,
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
+    CompetenceElementBacklinkComponent,
+    CompetenceSetBacklinkComponent,
+    CompetenceCatalogSortModalComponent,
+    MultiLanguageStringComponent,
+    BooleanToTextPipe
   ],
   providers: [],
   entryComponents: [
-    CompetenceElementModalComponent
+    CompetenceElementModalComponent,
+    CompetenceElementBacklinkComponent,
+    CompetenceSetBacklinkComponent,
+    CompetenceCatalogSortModalComponent
   ],
   exports: [
     CompetenceSetComponent,
@@ -35,6 +48,11 @@ import { SortButtonComponent } from './sort-button/sort-button.component';
     CompetenceItemsCollapsePanelComponent,
     CompetenceItemPlaceholderComponent,
     SortButtonComponent,
+    CompetenceElementBacklinkComponent,
+    CompetenceSetBacklinkComponent,
+    CompetenceCatalogSortModalComponent,
+    MultiLanguageStringComponent,
+    BooleanToTextPipe
   ]
 })
 export class SharedCompetenceCatalogModule {

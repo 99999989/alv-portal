@@ -7,6 +7,10 @@ import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.
 import { ActivatedRoute, Router } from '@angular/router';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
+import { ModalService } from '../../../shared/layout/modal/modal.service';
+import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'alv-competence-sets-overview',
@@ -21,8 +25,17 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
     label: 'portal.competence-catalog.competence-sets.edit-button.tooltip'
   };
 
+  backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
+
+  actions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+
   constructor(protected itemsRepository: CompetenceSetRepository,
               private router: Router,
+              private modalService: ModalService,
               protected fb: FormBuilder,
               private route: ActivatedRoute,
               protected authenticationService: AuthenticationService) {
@@ -31,12 +44,22 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
 
   ngOnInit() {
     super.ngOnInit();
+    this.actions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.editCompetenceSetAction, this.backlinkCompetenceSetAction] : [this.backlinkCompetenceSetAction]));
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
     if (action === CompetenceCatalogAction.EDIT) {
       this.router.navigate(['edit', competenceSet.id], { relativeTo: this.route });
     }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openBacklinkModal(competenceSet);
+    }
+  }
+
+  private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
 }

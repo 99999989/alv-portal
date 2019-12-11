@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
-import {
-  CompetenceElement,
-  CreateCompetenceElement,
-  UpdateCompetenceElement
-} from './competence-element.types';
+import { CompetenceElement, CreateCompetenceElement, UpdateCompetenceElement } from './competence-element.types';
 import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
 
@@ -43,6 +39,10 @@ export class CompetenceElementRepository implements SearchService<CompetenceElem
 
   update(id: string, competenceElement: UpdateCompetenceElement): Observable<CompetenceElement> {
     return this.http.put<CompetenceElement>(this.resourceUrl + id, competenceElement);
+  }
+
+  delete(competenceElementId: string): Observable<void> {
+    return this.http.delete<void>(`${this.resourceUrl}${competenceElementId}`);
   }
 
 }
