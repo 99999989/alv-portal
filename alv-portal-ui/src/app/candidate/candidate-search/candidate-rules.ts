@@ -1,9 +1,13 @@
-import {CandidateProfile, JobExperience} from '../../shared/backend-services/candidate/candidate.types';
-import {Contact, Degree, Experience, Gender, Graduation} from '../../shared/backend-services/shared.types';
-import {GenderAwareOccupationLabel} from '../../shared/occupations/occupation.service';
-import {OccupationCode} from '../../shared/backend-services/reference-service/occupation-label.types';
-import {isAuthenticatedUser, User, UserRole} from '../../core/auth/user.model';
-import {JobCenter} from '../../shared/backend-services/reference-service/job-center.types';
+import {
+  CandidateProfile,
+  JobCenterCode,
+  JobExperience
+} from '../../shared/backend-services/candidate/candidate.types';
+import { Contact, Degree, Experience, Gender, Graduation } from '../../shared/backend-services/shared.types';
+import { GenderAwareOccupationLabel } from '../../shared/occupations/occupation.service';
+import { OccupationCode } from '../../shared/backend-services/reference-service/occupation-label.types';
+import { isAuthenticatedUser, User, UserRole } from '../../core/auth/user.model';
+import { JobCenter } from '../../shared/backend-services/reference-service/job-center.types';
 
 const SWISS_CANTONS_NUMBER = 26;
 
@@ -145,7 +149,7 @@ export function preferredWorkLocations(candidateProfile: CandidateProfile): stri
 }
 
 export function candidateContact(candidateProfile: CandidateProfile, jobCenter: JobCenter, user: User): Contact {
-  if (jobCenter && (jobCenter.code.startsWith('BEA') || jobCenter.code.startsWith('BSA') || jobCenter.code.startsWith('SOA'))) {
+  if (jobCenter && Object.values(JobCenterCode).includes(jobCenter.code)) {
     return { phone: jobCenter.phone, email: jobCenter.email };
   } else {
     const jobAdvisorContact = candidateProfile.jobAdvisor;

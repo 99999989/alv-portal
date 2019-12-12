@@ -137,3 +137,9 @@ export interface Company {
   city: string;
   country: string;
 }
+
+export enum JobCenterCode {
+  BEAJ0 = 'BEAJ0',
+  BSA80 = 'BSA80',
+  SOAD0 = 'SOAD0'
+}

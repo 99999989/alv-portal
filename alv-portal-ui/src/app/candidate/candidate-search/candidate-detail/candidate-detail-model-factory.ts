@@ -3,6 +3,7 @@ import { combineLatest, forkJoin, merge, Observable, of } from 'rxjs';
 import {
   CandidateProfile,
   CandidateProtectedData,
+  JobCenterCode,
   JobExperience
 } from '../../../shared/backend-services/candidate/candidate.types';
 import { catchError, filter, map, share, switchMap } from 'rxjs/operators';
@@ -81,7 +82,7 @@ export class CandidateDetailModelFactory {
   }
 
   private getJobCenter(candidateProfile: CandidateProfile): Observable<JobCenter> {
-    const jobCenterCode = candidateProfile.jobCenterCode;
+    const jobCenterCode = this.resolveJobCenterCode(candidateProfile.jobCenterCode);
     return this.i18nService.currentLanguage$.pipe(
       switchMap((lang) => {
         if (jobCenterCode) {
@@ -91,6 +92,18 @@ export class CandidateDetailModelFactory {
       }),
       catchError(() => of(null as JobCenter))
     );
+  }
+
+  private resolveJobCenterCode(jcc: string): string {
+    let jobCenterCode = jcc;
+    if (jobCenterCode.startsWith('BEA')) {
+      jobCenterCode = JobCenterCode.BEAJ0;
+    } else if (jobCenterCode.startsWith('BSA')) {
+      jobCenterCode = JobCenterCode.BSA80;
+    } else if (jobCenterCode.startsWith('SOA')) {
+      jobCenterCode = JobCenterCode.SOAD0;
+    }
+    return jobCenterCode;
   }
 
   private getJobExperiencesModels(candidateProfile: CandidateProfile): Observable<JobExperienceModel[]> {
