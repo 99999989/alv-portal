@@ -24,6 +24,7 @@
         </small>
 
       <pre class="title"
+           [ngClass]="titleClass"
            [class.wrong-language]="observables.translatedTitle.isWrongLanguage">{{ observables.translatedTitle.value }}</pre>
     </span>
     <span class="flex-grow-1"></span>

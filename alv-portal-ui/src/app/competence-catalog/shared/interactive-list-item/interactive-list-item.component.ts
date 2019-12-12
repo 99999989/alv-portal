@@ -30,6 +30,8 @@ export class InteractiveListItemComponent extends CompetenceCatalogEditorAwareCo
 
   @Input() isDraft: boolean;
 
+  @Input() titleClass: string;
+
   @Input() isPublished: boolean;
 
   @Input() showStatuses: boolean;
