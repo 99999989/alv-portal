@@ -53,7 +53,7 @@ export class CompetenceElementsFilterModalComponent implements OnInit, AfterView
         return prev;
       }, []),
     };
-    result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) }
+    result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) };
     this.activeModal.close(result);
   }
 
