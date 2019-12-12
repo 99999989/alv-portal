@@ -15,6 +15,8 @@ export interface TranslatedStringToCurrentLanguage {
 
 export interface CompetenceElementFilterValues {
   types: ElementType[];
+  draft?: boolean;
+  published?: boolean;
 }
 
 /*

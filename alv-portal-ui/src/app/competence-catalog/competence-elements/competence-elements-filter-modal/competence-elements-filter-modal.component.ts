@@ -3,6 +3,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
 import { ElementType } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
+import {
+  FilterByStatusesFormValue,
+  filterByStatusesFormValueToFlagsMapper
+} from '../../shared/filter-by-statuses-form/filter-by-statuses-form.component';
+
+interface CompetenceElementsFilterModalFormValue {
+  elementTypes: {
+    [index in ElementType]: boolean;
+  };
+  statusFilters?: FilterByStatusesFormValue;
+}
+
 
 @Component({
   selector: 'alv-competence-elements-filter-modal',
@@ -28,14 +40,16 @@ export class CompetenceElementsFilterModalComponent implements OnInit {
   }
 
   filter() {
-    const result: CompetenceElementFilterValues = {
+    const formValue: CompetenceElementsFilterModalFormValue = this.form.value;
+    let result: CompetenceElementFilterValues = {
       types: this.elementTypes.reduce((prev, curr) => {
-        if (this.form.value.elementTypes[curr]) {
+        if (formValue.elementTypes[curr]) {
           prev.push(curr);
         }
         return prev;
-      }, [])
+      }, []),
     };
+    result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) }
     this.activeModal.close(result);
   }
 

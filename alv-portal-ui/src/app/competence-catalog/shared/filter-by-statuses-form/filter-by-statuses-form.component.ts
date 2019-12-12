@@ -13,6 +13,11 @@ export interface FilterByStatusesFormValue {
   };
 }
 
+export interface StatusFlags {
+  draft?: boolean;
+  published?: boolean;
+}
+
 export function filterByStatusesFormValueToRequestMapper(formValue: FilterByStatusesFormValue): HttpParams {
   const params = new HttpParams();
   if (!(formValue.published.published === formValue.published.notPublished)) {
@@ -22,6 +27,30 @@ export function filterByStatusesFormValueToRequestMapper(formValue: FilterByStat
     params.set('draft', String(Boolean(formValue.draft.draft)));
   }
   return params;
+}
+
+export function filterByStatusesFormValueToFlagsMapper(formValue: FilterByStatusesFormValue): StatusFlags {
+  const res: StatusFlags = {};
+  if (!(formValue.published.published === formValue.published.notPublished)) {
+    res.published = Boolean(formValue.published.published);
+  }
+  if (!(formValue.draft.draft && formValue.draft.approved)) {
+    res.draft = Boolean(formValue.draft.draft);
+  }
+  return res;
+}
+
+export function flagsToFilterByStatusesFormValueMapper(flags: StatusFlags): FilterByStatusesFormValue {
+  return {
+    published: {
+      published: Boolean(flags.published),
+      notPublished: !flags.published
+    },
+    draft: {
+      approved: !flags.draft,
+      draft: Boolean(flags.draft)
+    }
+  };
 }
 
 @Component({
