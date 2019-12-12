@@ -3,7 +3,7 @@
            [cancelLabel]="isReadonly ? 'entity.action.back' : 'portal.global.cancel'"
            [formGroup]="form"
            [showPrimaryButton]="!isReadonly"
-           modalTitle="portal.competence-catalog.ch-fiches.edit-description-modal.title"
+           [modalTitle]="isReadonly ? 'portal.competence-catalog.ch-fiches.view-description-modal.title' : 'portal.competence-catalog.ch-fiches.edit-description-modal.title'"
            primaryLabel="portal.global.save">
   <ng-container *ngFor="let formField of formFields">
     <alv-input-field [alvFormControlName]="formField"
