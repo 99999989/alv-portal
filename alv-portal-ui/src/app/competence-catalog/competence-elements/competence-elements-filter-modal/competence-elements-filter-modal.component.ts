@@ -22,13 +22,15 @@ export class CompetenceElementsFilterModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form = this.fb.group(this.createControlsConfig());
+    this.form = this.fb.group({
+      elementTypes: this.fb.group(this.createControlsConfig())
+    });
   }
 
   filter() {
     const result: CompetenceElementFilterValues = {
       types: this.elementTypes.reduce((prev, curr) => {
-        if (this.form.value[curr]) {
+        if (this.form.value.elementTypes[curr]) {
           prev.push(curr);
         }
         return prev;
@@ -41,7 +43,7 @@ export class CompetenceElementsFilterModalComponent implements OnInit {
     this.activeModal.dismiss();
   }
 
-  private createControlsConfig(): {[key: string]: any} {
+  private createControlsConfig(): { [key: string]: any } {
     return this.elementTypes.reduce((prev, curr) => {
       prev[curr] = [this.currentFiltering.types.includes(curr)];
       return prev;

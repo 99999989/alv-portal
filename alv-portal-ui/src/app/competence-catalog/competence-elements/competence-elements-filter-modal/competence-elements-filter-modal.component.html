@@ -4,7 +4,7 @@
            cancelLabel="entity.action.cancel"
            modalTitle="portal.competence-catalog.competence-elements.filter-modal.title"
            primaryLabel="entity.action.ok">
-  <fieldset>
+  <fieldset formGroupName="elementTypes">
     <alv-checkbox *ngFor="let type of elementTypes"
                   class="d-block mb-1"
                   [attr.data-test]="type+'-sort-checkbox'"

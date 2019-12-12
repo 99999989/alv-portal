@@ -1,5 +1,28 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpParams } from '@angular/common/http';
+
+export interface FilterByStatusesFormValue {
+  published: {
+    published: boolean;
+    notPublished: boolean;
+  };
+  draft: {
+    approved: boolean;
+    draft: boolean;
+  };
+}
+
+export function filterByStatusesFormValueToRequestMapper(formValue: FilterByStatusesFormValue): HttpParams {
+  const params = new HttpParams();
+  if (!(formValue.published.published === formValue.published.notPublished)) {
+    params.set('published', String(Boolean(formValue.published.published)));
+  }
+  if (!(formValue.draft.draft && formValue.draft.approved)) {
+    params.set('draft', String(Boolean(formValue.draft.draft)));
+  }
+  return params;
+}
 
 @Component({
   selector: 'alv-filter-by-statuses-form',
@@ -18,10 +41,15 @@ export class FilterByStatusesFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      published: [''],
-      notPublished: [''],
-      approved: [''],
-      draft: ['']
+      published: this.fb.group({
+          published: [''],
+          notPublished: ['']
+        }
+      ),
+      draft: this.fb.group({
+        approved: [''],
+        draft: ['']
+      })
     });
     this.parentForm.addControl('statusFilters', this.form);
   }
