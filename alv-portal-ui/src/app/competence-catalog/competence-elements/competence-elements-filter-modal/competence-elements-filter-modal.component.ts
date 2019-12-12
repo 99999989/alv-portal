@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
 import { ElementType } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import {
   FilterByStatusesFormValue,
-  filterByStatusesFormValueToFlagsMapper
+  filterByStatusesFormValueToFlagsMapper,
+  flagsToFilterByStatusesFormValueMapper
 } from '../../shared/filter-by-statuses-form/filter-by-statuses-form.component';
 
 interface CompetenceElementsFilterModalFormValue {
@@ -21,16 +22,18 @@ interface CompetenceElementsFilterModalFormValue {
   templateUrl: './competence-elements-filter-modal.component.html',
   styleUrls: ['./competence-elements-filter-modal.component.scss']
 })
-export class CompetenceElementsFilterModalComponent implements OnInit {
-
+export class CompetenceElementsFilterModalComponent implements OnInit, AfterViewInit {
   @Input() currentFiltering: CompetenceElementFilterValues;
-
   form: FormGroup;
-
   elementTypes = Object.values(ElementType);
 
   constructor(private fb: FormBuilder,
               public activeModal: NgbActiveModal) {
+  }
+
+  ngAfterViewInit() {
+    this.form.get('statusFilters').patchValue(flagsToFilterByStatusesFormValueMapper(this.currentFiltering));
+    console.log(this.form.value);
   }
 
   ngOnInit() {
@@ -38,6 +41,7 @@ export class CompetenceElementsFilterModalComponent implements OnInit {
       elementTypes: this.fb.group(this.createControlsConfig())
     });
   }
+
 
   filter() {
     const formValue: CompetenceElementsFilterModalFormValue = this.form.value;

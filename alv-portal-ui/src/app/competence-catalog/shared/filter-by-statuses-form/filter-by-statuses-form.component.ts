@@ -43,12 +43,12 @@ export function filterByStatusesFormValueToFlagsMapper(formValue: FilterByStatus
 export function flagsToFilterByStatusesFormValueMapper(flags: StatusFlags): FilterByStatusesFormValue {
   return {
     published: {
-      published: Boolean(flags.published),
-      notPublished: !flags.published
+      published: !flags.hasOwnProperty('published') ? true : Boolean(flags.published),
+      notPublished: !flags.hasOwnProperty('published') ? true : !Boolean(flags.published)
     },
     draft: {
-      approved: !flags.draft,
-      draft: Boolean(flags.draft)
+      draft: !flags.hasOwnProperty('draft') ? true : Boolean(flags.draft),
+      approved: !flags.hasOwnProperty('draft') ? true : !Boolean(flags.draft),
     }
   };
 }
