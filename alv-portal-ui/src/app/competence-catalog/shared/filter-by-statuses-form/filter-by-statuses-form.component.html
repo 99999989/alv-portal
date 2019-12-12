@@ -1,13 +1,15 @@
 <form [formGroup]="form">
   <fieldset formGroupName="published">
-    <legend><small>{{'portal.competence-catalog.publication-status' | translate}}</small>
+    <legend>
+      <small>{{'portal.competence-catalog.publication-status' | translate}}</small>
     </legend>
     <alv-checkbox alvFormControlName="published">{{'portal.competence-catalog.publication-statuses.published' | translate}}</alv-checkbox>
     <alv-checkbox alvFormControlName="notPublished">{{'portal.competence-catalog.publication-statuses.not-published' | translate}}</alv-checkbox>
   </fieldset>
   <fieldset class="mt-2"
             formGroupName="draft">
-    <legend><small>{{'portal.competence-catalog.draft-status' | translate}}</small>
+    <legend>
+      <small>{{'portal.competence-catalog.draft-status' | translate}}</small>
     </legend>
     <alv-checkbox alvFormControlName="draft">{{'portal.competence-catalog.draft-statuses.draft' | translate}}</alv-checkbox>
     <alv-checkbox alvFormControlName="approved">{{'portal.competence-catalog.draft-statuses.approved' | translate}}</alv-checkbox>
