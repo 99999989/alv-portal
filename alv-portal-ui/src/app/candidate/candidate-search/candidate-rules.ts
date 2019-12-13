@@ -142,7 +142,7 @@ export function preferredWorkLocations(candidateProfile: CandidateProfile): stri
 }
 
 export function candidateContact(candidateProfile: CandidateProfile, jobCenter: JobCenter, user: User): Contact {
-  if (jobCenter && (jobCenter.code.startsWith('BEA') || jobCenter.code.startsWith('BSA'))) {
+  if (jobCenter && (jobCenter.code.startsWith('BEA') || jobCenter.code.startsWith('BSA') || jobCenter.code.startsWith('SOA'))) {
     return { phone: jobCenter.phone, email: jobCenter.email };
   } else {
     const jobAdvisorContact = candidateProfile.jobAdvisor;

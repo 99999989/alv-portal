@@ -22,7 +22,7 @@
     "docs:compodoc": "compodoc -p tsconfig.json",
     "docs:compodoc:serve": "compodoc -p tsconfig.json -s",
     "docs:compodoc:serve:watch": "compodoc -p tsconfig.json -s -w",
-    "postinstall": "node version.js",
+    "postinstall": "cd ./node_modules/protractor && npm i webdriver-manager@latest && cd ../.. && ./node_modules/.bin/webdriver-manager update && node version.js",
     "extract": "ngx-translate-extract --input ./src/app --output ./src/assets/i18n/{en,fr,de,it}.json --clean --sort --format namespaced-json --format-indentation ' ' ",
     "i18n": "node pipeline-scripts/csv2json-i18n.js translations.csv --output src/assets/i18n",
     "i18n:duplicate-problems": "node ./pipeline-scripts/csv_check_duplicates.js ../translations.csv",
@@ -30,7 +30,7 @@
     "i18n:missing-translations": "node pipeline-scripts/csv_check_missing.js translations.csv",
     "i18n:clashes": "node pipeline-scripts/csv_check_clashes.js ../translations.csv",
     "bundle-report": "webpack-bundle-analyzer target/classes/ch/admin/seco/alvportal/ui/stats.json",
-    "webdriver-update": "webdriver-manager update"
+    "webdriver-update": "webdriver-manager update --versions.chrome=78.0.3904.105"
   },
   "private": true,
   "dependencies": {

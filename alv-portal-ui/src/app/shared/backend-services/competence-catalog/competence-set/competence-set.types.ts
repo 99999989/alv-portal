@@ -11,6 +11,8 @@ export interface CompetenceSet {
 export interface CreateCompetenceSet {
   knowHowId: string;
   competenceElementIds: string[];
+  draft: boolean;
+  published: boolean;
 }
 
 export interface UpdateCompetenceSet {
@@ -21,15 +23,18 @@ export interface UpdateCompetenceSet {
 }
 
 export interface CompetenceSetSearchResult {
-  id: string;
-  draft: boolean;
-  published: boolean;
-  knowHow: CompetenceElement;
+  id?: string;
+  draft?: boolean;
+  published?: boolean;
+  knowHow: CompetenceElement | null;
   competenceElementIds: string[];
 }
 
-export const initialCompetenceSet = () => {
+export function initialCompetenceSetSearchResult(): CompetenceSetSearchResult {
   return {
-    competenceElementIds: []
+    knowHow: null,
+    competenceElementIds: [],
+    draft: true,
+    published: false
   };
-};
+}
