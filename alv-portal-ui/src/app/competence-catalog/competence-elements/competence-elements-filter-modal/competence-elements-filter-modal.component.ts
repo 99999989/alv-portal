@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementFilterValues } from '../../shared/shared-competence-catalog.types';
 import { ElementType } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
+import { FilterByStatusesFormValue, } from '../../shared/filter-by-statuses/filter-by-statuses-form/filter-by-statuses-form.component';
 import {
-  FilterByStatusesFormValue,
   filterByStatusesFormValueToFlagsMapper,
   flagsToFilterByStatusesFormValueMapper
-} from '../../shared/filter-by-statuses-form/filter-by-statuses-form.component';
+} from '../../shared/filter-by-statuses/filter-by-statuses-mapper';
 
 interface CompetenceElementsFilterModalFormValue {
   elementTypes: {
@@ -16,6 +16,11 @@ interface CompetenceElementsFilterModalFormValue {
   statusFilters?: FilterByStatusesFormValue;
 }
 
+
+function mapFormValueToFilters(formValue: CompetenceElementsFilterModalFormValue, possibleElementTypes: ElementType[]): ElementType[] {
+  const res = possibleElementTypes.filter((possibleElementType) => formValue.elementTypes[possibleElementType]);
+  return res.length ? res : possibleElementTypes;
+}
 
 @Component({
   selector: 'alv-competence-elements-filter-modal',
@@ -33,7 +38,6 @@ export class CompetenceElementsFilterModalComponent implements OnInit, AfterView
 
   ngAfterViewInit() {
     this.form.get('statusFilters').patchValue(flagsToFilterByStatusesFormValueMapper(this.currentFiltering));
-    console.log(this.form.value);
   }
 
   ngOnInit() {
@@ -46,12 +50,7 @@ export class CompetenceElementsFilterModalComponent implements OnInit, AfterView
   filter() {
     const formValue: CompetenceElementsFilterModalFormValue = this.form.value;
     let result: CompetenceElementFilterValues = {
-      types: this.elementTypes.reduce((prev, curr) => {
-        if (formValue.elementTypes[curr]) {
-          prev.push(curr);
-        }
-        return prev;
-      }, []),
+      types: mapFormValueToFilters(formValue, this.elementTypes),
     };
     result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) };
     this.activeModal.close(result);
