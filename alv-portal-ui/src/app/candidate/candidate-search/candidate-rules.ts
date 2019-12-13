@@ -1,6 +1,6 @@
 import {
   CandidateProfile,
-  JobCenterCode,
+  HeadJobCenterCode,
   JobExperience
 } from '../../shared/backend-services/candidate/candidate.types';
 import { Contact, Degree, Experience, Gender, Graduation } from '../../shared/backend-services/shared.types';
@@ -149,7 +149,7 @@ export function preferredWorkLocations(candidateProfile: CandidateProfile): stri
 }
 
 export function candidateContact(candidateProfile: CandidateProfile, jobCenter: JobCenter, user: User): Contact {
-  if (jobCenter && Object.values(JobCenterCode).includes(jobCenter.code)) {
+  if (jobCenter && Object.values(HeadJobCenterCode).includes(jobCenter.code)) {
     return { phone: jobCenter.phone, email: jobCenter.email };
   } else {
     const jobAdvisorContact = candidateProfile.jobAdvisor;
@@ -168,4 +168,19 @@ export function canViewCandidateProtectedData(candidateProfile: CandidateProfile
 
 export function hasEmailContactType(candidateProfile: CandidateProfile): boolean {
   return candidateProfile && candidateProfile.contactTypes && candidateProfile.contactTypes.includes('EMAIL');
+}
+
+export function resolveJobCenterCode(jcc: string): string {
+  return replaceWithHeadJobCenter(jcc);
+}
+
+function replaceWithHeadJobCenter(jobCenterCode) {
+  if (jobCenterCode.startsWith('BEA')) {
+    jobCenterCode = HeadJobCenterCode.BEAJ0;
+  } else if (jobCenterCode.startsWith('BSA')) {
+    jobCenterCode = HeadJobCenterCode.BSA80;
+  } else if (jobCenterCode.startsWith('SOA')) {
+    jobCenterCode = HeadJobCenterCode.SOAD0;
+  }
+  return jobCenterCode;
 }
