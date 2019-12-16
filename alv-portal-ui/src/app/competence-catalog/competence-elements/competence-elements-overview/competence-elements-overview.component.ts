@@ -95,7 +95,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
 
   onScroll() {
     this.loadItems({
-      ...{ query: this.searchForm.get('query').value || '', },
+      ...{ query: this.searchForm.get('query').value || '' },
       ...this.filter
     });
   }

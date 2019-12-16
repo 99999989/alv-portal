@@ -82,7 +82,7 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
 
   onScroll() {
     this.loadItems({
-      ...{ query: this.searchForm.get('query').value || '', },
+      ...{ query: this.searchForm.get('query').value || '' },
       ...this.filter
     });
   }
