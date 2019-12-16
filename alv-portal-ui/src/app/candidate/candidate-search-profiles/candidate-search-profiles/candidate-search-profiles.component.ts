@@ -9,6 +9,7 @@ import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { NotificationsService } from '../../../core/notifications.service';
 import { CandidateSearchProfilesRepository } from '../../../shared/backend-services/candidate-search-profiles/candidate-search-profiles.repository';
 import { removeSearchProfileAnimation } from '../../../shared/animations/animations';
+import { NotificationType } from '../../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-candidate-search-profiles',
@@ -25,11 +26,16 @@ export class CandidateSearchProfilesComponent implements OnInit {
   private page = 0;
 
   private readonly size = 100;
+  chiscoTransitionNotification = {
+    type: NotificationType.INFO,
+    isSticky: true,
+  };
 
   constructor(private candidateSearchProfilesRepository: CandidateSearchProfilesRepository,
               private authenticationService: AuthenticationService,
               private modalService: ModalService,
-              private notificationsService: NotificationsService) { }
+              private notificationsService: NotificationsService) {
+  }
 
   ngOnInit() {
     this.onScroll();
