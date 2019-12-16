@@ -1,5 +1,8 @@
 <div class="position-relative"
-     *ngIf="translatedTitle$ | async as translatedTitle">
+     *ngIf="{
+       translatedTitle: translatedTitle$ | async,
+       isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async
+     } as observables">
   <button class="competence-item d-flex align-items-center position-relative py-1 pr-3 w-100"
           [class.disabled]="!isItemClickable"
           [class.action-buttons-shown]="showActionButtons"
@@ -8,9 +11,21 @@
     <span class="title-container d-flex flex-column align-items-start">
       <small class="super-title">
         {{ type }} <span *ngIf="superTitle">- {{ superTitle }}</span>
-      </small>
+        <ng-container *ngIf="observables.isCompetenceCatalogEditor && showStatuses">
+            -
+            <span>{{isPublished | booleanToText:
+                'portal.competence-catalog.publication-statuses.published':
+                'portal.competence-catalog.publication-statuses.not-published' | translate}}</span>
+            &nbsp;&&nbsp;
+            <span>{{isDraft | booleanToText:
+              'portal.competence-catalog.draft-statuses.draft':
+              'portal.competence-catalog.draft-statuses.approved' | translate}}</span>
+          </ng-container>
+        </small>
+
       <pre class="title"
-              [class.wrong-language]="translatedTitle.isWrongLanguage">{{ translatedTitle.value }}</pre>
+           [ngClass]="titleClass"
+           [class.wrong-language]="observables.translatedTitle.isWrongLanguage">{{ observables.translatedTitle.value }}</pre>
     </span>
     <span class="flex-grow-1"></span>
   </button>

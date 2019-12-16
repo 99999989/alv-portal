@@ -59,7 +59,10 @@
                                  [superTitle]="competenceElement.id"
                                  [isItemClickable]="true"
                                  [showActionButtons]="true"
+                                 [isDraft]="competenceElement.draft"
+                                 [isPublished]="competenceElement.published"
                                  [actions]="observables.actions"
+                                 [showStatuses]="true"
                                  (actionClick)="handleCompetenceElementActionClick($event, competenceElement)"
                                  (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)">
       </alv-interactive-list-item>

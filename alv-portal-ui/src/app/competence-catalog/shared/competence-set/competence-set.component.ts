@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import {
   CompetenceElement,
@@ -24,8 +24,10 @@ import { CompetenceElementBacklinkComponent } from '../backlinks/competence-elem
   styleUrls: ['./competence-set.component.scss'],
   animations: [collapseExpandAnimation]
 })
-export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
+export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponent implements OnInit, OnChanges {
 
+  //todo figure out how to separate CompetenceSetSearchResult from CompetenceSet, and
+  //   whether we should create a dedicated CompetenceSetSearchResultComponent (DF-1921)
   @Input() competenceSet: CompetenceSetSearchResult;
 
   @Input() isReadonly = false;
@@ -35,6 +37,12 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
   @Input() showActionButtons: boolean;
 
   @Input() isCollapsed = true;
+
+  @Input() isDraft: boolean;
+
+  @Input() isPublished: boolean;
+
+  @Input() showStatuses: boolean;
 
   @Input() showErrors: boolean;
 
@@ -76,6 +84,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
   };
 
+
   competenceElementsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
 
@@ -97,6 +106,11 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
           return [this.backlinkCompetenceSetAction];
         }
       }));
+  }
+
+  ngOnChanges() {
+    // todo see DF-1916 Jira Issue
+    this.loadCompetenceElementsIfRequired();
   }
 
   toggle() {
