@@ -17,7 +17,7 @@
     <ng-template #noTitle>
       <alv-competence-item-placeholder (clickHandler)="editFicheName(isReadonly)"
                                        [customIcon]="observables.isCompetenceCatalogEditor ? IconKey.EDIT_PLUS : null"
-                                       [customTooltip]="'portal.competence-catalog.ch-fiches.add-modal.title-tooltip'"
+                                       [customTooltip]="'portal.competence-catalog.ch-fiches.add-modal.tooltip'"
                                        [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
                                        [showErrors]="showErrors"
       >
@@ -39,7 +39,7 @@
   <ng-template #noDescription>
     <alv-competence-item-placeholder (clickHandler)="editFicheDescription(isReadonly)"
                                      [customIcon]="observables.isCompetenceCatalogEditor ? IconKey.EDIT_PLUS : null"
-                                     [customTooltip]="'portal.competence-catalog.ch-fiches.add-modal.description-tooltip'"
+                                     [customTooltip]="'portal.competence-catalog.ch-fiches.add-modal.tooltip'"
                                      [mainText]="'portal.competence-catalog.ch-fiches.no-description-placeholder'  | translate"
     >
     </alv-competence-item-placeholder>
