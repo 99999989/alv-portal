@@ -8,6 +8,8 @@ import {
   filterByStatusesFormValueToFlagsMapper,
   flagsToFilterByStatusesFormValueMapper
 } from '../../shared/filter-by-statuses/filter-by-statuses-mapper';
+import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
+import { AuthenticationService } from '../../../core/auth/authentication.service';
 
 interface CompetenceElementsFilterModalFormValue {
   elementTypes: {
@@ -27,20 +29,26 @@ function mapFormValueToFilters(formValue: CompetenceElementsFilterModalFormValue
   templateUrl: './competence-elements-filter-modal.component.html',
   styleUrls: ['./competence-elements-filter-modal.component.scss']
 })
-export class CompetenceElementsFilterModalComponent implements OnInit, AfterViewInit {
+export class CompetenceElementsFilterModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit, AfterViewInit {
   @Input() currentFiltering: CompetenceElementFilterValues;
   form: FormGroup;
   elementTypes = Object.values(ElementType);
 
   constructor(private fb: FormBuilder,
-              public activeModal: NgbActiveModal) {
+              public activeModal: NgbActiveModal,
+              protected authenticationService: AuthenticationService) {
+    super(authenticationService);
   }
 
   ngAfterViewInit() {
-    this.form.get('statusFilters').patchValue(flagsToFilterByStatusesFormValueMapper(this.currentFiltering));
+    const statusFiltersForm = this.form.get('statusFilters');
+    if (statusFiltersForm) {
+      statusFiltersForm.patchValue(flagsToFilterByStatusesFormValueMapper(this.currentFiltering));
+    }
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.form = this.fb.group({
       elementTypes: this.fb.group(this.createControlsConfig())
     });
