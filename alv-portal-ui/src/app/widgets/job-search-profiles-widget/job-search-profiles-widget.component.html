@@ -7,6 +7,19 @@
     {{'portal.job-ad-search-profiles.title' | translate}}
   </h2>
 
+  <alv-closable-alert [notification]="chiscoTransitionNotification">
+    <p>Infolge technischer Anpassungen müssen Suchprofile, die auf Berufskategorien
+      zurückgreifen, neu erstellt werden.</p>
+    <p>
+      <a class="link"
+         href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
+         target="_blank">
+        <fa-icon [icon]="['fas', 'caret-right']"
+                 class="link-icon"></fa-icon>
+        Weitere Informationen
+      </a>
+    </p>
+  </alv-closable-alert>
   <ng-container *ngIf="jobSearchProfiles.length">
     <alv-search-profile-item @removeProfile
                              *ngFor="let jobSearchProfile of jobSearchProfiles"

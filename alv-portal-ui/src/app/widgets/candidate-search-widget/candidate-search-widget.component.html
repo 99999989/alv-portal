@@ -6,20 +6,6 @@
     </alv-custom-icon>
     {{'portal.widgets.candidate-search.title' | translate}}
   </h2>
-  <alv-closable-alert [notification]="chiscoTransitionNotification">
-    <p>Infolge technischer Anpassungen können die Berufsbezeichnungen der
-      Kandidaten-Suchprofile geändert haben. Suchprofile, die auf Berufskategorien
-      zurückgreifen, müssen neu erstellt werden.</p>
-    <p>
-      <a class="link"
-         href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
-         target="_blank">
-        <fa-icon [icon]="['fas', 'caret-right']"
-                 class="link-icon"></fa-icon>
-        Weitere Informationen
-      </a>
-    </p>
-  </alv-closable-alert>
   <alv-candidate-query-panel [(candidateQueryPanelValues)]="candidateQueryPanelValues"
                              (searchSubmit)="onSearchSubmit($event)">
   </alv-candidate-query-panel>

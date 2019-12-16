@@ -9,6 +9,7 @@ import { JobAdSearchProfileResult } from '../../../shared/backend-services/job-a
 import { getJobAdDeleteConfirmModalConfig } from '../../../shared/search-profiles/modal-config.types';
 import { SearchProfile } from '../../../shared/backend-services/shared.types';
 import { removeSearchProfileAnimation } from '../../../shared/animations/animations';
+import { NotificationType } from '../../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-job-ad-search-profiles',
@@ -21,6 +22,11 @@ export class JobAdSearchProfilesComponent implements OnInit {
   IconKey = IconKey;
 
   jobSearchProfiles: JobAdSearchProfileResult[];
+
+  chiscoTransitionNotification = {
+    type: NotificationType.INFO,
+    isSticky: true,
+  };
 
   private page = 0;
 

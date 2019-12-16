@@ -9,6 +9,7 @@ import { JobAdSearchProfileResult } from '../../shared/backend-services/job-ad-s
 import { getJobAdDeleteConfirmModalConfig } from '../../shared/search-profiles/modal-config.types';
 import { SearchProfile } from '../../shared/backend-services/shared.types';
 import { removeSearchProfileAnimation } from '../../shared/animations/animations';
+import { NotificationType } from '../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-job-search-profiles-widget',
@@ -17,6 +18,11 @@ import { removeSearchProfileAnimation } from '../../shared/animations/animations
   animations: [removeSearchProfileAnimation]
 })
 export class JobSearchProfilesWidgetComponent implements OnInit {
+
+  chiscoTransitionNotification = {
+    type: NotificationType.INFO,
+    isSticky: true,
+  };
 
   IconKey = IconKey;
 
