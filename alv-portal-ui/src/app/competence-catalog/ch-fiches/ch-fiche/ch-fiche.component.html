@@ -1,20 +1,44 @@
-<ng-container *ngIf="competenceSetsActions$ | async as competenceSetsActions">
-
+<ng-container *ngIf="{
+    competenceSetsActions: competenceSetsActions$ | async,
+    chFicheDescriptionActions: chFicheDescriptionActions$ | async,
+    isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async
+  } as observables">
   <!--   Title-->
-  <alv-interactive-list-item *ngIf="chFiche.title; else noTitle"
-                             [showActionButtons]="false"
+  <div class="mb-2">
+    <alv-interactive-list-item (itemClick)="editFicheName(isReadonly)"
+                               *ngIf="chFiche.title; else noTitle"
+                               [isItemClickable]="true"
+                               [multiLanguageTitle]="chFiche.title"
+                               [showActionButtons]="false"
+                               [superTitle]="chFiche.id || ''"
+                               [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
+
+    </alv-interactive-list-item>
+    <ng-template #noTitle>
+      <alv-competence-item-placeholder (clickHandler)="editFicheName(isReadonly)"
+                                       [customIcon]="observables.isCompetenceCatalogEditor ? IconKey.EDIT_PLUS : null"
+                                       [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
+                                       [showErrors]="showErrors"
+      >
+      </alv-competence-item-placeholder>
+
+    </ng-template>
+  </div>
+  <!--   Description-->
+  <alv-interactive-list-item (itemClick)="editFicheDescription(isReadonly)"
+                             *ngIf="chFiche.description; else noDescription"
                              [isItemClickable]="true"
-                             (itemClick)="editFicheName(isReadonly)"
-                             [multiLanguageTitle]="chFiche.title"
-                             [superTitle]="chFiche.id || ''"
-                             [type]="'portal.competence-catalog.ch-fiches.type'  | translate">
+                             (actionClick)="handleDescriptionActionClick($event)"
+                             [actions]="observables.chFicheDescriptionActions"
+                             [multiLanguageTitle]="chFiche.description"
+                             [showActionButtons]="observables.isCompetenceCatalogEditor"
+                             titleClass="font-weight-normal">
 
   </alv-interactive-list-item>
-  <ng-template #noTitle>
-    <alv-competence-item-placeholder [customIcon]="IconKey.EDIT_PLUS"
-                                     [mainText]="'portal.competence-catalog.ch-fiches.type'  | translate"
-                                     (clickHandler)="editFicheName(isReadonly)"
-                                     [showErrors]="showErrors"
+  <ng-template #noDescription>
+    <alv-competence-item-placeholder (clickHandler)="editFicheDescription(isReadonly)"
+                                     [customIcon]="observables.isCompetenceCatalogEditor ? IconKey.EDIT_PLUS : null"
+                                     [mainText]="'portal.competence-catalog.ch-fiches.no-description-placeholder'  | translate"
     >
     </alv-competence-item-placeholder>
   </ng-template>
@@ -59,7 +83,10 @@
                                        (toggleClick)="toggleCompetences(competenceType, $event)">
     <alv-competence-set *ngFor="let competenceSet of competences[competenceType]; let index = index"
                         [competenceSet]="competenceSet"
-                        [actions]="competenceSetsActions"
+                        [actions]="observables.competenceSetsActions"
+                        [isDraft]="competenceSet.draft"
+                        [isPublished]="competenceSet.published"
+                        [showStatuses]="true"
                         [isInnerElementsReadonly]="true"
                         [isReadonly]="isReadonly"
                         [showActionButtons]="!isReadonly"
