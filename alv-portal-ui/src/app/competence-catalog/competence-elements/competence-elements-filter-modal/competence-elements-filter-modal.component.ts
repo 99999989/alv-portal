@@ -10,6 +10,7 @@ import {
 } from '../../shared/filter-by-statuses/filter-by-statuses-mapper';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { hasOwnProperty } from 'tslint/lib/utils';
 
 interface CompetenceElementsFilterModalFormValue {
   elementTypes: {
@@ -19,7 +20,7 @@ interface CompetenceElementsFilterModalFormValue {
 }
 
 
-function mapFormValueToFilters(formValue: CompetenceElementsFilterModalFormValue, possibleElementTypes: ElementType[]): ElementType[] {
+function mapFormValueToElementTypeFilters(formValue: CompetenceElementsFilterModalFormValue, possibleElementTypes: ElementType[]): ElementType[] {
   const res = possibleElementTypes.filter((possibleElementType) => formValue.elementTypes[possibleElementType]);
   return res.length ? res : possibleElementTypes;
 }
@@ -58,9 +59,11 @@ export class CompetenceElementsFilterModalComponent extends CompetenceCatalogEdi
   filter() {
     const formValue: CompetenceElementsFilterModalFormValue = this.form.value;
     let result: CompetenceElementFilterValues = {
-      types: mapFormValueToFilters(formValue, this.elementTypes),
+      types: mapFormValueToElementTypeFilters(formValue, this.elementTypes),
     };
-    result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) };
+    if (hasOwnProperty(formValue, 'statusFilters')) {
+      result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) };
+    }
     this.activeModal.close(result);
   }
 
