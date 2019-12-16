@@ -36,6 +36,7 @@ import {
 import { JobAdvertisementRepository } from '../../../shared/backend-services/job-advertisement/job-advertisement.repository';
 import { JobAdvertisement } from '../../../shared/backend-services/job-advertisement/job-advertisement.types';
 import { CollapsePanelComponent } from '../../../shared/layout/collapse-panel/collapse-panel.component';
+import { NotificationType } from '../../../shared/layout/notifications/notification.model';
 
 const PANEL_ID_TO_FORM_GROUP_KEY_MAP = new Map<JobPublicationFormPanelId, JobPublicationFormValueKeys>([
   [JobPublicationFormPanelId.JOB_PUBLICATION_OCCUPATION, JobPublicationFormValueKeys.OCCUPATION],
@@ -95,6 +96,11 @@ export class JobPublicationFormComponent extends AbstractSubscriber implements O
   applicationFormValue: ApplicationFormValue;
 
   publicationFormValue: PublicationFormValue;
+
+  chiscoTransitionNotification = {
+    type: NotificationType.WARNING,
+    isSticky: true,
+  };
 
   constructor(private fb: FormBuilder,
               private jobPublicationFormValueFactory: JobPublicationFormValueFactory,
