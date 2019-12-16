@@ -17,6 +17,8 @@ export class CompetenceItemPlaceholderComponent implements OnInit {
   icon: IconProp;
   @Input()
   customIcon: IconKey;
+  @Input()
+  customTooltip: string;
   @Output()
   clickHandler = new EventEmitter();
 
