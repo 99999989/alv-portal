@@ -7,6 +7,7 @@ import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { OccupationTypeaheadItem } from '../../shared/occupations/occupation-typeahead-item';
 import { AbstractSubscriber } from '../../core/abstract-subscriber';
 import { IconKey } from '../../shared/icons/custom-icon/custom-icon.component';
+import { NotificationType } from '../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-candidate-search-widget',
@@ -17,6 +18,12 @@ import { IconKey } from '../../shared/icons/custom-icon/custom-icon.component';
 export class CandidateSearchWidgetComponent extends AbstractSubscriber implements OnInit {
 
   IconKey = IconKey;
+
+
+  chiscoTransitionNotification = {
+    type: NotificationType.INFO,
+    isSticky: true,
+  };
 
   candidateQueryPanelValues: CandidateQueryPanelValues = {
     occupations: [],
