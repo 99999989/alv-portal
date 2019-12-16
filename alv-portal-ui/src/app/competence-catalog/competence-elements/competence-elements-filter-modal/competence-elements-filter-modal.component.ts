@@ -10,7 +10,6 @@ import {
 } from '../../shared/filter-by-statuses/filter-by-statuses-mapper';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { hasOwnProperty } from 'tslint/lib/utils';
 
 interface CompetenceElementsFilterModalFormValue {
   elementTypes: {
@@ -61,7 +60,7 @@ export class CompetenceElementsFilterModalComponent extends CompetenceCatalogEdi
     let result: CompetenceElementFilterValues = {
       types: mapFormValueToElementTypeFilters(formValue, this.elementTypes),
     };
-    if (hasOwnProperty(formValue, 'statusFilters')) {
+    if (formValue && formValue.hasOwnProperty('statusFilters')) {
       result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) };
     }
     this.activeModal.close(result);
