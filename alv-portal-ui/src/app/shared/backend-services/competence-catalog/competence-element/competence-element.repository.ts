@@ -2,14 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
-import { CompetenceElement, CreateCompetenceElement, UpdateCompetenceElement } from './competence-element.types';
+import {
+  CompetenceElement,
+  CreateCompetenceElement,
+  UpdateCompetenceElement
+} from './competence-element.types';
 import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
+import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class CompetenceElementRepository implements SearchService<CompetenceElement> {
 
-  private readonly resourceUrl = '/competencecatalogservice-editor/api/competence-elements/';
+  private readonly resourceUrl = KK_EDITOR_ENDPOINT + '/api/competence-elements/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 

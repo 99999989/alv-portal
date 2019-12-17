@@ -4,18 +4,20 @@ import { Observable } from 'rxjs';
 import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
 import { Page } from '../../shared.types';
 import {
-  CompetenceSet, CompetenceSetSearchResult,
+  CompetenceSet,
+  CompetenceSetSearchResult,
   CreateCompetenceSet,
   UpdateCompetenceSet
 } from './competence-set.types';
-import { flatMap, map, withLatestFrom } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 import { CompetenceElementRepository } from '../competence-element/competence-element.repository';
 import { SearchService } from '../search-service';
+import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class CompetenceSetRepository implements SearchService<CompetenceSetSearchResult> {
 
-  private readonly resourceUrl = '/competencecatalogservice-editor/api/competence-sets/';
+  private readonly resourceUrl = KK_EDITOR_ENDPOINT + '/api/competence-sets/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 

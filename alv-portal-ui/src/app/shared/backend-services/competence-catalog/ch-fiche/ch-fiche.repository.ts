@@ -6,11 +6,12 @@ import { createPageableURLSearchParams, PagedSearchRequest } from '../../request
 import { Page } from '../../shared.types';
 import { ChFiche, CreateChFiche, UpdateChFiche } from './ch-fiche.types';
 import { SearchService } from '../search-service';
+import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class ChFicheRepository implements SearchService<ChFiche> {
 
-  private readonly resourceUrl = '/competencecatalogservice-editor/api/ch-fiches/';
+  private readonly resourceUrl = KK_EDITOR_ENDPOINT + '/api/ch-fiches/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
   private readonly findUrl = `${this.resourceUrl}_find`;
