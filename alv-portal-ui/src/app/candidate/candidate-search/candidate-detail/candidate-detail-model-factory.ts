@@ -15,7 +15,8 @@ import {
   extractGenderAwareTitle,
   findWantedJobExperiences,
   isDegreeDisplayed,
-  isGraduationDisplayed
+  isGraduationDisplayed,
+  resolveJobCenterCode
 } from '../candidate-rules';
 import { OccupationService } from '../../../shared/occupations/occupation.service';
 import { JobCenter } from '../../../shared/backend-services/reference-service/job-center.types';
@@ -81,7 +82,7 @@ export class CandidateDetailModelFactory {
   }
 
   private getJobCenter(candidateProfile: CandidateProfile): Observable<JobCenter> {
-    const jobCenterCode = candidateProfile.jobCenterCode;
+    const jobCenterCode = resolveJobCenterCode(candidateProfile.jobCenterCode);
     return this.i18nService.currentLanguage$.pipe(
       switchMap((lang) => {
         if (jobCenterCode) {
