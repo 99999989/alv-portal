@@ -8,7 +8,7 @@ import { CompanyPo } from './sections/company.po';
 import { ContactPo } from './sections/contact.po';
 import { PublicContactPo } from './sections/public-contact.po';
 import { ApplicationPo } from './sections/application.po';
-import { alvFormControlName } from './selector-utils';
+import { alvFormControlName, getByTest } from './selector-utils';
 
 export class JobPublicationPo {
   private jobPublicationComponentElementFinder = $('alv-job-publication');
@@ -29,6 +29,10 @@ export class JobPublicationPo {
 
   get browserTitle() {
     return browser.getTitle();
+  }
+
+  get selectDeLanguage() {
+    return $(getByTest('language-switcher-de'));
   }
 
   get jobPublicationForm() {
