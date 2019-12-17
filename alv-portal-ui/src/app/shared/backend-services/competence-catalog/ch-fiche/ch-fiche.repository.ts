@@ -14,6 +14,7 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   private readonly resourceUrl = KK_EDITOR_ENDPOINT + '/api/ch-fiches/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
+
   private readonly findUrl = `${this.resourceUrl}_find`;
 
   constructor(private http: HttpClient) {
