@@ -10,19 +10,12 @@
 
   <alv-collapse-panel [panelId]="jobPublicationFormPanelId.JOB_PUBLICATION_OCCUPATION"
                       panelTitle="home.tools.job-publication.occupation.label">
-    <alv-closable-alert [notification]="chiscoTransitionNotification">
-      <p>Die Berufsliste für Stellenmeldungen wurde aktualisiert. Gewisse
-        Berufsbezeichnungen sind nicht mehr verfügbar.</p>
-      <p>
-        <a class="link"
-           href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
-           target="_blank">
-          <fa-icon [icon]="['fas', 'caret-right']"
-                   class="link-icon"></fa-icon>
-          Weitere Informationen
-        </a>
-      </p>
-    </alv-closable-alert>
+
+    <alv-chisco-alert
+      [notification]="chiscoWarningTransitionNotification"
+      [infoText]="'portal.ch-isco.transition-phase.text3'">
+    </alv-chisco-alert>
+
     <alv-occupation class="d-block pb-4"
                     [parentForm]="jobPublicationForm"
                     [occupationFormValue]="occupationFormValue">
