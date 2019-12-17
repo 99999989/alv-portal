@@ -64,7 +64,12 @@
     "secure": false,
     "loglevel": "debug"
   },
-  "/competencecatalog-service/*": {
+  "/competencecatalogservice-editor/*": {
+    "target": "https://staging.job-room.ch",
+    "secure": false,
+    "loglevel": "debug"
+  },
+  "/competencecatalogservice-public/*": {
     "target": "https://staging.job-room.ch",
     "secure": false,
     "loglevel": "debug"
