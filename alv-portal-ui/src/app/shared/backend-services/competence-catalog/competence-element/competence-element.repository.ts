@@ -9,7 +9,7 @@ import {
 } from './competence-element.types';
 import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
-import { TriageService } from '../triage.service';
+import { KkRoleConditionRoutingService } from '../kk-role-condition-routing.service';
 import { switchMap } from 'rxjs/operators';
 import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
@@ -23,7 +23,7 @@ export class CompetenceElementRepository implements SearchService<CompetenceElem
   private readonly findUrl = `${this.resourceUrl}_find`;
 
   constructor(private http: HttpClient,
-              public triageService: TriageService) {
+              public triageService: KkRoleConditionRoutingService) {
   }
 
   findById(id: string): Observable<CompetenceElement> {

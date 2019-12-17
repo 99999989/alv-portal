@@ -12,7 +12,7 @@ import {
 import { flatMap, map, switchMap } from 'rxjs/operators';
 import { CompetenceElementRepository } from '../competence-element/competence-element.repository';
 import { SearchService } from '../search-service';
-import { TriageService } from '../triage.service';
+import { KkRoleConditionRoutingService } from '../kk-role-condition-routing.service';
 import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
 
@@ -27,7 +27,7 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
 
   constructor(private http: HttpClient,
               private competenceElementRepository: CompetenceElementRepository,
-              public triageService: TriageService) {
+              public triageService: KkRoleConditionRoutingService) {
 
   }
 

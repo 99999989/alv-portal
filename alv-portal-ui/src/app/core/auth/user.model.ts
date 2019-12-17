@@ -119,6 +119,10 @@ export class User {
     return this.hasAnyAuthorities([UserRole.ROLE_ADMIN]);
   }
 
+  isSysadmin() {
+    return this.hasAnyAuthorities([UserRole.ROLE_SYSADMIN]);
+  }
+
   isCompetenceCatalogEditor() {
     return this.hasAnyAuthorities([UserRole.ROLE_KK_EDITOR]);
   }

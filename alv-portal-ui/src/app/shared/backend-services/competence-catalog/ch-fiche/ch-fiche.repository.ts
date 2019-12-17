@@ -8,7 +8,7 @@ import { ChFiche, CreateChFiche, UpdateChFiche } from './ch-fiche.types';
 import { SearchService } from '../search-service';
 import { KK_EDITOR_ENDPOINT } from '../endpoints';
 import { switchMap } from 'rxjs/operators';
-import { TriageService } from '../triage.service';
+import { KkRoleConditionRoutingService } from '../kk-role-condition-routing.service';
 
 @Injectable({ providedIn: 'root' })
 export class ChFicheRepository implements SearchService<ChFiche> {
@@ -20,7 +20,7 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   private readonly findUrl = `${this.resourceUrl}_find`;
 
   constructor(private http: HttpClient,
-              public triageService: TriageService) {
+              public triageService: KkRoleConditionRoutingService) {
   }
 
   findById(id: string): Observable<ChFiche> {

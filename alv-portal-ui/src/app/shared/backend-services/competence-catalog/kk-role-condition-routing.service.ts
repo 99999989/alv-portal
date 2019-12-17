@@ -7,13 +7,13 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class TriageService {
+export class KkRoleConditionRoutingService {
 
   endpoint$: Observable<KkEndpoint>;
 
   constructor(private authenticationService: AuthenticationService) {
     this.endpoint$ = this.authenticationService.getCurrentUser().pipe(
-      map(user => !!user && (user.isCompetenceCatalogEditor() || user.isAdmin()) ? KK_EDITOR_ENDPOINT : KK_PUBLIC_ENDPOINT)
+      map(user => !!user && (user.isCompetenceCatalogEditor() || user.isSysadmin()) ? KK_EDITOR_ENDPOINT : KK_PUBLIC_ENDPOINT)
     );
   }
 }
