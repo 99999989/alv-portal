@@ -34,14 +34,19 @@ export class CompetenceElementRepository implements SearchService<CompetenceElem
   }
 
   findByIds(ids: string[]): Observable<CompetenceElement[]> {
-    return this.http.post<CompetenceElement[]>(KK_EDITOR_ENDPOINT + `${this.findUrl}/byIds`, ids);
+    return this.triageService.endpoint$.pipe(
+      switchMap(endpoint => this.http.post<CompetenceElement[]>(endpoint + `${this.findUrl}/byIds`, ids))
+    );
+
   }
 
   search(request: PagedSearchRequest): Observable<Page<CompetenceElement>> {
     const params = createPageableURLSearchParams(request);
-    return this.http.post<Page<CompetenceElement>>(KK_EDITOR_ENDPOINT + this.searchUrl, request.body, {
-      params
-    });
+    return this.triageService.endpoint$.pipe(
+      switchMap(endpoint => this.http.post<Page<CompetenceElement>>(endpoint + this.searchUrl, request.body, {
+        params
+      })));
+
   }
 
   create(competenceElement: CreateCompetenceElement): Observable<CompetenceElement> {

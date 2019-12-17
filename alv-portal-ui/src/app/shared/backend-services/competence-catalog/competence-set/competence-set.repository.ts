@@ -63,9 +63,12 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
 
   search(request: PagedSearchRequest): Observable<Page<CompetenceSetSearchResult>> {
     const params = createPageableURLSearchParams(request);
-    return this.http.post<Page<CompetenceSetSearchResult>>(KK_EDITOR_ENDPOINT + this.searchUrl, request.body, {
-      params
-    });
+    return this.triageService.endpoint$.pipe(
+      switchMap(
+        endpoint => this.http.post<Page<CompetenceSetSearchResult>>(endpoint + this.searchUrl, request.body, {
+          params
+        })
+      ));
   }
 
   create(competenceSet: CreateCompetenceSet): Observable<CompetenceSet> {
