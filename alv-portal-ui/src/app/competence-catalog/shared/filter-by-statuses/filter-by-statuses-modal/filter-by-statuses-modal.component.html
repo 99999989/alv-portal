@@ -1,0 +1,8 @@
+<alv-modal (cancelAction)="cancel()"
+           (primaryAction)="filter()"
+           [formGroup]="form"
+           cancelLabel="entity.action.cancel"
+           modalTitle="portal.global.filter"
+           primaryLabel="entity.action.ok">
+  <alv-filter-by-statuses-form [parentForm]="form"></alv-filter-by-statuses-form>
+</alv-modal>
