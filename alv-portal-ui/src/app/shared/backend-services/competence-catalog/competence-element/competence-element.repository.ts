@@ -9,45 +9,61 @@ import {
 } from './competence-element.types';
 import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
-import { KK_EDITOR_ENDPOINT } from '../endpoints';
+import { TriageService } from '../triage.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CompetenceElementRepository implements SearchService<CompetenceElement> {
 
-  private readonly resourceUrl = KK_EDITOR_ENDPOINT + '/api/competence-elements/';
+  private readonly resourceUrl = '/api/competence-elements/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 
   private readonly findUrl = `${this.resourceUrl}_find`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              public triageService: TriageService) {
   }
 
   findById(id: string): Observable<CompetenceElement> {
-    return this.http.get<CompetenceElement>(this.resourceUrl + id);
+    return this.triageService.endpoint$.pipe(
+      switchMap(endpoint => this.http.get<CompetenceElement>(endpoint + this.resourceUrl + id))
+    );
+
   }
 
   findByIds(ids: string[]): Observable<CompetenceElement[]> {
-    return this.http.post<CompetenceElement[]>(`${this.findUrl}/byIds`, ids);
+    return this.triageService.endpoint$.pipe(
+      switchMap(endpoint => this.http.post<CompetenceElement[]>(endpoint + `${this.findUrl}/byIds`, ids))
+    );
+
   }
 
   search(request: PagedSearchRequest): Observable<Page<CompetenceElement>> {
     const params = createPageableURLSearchParams(request);
-    return this.http.post<Page<CompetenceElement>>(this.searchUrl, request.body, {
-      params
-    });
+    return this.triageService.endpoint$.pipe(
+      switchMap(endpoint => this.http.post<Page<CompetenceElement>>(endpoint + this.searchUrl, request.body, {
+        params
+      })));
+
   }
 
   create(competenceElement: CreateCompetenceElement): Observable<CompetenceElement> {
-    return this.http.post<CompetenceElement>(this.resourceUrl, competenceElement);
+    return this.triageService.endpoint$.pipe(
+      switchMap(endpoint => this.http.post<CompetenceElement>(endpoint + this.resourceUrl, competenceElement))
+    );
   }
 
   update(id: string, competenceElement: UpdateCompetenceElement): Observable<CompetenceElement> {
-    return this.http.put<CompetenceElement>(this.resourceUrl + id, competenceElement);
+    return this.triageService.endpoint$.pipe(
+      switchMap(endpoint => this.http.put<CompetenceElement>(endpoint + this.resourceUrl + id, competenceElement))
+    );
   }
 
   delete(competenceElementId: string): Observable<void> {
-    return this.http.delete<void>(`${this.resourceUrl}${competenceElementId}`);
+    return this.triageService.endpoint$.pipe(
+      switchMap(endpoint => this.http.delete<void>(endpoint + `${this.resourceUrl}${competenceElementId}`))
+    );
   }
 
 }
