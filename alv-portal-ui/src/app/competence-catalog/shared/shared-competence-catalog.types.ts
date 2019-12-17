@@ -13,7 +13,12 @@ export interface TranslatedStringToCurrentLanguage {
   isWrongLanguage: boolean;
 }
 
-export interface CompetenceElementFilterValues {
+export interface CommonFilters {
+  draft?: boolean;
+  published?: boolean;
+}
+
+export interface CompetenceElementFilterValues extends CommonFilters {
   types: ElementType[];
 }
 

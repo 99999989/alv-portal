@@ -3,7 +3,10 @@ import { CompetenceSetRepository } from '../../../shared/backend-services/compet
 import { CompetenceSetSearchResult } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
+import {
+  CommonFilters,
+  CompetenceCatalogAction
+} from '../../shared/shared-competence-catalog.types';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
@@ -11,6 +14,7 @@ import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { FilterByStatusesModalComponent } from '../../shared/filter-by-statuses/filter-by-statuses-modal/filter-by-statuses-modal.component';
 
 @Component({
   selector: 'alv-competence-sets-overview',
@@ -18,6 +22,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./competence-sets-overview.component.scss']
 })
 export class CompetenceSetsOverviewComponent extends OverviewComponent<CompetenceSetSearchResult> implements OnInit {
+
+  filter: CommonFilters = {};
 
   editCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.EDIT,
@@ -60,6 +66,25 @@ export class CompetenceSetsOverviewComponent extends OverviewComponent<Competenc
   private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
     const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+  }
+
+  onFilterClick() {
+    const modalRef = this.modalService.openMedium(FilterByStatusesModalComponent, true);
+    modalRef.componentInstance.currentFiltering = this.filter;
+    modalRef.result
+      .then(updatedFilter => {
+        this.filter = updatedFilter;
+        this.reload();
+      })
+      .catch(() => {
+      });
+  }
+
+  onScroll() {
+    this.loadItems({
+      ...{ query: this.searchForm.get('query').value || '' },
+      ...this.filter
+    });
   }
 
 }
