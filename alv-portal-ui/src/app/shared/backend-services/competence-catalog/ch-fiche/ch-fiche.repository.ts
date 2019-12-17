@@ -10,7 +10,7 @@ import { SearchService } from '../search-service';
 @Injectable({ providedIn: 'root' })
 export class ChFicheRepository implements SearchService<ChFiche> {
 
-  private readonly resourceUrl = '/competencecatalog-service/api/ch-fiches/';
+  private readonly resourceUrl = '/competencecatalogservice-editor/api/ch-fiches/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
   private readonly findUrl = `${this.resourceUrl}_find`;
