@@ -21,8 +21,6 @@ export class CandidateSearchProfilesComponent implements OnInit {
 
   IconKey = IconKey;
 
-  NotificationType = NotificationType;
-
   candidateSearchProfiles: CandidateSearchProfileResult[];
 
   private page = 0;
