@@ -11,6 +11,7 @@ import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
 import { TriageService } from '../triage.service';
 import { switchMap } from 'rxjs/operators';
+import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class CompetenceElementRepository implements SearchService<CompetenceElement> {
@@ -33,37 +34,26 @@ export class CompetenceElementRepository implements SearchService<CompetenceElem
   }
 
   findByIds(ids: string[]): Observable<CompetenceElement[]> {
-    return this.triageService.endpoint$.pipe(
-      switchMap(endpoint => this.http.post<CompetenceElement[]>(endpoint + `${this.findUrl}/byIds`, ids))
-    );
-
+    return this.http.post<CompetenceElement[]>(KK_EDITOR_ENDPOINT + `${this.findUrl}/byIds`, ids);
   }
 
   search(request: PagedSearchRequest): Observable<Page<CompetenceElement>> {
     const params = createPageableURLSearchParams(request);
-    return this.triageService.endpoint$.pipe(
-      switchMap(endpoint => this.http.post<Page<CompetenceElement>>(endpoint + this.searchUrl, request.body, {
-        params
-      })));
-
+    return this.http.post<Page<CompetenceElement>>(KK_EDITOR_ENDPOINT + this.searchUrl, request.body, {
+      params
+    });
   }
 
   create(competenceElement: CreateCompetenceElement): Observable<CompetenceElement> {
-    return this.triageService.endpoint$.pipe(
-      switchMap(endpoint => this.http.post<CompetenceElement>(endpoint + this.resourceUrl, competenceElement))
-    );
+    return this.http.post<CompetenceElement>(KK_EDITOR_ENDPOINT + this.resourceUrl, competenceElement);
   }
 
   update(id: string, competenceElement: UpdateCompetenceElement): Observable<CompetenceElement> {
-    return this.triageService.endpoint$.pipe(
-      switchMap(endpoint => this.http.put<CompetenceElement>(endpoint + this.resourceUrl + id, competenceElement))
-    );
+    return this.http.put<CompetenceElement>(KK_EDITOR_ENDPOINT + this.resourceUrl + id, competenceElement);
   }
 
   delete(competenceElementId: string): Observable<void> {
-    return this.triageService.endpoint$.pipe(
-      switchMap(endpoint => this.http.delete<void>(endpoint + `${this.resourceUrl}${competenceElementId}`))
-    );
+    return this.http.delete<void>(KK_EDITOR_ENDPOINT + `${this.resourceUrl}${competenceElementId}`);
   }
 
 }

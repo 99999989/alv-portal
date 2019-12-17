@@ -13,6 +13,8 @@ import { flatMap, map, switchMap } from 'rxjs/operators';
 import { CompetenceElementRepository } from '../competence-element/competence-element.repository';
 import { SearchService } from '../search-service';
 import { TriageService } from '../triage.service';
+import { KK_EDITOR_ENDPOINT } from '../endpoints';
+
 
 @Injectable({ providedIn: 'root' })
 export class CompetenceSetRepository implements SearchService<CompetenceSetSearchResult> {
@@ -61,32 +63,20 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
 
   search(request: PagedSearchRequest): Observable<Page<CompetenceSetSearchResult>> {
     const params = createPageableURLSearchParams(request);
-    return this.triageService.endpoint$.pipe(
-      switchMap(
-        endpoint => this.http.post<Page<CompetenceSetSearchResult>>(endpoint + this.searchUrl, request.body, {
-          params
-        })
-      ));
+    return this.http.post<Page<CompetenceSetSearchResult>>(KK_EDITOR_ENDPOINT + this.searchUrl, request.body, {
+      params
+    });
   }
 
   create(competenceSet: CreateCompetenceSet): Observable<CompetenceSet> {
-    return this.triageService.endpoint$.pipe(
-      switchMap(
-        endpoint => this.http.post<CompetenceSet>(endpoint + this.resourceUrl, competenceSet)
-      ));
+    return this.http.post<CompetenceSet>(KK_EDITOR_ENDPOINT + this.resourceUrl, competenceSet);
   }
 
   update(id: string, competenceSet: UpdateCompetenceSet): Observable<CompetenceSet> {
-    return this.triageService.endpoint$.pipe(
-      switchMap(
-        endpoint => this.http.put<CompetenceSet>(endpoint + `${this.resourceUrl}${id}`, competenceSet)
-      ));
+    return this.http.put<CompetenceSet>(KK_EDITOR_ENDPOINT + `${this.resourceUrl}${id}`, competenceSet);
   }
 
   delete(id: string): Observable<void> {
-    return this.triageService.endpoint$.pipe(
-      switchMap(
-        endpoint => this.http.delete<void>(endpoint + `${this.resourceUrl}${id}`)
-      ));
+    return this.http.delete<void>(KK_EDITOR_ENDPOINT + `${this.resourceUrl}${id}`);
   }
 }
