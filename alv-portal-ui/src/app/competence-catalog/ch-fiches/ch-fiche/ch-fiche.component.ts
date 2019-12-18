@@ -294,6 +294,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     modalRef.result
       .then((multiLanguageTitle) => {
         this.chFiche.description = multiLanguageTitle;
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.edit-description-success-notification');
+
       })
       .catch(() => {
       });
@@ -302,6 +304,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   handleDescriptionActionClick(action: CompetenceCatalogAction) {
     if (action === CompetenceCatalogAction.DELETE) {
       this.chFiche.description = null;
+      this.notificationsService.success('portal.competence-catalog.ch-fiches.remove-description-success-notification');
+
     }
   }
 }
