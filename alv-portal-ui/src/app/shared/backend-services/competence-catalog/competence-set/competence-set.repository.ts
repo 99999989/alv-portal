@@ -34,22 +34,21 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
   findById(id: string): Observable<CompetenceSetSearchResult> {
     return this.triageService.endpoint$.pipe(
       switchMap(
-        endpoint => this.http.get<CompetenceSet>(endpoint + this.resourceUrl + id).pipe(
-          flatMap(competenceSet => {
-            return this.competenceElementRepository.findById(competenceSet.knowHowId).pipe(
-              map(competenceElement => {
-                return <CompetenceSetSearchResult>{
-                  id: competenceSet.id,
-                  competenceElementIds: competenceSet.competenceElementIds,
-                  knowHow: competenceElement,
-                  draft: competenceSet.draft,
-                  published: competenceSet.published
-                };
-              })
-            );
+        endpoint => this.http.get<CompetenceSet>(endpoint + this.resourceUrl + id)
+      ),
+      flatMap(competenceSet => {
+        return this.competenceElementRepository.findById(competenceSet.knowHowId).pipe(
+          map(competenceElement => {
+            return <CompetenceSetSearchResult>{
+              id: competenceSet.id,
+              competenceElementIds: competenceSet.competenceElementIds,
+              knowHow: competenceElement,
+              draft: competenceSet.draft,
+              published: competenceSet.published
+            };
           })
-        )
-      ));
+        );
+      }));
   }
 
   findByCompetenceElementId(competenceElementId: string): Observable<CompetenceSetSearchResult[]> {
