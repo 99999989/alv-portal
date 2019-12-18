@@ -23,18 +23,18 @@ export class CompetenceElementRepository implements SearchService<CompetenceElem
   private readonly findUrl = `${this.resourceUrl}_find`;
 
   constructor(private http: HttpClient,
-              public triageService: KkRoleConditionRoutingService) {
+              public roleConditionRoutingService: KkRoleConditionRoutingService) {
   }
 
   findById(id: string): Observable<CompetenceElement> {
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(endpoint => this.http.get<CompetenceElement>(endpoint + this.resourceUrl + id))
     );
 
   }
 
   findByIds(ids: string[]): Observable<CompetenceElement[]> {
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(endpoint => this.http.post<CompetenceElement[]>(endpoint + `${this.findUrl}/byIds`, ids))
     );
 
@@ -42,7 +42,7 @@ export class CompetenceElementRepository implements SearchService<CompetenceElem
 
   search(request: PagedSearchRequest): Observable<Page<CompetenceElement>> {
     const params = createPageableURLSearchParams(request);
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(endpoint => this.http.post<Page<CompetenceElement>>(endpoint + this.searchUrl, request.body, {
         params
       })));

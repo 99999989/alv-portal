@@ -27,12 +27,12 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
 
   constructor(private http: HttpClient,
               private competenceElementRepository: CompetenceElementRepository,
-              public triageService: KkRoleConditionRoutingService) {
+              public roleConditionRoutingService: KkRoleConditionRoutingService) {
 
   }
 
   findById(id: string): Observable<CompetenceSetSearchResult> {
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
         endpoint => this.http.get<CompetenceSet>(endpoint + this.resourceUrl + id)
       ),
@@ -52,7 +52,7 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
   }
 
   findByCompetenceElementId(competenceElementId: string): Observable<CompetenceSetSearchResult[]> {
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
         endpoint => this.http.get<CompetenceSetSearchResult[]>(endpoint + `${this.findUrl}/byCompetenceElementId`, {
           params: new HttpParams().set('id', competenceElementId)
@@ -62,7 +62,7 @@ export class CompetenceSetRepository implements SearchService<CompetenceSetSearc
 
   search(request: PagedSearchRequest): Observable<Page<CompetenceSetSearchResult>> {
     const params = createPageableURLSearchParams(request);
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
         endpoint => this.http.post<Page<CompetenceSetSearchResult>>(endpoint + this.searchUrl, request.body, {
           params

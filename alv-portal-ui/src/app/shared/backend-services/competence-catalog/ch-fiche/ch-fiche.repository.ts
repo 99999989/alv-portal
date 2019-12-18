@@ -20,11 +20,11 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   private readonly findUrl = `${this.resourceUrl}_find`;
 
   constructor(private http: HttpClient,
-              public triageService: KkRoleConditionRoutingService) {
+              public roleConditionRoutingService: KkRoleConditionRoutingService) {
   }
 
   findById(id: string): Observable<ChFiche> {
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(endpoint => this.http.get<ChFiche>(endpoint + this.resourceUrl + id))
     );
   }
@@ -32,7 +32,7 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   search(request: PagedSearchRequest): Observable<Page<ChFiche>> {
 
     const params = createPageableURLSearchParams(request);
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(endpoint => this.http.post<Page<ChFiche>>(endpoint + this.searchUrl, request.body, {
         params
       }))
@@ -40,7 +40,7 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   }
 
   findByCompetenceSetId(competenceSetId: string): Observable<ChFiche[]> {
-    return this.triageService.endpoint$.pipe(
+    return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(endpoint => this.http.get<ChFiche[]>(endpoint + this.findUrl + '/byCompetenceSetId', {
         params: new HttpParams().set('id', competenceSetId)
       })));
