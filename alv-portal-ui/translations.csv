@@ -1255,7 +1255,7 @@ portal.competence-catalog.ch-fiches.edit-description-modal.title,,Editing CH Fic
 portal.competence-catalog.ch-fiches.edit-description-modal.description-title-de,Deutch Beschreibung,German description,,,
 portal.competence-catalog.ch-fiches.edit-description-modal.description-title-fr,Französisch Beschreibung,French description,,,
 portal.competence-catalog.ch-fiches.edit-description-modal.description-title-it,Italienisch Beschreibung,Italian description,,,
-portal.competence-catalog.ch-fiches.edit-description-modal.description-title-en,änglish Beschreibung,English description,,,
+portal.competence-catalog.ch-fiches.edit-description-modal.description-title-en,Englisch Beschreibung,English description,,,
 portal.competence-catalog.ch-fiches.edit-description-success-notification,CH Fiche Beschreibung gespeichert,CH Fiche description has been saved,,,
 portal.competence-catalog.ch-fiches.remove-description-success-notification,CH Fiche Beschreibung gelösht,CH Fiche description has been deleted,,,
 portal.competence-catalog.ch-fiches.remove-description-dialog.title,Beschreibung löschen?,,,,
