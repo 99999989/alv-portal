@@ -19,6 +19,16 @@
           {{ 'portal.competence-catalog.ch-fiches.overview.title' | translate }}
         </h2>
         <div class="d-flex mb-3 flex-row justify-content-between">
+          <button (click)="onFilterClick()"
+                  *ngIf="observables.isCompetenceCatalogEditor"
+                  [ngbTooltip]="'portal.global.filter' | translate "
+                  class="btn btn-text filter-button flex-row"
+                  type="button">
+            <fa-icon [icon]="['fas', 'filter']"
+                     class="mr-0 mr-md-2"></fa-icon>
+            <span class="d-none d-md-inline">
+            </span>
+          </button>
           <alv-sort-button (sortClicked)="onSortClick($event)"
                            [currentSorting]="sort"
                            [ngbTooltip]="'portal.global.sort' | translate "

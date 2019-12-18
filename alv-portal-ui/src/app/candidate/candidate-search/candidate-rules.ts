@@ -1,9 +1,13 @@
-import {CandidateProfile, JobExperience} from '../../shared/backend-services/candidate/candidate.types';
-import {Contact, Degree, Experience, Gender, Graduation} from '../../shared/backend-services/shared.types';
-import {GenderAwareOccupationLabel} from '../../shared/occupations/occupation.service';
-import {OccupationCode} from '../../shared/backend-services/reference-service/occupation-label.types';
-import {isAuthenticatedUser, User, UserRole} from '../../core/auth/user.model';
-import {JobCenter} from '../../shared/backend-services/reference-service/job-center.types';
+import {
+  CandidateProfile,
+  HeadJobCenterCode,
+  JobExperience
+} from '../../shared/backend-services/candidate/candidate.types';
+import { Contact, Degree, Experience, Gender, Graduation } from '../../shared/backend-services/shared.types';
+import { GenderAwareOccupationLabel } from '../../shared/occupations/occupation.service';
+import { OccupationCode } from '../../shared/backend-services/reference-service/occupation-label.types';
+import { isAuthenticatedUser, User, UserRole } from '../../core/auth/user.model';
+import { JobCenter } from '../../shared/backend-services/reference-service/job-center.types';
 
 const SWISS_CANTONS_NUMBER = 26;
 
@@ -142,7 +146,7 @@ export function preferredWorkLocations(candidateProfile: CandidateProfile): stri
 }
 
 export function candidateContact(candidateProfile: CandidateProfile, jobCenter: JobCenter, user: User): Contact {
-  if (jobCenter && (jobCenter.code.startsWith('BEA') || jobCenter.code.startsWith('BSA') || jobCenter.code.startsWith('SOA'))) {
+  if (jobCenter && Object.values(HeadJobCenterCode).includes(jobCenter.code)) {
     return { phone: jobCenter.phone, email: jobCenter.email };
   } else {
     const jobAdvisorContact = candidateProfile.jobAdvisor;
@@ -161,4 +165,19 @@ export function canViewCandidateProtectedData(candidateProfile: CandidateProfile
 
 export function hasEmailContactType(candidateProfile: CandidateProfile): boolean {
   return candidateProfile && candidateProfile.contactTypes && candidateProfile.contactTypes.includes('EMAIL');
+}
+
+export function resolveJobCenterCode(jcc: string): string {
+  return replaceWithHeadJobCenter(jcc);
+}
+
+function replaceWithHeadJobCenter(jobCenterCode) {
+  if (jobCenterCode.startsWith('BEA')) {
+    jobCenterCode = HeadJobCenterCode.BEAJ0;
+  } else if (jobCenterCode.startsWith('BSA')) {
+    jobCenterCode = HeadJobCenterCode.BSA80;
+  } else if (jobCenterCode.startsWith('SOA')) {
+    jobCenterCode = HeadJobCenterCode.SOAD0;
+  }
+  return jobCenterCode;
 }
