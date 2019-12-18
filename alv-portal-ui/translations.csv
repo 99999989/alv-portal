@@ -1165,7 +1165,7 @@ portal.application-documents.document-type.CV,Lebenslauf,Lebenslauf,Curriculum v
 portal.application-documents.document-type.LETTER_OF_APPLICATION,Bewerbungsschreiben,Bewerbungsschreiben,Lettre de motivation,Domande d'impiego,
 portal.application-documents.document-type.TESTIMONIAL,Arbeitszeugnisse,Arbeitszeugnisse,Certificats de travail,Certificati di lavoro,
 portal.application-documents.document-type.CERTIFICATES,Diplome / Zertifikate,Diplome / Zertifikate,Diplômes/certificats,Diplomi / Certificati,
-portal.competence-catalog.infobanners.chisco-transition.candidate-search-profile,Infolge technischer Anpassungen muss die Berufsbezeichnung in der zu duplizierenden Stellenmeldung neu ausgewählt werden.,,,,
+portal.competence-catalog.infobanners.chisco-transition.candidate-search-profile,Infolge technischer Anpassungen können die Berufsbezeichnungen der Kandidaten-Suchprofile geändert haben. Suchprofile, die auf Berufskategorien zurückgreifen, müssen neu erstellt werden.,,,,
 portal.competence-catalog.infobanners.chisco-transition.job-search-profile,Infolge technischer Anpassungen müssen Suchprofile, die auf Berufskategorien zurückgreifen, neu erstellt werden.,,,,
 portal.competence-catalog.infobanners.chisco-transition.manage-jobads,Infolge technischer Anpassungen muss die Berufsbezeichnung in der zu duplizierenden Stellenmeldung neu ausgewählt werden.,,,,
 portal.competence-catalog.infobanners.chisco-transition.publish-jobad,Die Berufsliste für Stellenmeldungen wurde aktualisiert. Gewisse Berufsbezeichnungen sind nicht mehr verfügbar.,,,,
