@@ -20,6 +20,7 @@ import { CompetenceElementDeleteComponent } from '../competence-element-delete/c
 import { NotificationsService } from '../../../core/notifications.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FilterBadge } from '../../../shared/layout/inline-badges/inline-badge.types';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -27,6 +28,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./competence-elements-overview.component.scss']
 })
 export class CompetenceElementsOverviewComponent extends OverviewComponent<CompetenceElement> implements OnInit {
+
+  currentBadges$: Observable<FilterBadge[]>;
 
   filter: CompetenceElementFilterValues = {
     types: Object.values(ElementType)
@@ -129,4 +132,15 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
       .catch(() => {
       });
   }
+
+  // removeCurrentBadge(badge: FilterBadge) {
+  //   this.filter = this.filter
+  //   this.currentFilter$.pipe(
+  //     take(1))
+  //     .subscribe(currentFilter => {
+  //       const newFilter = { ...currentFilter };
+  //       newFilter[badge.key] = null;
+  //       this.store.dispatch(new ApplyFilterAction(newFilter));
+  //     });
+  // }
 }

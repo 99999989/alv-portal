@@ -1,7 +1,8 @@
 <div class="container-fluid pt-4 pt-lg-5 px-lg-5"
      *ngIf="{
             isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
-            actions: actions$ | async
+            actions: actions$ | async,
+            currentBadges: currentBadges$ | async
       } as observables"
      (scrolled)="onScroll()"
      [fromRoot]="true"
@@ -36,6 +37,14 @@
       </div>
 
       <form [formGroup]="searchForm">
+        <!--Badges panel-->
+        <div *ngIf="observables.currentBadges"
+             class="d-flex justify-content-end mb-3">
+          <alv-inline-badges (removed)="removeCurrentBadge($event)"
+                             [badges]="observables.currentBadges"
+                             [canRemove]="true">
+          </alv-inline-badges>
+        </div>
         <alv-input-field alvFormControlName="query"
                          [attr.data-test]="'search-input'"
                          label="portal.competence-catalog.competence-elements.overview.search.placeholder"
