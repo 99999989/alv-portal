@@ -23,6 +23,8 @@ describe('Job publication page', () => {
     const testTextPrefix = `protractor_${Math.random().toString(36).substr(2, 5)}`;
 
     it('should submit a valid job publication form', () => {
+      page.selectDeLanguage.click();
+
       page.jobDescriptionSection.numberOfJobs.sendKeys('3');
       page.jobDescriptionSection.jobDescription.sendKeys(testTextPrefix + ' description');
 
