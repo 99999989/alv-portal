@@ -25,6 +25,7 @@ import {
   LoadPreviousJobAdvertisementDetailAction
 } from '../state-management/actions';
 import { LayoutConstants } from '../../../shared/layout/layout-constants.enum';
+import { NotificationType } from '../../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-manage-job-ad-detail',
@@ -38,6 +39,11 @@ export class ManageJobAdDetailComponent extends AbstractSubscriber implements On
   jobDetailModel$: Observable<JobDetailModel>;
 
   badges$: Observable<JobBadge[]>;
+
+  chiscoTransitionNotification = {
+    type: NotificationType.INFO,
+    isSticky: true,
+  };
 
   isPavOrCompany = false;
 

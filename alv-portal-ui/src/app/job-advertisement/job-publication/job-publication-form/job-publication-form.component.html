@@ -10,6 +10,18 @@
 
   <alv-collapse-panel [panelId]="jobPublicationFormPanelId.JOB_PUBLICATION_OCCUPATION"
                       panelTitle="home.tools.job-publication.occupation.label">
+    <alv-closable-alert [notification]="chiscoTransitionNotification">
+      <p>{{'portal.competence-catalog.infobanners.chisco-transition.publish-jobad' | translate}}</p>
+      <p>
+        <a class="link"
+           href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
+           target="_blank">
+          <fa-icon [icon]="['fas', 'caret-right']"
+                   class="link-icon"></fa-icon>
+          {{'portal.global.more-info' | translate}}
+        </a>
+      </p>
+    </alv-closable-alert>
     <alv-occupation class="d-block pb-4"
                     [parentForm]="jobPublicationForm"
                     [occupationFormValue]="occupationFormValue">

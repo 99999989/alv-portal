@@ -7,6 +7,19 @@
     {{'portal.candidate-search-profiles.title' | translate}}
   </h2>
 
+  <alv-closable-alert [notification]="chiscoTransitionNotification">
+    <p>{{'portal.competence-catalog.infobanners.chisco-transition.candidate-search-profile' | translate}}</p>
+    <p>
+      <a class="link"
+         href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
+         target="_blank">
+        <fa-icon [icon]="['fas', 'caret-right']"
+                 class="link-icon"></fa-icon>
+        {{'portal.global.more-info' | translate}}
+      </a>
+    </p>
+  </alv-closable-alert>
+
   <ng-container *ngIf="candidateSearchProfiles.length">
     <alv-search-profile-item @removeProfile
                              *ngFor="let candidateSearchProfile of candidateSearchProfiles"

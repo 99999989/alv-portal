@@ -4,7 +4,7 @@
      [infiniteScrollThrottle]="50"
      [immediateCheck]="true"
      infiniteScroll>
-  <div class="d-flex justify-content-between align-items-end position-relative">
+  <div class="d-flex justify-content-between align-items-end position-relative mb-3">
     <h2 class="pr-5 d-flex">
       <alv-custom-icon class="text-primary mr-1"
                        aria-hidden="true"
@@ -13,6 +13,19 @@
       {{'portal.candidate-search-profiles.title' | translate}}
     </h2>
   </div>
+
+  <alv-closable-alert [notification]="chiscoTransitionNotification">
+    <p>{{'portal.competence-catalog.infobanners.chisco-transition.candidate-search-profile' | translate}}</p>
+    <p>
+      <a class="link"
+         href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
+         target="_blank">
+        <fa-icon [icon]="['fas', 'caret-right']"
+                 class="link-icon"></fa-icon>
+        {{'portal.global.more-info' | translate}}
+      </a>
+    </p>
+  </alv-closable-alert>
 
   <hr class="mt-0 mb-3">
 
@@ -33,5 +46,6 @@
       {{'portal.candidate-search-profiles.no-profiles' | translate}}
     </div>
   </ng-container>
+
 
 </div>

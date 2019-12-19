@@ -79,6 +79,18 @@
     </ng-container>
 
     <ng-container class="main-column">
+      <alv-closable-alert [notification]="chiscoTransitionNotification">
+        <p>{{'portal.competence-catalog.infobanners.chisco-transition.manage-jobads' | translate }}</p>
+        <p>
+          <a class="link"
+             href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
+             target="_blank">
+            <fa-icon [icon]="['fas', 'caret-right']"
+                     class="link-icon"></fa-icon>
+            {{'portal.global.more-info' | translate}}
+          </a>
+        </p>
+      </alv-closable-alert>
       <alv-job-content [jobDetailModel]="jobDetailModel"
                        [badges]="badges$ | async"
                        [showStatusInformation]="true">
