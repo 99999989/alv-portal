@@ -306,7 +306,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       this.modalService.openConfirm({
         title: 'portal.competence-catalog.ch-fiches.remove-description-dialog.title',
         content: 'portal.competence-catalog.ch-fiches.remove-description-dialog.confirmation-question',
-        confirmLabel: 'portal.competence-catalog.ch-fiches.remove-description-dialog.confirm',
+        confirmLabel: 'entity.action.yes-delete',
       })
         .result
         .then(() => {
