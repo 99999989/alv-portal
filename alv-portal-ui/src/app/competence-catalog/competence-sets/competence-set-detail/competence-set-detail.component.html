@@ -9,10 +9,15 @@
                    class="text-primary mr-1"
                    [fixedWidth]="true">
           </fa-icon>
-          <span *ngIf="isEdit; else isEnter">
+          <span *ngIf="observables.isCompetenceCatalogEditor && isEdit">
             {{'portal.competence-catalog.competence-sets.edit.title-edit' | translate}}
           </span>
-          <ng-template #isEnter>{{ 'portal.competence-catalog.competence-sets.edit.title-enter' | translate }}</ng-template>
+          <span *ngIf="observables.isCompetenceCatalogEditor && !isEdit">
+            {{ 'portal.competence-catalog.competence-sets.edit.title-enter' | translate }}
+          </span>
+          <span *ngIf="!observables.isCompetenceCatalogEditor">
+            {{ 'portal.competence-catalog.competence-sets.edit.title-view' | translate }}
+          </span>
         </h2>
       </div>
 
