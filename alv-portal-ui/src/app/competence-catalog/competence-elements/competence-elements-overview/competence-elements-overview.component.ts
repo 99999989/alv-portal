@@ -20,7 +20,19 @@ import { CompetenceElementDeleteComponent } from '../competence-element-delete/c
 import { NotificationsService } from '../../../core/notifications.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FilterBadge } from '../../../shared/layout/inline-badges/inline-badge.types';
+import {
+  FilterBadge,
+  InlineBadge
+} from '../../../shared/layout/inline-badges/inline-badge.types';
+
+function mapFiltersToBadges(filter: CompetenceElementFilterValues): FilterBadge[] {
+  const res = [];
+  return filter.types.map(f => ({
+    cssClass: 'badge',
+    key: f,
+    label: 'portal.competence-catalog.element-type' + f,
+  }));
+}
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -29,9 +41,9 @@ import { FilterBadge } from '../../../shared/layout/inline-badges/inline-badge.t
 })
 export class CompetenceElementsOverviewComponent extends OverviewComponent<CompetenceElement> implements OnInit {
 
-  currentBadges$: Observable<FilterBadge[]>;
+  currentBadges: FilterBadge[];
 
-  filter: CompetenceElementFilterValues = {
+  currentFilters: CompetenceElementFilterValues = {
     types: Object.values(ElementType)
   };
 
@@ -86,10 +98,11 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
 
   onFilterClick() {
     const modalRef = this.modalService.openMedium(CompetenceElementsFilterModalComponent, true);
-    modalRef.componentInstance.currentFiltering = this.filter;
+    modalRef.componentInstance.currentFiltering = this.currentFilters;
     modalRef.result
       .then(updatedFilter => {
-        this.filter = updatedFilter;
+        this.currentFilters = updatedFilter;
+        this.currentBadges = mapFiltersToBadges(this.currentFilters);
         this.reload();
       })
       .catch(() => {
@@ -99,7 +112,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   onScroll() {
     this.loadItems({
       ...{ query: this.searchForm.get('query').value || '' },
-      ...this.filter
+      ...this.currentFilters
     });
   }
 
@@ -133,14 +146,14 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
       });
   }
 
-  // removeCurrentBadge(badge: FilterBadge) {
-  //   this.filter = this.filter
-  //   this.currentFilter$.pipe(
-  //     take(1))
-  //     .subscribe(currentFilter => {
-  //       const newFilter = { ...currentFilter };
-  //       newFilter[badge.key] = null;
-  //       this.store.dispatch(new ApplyFilterAction(newFilter));
-  //     });
-  // }
+  removeCurrentBadge(badge: InlineBadge) {
+    // this.filter = this.filter
+    // this.currentFilter$.pipe(
+    //   take(1))
+    //   .subscribe(currentFilter => {
+    //     const newFilter = { ...currentFilter };
+    //     newFilter[badge.key] = null;
+    //     this.store.dispatch(new ApplyFilterAction(newFilter));
+    //   });
+  }
 }
