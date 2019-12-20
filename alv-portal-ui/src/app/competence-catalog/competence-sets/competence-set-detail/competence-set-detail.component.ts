@@ -141,5 +141,6 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
 
   private reset() {
     this.competenceSet = initialCompetenceSetSearchResult();
+    this.showErrors = false;
   }
 }
