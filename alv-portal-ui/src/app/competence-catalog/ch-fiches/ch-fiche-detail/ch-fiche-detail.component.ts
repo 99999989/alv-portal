@@ -55,10 +55,6 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
     super.ngOnInit();
     this.createAnotherFormControl = this.fb.control(false);
     this.isEdit = !!this.route.snapshot.data.chFiche;
-    this.form = this.fb.group({
-      published: ['', Validators.required],
-      draft: ['', Validators.required],
-    });
     if (this.route.snapshot.data.chFiche) {
       this.chFiche = this.route.snapshot.data.chFiche;
     } else {
