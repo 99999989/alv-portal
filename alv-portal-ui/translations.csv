@@ -1262,7 +1262,6 @@ portal.competence-catalog.ch-fiches.edit-description-success-notification,CH Fic
 portal.competence-catalog.ch-fiches.remove-description-success-notification,CH Fiche Beschreibung gelösht,CH Fiche description has been deleted,La description de CH Fiche a été supprimée.,La CH Fiche descrizione è stata cancellata.,
 portal.competence-catalog.ch-fiches.remove-description-dialog.title,Beschreibung löschen?,Delete description?,Supprimer la description?,Descrizione cancellata?,
 portal.competence-catalog.ch-fiches.remove-description-dialog.confirmation-question,Möchten Sie die beschreibung löschen?,Do you really want to delete the description?,Voulez-vous vraiment supprimer la description de CH Fiche?,Volete cambiare davvero La CH Fiche descrizione cancellata?,
-portal.competence-catalog.ch-fiches.remove-description-dialog.confirm,"Ja, löschen","Yes, delete","Oui, supprimer","Si, cancellare",
 portal.competence-catalog.menu-entries.competence-sets,Kompetenz-Sets,Skill sets,Ensembles de compétences,Set di competenze,
 portal.competence-catalog.menu-entries.competence-elements,Kompetenz-Bestandteile,Skill components,Composants de compétence,Elementi della competenza,
 portal.competence-catalog.menu-entries.ch-fiches,CH Fiche,CH Fiche,Fiche CH,Fiche CH,
