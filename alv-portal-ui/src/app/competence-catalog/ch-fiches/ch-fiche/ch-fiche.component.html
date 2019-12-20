@@ -38,8 +38,9 @@
   </alv-interactive-list-item>
   <ng-template #noDescription>
     <alv-competence-item-placeholder (clickHandler)="editFicheDescription(isReadonly)"
+                                     [readonly]="isReadonly"
                                      [customIcon]="observables.isCompetenceCatalogEditor ? IconKey.EDIT_PLUS : null"
-                                     [customTooltip]="'portal.competence-catalog.ch-fiches.add-modal.tooltip'"
+                                     [customTooltip]="observables.isCompetenceCatalogEditor ? 'portal.competence-catalog.ch-fiches.add-modal.tooltip' : ''"
                                      [mainText]="'portal.competence-catalog.ch-fiches.no-description-placeholder'  | translate"
     >
     </alv-competence-item-placeholder>
