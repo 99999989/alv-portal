@@ -5,7 +5,7 @@
       &nbsp;- {{'entity.validation.required' | translate}}
     </span>
   <div class="flex-grow-1"></div>
-  <button class="btn btn-icon-sm"
+  <button *ngIf="!readonly" class="btn btn-icon-sm"
           [ngbTooltip]="customTooltip || 'portal.competence-catalog.competence-sets.actions.search-and-add' | translate"
           (click)="clickHandler.emit()">
     <fa-icon [icon]="icon"
