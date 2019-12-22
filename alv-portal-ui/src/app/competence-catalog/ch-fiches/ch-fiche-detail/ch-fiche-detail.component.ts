@@ -68,6 +68,7 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
 
   reset() {
     this.chFiche = initialChFiche();
+    this.showErrors = false;
   }
 
   saveChFiche() {
