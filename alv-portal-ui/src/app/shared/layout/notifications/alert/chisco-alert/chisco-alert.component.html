@@ -5,11 +5,11 @@
   <p [innerHTML]="infoText | translate"></p>
   <p>
     <a class="link"
-       href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
+       [href]="'portal.ch-isco.transition-phase.link'"
        target="_blank">
       <fa-icon [icon]="['fas', 'caret-right']"
                class="link-icon"></fa-icon>
-      {{ 'portal.ch-isco.transition-phase.text5' | translate }}
+      {{ 'portal.global.more-info' | translate }}
     </a>
   </p>
 </alv-alert>
