@@ -20,19 +20,13 @@ import { EmploymentFormValue } from './employment/employment-form-value.types';
 import { ContactFormValue } from './contact/contact-form-value.types';
 import { PublicContactFormValue } from './public-contact/public-contact-form-value.types';
 import { PublicationFormValue } from './publication/publication-form-value.types';
-import {
-  EmployerFormValue,
-  emptyEmployerFormValue
-} from './employer/employer-form-value.types';
+import { EmployerFormValue, emptyEmployerFormValue } from './employer/employer-form-value.types';
 import { ApplicationFormValue } from './application/application-form-value.types';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import * as  jobPublicationFormMapper from './job-publication-form.mapper';
 import { JobPublicationFormValueKeys } from './job-publication-form-value.types';
-import {
-  InitialFormValueConfig,
-  JobPublicationFormValueFactory
-} from './job-publication-form-value-factory';
+import { InitialFormValueConfig, JobPublicationFormValueFactory } from './job-publication-form-value-factory';
 import { JobAdvertisementRepository } from '../../../shared/backend-services/job-advertisement/job-advertisement.repository';
 import { JobAdvertisement } from '../../../shared/backend-services/job-advertisement/job-advertisement.types';
 import { CollapsePanelComponent } from '../../../shared/layout/collapse-panel/collapse-panel.component';
@@ -97,7 +91,7 @@ export class JobPublicationFormComponent extends AbstractSubscriber implements O
 
   publicationFormValue: PublicationFormValue;
 
-  chiscoTransitionNotification = {
+  chiscoWarningTransitionNotification = {
     type: NotificationType.WARNING,
     isSticky: true,
   };

@@ -9,7 +9,6 @@ import { flatMap, take } from 'rxjs/operators';
 import { SearchProfile } from '../../shared/backend-services/shared.types';
 import { getCandidateDeleteConfirmModalConfig } from '../../shared/search-profiles/modal-config.types';
 import { removeSearchProfileAnimation } from '../../shared/animations/animations';
-import { NotificationType } from '../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-candidate-search-profiles-widget',
@@ -20,11 +19,6 @@ import { NotificationType } from '../../shared/layout/notifications/notification
 export class CandidateSearchProfilesWidgetComponent implements OnInit {
 
   IconKey = IconKey;
-
-  chiscoTransitionNotification = {
-    type: NotificationType.INFO,
-    isSticky: true,
-  };
 
   candidateSearchProfiles: CandidateSearchProfileResult[] = [];
 

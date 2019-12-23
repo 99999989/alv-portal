@@ -14,18 +14,9 @@
     </h2>
   </div>
 
-  <alv-closable-alert [notification]="chiscoTransitionNotification">
-    <p>{{'portal.competence-catalog.infobanners.chisco-transition.job-search-profile' | translate}}</p>
-    <p>
-      <a class="link"
-         href="https://www.arbeit.swiss/secoalv/de/home/menue/unternehmen/stellenmeldepflicht/stellenmeldepflicht-ab-1--januar-2020.html"
-         target="_blank">
-        <fa-icon [icon]="['fas', 'caret-right']"
-                 class="link-icon"></fa-icon>
-        {{'portal.global.more-info' | translate}}
-      </a>
-    </p>
-  </alv-closable-alert>
+  <alv-chisco-alert
+    [infoText]="'portal.ch-isco.transition-phase.text0'">
+  </alv-chisco-alert>
 
   <hr class="mt-0 mb-3">
 
