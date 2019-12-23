@@ -56,7 +56,7 @@ import { EnvironmentRibbonComponent } from './environment-ribbon/environment-rib
 import { SearchProfileItemComponent } from './search-profile-item/search-profile-item.component';
 import { SharedAppContextModule } from '../app-context/shared-app-context.module';
 import { CollapseDirective } from './collapse-panel/collapse.directive';
-import { ClosableAlertComponent } from './notifications/alert/closable-alert/closable-alert.component';
+import { ChiscoAlertComponent } from './notifications/alert/chisco-alert/chisco-alert.component';
 
 @NgModule({
   imports: [
@@ -110,7 +110,7 @@ import { ClosableAlertComponent } from './notifications/alert/closable-alert/clo
     EnvironmentRibbonComponent,
     SearchProfileItemComponent,
     CollapseDirective,
-    ClosableAlertComponent
+    ChiscoAlertComponent
   ],
   providers: [
     CandidateContactRepository
@@ -156,7 +156,7 @@ import { ClosableAlertComponent } from './notifications/alert/closable-alert/clo
     EnvironmentRibbonComponent,
     SearchProfileItemComponent,
     CollapseDirective,
-    ClosableAlertComponent
+    ChiscoAlertComponent
   ]
 })
 export class LayoutModule {
