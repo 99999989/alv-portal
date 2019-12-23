@@ -14,9 +14,13 @@ export class CompetenceItemPlaceholderComponent implements OnInit {
   @Input()
   showErrors: boolean;
   @Input()
+  readonly: boolean;
+  @Input()
   icon: IconProp;
   @Input()
   customIcon: IconKey;
+  @Input()
+  customTooltip: string;
   @Output()
   clickHandler = new EventEmitter();
 

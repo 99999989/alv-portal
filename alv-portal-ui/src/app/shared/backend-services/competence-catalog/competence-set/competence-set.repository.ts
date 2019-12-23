@@ -15,7 +15,7 @@ import { SearchService } from '../search-service';
 @Injectable({ providedIn: 'root' })
 export class CompetenceSetRepository implements SearchService<CompetenceSetSearchResult> {
 
-  private readonly resourceUrl = '/competencecatalog-service/api/competence-sets/';
+  private readonly resourceUrl = '/competencecatalogservice-editor/api/competence-sets/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 
