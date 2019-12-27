@@ -79,10 +79,16 @@
     </ng-container>
 
     <ng-container class="main-column">
+
+      <alv-chisco-alert
+        [infoText]="'portal.ch-isco.transition-phase.managed-job-ad'">
+      </alv-chisco-alert>
+
       <alv-job-content [jobDetailModel]="jobDetailModel"
                        [badges]="badges$ | async"
                        [showStatusInformation]="true">
       </alv-job-content>
+
     </ng-container>
 
     <ng-container class="right-column">

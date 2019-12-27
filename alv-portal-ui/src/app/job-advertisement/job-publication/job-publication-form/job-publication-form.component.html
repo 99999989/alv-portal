@@ -10,6 +10,12 @@
 
   <alv-collapse-panel [panelId]="jobPublicationFormPanelId.JOB_PUBLICATION_OCCUPATION"
                       panelTitle="home.tools.job-publication.occupation.label">
+
+    <alv-chisco-alert
+      [notification]="chiscoWarningTransitionNotification"
+      [infoText]="'portal.ch-isco.transition-phase.occupation'">
+    </alv-chisco-alert>
+
     <alv-occupation class="d-block pb-4"
                     [parentForm]="jobPublicationForm"
                     [occupationFormValue]="occupationFormValue">
