@@ -23,7 +23,6 @@ import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { provideMockActions } from '@ngrx/effects/testing';
-
 import { CandidateRepository } from '../../../../shared/backend-services/candidate/candidate.repository';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -37,12 +36,12 @@ import {
 } from '../../../../core/state-management/actions/core.actions';
 import { FilterPanelValues } from '../../candidate-search/filter-panel/filter-panel.component';
 import { CandidateQueryPanelValues } from '../../../../widgets/candidate-search-widget/candidate-query-panel/candidate-query-panel-values';
+import SpyObj = jasmine.SpyObj;
+import { OccupationCode } from '../../../../shared/backend-services/reference-service/occupation-label.types';
 import {
   OccupationTypeaheadItem,
   OccupationTypeaheadItemType
 } from '../../../../shared/occupations/occupation-typeahead-item';
-import { OccupationCode } from '../../../../shared/backend-services/reference-service/occupation-label.types';
-import SpyObj = jasmine.SpyObj;
 
 describe('CandidateSearchEffects', () => {
   let sut: CandidateSearchEffects;
@@ -69,7 +68,7 @@ describe('CandidateSearchEffects', () => {
         { provide: OccupationSuggestionService, useValue: occupationSuggestionService },
         { provide: Router, useValue: router },
         { provide: CANDIDATE_SEARCH_EFFECTS_DEBOUNCE, useValue: 30 },
-        { provide: CANDIDATE_SEARCH_EFFECTS_SCHEDULER, useFactory: getTestScheduler },
+        { provide: CANDIDATE_SEARCH_EFFECTS_SCHEDULER, useFactory: getTestScheduler }
       ]
     });
 
@@ -83,10 +82,10 @@ describe('CandidateSearchEffects', () => {
     const initResultListAction = new InitializeResultListAction();
 
     const candidateProfile: any = { id: 1 };
-    const result = [ candidateProfile as CandidateProfile];
+    const result = [candidateProfile as CandidateProfile];
 
     const candidateSearchResult = { result, totalCount: 10 };
-    const filterAppliedAction = new FilterAppliedAction( { page: result, totalCount: 10 });
+    const filterAppliedAction = new FilterAppliedAction({ page: result, totalCount: 10 });
 
     /*
      * action: triggered 'a' after 10 F and 30 F delay
@@ -96,7 +95,7 @@ describe('CandidateSearchEffects', () => {
     it('should return a new FilterAppliedAction on success', () => {
 
       // action
-      actions$ = hot('-a-a--',   { a: initResultListAction });
+      actions$ = hot('-a-a--', { a: initResultListAction });
       // response
       candidateRepository.searchCandidateProfiles.and.returnValue(cold('-b', { b: candidateSearchResult }));
       // expected
@@ -133,11 +132,11 @@ describe('CandidateSearchEffects', () => {
 
       const httpError = new HttpErrorResponse({});
       // action
-      actions$ = hot('-a-a-b', { a: initResultListAction, b: filterAppliedAction});
+      actions$ = hot('-a-a-b', { a: initResultListAction, b: filterAppliedAction });
       // response
       candidateRepository.searchCandidateProfiles.and.returnValues(
         cold('-#', {}, httpError),
-        cold('-c', { c: candidateSearchResult})
+        cold('-c', { c: candidateSearchResult })
       );
       // expected
       const expected = cold('--e-d', {
@@ -156,10 +155,10 @@ describe('CandidateSearchEffects', () => {
     const applyFilterAction = new ApplyFilterAction(candidateSearchFilter);
 
     const candidateProfile: any = { id: 1 };
-    const result = [ candidateProfile as CandidateProfile];
+    const result = [candidateProfile as CandidateProfile];
 
     const candidateSearchResult = { result, totalCount: 10 };
-    const filterAppliedAction = new FilterAppliedAction( { page: result, totalCount: 10 });
+    const filterAppliedAction = new FilterAppliedAction({ page: result, totalCount: 10 });
 
     const httpError = new HttpErrorResponse({});
 
@@ -283,16 +282,15 @@ describe('CandidateSearchEffects', () => {
     });
 
   });
-
   describe('translateOccupationsOnLanguageChanged$', () => {
 
-    const occupCode: OccupationCode = { type: 'SBN5', value: '36102' };
+    const occupCode: OccupationCode = { type: 'CHISCO5', value: '81110' };
     const classificationDE = new OccupationTypeaheadItem(
-      OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Programmierer/innen', 2);
+      OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Bergleute und Grubenarbeiter', 2);
     const classificationEN = new OccupationTypeaheadItem(
-      OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Programmers', 2);
+      OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Mineurs et conducteurs d’installations de mine', 2);
 
-    const languageChangedAction = new LanguageChangedAction({ language: 'de'});
+    const languageChangedAction = new LanguageChangedAction({ language: 'de' });
 
     /*
      * action : dispatched languageChangedAction after 10 F delay
@@ -318,19 +316,19 @@ describe('CandidateSearchEffects', () => {
 
       const searchFilter: CandidateSearchFilter = {
         ...initialState.candidateSearchFilter,
-        occupations: [ classificationEN ]
+        occupations: [classificationEN]
       };
       const applyFilterAction = new ApplyFilterAction(searchFilter);
       store.dispatch(applyFilterAction);
 
       // action
-      actions$ = hot('-a--', { a: languageChangedAction} );
+      actions$ = hot('-a--', { a: languageChangedAction });
 
       // response
-      occupationSuggestionService.translateAll.and.returnValue(cold('-b|', { b: [ classificationDE ] }) );
+      occupationSuggestionService.translateAll.and.returnValue(cold('-b|', { b: [classificationDE] }));
 
       // expected
-      const occupationLanguageChangedAction = new OccupationLanguageChangedAction( { occupations: [ classificationDE ] });
+      const occupationLanguageChangedAction = new OccupationLanguageChangedAction({ occupations: [classificationDE] });
       const expected = cold('--b--', { b: occupationLanguageChangedAction });
 
       expect(sut.translateOccupationsOnLanguageChanged$).toBeObservable(expected);
@@ -341,11 +339,11 @@ describe('CandidateSearchEffects', () => {
   describe('loadNextPage$', () => {
 
     const candidateProfile: any = { id: 1 };
-    const result = [ candidateProfile as CandidateProfile];
+    const result = [candidateProfile as CandidateProfile];
 
     const candidateSearchResult = { result, totalCount: 10 };
     const loadNextPageAction = new LoadNextPageAction();
-    const nextPageLoadedAction = new NextPageLoadedAction({pageNumber: 1, page: result});
+    const nextPageLoadedAction = new NextPageLoadedAction({ pageNumber: 1, page: result });
 
     /*
      * action : dispatched loadNextPageAction after 20 F delay
@@ -421,10 +419,10 @@ describe('CandidateSearchEffects', () => {
 
       const id = 'candidate-profile-001';
       const candidateProfile: any = { id };
-      const result = [ candidateProfile as CandidateProfile];
+      const result = [candidateProfile as CandidateProfile];
 
       const loadNextCandidateProfileDetailAction = new LoadNextCandidateProfileDetailAction();
-      const nextPageLoadedAction = new NextPageLoadedAction({pageNumber: 1, page: result});
+      const nextPageLoadedAction = new NextPageLoadedAction({ pageNumber: 1, page: result });
 
       // action
       actions$ = hot('-a---b', { a: loadNextCandidateProfileDetailAction, b: nextPageLoadedAction });
