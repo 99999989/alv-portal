@@ -8,9 +8,7 @@ import { jobAdSearchReducer } from './job-ad-search.reducers';
 import { JobQueryPanelValues } from '../../../../widgets/job-search-widget/job-query-panel/job-query-panel-values';
 import { FilterPanelValues } from '../../job-search/filter-panel/filter-panel.component';
 import { createJobAdvertisementWithFavourites } from './job-ad-search.reducers.spec-util';
-import {
-  JobAdvertisementWithFavourites
-} from '../../../../shared/backend-services/job-advertisement/job-advertisement.types';
+import { JobAdvertisementWithFavourites } from '../../../../shared/backend-services/job-advertisement/job-advertisement.types';
 import {
   OccupationTypeaheadItem,
   OccupationTypeaheadItemType
@@ -22,7 +20,10 @@ import {
   LocalityItem,
   LocalityTypeaheadItem
 } from '../../../../shared/localities/locality-typeahead-item';
-import { ContractType, Sort } from '../../../../shared/backend-services/shared.types';
+import {
+  ContractType,
+  Sort
+} from '../../../../shared/backend-services/shared.types';
 
 const COMMUNAL_CODE_BERN = 351;
 
@@ -191,11 +192,11 @@ describe('jobAdSearchReducers', () => {
 
   it('OCCUPATION_LANGUAGE_CHANGED_ACTION : should update occupation category for language and value', () => {
     // GIVEN
-    const occupCode: OccupationCode = { id: 'some-id', type: 'SBN3', value: '361' };
+    const occupCode: OccupationCode = { id: 'some-id', type: 'CHISCO3', value: '811' };
     const classificationDE = new OccupationTypeaheadItem(
-      OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Berufe der Informatik', 10);
+      OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Bediener von Anlagen für den Bergbau und die Mineralaufbereitung', 10);
     const classificationEN = new OccupationTypeaheadItem(
-      OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'IT occupations', 10);
+      OccupationTypeaheadItemType.CLASSIFICATION, occupCode, 'Conducteurs d’installations d’exploitation minière et d’extraction des minéraux', 10);
     const state: JobAdSearchState = {
       ...initialState,
       jobSearchFilter: {
@@ -266,7 +267,6 @@ describe('jobAdSearchReducers', () => {
 
     verifyUnchanged(newState, jobAdStateChanged, ['page', 'resultsAreLoading', 'resultList']);
   });
-
   it('JOB_ADVERTISEMENT_DETAIL_LOADED : should update jobAdvertisement and visitedJobAds', () => {
     // GIVEN
     const selectedJobAdOne = jobAdPageOne[0];
@@ -283,7 +283,10 @@ describe('jobAdSearchReducers', () => {
 
     // GIVEN
     const selectedJobAdTwo = jobAdPageOne[4];
-    const visitedJobAdTwo = { [selectedJobAdOne.jobAdvertisement.id]: true, [selectedJobAdTwo.jobAdvertisement.id]: true };
+    const visitedJobAdTwo = {
+      [selectedJobAdOne.jobAdvertisement.id]: true,
+      [selectedJobAdTwo.jobAdvertisement.id]: true
+    };
 
     action = new jobActions.JobAdvertisementDetailLoadedAction({ jobAdvertisement: selectedJobAdTwo.jobAdvertisement });
 
@@ -299,7 +302,7 @@ describe('jobAdSearchReducers', () => {
 
 });
 
-// check if key elements of an object are unchanged
+// // check if key elements of an object are unchanged
 function verifyUnchanged(afterAction: Object, beforeAction: Object, ignoreFields: Array<string>) {
   Object.keys(afterAction)
     .filter((key: string) => ignoreFields.indexOf(key) < 0)

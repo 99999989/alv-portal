@@ -7,6 +7,10 @@
     {{'portal.job-ad-search-profiles.title' | translate}}
   </h2>
 
+  <alv-chisco-alert
+    [infoText]="'portal.ch-isco.transition-phase.job-ad-search-profile'">
+  </alv-chisco-alert>
+
   <ng-container *ngIf="jobSearchProfiles.length">
     <alv-search-profile-item @removeProfile
                              *ngFor="let jobSearchProfile of jobSearchProfiles"

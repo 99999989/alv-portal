@@ -1,11 +1,21 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpParams
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
+import {
+  EMPTY,
+  Observable
+} from 'rxjs';
 import {
   OccupationLabelAutocomplete,
   OccupationLabelData
 } from './occupation-label.types';
-import { catchError, map, shareReplay } from 'rxjs/operators';
+import {
+  catchError,
+  shareReplay,
+  map
+} from 'rxjs/operators';
 
 const DEFAULT_RESPONSE_SIZE = '10';
 const BUFFER_SIZE = 1;
@@ -21,8 +31,6 @@ const OCCUPATION_LABEL_RESOURCE_URL_V2 = '/referenceservice-2/api/occupations/la
 export enum OccupationTypes {
   AVAM = 'AVAM',
   X28 = 'X28',
-  SBN3 = 'SBN3',
-  SBN5 = 'SBN5',
   BFS = 'BFS',
   CHISCO3 = 'CHISCO3',
   CHISCO5 = 'CHISCO5',
@@ -64,7 +72,7 @@ export class OccupationLabelRepository {
   /**
    *
    * @param query the query/term
-   * @param types of 'x28', 'sbn3', 'sbn5'
+   * @param types of 'x28', 'chisco3', 'chisco5'
    * @param apiVersion REFERENCE_SERVICE_API_VERSION.V_1 or REFERENCE_SERVICE_API_VERSION.V_2 default is REFERENCE_SERVICE_API_VERSION.V_1
    */
   suggestOccupations(query: string, types: OccupationTypes[], apiVersion: REFERENCE_SERVICE_API_VERSION): Observable<OccupationLabelAutocomplete> {

@@ -29,7 +29,8 @@ export class CandidateSearchProfilesComponent implements OnInit {
   constructor(private candidateSearchProfilesRepository: CandidateSearchProfilesRepository,
               private authenticationService: AuthenticationService,
               private modalService: ModalService,
-              private notificationsService: NotificationsService) { }
+              private notificationsService: NotificationsService) {
+  }
 
   ngOnInit() {
     this.onScroll();
