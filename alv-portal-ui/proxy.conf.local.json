@@ -59,8 +59,13 @@
     "secure": false,
     "loglevel": "debug"
   },
-  "/competencecatalog-service/*": {
+  "/competencecatalogservice-editor/*": {
     "target": "http://localhost:8084",
+    "secure": false,
+    "loglevel": "debug"
+  },
+  "/competencecatalogservice-public/*": {
+    "target": "http://localhost:8184",
     "secure": false,
     "loglevel": "debug"
   },

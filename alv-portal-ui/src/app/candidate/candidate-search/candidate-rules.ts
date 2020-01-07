@@ -1,9 +1,13 @@
-import {CandidateProfile, JobExperience} from '../../shared/backend-services/candidate/candidate.types';
-import {Contact, Degree, Experience, Gender, Graduation} from '../../shared/backend-services/shared.types';
-import {GenderAwareOccupationLabel} from '../../shared/occupations/occupation.service';
-import {OccupationCode} from '../../shared/backend-services/reference-service/occupation-label.types';
-import {isAuthenticatedUser, User, UserRole} from '../../core/auth/user.model';
-import {JobCenter} from '../../shared/backend-services/reference-service/job-center.types';
+import {
+  CandidateProfile,
+  HeadJobCenterCode,
+  JobExperience
+} from '../../shared/backend-services/candidate/candidate.types';
+import { Contact, Degree, Experience, Gender, Graduation } from '../../shared/backend-services/shared.types';
+import { GenderAwareOccupationLabel } from '../../shared/occupations/occupation.service';
+import { OccupationCode } from '../../shared/backend-services/reference-service/occupation-label.types';
+import { isAuthenticatedUser, User, UserRole } from '../../core/auth/user.model';
+import { JobCenter } from '../../shared/backend-services/reference-service/job-center.types';
 
 const SWISS_CANTONS_NUMBER = 26;
 
@@ -12,14 +16,11 @@ const ABROAD_CODE = '99';
 const SWISS_CODE = 'CH';
 
 function matches(jobExperience: JobExperience, occupationCode: { value: string; type: string }) {
-  const { avamCode, bfsCode, sbn3Code, sbn5Code, chIsco3Code, chIsco5Code } = jobExperience.occupation;
+  const { avamCode, bfsCode, chIsco3Code, chIsco5Code } = jobExperience.occupation;
   return (String(avamCode) === occupationCode.value && occupationCode.type.toLowerCase() === 'avam')
     || (String(bfsCode) === occupationCode.value && occupationCode.type.toLowerCase() === 'bfs')
     || (String(chIsco3Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'chisco3')
-    || (String(chIsco5Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'chisco5')
-    //TODO: remove sbn codes after switch to CH-ISCO
-    || (String(sbn3Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'sbn3')
-    || (String(sbn5Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'sbn5');
+    || (String(chIsco5Code) === occupationCode.value && occupationCode.type.toLowerCase() === 'chisco5');
 }
 
 function hasOccupationCode(jobExperience: JobExperience, occupationCode: OccupationCode) {
@@ -145,7 +146,7 @@ export function preferredWorkLocations(candidateProfile: CandidateProfile): stri
 }
 
 export function candidateContact(candidateProfile: CandidateProfile, jobCenter: JobCenter, user: User): Contact {
-  if (jobCenter && (jobCenter.code.startsWith('BEA') || jobCenter.code.startsWith('BSA') || jobCenter.code.startsWith('SOA'))) {
+  if (jobCenter && Object.values(HeadJobCenterCode).includes(jobCenter.code)) {
     return { phone: jobCenter.phone, email: jobCenter.email };
   } else {
     const jobAdvisorContact = candidateProfile.jobAdvisor;
@@ -164,4 +165,19 @@ export function canViewCandidateProtectedData(candidateProfile: CandidateProfile
 
 export function hasEmailContactType(candidateProfile: CandidateProfile): boolean {
   return candidateProfile && candidateProfile.contactTypes && candidateProfile.contactTypes.includes('EMAIL');
+}
+
+export function resolveJobCenterCode(jcc: string): string {
+  return replaceWithHeadJobCenter(jcc);
+}
+
+function replaceWithHeadJobCenter(jobCenterCode) {
+  if (jobCenterCode.startsWith('BEA')) {
+    jobCenterCode = HeadJobCenterCode.BEAJ0;
+  } else if (jobCenterCode.startsWith('BSA')) {
+    jobCenterCode = HeadJobCenterCode.BSA80;
+  } else if (jobCenterCode.startsWith('SOA')) {
+    jobCenterCode = HeadJobCenterCode.SOAD0;
+  }
+  return jobCenterCode;
 }

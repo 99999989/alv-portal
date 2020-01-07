@@ -1,0 +1,15 @@
+<alv-alert (dismiss)="hide()"
+           *ngIf="isShown"
+           [hideDismiss]="hideDismiss"
+           [notification]="notification || defaultNotification">
+  <p [innerHTML]="infoText | translate"></p>
+  <p>
+    <a class="link"
+       [href]="'portal.ch-isco.transition-phase.link' | translate"
+       target="_blank">
+      <fa-icon [icon]="['fas', 'caret-right']"
+               class="link-icon"></fa-icon>
+      {{ 'portal.global.more-info' | translate }}
+    </a>
+  </p>
+</alv-alert>

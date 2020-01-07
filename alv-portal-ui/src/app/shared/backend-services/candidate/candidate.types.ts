@@ -112,8 +112,6 @@ export interface JobExperience {
 export interface Occupation {
   avamCode: number;
   bfsCode: number;
-  sbn3Code: number;
-  sbn5Code: number;
   chIsco3Code: number;
   chIsco5Code: number;
 }
@@ -136,4 +134,10 @@ export interface Company {
   zipCode: string;
   city: string;
   country: string;
+}
+
+export enum HeadJobCenterCode {
+  BEAJ0 = 'BEAJ0',
+  BSA80 = 'BSA80',
+  SOAD0 = 'SOAD0'
 }

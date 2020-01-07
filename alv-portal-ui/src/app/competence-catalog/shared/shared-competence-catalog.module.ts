@@ -14,6 +14,8 @@ import { CompetenceSetBacklinkComponent } from './backlinks/competence-set-backl
 import { CompetenceCatalogSortModalComponent } from './sort/competence-catalog-sort-modal/competence-catalog-sort-modal.component';
 import { MultiLanguageStringComponent } from './multi-language-string/multi-language-string.component';
 import { BooleanToTextPipe } from './utils/boolean-to-text.pipe';
+import { FilterByStatusesFormComponent } from './filter-by-statuses/filter-by-statuses-form/filter-by-statuses-form.component';
+import { FilterByStatusesModalComponent } from './filter-by-statuses/filter-by-statuses-modal/filter-by-statuses-modal.component';
 
 @NgModule({
   imports: [
@@ -33,14 +35,17 @@ import { BooleanToTextPipe } from './utils/boolean-to-text.pipe';
     CompetenceSetBacklinkComponent,
     CompetenceCatalogSortModalComponent,
     MultiLanguageStringComponent,
-    BooleanToTextPipe
+    BooleanToTextPipe,
+    FilterByStatusesFormComponent,
+    FilterByStatusesModalComponent
   ],
   providers: [],
   entryComponents: [
     CompetenceElementModalComponent,
     CompetenceElementBacklinkComponent,
     CompetenceSetBacklinkComponent,
-    CompetenceCatalogSortModalComponent
+    CompetenceCatalogSortModalComponent,
+    FilterByStatusesModalComponent
   ],
   exports: [
     CompetenceSetComponent,
@@ -51,8 +56,10 @@ import { BooleanToTextPipe } from './utils/boolean-to-text.pipe';
     CompetenceElementBacklinkComponent,
     CompetenceSetBacklinkComponent,
     CompetenceCatalogSortModalComponent,
+    FilterByStatusesModalComponent,
     MultiLanguageStringComponent,
-    BooleanToTextPipe
+    BooleanToTextPipe,
+    FilterByStatusesFormComponent
   ]
 })
 export class SharedCompetenceCatalogModule {

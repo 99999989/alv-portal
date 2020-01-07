@@ -27,6 +27,7 @@ import { NotificationsService } from '../../../core/notifications.service';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
+import { ChFicheDescriptionModalComponent } from '../ch-fiche-description-modal/ch-fiche-description-modal.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -69,6 +70,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
+  chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
     icon: ['fas', 'search-plus'],
@@ -91,6 +94,11 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
   };
+  deleteChFicheAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.DELETE,
+    icon: ['fas', 'trash'],
+    label: 'portal.competence-catalog.competence-elements.overview.delete.label'
+  };
 
   competenceSetsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
@@ -112,6 +120,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     ).subscribe();
     this.competenceSetsActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.backlinkCompetenceSetAction, this.unlinkCompetenceSetAction] : [this.backlinkCompetenceSetAction])
+    );
+    this.chFicheDescriptionActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.deleteChFicheAction] : [])
     );
   }
 
@@ -274,6 +285,40 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }).result;
   }
 
+  editFicheDescription(isReadonly: boolean) {
+    const modalRef = this.modalService.openMedium(ChFicheDescriptionModalComponent);
+    (<ChFicheDescriptionModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
+    if (this.chFiche.description) {
+      (<ChFicheDescriptionModalComponent>modalRef.componentInstance).chFicheDescription = this.chFiche.description;
+    }
+    modalRef.result
+      .then((multiLanguageTitle) => {
+        this.chFiche.description = multiLanguageTitle;
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.edit-description-success-notification');
+
+      })
+      .catch(() => {
+      });
+  }
+
+  handleDescriptionActionClick(action: CompetenceCatalogAction) {
+    if (action === CompetenceCatalogAction.DELETE) {
+      this.modalService.openConfirm({
+        title: 'portal.competence-catalog.ch-fiches.remove-description-dialog.title',
+        content: 'portal.competence-catalog.ch-fiches.remove-description-dialog.confirmation-question',
+        confirmLabel: 'entity.action.yes-delete',
+      })
+        .result
+        .then(() => {
+            this.chFiche.description = null;
+            this.notificationsService.success('portal.competence-catalog.ch-fiches.remove-description-success-notification');
+          }
+        )
+        .catch(() => {
+        });
+
+    }
+  }
 }
 
 interface ResolvedOccupation {

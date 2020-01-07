@@ -1,4 +1,8 @@
-import { forkJoin, Observable, of } from 'rxjs';
+import {
+  forkJoin,
+  Observable,
+  of
+} from 'rxjs';
 import {
   OccupationLabelRepository,
   OccupationTypes,
@@ -18,7 +22,7 @@ import {
 } from '../backend-services/reference-service/occupation-label.types';
 
 
-const translateableOccupationTypes: string[] = [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5];
+const translateableOccupationTypes: string[] = [OccupationTypes.AVAM, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5];
 
 type OccupationLabelSuggestionMapper = (o: OccupationLabelSuggestion) => OccupationCode;
 
@@ -45,11 +49,11 @@ export class OccupationSuggestionService {
   }
 
   fetchJobSearchOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, [OccupationTypes.X28, OccupationTypes.SBN3, OccupationTypes.SBN5, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5], this.toJobSearchOccupationCode);
+    return this.fetch(query, [OccupationTypes.X28, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5], this.toJobSearchOccupationCode);
   }
 
   fetchCandidateSearchOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, [OccupationTypes.AVAM, OccupationTypes.SBN3, OccupationTypes.SBN5, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5], this.toCandidateSearchOccupationCode);
+    return this.fetch(query, [OccupationTypes.AVAM, OccupationTypes.CHISCO3, OccupationTypes.CHISCO5], this.toCandidateSearchOccupationCode);
   }
 
   fetchJobPublicationOccupations(query: string): Observable<Array<OccupationTypeaheadItem>> {
@@ -105,7 +109,7 @@ export class OccupationSuggestionService {
     const occupationCode: OccupationCode = {
       id: occupation.id,
       type: occupation.type,
-      value: occupation.code,
+      value: occupation.code
     };
     if (occupation.type === 'X28' && occupation.mappings && occupation.mappings['AVAM']) {
       occupationCode.mapping = {
