@@ -36,6 +36,13 @@ export class ChFicheRepository implements SearchService<ChFiche> {
     });
   }
 
+  findByRequirementId(requirementId: string): Observable<ChFiche[]> {
+    return this.http.get<ChFiche[]>(this.findUrl + '/byRequirementId', {
+      params: new HttpParams().set('id', requirementId)
+    });
+  }
+
+
   create(chFiche: CreateChFiche): Observable<ChFiche> {
     return this.http.post<ChFiche>(this.resourceUrl, chFiche);
   }

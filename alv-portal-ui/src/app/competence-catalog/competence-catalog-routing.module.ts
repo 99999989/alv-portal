@@ -24,6 +24,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'requirements',
+    loadChildren: './requirements/requirements.module#RequirementsModule',
+    data: {
+      titleKey: 'portal.competence-catalog.requirements.browser-title',
+    }
+  },
+  {
     path: '**',
     redirectTo: 'ch-fiches'
   }

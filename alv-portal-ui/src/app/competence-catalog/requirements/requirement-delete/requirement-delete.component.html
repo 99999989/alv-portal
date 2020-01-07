@@ -1,0 +1,27 @@
+<ng-container *ngIf="(chFiches$ | async) as chFiches">
+  <alv-modal (cancelAction)="cancel()"
+             (primaryAction)="delete()"
+             [showPrimaryButton]="!chFiches.length"
+             cancelLabel="entity.action.cancel"
+             modalTitle="portal.competence-catalog.requirements.delete-modal.title"
+             primaryLabel="portal.global.delete-confirm">
+    <ng-container *ngIf="chFiches.length; else noReferences">
+      <alv-alert [hideDismiss]="true"
+                 [notification]="warning">
+      </alv-alert>
+      <p class="pt-1 mb-sm-1"
+         translate="portal.competence-catalog.requirements.delete-modal.reference-found"></p>
+      <alv-interactive-list-item (itemClick)="itemClicked(chFiche)"
+                                 *ngFor="let chFiche of chFiches"
+                                 [isItemClickable]="true"
+                                 [multiLanguageTitle]="chFiche.title"
+                                 [superTitle]="chFiche.id"
+                                 [type]="'portal.competence-catalog.competence-sets.overview.competence-set-panel-header' | translate">
+      </alv-interactive-list-item>
+    </ng-container>
+    <ng-template #noReferences>
+        <span [attr.data-test]="'no-backlinks-placeholder'"
+              [innerHTML]="'portal.competence-catalog.requirements.delete-modal.confirmation' | translate:{competenceElementId: competenceElementId}"></span>
+    </ng-template>
+  </alv-modal>
+</ng-container>
