@@ -27,6 +27,6 @@ export interface WorkEffortsFilter extends WorkEffortsFilterValues {
 
 export const initialWorkEffortsFilter = {
   query: null,
-  period: WorkEffortsFilterPeriod.LAST_3_MONTHS,
+  period: WorkEffortsFilterPeriod.ALL_MONTHS,
   workEffortResult: WorkEffortApplyStatusFilter.ALL
 };

@@ -14,7 +14,6 @@
           </alv-custom-icon>
           {{ 'portal.work-efforts.title' | translate }}
 
-          <!--
           <button type="button"
                   class="btn btn-text filter-button"
                   (click)="openFilterModal()">
@@ -24,7 +23,6 @@
             {{'portal.manage-job-ads.search.filter-button' | translate}}
           </span>
           </button>
-          -->
         </h2>
       </div>
 
@@ -34,8 +32,7 @@
                  [notification]="englishNotSupportedNotification"
                  [hideDismiss]="true"></alv-alert>
 
-      <!--
-      <alv-input-field [alvControl]="form?.get('query')"
+       <alv-input-field [alvControl]="form?.get('query')"
                        label="portal.work-efforts.search.query"
                        [maxLength]="SEARCH_QUERY_MAX_LENGTH">
       </alv-input-field>
@@ -47,7 +44,6 @@
                            [canRemove]="true">
         </alv-inline-badges>
       </div>
-      -->
 
       <a [routerLink]="'/work-efforts/create'"
               class="btn btn-primary btn-block my-3 d-block d-lg-none">

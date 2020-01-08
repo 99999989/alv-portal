@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IconKey } from '../../../shared/icons/custom-icon/custom-icon.component';
-import { ProofOfWorkEfforts } from '../../../shared/backend-services/work-efforts/proof-of-work-efforts.types';
 import { ProofOfWorkEffortsRepository } from '../../../shared/backend-services/work-efforts/proof-of-work-efforts.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { debounceTime, filter, flatMap, map, takeUntil } from 'rxjs/operators';
