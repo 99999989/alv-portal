@@ -10,3 +10,5 @@
 *.iml
 *.ipr
 .gtm/
+
+package-lock.json
