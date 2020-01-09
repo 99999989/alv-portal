@@ -52,19 +52,20 @@
                  class="mr-1"></fa-icon>
         {{'portal.global.enter' | translate}}
       </button>
+      <!--      <pre>{{items | json}}</pre>-->
 
-      <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, competenceElement)"
-                                 (itemClick)="openUpdateModal(competenceElement, !observables.isCompetenceCatalogEditor)"
-                                 *ngFor="let competenceElement of items"
+      <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, requirement)"
+                                 (itemClick)="openUpdateModal(requirement, !observables.isCompetenceCatalogEditor)"
+                                 *ngFor="let requirement of items"
                                  [actions]="observables.actions"
-                                 [isDraft]="competenceElement.draft"
+                                 [isDraft]="requirement.draft"
                                  [isItemClickable]="true"
-                                 [isPublished]="competenceElement.published"
-                                 [multiLanguageTitle]="competenceElement.description"
+                                 [isPublished]="requirement.published"
+                                 [multiLanguageTitle]="requirement.description"
                                  [showActionButtons]="true"
                                  [showStatuses]="true"
-                                 [superTitle]="competenceElement.id"
-                                 [type]="'portal.competence-catalog.element-type.' + competenceElement | translate">
+                                 [superTitle]="requirement.id"
+                                 [type]="'portal.competence-catalog.element-type.' + requirement | translate">
       </alv-interactive-list-item>
 
     </div>

@@ -1,7 +1,9 @@
 <ng-container *ngIf="{
     competenceSetsActions: competenceSetsActions$ | async,
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
-    isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async
+    isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
+    requirementActions: requirementActions$ | async,
+    requirements: requirements$ | async
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -95,5 +97,22 @@
                         [showActionButtons]="!isReadonly"
                         (actionClick)="handleCompetenceSetActionClick($event, competenceType, competenceSet)">
     </alv-competence-set>
+  </alv-competence-items-collapse-panel>
+  <alv-competence-items-collapse-panel (toggleClick)="toggleRequirements($event)"
+                                       [darkMode]="true"
+                                       [label]="'portal.competence-catalog.ch-fiches.label.requirements'"
+                                       [showActionButtons]="!isReadonly"
+                                       class="d-block mt-2"
+  >
+    <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event)"
+                               (itemClick)="viewRequirement(requirement)"
+                               *ngFor="let requirement of observables.requirements"
+                               [actions]="observables.requirementActions"
+                               [isItemClickable]="true"
+                               [multiLanguageTitle]="chFiche.description"
+                               [showActionButtons]="observables.isCompetenceCatalogEditor"
+                               titleClass="font-weight-normal">
+
+    </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
 </ng-container>

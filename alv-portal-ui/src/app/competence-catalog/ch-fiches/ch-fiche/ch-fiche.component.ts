@@ -28,6 +28,8 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 import { ChFicheDescriptionModalComponent } from '../ch-fiche-description-modal/ch-fiche-description-modal.component';
+import { Requirement } from '../../../shared/backend-services/competence-catalog/requirement/requirement.types';
+import { RequirementRepository } from '../../../shared/backend-services/competence-catalog/requirement/requirement.repository';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -70,7 +72,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
-  chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  requirements$: Observable<Requirement[]> = of([]);
 
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
@@ -89,6 +91,18 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     icon: ['fas', 'unlink'],
     label: 'portal.competence-catalog.ch-fiches.actions.unlink'
   };
+
+  unlinkRequirementAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.UNLINK,
+    icon: ['fas', 'unlink'],
+    label: 'portal.competence-catalog.ch-fiches.actions.unlink'
+  };
+
+  backlinkRequirementAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
   backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
@@ -101,12 +115,15 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   };
 
   competenceSetsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  requirementActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
   constructor(private modalService: ModalService,
               private i18nService: I18nService,
               private occupationLabelRepository: OccupationLabelRepository,
               private competenceSetRepository: CompetenceSetRepository,
               protected authenticationService: AuthenticationService,
+              private requirementRepository: RequirementRepository,
               private notificationsService: NotificationsService) {
     super(authenticationService);
   }
@@ -123,6 +140,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     );
     this.chFicheDescriptionActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.deleteChFicheAction] : [])
+    );
+    this.requirementActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.backlinkRequirementAction, this.unlinkRequirementAction] : [this.backlinkRequirementAction])
     );
   }
 
@@ -266,16 +286,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
-  private loadCompetences(competenceType: CompetenceType) {
-    const competences = this.chFiche.competences
-      .filter(competence => competence.type === competenceType)
-      .map(competence => this.competenceSetRepository.findById(competence.competenceSetId));
-    const result = competences.length ? forkJoin(competences) : of([]);
-    return result.pipe(
-      tap(competenceSets => {
-        this.competences[competenceType] = competenceSets;
-      })
-    );
+  viewRequirement(requirement: Requirement) {
   }
 
   private openUnlinkConfirmModal(): Promise<CompetenceElement> {
@@ -318,6 +329,32 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
         });
 
     }
+  }
+
+  handleRequirementActionClick(action: CompetenceCatalogAction) {
+
+  }
+
+  toggleRequirements(collapsed: boolean) {
+    if (!collapsed) {
+      this.requirements$ = this.loadRequirements();
+    }
+  }
+
+  loadRequirements(): Observable<Requirement[]> {
+    return this.requirementRepository.findByIds(this.chFiche.requirementIds);
+  }
+
+  private loadCompetences(competenceType: CompetenceType): Observable<CompetenceSetSearchResult[]> {
+    const competences = this.chFiche.competences
+      .filter(competence => competence.type === competenceType)
+      .map(competence => this.competenceSetRepository.findById(competence.competenceSetId));
+    const result = competences.length ? forkJoin(competences) : of([]);
+    return result.pipe(
+      tap(competenceSets => {
+        this.competences[competenceType] = competenceSets;
+      })
+    );
   }
 }
 

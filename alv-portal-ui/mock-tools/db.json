@@ -1,0 +1,308 @@
+{
+  "work-requirements": [
+    {
+      "published": false,
+      "draft": true,
+      "description": {
+        "de": "ds",
+        "fr": "ds",
+        "it": "",
+        "en": ""
+      },
+      "id": 1
+    },
+    {
+      "published": false,
+      "draft": true,
+      "description": {
+        "de": "xxx",
+        "fr": "wawq",
+        "it": "qqq",
+        "en": ""
+      },
+      "id": 2
+    },
+    {
+      "published": false,
+      "draft": true,
+      "description": {
+        "de": "",
+        "fr": "asas",
+        "it": "aa",
+        "en": "asas"
+      },
+      "id": 3
+    },
+    {
+      "published": false,
+      "draft": false,
+      "description": {
+        "de": "",
+        "fr": "sss",
+        "it": "",
+        "en": "aaa"
+      },
+      "id": 4
+    },
+    {
+      "published": false,
+      "draft": false,
+      "description": {
+        "de": "",
+        "fr": "ssssc",
+        "it": "",
+        "en": "cc"
+      },
+      "id": 5
+    }
+  ],
+  "_search": {
+    "content": [
+      {
+        "id": "RQM-69",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "fd",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-68",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "123",
+          "fr": "123",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-67",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "bitte",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-61",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "sfasf",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-66",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "asfsaf",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-65",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "asfsaf",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-51",
+        "draft": false,
+        "published": true,
+        "description": {
+          "de": "Test Statusaasdfsasdfsafdsa Wissen 2",
+          "fr": "Test Status Wissen 2",
+          "it": "Test Status Wissen 2",
+          "en": "Test Status Wissen 2"
+        }
+      },
+      {
+        "id": "RQM-59",
+        "draft": false,
+        "published": true,
+        "description": {
+          "de": "Test Statusasdfsafd Hanasdfasdlungswissen Indikator 2",
+          "fr": "Test Status Handlungswissen Indikator 2",
+          "it": "Test Status Handlungswissen Indikator 2",
+          "en": "Test Status Handlungswissen Indikator 2"
+        }
+      },
+      {
+        "id": "RQM-56",
+        "draft": false,
+        "published": true,
+        "description": {
+          "de": "Test Status Handlungswissen 2",
+          "fr": "Test Status Handlungswissen 2",
+          "it": "Test Status Handlungswissen 2",
+          "en": "Test Status Handlungswissen 2"
+        }
+      },
+      {
+        "id": "RQM-50",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "Test Status Wissen 1",
+          "fr": "Test Status Wissen 1",
+          "it": "Test Status Wissen 1",
+          "en": "Test Status Wissen 1"
+        }
+      },
+      {
+        "id": "RQM-58",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "Test Status Handlungswissen Indikator 1",
+          "fr": "Test Status Handlungswissen Indikator 1",
+          "it": "Test Status Handlungswissen Indikator 1",
+          "en": "Test Status Handlungswissen Indikator 1"
+        }
+      },
+      {
+        "id": "RQM-55",
+        "draft": false,
+        "published": false,
+        "description": {
+          "de": "Test Status Handlungswissen 1 changed",
+          "fr": "Test Status Handlungswissen 1 changed",
+          "it": "Test Status Handlungswissen 1 changed",
+          "en": "Test Status Handlungswissen 1 changed"
+        }
+      },
+      {
+        "id": "RQM-49",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "",
+          "fr": "agvf",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-57",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "ragvd",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-54",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "astg",
+          "fr": "advf",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-53",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "T",
+          "fr": "3TF 32wbW",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-48",
+        "draft": false,
+        "published": true,
+        "description": {
+          "de": "fsf te",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-52",
+        "draft": true,
+        "published": true,
+        "description": {
+          "de": "tet s",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-56",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "бла3",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "RQM-55",
+        "draft": true,
+        "published": false,
+        "description": {
+          "de": "бла2",
+          "fr": "",
+          "it": "",
+          "en": ""
+        }
+      }
+    ],
+    "pageable": {
+      "sort": {
+        "sorted": true,
+        "unsorted": false,
+        "empty": false
+      },
+      "pageSize": "20",
+      "pageNumber": "0",
+      "offset": "0",
+      "paged": true,
+      "unpaged": false
+    },
+    "totalElements": "20",
+    "totalPages": "1",
+    "last": true,
+    "first": true,
+    "sort": {
+      "sorted": true,
+      "unsorted": false,
+      "empty": false
+    },
+    "numberOfElements": "20",
+    "size": "20",
+    "number": "0",
+    "empty": false
+  }
+}

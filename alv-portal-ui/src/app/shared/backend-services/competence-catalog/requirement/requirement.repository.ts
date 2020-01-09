@@ -9,7 +9,7 @@ import { SearchService } from '../search-service';
 @Injectable({ providedIn: 'root' })
 export class RequirementRepository implements SearchService<Requirement> {
 
-  private readonly resourceUrl = '/competencecatalogservice-editor/api/requirements/';
+  private readonly resourceUrl = '/competencecatalogservice-editor/api/work-requirements/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 

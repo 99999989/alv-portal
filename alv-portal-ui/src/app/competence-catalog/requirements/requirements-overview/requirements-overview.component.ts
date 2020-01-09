@@ -71,10 +71,8 @@ export class RequirementsOverviewComponent extends OverviewComponent<Requirement
     modalRef.result
       .then(updatedRequirement => {
         this.reload();
-        debugger;
       })
       .catch(() => {
-        debugger;
       });
   }
 
