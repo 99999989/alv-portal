@@ -54,6 +54,28 @@
         "en": "cc"
       },
       "id": 5
+    },
+    {
+      "published": true,
+      "draft": false,
+      "description": {
+        "de": "qqq",
+        "fr": "",
+        "it": "qqq",
+        "en": ""
+      },
+      "id": 6
+    },
+    {
+      "published": true,
+      "draft": true,
+      "description": {
+        "de": "",
+        "fr": "",
+        "it": "qwww",
+        "en": "www"
+      },
+      "id": 7
     }
   ],
   "_search": {

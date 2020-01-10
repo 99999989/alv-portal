@@ -45,8 +45,8 @@ export class RequirementDeleteComponent implements OnInit {
     this.openInNewWindow(setSearchResult.id);
   }
 
-  private openInNewWindow(setId: string) {
-    this.win.open(this.router.createUrlTree(['kk', 'competence-sets', 'edit', setId]).toString());
+  private openInNewWindow(ficheId: string) {
+    this.win.open(this.router.createUrlTree(['kk', 'ch-fiches', 'edit', ficheId]).toString());
   }
 
 }
