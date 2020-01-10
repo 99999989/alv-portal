@@ -30,6 +30,7 @@ import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competenc
 import { ChFicheDescriptionModalComponent } from '../ch-fiche-description-modal/ch-fiche-description-modal.component';
 import { Requirement } from '../../../shared/backend-services/competence-catalog/requirement/requirement.types';
 import { RequirementRepository } from '../../../shared/backend-services/competence-catalog/requirement/requirement.repository';
+import { RequirementBacklinkComponent } from '../../shared/backlinks/requirement-backlinks/requirement-backlink.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -63,7 +64,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   collapsed = {
     OCCUPATIONS: true,
     [CompetenceType.BASIC]: true,
-    [CompetenceType.SPECIALIST]: true
+    [CompetenceType.SPECIALIST]: true,
+    REQUIREMENTS: true
   };
 
   competenceTypes = Object.values(CompetenceType);
@@ -81,6 +83,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   };
 
   linkCompetenceAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.LINK,
+    icon: ['fas', 'search-plus'],
+    label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
+  };
+
+  linkRequirementAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
     icon: ['fas', 'search-plus'],
     label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
@@ -246,7 +254,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceType: CompetenceType, competenceSet?: CompetenceSetSearchResult) {
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openBacklinkModal(competenceSet);
+      this.openSetBacklinkModal(competenceSet);
     }
     if (action === CompetenceCatalogAction.LINK) {
       this.addCompetence(competenceType);
@@ -281,9 +289,16 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       );
   }
 
-  private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
-    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
-    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+  handleRequirementActionClick(action: CompetenceCatalogAction, requirement?: Requirement) {
+    if (action === CompetenceCatalogAction.LINK) {
+      this.addRequirement();
+    }
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkRequirement(requirement);
+    }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openRequirementsBacklinkModal(requirement);
+    }
   }
 
   viewRequirement(requirement: Requirement) {
@@ -331,8 +346,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  handleRequirementActionClick(action: CompetenceCatalogAction) {
-
+  private openSetBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
   toggleRequirements(collapsed: boolean) {
@@ -355,6 +371,26 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
         this.competences[competenceType] = competenceSets;
       })
     );
+  }
+
+  private addRequirement() {
+
+  }
+
+  private unlinkRequirement(requirement: Requirement) {
+    this.openUnlinkConfirmModal().then(result => {
+      this.chFiche.occupations.splice(1, 1);
+      this.updateOccupationLabels(this.chFiche.occupations)
+        .subscribe(() => {
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-occupation-success-notification');
+        });
+    }).catch(err => {
+    });
+  }
+
+  private openRequirementsBacklinkModal(requirement: Requirement) {
+    const modalRef = this.modalService.openMedium(RequirementBacklinkComponent);
+    (<RequirementBacklinkComponent>modalRef.componentInstance).requirement = requirement;
   }
 }
 
