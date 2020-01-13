@@ -74,7 +74,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
-  requirements$: Observable<Requirement[]> = of([]);
+  requirements: Requirement[] = [];
 
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
@@ -228,6 +228,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
+  toggleRequirements(collapsed: boolean) {
+    if (!collapsed) {
+      this.loadRequirements().subscribe(requirements => this.requirements = requirements);
+    }
+  }
+
   getCompetencesByType(competenceType: CompetenceType): Competence[] {
     return this.chFiche.competences.filter(competence => competence.type === competenceType);
   }
@@ -289,15 +295,15 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       );
   }
 
-  handleRequirementActionClick(action: CompetenceCatalogAction, requirement?: Requirement) {
+  handleRequirementActionClick(action: CompetenceCatalogAction, index?: number) {
     if (action === CompetenceCatalogAction.LINK) {
       this.addRequirement();
     }
     if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkRequirement(requirement);
+      this.unlinkRequirement(index);
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openRequirementsBacklinkModal(requirement);
+      this.openRequirementsBacklinkModal(index);
     }
   }
 
@@ -351,11 +357,6 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
-  toggleRequirements(collapsed: boolean) {
-    if (!collapsed) {
-      this.requirements$ = this.loadRequirements();
-    }
-  }
 
   loadRequirements(): Observable<Requirement[]> {
     return this.requirementRepository.findByIds(this.chFiche.requirementIds);
@@ -377,20 +378,19 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   }
 
-  private unlinkRequirement(requirement: Requirement) {
-    this.openUnlinkConfirmModal().then(result => {
-      this.chFiche.occupations.splice(1, 1);
-      this.updateOccupationLabels(this.chFiche.occupations)
-        .subscribe(() => {
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-occupation-success-notification');
-        });
+  private unlinkRequirement(index: number) {
+    this.openUnlinkConfirmModal().then(() => {
+      this.chFiche.requirementIds.splice(index, 1);
+      this.loadRequirements().subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-requirement-success-notification');
+      });
     }).catch(err => {
     });
   }
 
-  private openRequirementsBacklinkModal(requirement: Requirement) {
+  private openRequirementsBacklinkModal(index: number) {
     const modalRef = this.modalService.openMedium(RequirementBacklinkComponent);
-    (<RequirementBacklinkComponent>modalRef.componentInstance).requirement = requirement;
+    (<RequirementBacklinkComponent>modalRef.componentInstance).requirement = this.requirements[index];
   }
 }
 

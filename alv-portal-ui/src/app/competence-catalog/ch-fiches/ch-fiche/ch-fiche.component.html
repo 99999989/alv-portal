@@ -2,8 +2,7 @@
     competenceSetsActions: competenceSetsActions$ | async,
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
     isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
-    requirementActions: requirementActions$ | async,
-    requirements: requirements$ | async
+    requirementActions: requirementActions$ | async
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -105,15 +104,16 @@
                                        (actionClick)="handleRequirementActionClick($event)"
                                        [actions]="[linkRequirementAction]"
                                        [isCollapsed]="collapsed.REQUIREMENTS"
-                                       [isEmpty]="observables.requirements?.length"
+                                       [isEmpty]="!!requirements?.length"
                                        class="d-block mt-2"
   >
-    <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, requirement)"
+    <pre>{{requirements|json}}</pre>
+    <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, index)"
                                (itemClick)="viewRequirement(requirement)"
-                               *ngFor="let requirement of observables.requirements"
+                               *ngFor="let requirement of requirements; let index = index;"
                                [actions]="observables.requirementActions"
                                [isItemClickable]="true"
-                               [multiLanguageTitle]="chFiche.description"
+                               [multiLanguageTitle]="requirement.description"
                                [showActionButtons]="observables.isCompetenceCatalogEditor"
                                titleClass="font-weight-normal">
 
