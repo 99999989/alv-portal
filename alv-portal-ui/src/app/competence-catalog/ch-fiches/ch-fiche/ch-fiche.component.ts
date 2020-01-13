@@ -31,6 +31,7 @@ import { ChFicheDescriptionModalComponent } from '../ch-fiche-description-modal/
 import { Requirement } from '../../../shared/backend-services/competence-catalog/requirement/requirement.types';
 import { RequirementRepository } from '../../../shared/backend-services/competence-catalog/requirement/requirement.repository';
 import { RequirementBacklinkComponent } from '../../shared/backlinks/requirement-backlinks/requirement-backlink.component';
+import { RequirementSearchModalComponent } from '../requirement-search-modal/requirement-search-modal.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -206,7 +207,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   addCompetence(competenceType: CompetenceType) {
     const modalRef = this.modalService.openMedium(CompetenceSetSearchModalComponent);
-    modalRef.componentInstance.existingSetIds = this.chFiche.competences.map(competence => competence.competenceSetId);
+    (<CompetenceSetSearchModalComponent>modalRef.componentInstance).existingSetIds = this.chFiche.competences.map(competence => competence.competenceSetId);
     modalRef.result
       .then((competenceSet) => {
         this.chFiche.competences.push({
@@ -220,6 +221,20 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       })
       .catch(() => {
       });
+  }
+
+  private addRequirement() {
+    const modalRef = this.modalService.openMedium(RequirementSearchModalComponent);
+    (<RequirementSearchModalComponent>modalRef.componentInstance).existingRequirementIds = this.chFiche.requirementIds;
+    modalRef.result
+      .then((requirement: Requirement) => {
+        this.chFiche.requirementIds.push(requirement.id);
+        this.loadRequirements().subscribe(() => {
+          this.collapsed['REQUIREMENTS'] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-requirement-success-notification');
+        });
+      });
+
   }
 
   toggleCompetences(competenceType: CompetenceType, collapsed: boolean) {
@@ -374,9 +389,6 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     );
   }
 
-  private addRequirement() {
-
-  }
 
   private unlinkRequirement(index: number) {
     this.openUnlinkConfirmModal().then(() => {
