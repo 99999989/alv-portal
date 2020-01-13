@@ -15,7 +15,7 @@ import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-
 export class RequirementDeleteComponent implements OnInit {
 
   @Input()
-  competenceElementId: string;
+  requirement: string;
   chFiches$: Observable<ChFiche[]>;
   warning = {
     type: NotificationType.WARNING,
@@ -30,7 +30,7 @@ export class RequirementDeleteComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chFiches$ = this.chFicheRepository.findByRequirementId(this.competenceElementId);
+    this.chFiches$ = this.chFicheRepository.findByRequirementId(this.requirement);
   }
 
   cancel() {
@@ -38,7 +38,7 @@ export class RequirementDeleteComponent implements OnInit {
   }
 
   delete() {
-    this.activeModal.close(this.competenceElementId);
+    this.activeModal.close(this.requirement);
   }
 
   itemClicked(setSearchResult: ChFiche) {

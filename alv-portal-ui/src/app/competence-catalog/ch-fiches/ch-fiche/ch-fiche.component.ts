@@ -32,6 +32,7 @@ import { Requirement } from '../../../shared/backend-services/competence-catalog
 import { RequirementRepository } from '../../../shared/backend-services/competence-catalog/requirement/requirement.repository';
 import { RequirementBacklinkComponent } from '../../shared/backlinks/requirement-backlinks/requirement-backlink.component';
 import { RequirementSearchModalComponent } from '../requirement-search-modal/requirement-search-modal.component';
+import { RequirementModalComponent } from '../../shared/requirement-modal/requirement-modal.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -162,6 +163,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   reset() {
     this.resolvedOccupations = [];
     this.competences = defaultCompetences();
+    this.requirements = [];
   }
 
   addOccupation() {
@@ -323,6 +325,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   viewRequirement(requirement: Requirement) {
+    const modalRef = this.modalService.openMedium(RequirementModalComponent);
+    if (this.chFiche.title) {
+      const componentInstance = <RequirementModalComponent>modalRef.componentInstance;
+      componentInstance.requirement = requirement;
+      componentInstance.isReadonly = true;
+    }
   }
 
   private openUnlinkConfirmModal(): Promise<CompetenceElement> {

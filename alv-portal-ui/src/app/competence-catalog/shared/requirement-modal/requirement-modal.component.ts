@@ -18,7 +18,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 })
 export class RequirementModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
-  @Input() competenceElement: Requirement;
+  @Input() requirement: Requirement;
 
   @Input() isReadonly = false;
 
@@ -57,8 +57,8 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
         validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
       })
     });
-    if (this.competenceElement) {
-      this.form.patchValue(this.competenceElement);
+    if (this.requirement) {
+      this.form.patchValue(this.requirement);
       this.isEdit = true;
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
@@ -80,7 +80,7 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
   }
 
   private updateElement() {
-    this.competenceElementRepository.update(this.competenceElement.id, {
+    this.competenceElementRepository.update(this.requirement.id, {
       description: this.form.get('description').value,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value

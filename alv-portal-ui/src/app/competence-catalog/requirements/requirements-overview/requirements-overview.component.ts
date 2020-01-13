@@ -63,10 +63,10 @@ export class RequirementsOverviewComponent extends OverviewComponent<Requirement
 
   }
 
-  openUpdateModal(competenceElement: Requirement, isReadonly: boolean) {
+  openUpdateModal(requirement: Requirement, isReadonly: boolean) {
     const modalRef = this.modalService.openMedium(RequirementModalComponent, true);
     const componentInstance = <RequirementModalComponent>modalRef.componentInstance;
-    componentInstance.competenceElement = competenceElement;
+    componentInstance.requirement = requirement;
     componentInstance.isReadonly = isReadonly;
     modalRef.result
       .then(updatedRequirement => {
@@ -95,12 +95,12 @@ export class RequirementsOverviewComponent extends OverviewComponent<Requirement
     });
   }
 
-  handleRequirementActionClick(action: CompetenceCatalogAction, competenceElement: Requirement) {
+  handleRequirementActionClick(action: CompetenceCatalogAction, requirement: Requirement) {
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openBacklinkModal(competenceElement);
+      this.openBacklinkModal(requirement);
     }
     if (action === CompetenceCatalogAction.DELETE) {
-      this.openDeleteModal(competenceElement);
+      this.openDeleteModal(requirement);
     }
   }
 
@@ -109,10 +109,10 @@ export class RequirementsOverviewComponent extends OverviewComponent<Requirement
     (<RequirementBacklinkComponent>modalRef.componentInstance).requirement = requirement;
   }
 
-  private openDeleteModal(competenceElement: Requirement) {
+  private openDeleteModal(requirement: Requirement) {
     const modalRef = this.modalService.openLarge(RequirementDeleteComponent);
     const componentInstance = <RequirementDeleteComponent>modalRef.componentInstance;
-    componentInstance.competenceElementId = competenceElement.id;
+    componentInstance.requirement = requirement.id;
     modalRef.result
       .then(idForDeletion => {
         this.itemsRepository.delete(idForDeletion)
