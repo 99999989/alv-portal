@@ -1,0 +1,82 @@
+kind: List
+metadata: {}
+apiVersion: v1
+items:
+    - kind: DeploymentConfig
+      apiVersion: apps.openshift.io/v1
+      metadata:
+          labels:
+              app: alv-portal
+          name: alv-portal
+      spec:
+          replicas: 1
+          selector:
+              app: alv-portal
+              deploymentconfig: alv-portal
+          strategy:
+              resources: {}
+          template:
+              metadata:
+                  labels:
+                      app: alv-portal
+                      deploymentconfig: alv-portal
+              spec:
+                  containers:
+                      - image: 'docker-alv-portal.default.svc:5000/development/alv-portal:latest'
+                        name: alv-portal
+                        ports:
+                            - containerPort: 8080
+                              protocol: TCP
+                        envFrom:
+                            - configMapRef:
+                                  name: seco-alvch
+          test: false
+          triggers:
+              - type: ConfigChange
+              - type: ImageChange
+                imageChangeParams:
+                    automatic: true
+                    containerNames:
+                        - alv-portal
+                    from:
+                        kind: ImageStreamTag
+                        name: 'alv-portal:latest'
+                        namespace: development
+    - kind: Service
+      apiVersion: v1
+      metadata:
+          labels:
+              app: alv-portal
+          name: alv-portal
+      spec:
+          ports:
+              - name: 8080-tcp
+                port: 8080
+                protocol: TCP
+                targetPort: 8080
+          selector:
+              app: alv-portal
+              deploymentconfig: alv-portal
+    - kind: Route
+      apiVersion: route.openshift.io/v1
+      metadata:
+          labels:
+              app: alv-portal
+          name: alv-portal
+      spec:
+          host: alv-portal-TARGET.apps.admin.arbeitslosenkasse.ch
+          port:
+              targetPort: 8080-tcp
+          to:
+              kind: Service
+              name: alv-portal
+              weight: 100
+          wildcardPolicy: None
+      status:
+          ingress:
+              - conditions:
+                    - status: 'True'
+                      type: Admitted
+                host: alv-portal-TARGET.apps.admin.arbeitslosenkasse.ch
+                routerName: router
+                wildcardPolicy: None
