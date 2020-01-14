@@ -61,7 +61,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   openCreateModal() {
-    const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
+    const modalRef = this.modalService.openLarge(CompetenceElementModalComponent, true);
     modalRef.result
       .then(this.reload.bind(this))
       .catch(this.reload.bind(this));
@@ -69,7 +69,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   openUpdateModal(competenceElement: CompetenceElement, isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
+    const modalRef = this.modalService.openLarge(CompetenceElementModalComponent, true);
     const componentInstance = <CompetenceElementModalComponent>modalRef.componentInstance;
     componentInstance.competenceElement = competenceElement;
     componentInstance.isReadonly = isReadonly;
