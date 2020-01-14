@@ -28,6 +28,7 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 import { ChFicheDescriptionModalComponent } from '../ch-fiche-description-modal/ch-fiche-description-modal.component';
+import { CompetenceSetInFicheSettingsModalComponent } from './competence-set-in-fiche-settings-modal/competence-set-in-fiche-settings-modal.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -94,6 +95,11 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
   };
+  settingsCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.SETTINGS,
+    icon: ['fas', 'cog'],
+    label: 'portal.competence-catalog.competence-sets.overview.settings'
+  };
   deleteChFicheAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.DELETE,
     icon: ['fas', 'trash'],
@@ -119,7 +125,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       takeUntil(this.ngUnsubscribe)
     ).subscribe();
     this.competenceSetsActions$ = this.isCompetenceCatalogEditor$.pipe(
-      map(isEditor => isEditor ? [this.backlinkCompetenceSetAction, this.unlinkCompetenceSetAction] : [this.backlinkCompetenceSetAction])
+      map(isEditor => isEditor ? [this.backlinkCompetenceSetAction, this.unlinkCompetenceSetAction, this.settingsCompetenceSetAction] : [this.backlinkCompetenceSetAction])
     );
     this.chFicheDescriptionActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.deleteChFicheAction] : [])
@@ -234,6 +240,13 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     if (action === CompetenceCatalogAction.UNLINK) {
       this.unlinkCompetence(competenceType, this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSet.id));
     }
+    if (action === CompetenceCatalogAction.SETTINGS) {
+      this.openSettingsModal(competenceSet);
+    }
+  }
+
+  private openSettingsModal(competenceSet?: CompetenceSetSearchResult) {
+    this.modalService.openMedium(CompetenceSetInFicheSettingsModalComponent);
   }
 
   private updateOccupationLabels(occupations: Occupation[]): Observable<ResolvedOccupation[]> {
