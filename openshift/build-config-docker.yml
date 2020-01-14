@@ -1,0 +1,37 @@
+kind: List
+apiVersion: v1
+items:
+    - kind: ImageStream
+      apiVersion: image.openshift.io/v1
+      metadata:
+          name: alv-portal
+          namespace: development
+          labels:
+              build: alv-portal
+              app: alv-portal
+    - kind: BuildConfig
+      apiVersion: build.openshift.io/v1
+      metadata:
+          name: alv-portal-docker
+          namespace: development
+          labels:
+              build: alv-portal
+              app: alv-portal
+      spec:
+          source:
+              git:
+                  ref: feature/openshift
+                  uri: https://github.com/alv-ch/alv-portal.git
+              type: Git
+              sourceSecret:
+                  name: alvchbot-at-github
+          output:
+              to:
+                  kind: ImageStreamTag
+                  name: alv-portal:latest
+          postCommit: {}
+          resources: {}
+          strategy:
+              dockerStrategy:
+                  dockerfilePath: ./openshift/Dockerfile
+              type: Docker

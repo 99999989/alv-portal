@@ -1,0 +1,30 @@
+---
+kind: BuildConfig
+apiVersion: v1
+metadata:
+    name: alv-portal
+spec:
+    runPolicy: Serial
+    triggers:
+    - type: "GitHub"
+      github:
+        secretReference:
+            name: "github-webhook"
+    source:
+        git:
+            ref: feature/openshift
+            uri: https://github.com/alv-ch/alv-portal.git
+        type: Git
+        # source secret already exists
+        sourceSecret:
+            name: alvchbot-at-github
+    strategy:
+        jenkinsPipelineStrategy:
+            jenkinsfilePath: openshift/jenkinsfile.groovy
+        type: JenkinsPipeline
+    nodeSelector: {}
+    output: {}
+    postCommit: {}
+    resources: {}
+    successfulBuildsHistoryLimit: 5
+    failedBuildsHistoryLimit: 5
