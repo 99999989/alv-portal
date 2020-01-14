@@ -104,16 +104,20 @@
                                        (actionClick)="handleRequirementActionClick($event)"
                                        [actions]="[linkRequirementAction]"
                                        [isCollapsed]="collapsed.REQUIREMENTS"
-                                       [isEmpty]="!requirements?.length"
+                                       [isEmpty]="!chFiche.requirementIds?.length"
                                        class="d-block mt-2"
   >
     <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, index)"
                                (itemClick)="viewRequirement(requirement)"
                                *ngFor="let requirement of requirements; let index = index;"
                                [actions]="observables.requirementActions"
+                               [isDraft]="requirement.draft"
+                               [isPublished]="requirement.published"
+                               [superTitle]="requirement.id"
                                [isItemClickable]="true"
                                [multiLanguageTitle]="requirement.description"
                                [showActionButtons]="observables.isCompetenceCatalogEditor"
+                               [type]="'portal.competence-catalog.element-type.requirement' | translate"
                                titleClass="font-weight-normal">
 
     </alv-interactive-list-item>
