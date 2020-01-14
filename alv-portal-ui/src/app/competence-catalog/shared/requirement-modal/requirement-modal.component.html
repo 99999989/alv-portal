@@ -24,10 +24,12 @@
   <ng-container *ngIf="isCompetenceCatalogEditor$|async">
     <alv-radio-button [options$]="publishedRadioButtonOptions$"
                       [readonly]="isReadonly"
+                      [label]="'portal.competence-catalog.publication-status' | translate"
                       alvFormControlName="published"
     ></alv-radio-button>
     <alv-radio-button [options$]="draftRadioButtonOptions$"
                       [readonly]="isReadonly"
+                      [label]="'portal.competence-catalog.draft-status' | translate"
                       alvFormControlName="draft"
     ></alv-radio-button>
     <alv-checkbox *ngIf="!isReadonly && !isEdit"

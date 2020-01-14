@@ -317,7 +317,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   viewRequirement(requirement: Requirement) {
-    const modalRef = this.modalService.openMedium(RequirementModalComponent);
+    const modalRef = this.modalService.openLarge(RequirementModalComponent);
     if (this.chFiche.title) {
       const componentInstance = <RequirementModalComponent>modalRef.componentInstance;
       componentInstance.requirement = requirement;

@@ -104,7 +104,7 @@
                                        (actionClick)="handleRequirementActionClick($event)"
                                        [actions]="[linkRequirementAction]"
                                        [isCollapsed]="collapsed.REQUIREMENTS"
-                                       [isEmpty]="!!requirements?.length"
+                                       [isEmpty]="!requirements?.length"
                                        class="d-block mt-2"
   >
     <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, index)"

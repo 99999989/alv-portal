@@ -74,8 +74,6 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
 
 
   cancel() {
-    console.log('d');
-
     this.modal.dismiss();
   }
 
