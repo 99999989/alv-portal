@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
 
 import { Page } from '../../shared.types';
 import { ChFiche, CreateChFiche, UpdateChFiche } from './ch-fiche.types';
 import { SearchService } from '../search-service';
-import { mockChFiche } from './ch-fiche.mock';
 
 @Injectable({ providedIn: 'root' })
 export class ChFicheRepository implements SearchService<ChFiche> {
@@ -38,7 +37,6 @@ export class ChFicheRepository implements SearchService<ChFiche> {
   }
 
   findByRequirementId(requirementId: string): Observable<ChFiche[]> {
-    return of([mockChFiche]); // fixme
     return this.http.get<ChFiche[]>(this.findUrl + '/byRequirementId', {
       params: new HttpParams().set('id', requirementId)
     });

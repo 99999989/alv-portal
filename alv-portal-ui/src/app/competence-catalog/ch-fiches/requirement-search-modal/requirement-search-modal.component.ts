@@ -47,7 +47,7 @@ export class RequirementSearchModalComponent implements OnInit {
   }
 
   submit() {
-    this.modal.close(this.form.get('occupation').value);
+    this.modal.close((<TypeaheadItem<Requirement>>this.form.get('requirement').value).payload);
   }
 
   cancel() {

@@ -64,11 +64,6 @@
     "secure": false,
     "loglevel": "debug"
   },
-  "/competencecatalogservice-editor/api/work-requirements/": {
-    "target": "http://localhost:3000/",
-    "secure": false,
-    "loglevel": "debug"
-  },
   "/competencecatalogservice-editor/*": {
     "target": "https://staging.job-room.ch",
     "secure": false,

@@ -225,18 +225,10 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       });
   }
 
-  private addRequirement() {
-    const modalRef = this.modalService.openMedium(RequirementSearchModalComponent);
-    (<RequirementSearchModalComponent>modalRef.componentInstance).existingRequirementIds = this.chFiche.requirementIds;
-    modalRef.result
-      .then((requirement: Requirement) => {
-        this.chFiche.requirementIds.push(requirement.id);
-        this.loadRequirements().subscribe(() => {
-          this.collapsed['REQUIREMENTS'] = false;
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-requirement-success-notification');
-        });
-      });
-
+  toggleRequirements(collapsed: boolean) {
+    if (!collapsed) {
+      this.loadRequirements().subscribe();
+    }
   }
 
   toggleCompetences(competenceType: CompetenceType, collapsed: boolean) {
@@ -245,10 +237,10 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  toggleRequirements(collapsed: boolean) {
-    if (!collapsed) {
-      this.loadRequirements().subscribe(requirements => this.requirements = requirements);
-    }
+  loadRequirements(): Observable<Requirement[]> {
+    return this.requirementRepository.findByIds(this.chFiche.requirementIds).pipe(
+      tap(requirements => this.requirements = requirements)
+    );
   }
 
   getCompetencesByType(competenceType: CompetenceType): Competence[] {
@@ -380,9 +372,19 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
+  private addRequirement() {
+    const modalRef = this.modalService.openMedium(RequirementSearchModalComponent);
+    (<RequirementSearchModalComponent>modalRef.componentInstance).existingRequirementIds = this.chFiche.requirementIds;
+    modalRef.result
+      .then((requirement: Requirement) => {
+        debugger;
+        this.chFiche.requirementIds.push(requirement.id);
+        this.loadRequirements().subscribe(() => {
+          this.collapsed['REQUIREMENTS'] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-requirement-success-notification');
+        });
+      });
 
-  loadRequirements(): Observable<Requirement[]> {
-    return this.requirementRepository.findByIds(this.chFiche.requirementIds);
   }
 
   private loadCompetences(competenceType: CompetenceType): Observable<CompetenceSetSearchResult[]> {
