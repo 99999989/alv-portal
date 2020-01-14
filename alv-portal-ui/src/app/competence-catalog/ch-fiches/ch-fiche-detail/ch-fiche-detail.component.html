@@ -43,12 +43,12 @@
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
       <form *ngIf="observables.isCompetenceCatalogEditor"
             [formGroup]="form">
-        <h4>{{'portal.competence-catalog.publication-status' | translate}}</h4>
         <alv-radio-button [options$]="publishedRadioButtonOptions$"
                           alvFormControlName="published"
+                          [label]="'portal.competence-catalog.publication-status' | translate"
         ></alv-radio-button>
-        <h4>{{'portal.competence-catalog.draft-status' | translate}}</h4>
         <alv-radio-button [options$]="draftRadioButtonOptions$"
+                          [label]="'portal.competence-catalog.draft-status' | translate"
                           alvFormControlName="draft"
         ></alv-radio-button>
       </form>
