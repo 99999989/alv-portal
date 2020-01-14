@@ -5,7 +5,7 @@ import {
   OccupationLabelAutocomplete,
   OccupationLabelData
 } from './occupation-label.types';
-import { catchError, shareReplay } from 'rxjs/operators';
+import { catchError, map, shareReplay } from 'rxjs/operators';
 
 const DEFAULT_RESPONSE_SIZE = '10';
 const BUFFER_SIZE = 1;
@@ -55,6 +55,19 @@ export class OccupationLabelRepository {
       .set('prefix', query)
       .set('types', types.join(','))
       .set('resultSize', DEFAULT_RESPONSE_SIZE);
-    return this.http.get<OccupationLabelAutocomplete>(OCCUPATION_LABEL_RESOURCE_SEARCH_URL, { params });
+    return this.http.get<OccupationLabelAutocomplete>(OCCUPATION_LABEL_RESOURCE_SEARCH_URL, { params }).pipe(
+      map((dirtyOccupations) => this.removeNonMatchingOccupationTypes(dirtyOccupations, types)));
+  }
+
+  /**
+   * todo now we filter it on a frontend to hide the bug on reference services, but when the task DF-1865 is solved we don't need to do it
+   * @param dirtyOccupations
+   * @param types
+   */
+  removeNonMatchingOccupationTypes(dirtyOccupations: OccupationLabelAutocomplete, types: OccupationTypes[]): OccupationLabelAutocomplete {
+    return {
+      occupations: dirtyOccupations.occupations.filter(o => types.includes(<OccupationTypes>o.type)),
+      classifications: dirtyOccupations.classifications.filter(c => types.includes(<OccupationTypes>c.type))
+    };
   }
 }
