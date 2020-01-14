@@ -34,16 +34,13 @@
       </alv-competence-set>
     </div>
     <div class="mt-5 d-none d-lg-block col-lg-3 col-xl-2">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12 col-lg-9 col-xl-10">
       <form *ngIf="observables.isCompetenceCatalogEditor"
             [formGroup]="form">
-        <hr>
+        <h4>{{'portal.competence-catalog.publication-status' | translate}}</h4>
         <alv-radio-button [options$]="publishedRadioButtonOptions$"
                           alvFormControlName="published"
         ></alv-radio-button>
+        <h4>{{'portal.competence-catalog.draft-status' | translate}}</h4>
         <alv-radio-button [options$]="draftRadioButtonOptions$"
                           alvFormControlName="draft"
         ></alv-radio-button>
