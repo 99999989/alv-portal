@@ -377,7 +377,6 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     (<RequirementSearchModalComponent>modalRef.componentInstance).existingRequirementIds = this.chFiche.requirementIds;
     modalRef.result
       .then((requirement: Requirement) => {
-        debugger;
         this.chFiche.requirementIds.push(requirement.id);
         this.loadRequirements().subscribe(() => {
           this.collapsed['REQUIREMENTS'] = false;

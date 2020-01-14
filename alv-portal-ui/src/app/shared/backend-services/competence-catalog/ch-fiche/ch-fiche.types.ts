@@ -41,7 +41,7 @@ export interface UpdateChFiche {
   competences: Competence[];
   draft?: boolean;
   published?: boolean;
-  requirementIds: Requirement[];
+  requirementIds: string[];
 }
 
 export interface Occupation {

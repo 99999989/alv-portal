@@ -107,7 +107,6 @@
                                        [isEmpty]="!!requirements?.length"
                                        class="d-block mt-2"
   >
-    <pre>{{requirements|json}}</pre>
     <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, index)"
                                (itemClick)="viewRequirement(requirement)"
                                *ngFor="let requirement of requirements; let index = index;"
