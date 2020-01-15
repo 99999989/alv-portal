@@ -1266,6 +1266,13 @@ portal.competence-catalog.ch-fiches.edit-description-success-notification,Beschr
 portal.competence-catalog.ch-fiches.remove-description-success-notification,Beschreibung der CH Fiche wurde gelöscht,CH Fiche description has been deleted,La description de la fiche CH a été supprimée,La descrizione della Fiche CH è stata cancellata,
 portal.competence-catalog.ch-fiches.remove-description-dialog.title,Beschreibung löschen?,Delete description?,Supprimer la description?,Cancellare la descrizione?,
 portal.competence-catalog.ch-fiches.remove-description-dialog.confirmation-question,Möchten Sie die beschreibung löschen?,Do you really want to delete the description?,Voulez-vous vraiment supprimer la description de CH Fiche?,Vuoi davvero cancellare questa descrizione?,
+portal.competence-catalog.requirements.overview.title,Voraussetzungen,Prerequisites,Conditions,Requisiti,
+portal.competence-catalog.requirements.add-modal.one-component-per-lang-label,Bitte erfassen Sie je Sprache nur eine Voraussetzung,Please enter only one prerequisite per language,Veuillez saisir une seule condition par langue,Registrare soltanto un requisito per ciascuna lingua,
+portal.competence-catalog.requirements.add-modal.title-de,Bezeichnung Deutsch,German title,Désignation en allemand,Denominazione in tedesco,
+portal.competence-catalog.requirements.add-modal.title-fr,Bezeichnung Französisch,French title,Désignation en français,Denominazione in francese,
+portal.competence-catalog.requirements.add-modal.title-it,Bezeichnung Italienisch,Italian title,Désignation en italien,Denominazione in italiano,
+portal.competence-catalog.requirements.add-modal.title-en,Bezeichnung Englisch,English title,Désignation en anglais,Denominazione in inglese,
+portal.competence-catalog.requirements.add-modal.added-success-notification,Voraussetzung hinzugefügt,Prerequisite added,Condition ajouté,Requisito aggiunto
 portal.competence-catalog.menu-entries.competence-sets,Kompetenz-Sets,Skill sets,Ensembles de compétences,Set di competenze,
 portal.competence-catalog.menu-entries.competence-elements,Kompetenz-Bestandteile,Skill components,Composants de compétence,Elementi della competenza,
 portal.competence-catalog.menu-entries.ch-fiches,CH Fiche,CH Fiche,Fiche CH,Fiche CH,
