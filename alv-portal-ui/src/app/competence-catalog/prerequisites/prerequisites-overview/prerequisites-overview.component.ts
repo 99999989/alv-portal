@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { RequirementRepository } from '../../../shared/backend-services/competence-catalog/requirement/requirement.repository';
-import { Requirement, } from '../../../shared/backend-services/competence-catalog/requirement/requirement.types';
-import { RequirementModalComponent } from '../../shared/requirement-modal/requirement-modal.component';
+import { PrerequisiteRepository } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite-repository.service';
+import { Prerequisite, } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite.types';
+import { PrerequisiteModalComponent } from '../../shared/prerequisite-modal/prerequisite-modal.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { RequirementsFilterModalComponent } from '../requirements-filter-modal/requirements-filter-modal.component';
+import { PrerequisitesFilterModalComponent } from '../prerequisites-filter-modal/prerequisites-filter-modal.component';
 import {
   CommonFilters,
   CompetenceCatalogAction,
@@ -12,28 +12,28 @@ import {
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { RequirementBacklinkComponent } from '../../shared/backlinks/requirement-backlinks/requirement-backlink.component';
-import { RequirementDeleteComponent } from '../requirement-delete/requirement-delete.component';
+import { PrerequisiteBacklinkComponent } from '../../shared/backlinks/prerequisite-backlinks/prerequisite-backlink.component';
+import { PrerequisiteDeleteComponent } from '../prerequisite-delete/prerequisite-delete.component';
 import { NotificationsService } from '../../../core/notifications.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'alv-requirements-overview',
-  templateUrl: './requirements-overview.component.html',
-  styleUrls: ['./requirements-overview.component.scss']
+  selector: 'alv-prerequisites-overview',
+  templateUrl: './prerequisites-overview.component.html',
+  styleUrls: ['./prerequisites-overview.component.scss']
 })
-export class RequirementsOverviewComponent extends OverviewComponent<Requirement> implements OnInit {
+export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisite> implements OnInit {
 
   filter: CommonFilters = {};
 
-  backlinkRequirementAction: ActionDefinition<CompetenceCatalogAction> = {
+  backlinkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.requirements.overview.backlink'
   };
 
-  deleteRequirementAction: ActionDefinition<CompetenceCatalogAction> = {
+  deletePrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.DELETE,
     icon: ['fas', 'trash'],
     label: 'portal.competence-catalog.requirements.overview.delete.label'
@@ -43,7 +43,7 @@ export class RequirementsOverviewComponent extends OverviewComponent<Requirement
   constructor(private modalService: ModalService,
               protected authenticationService: AuthenticationService,
               protected fb: FormBuilder,
-              protected itemsRepository: RequirementRepository,
+              protected itemsRepository: PrerequisiteRepository,
               private notificationsService: NotificationsService) {
     super(authenticationService, itemsRepository, fb);
   }
@@ -51,25 +51,25 @@ export class RequirementsOverviewComponent extends OverviewComponent<Requirement
   ngOnInit() {
     super.ngOnInit();
     this.actions$ = this.isCompetenceCatalogEditor$.pipe(
-      map(isEditor => isEditor ? [this.backlinkRequirementAction, this.deleteRequirementAction] : [this.backlinkRequirementAction])
+      map(isEditor => isEditor ? [this.backlinkPrerequisiteAction, this.deletePrerequisiteAction] : [this.backlinkPrerequisiteAction])
     );
   }
 
   openCreateModal() {
-    const modalRef = this.modalService.openMedium(RequirementModalComponent, true);
+    const modalRef = this.modalService.openMedium(PrerequisiteModalComponent, true);
     modalRef.result
       .then(this.reload.bind(this))
       .catch(this.reload.bind(this));
 
   }
 
-  openUpdateModal(requirement: Requirement, isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(RequirementModalComponent, true);
-    const componentInstance = <RequirementModalComponent>modalRef.componentInstance;
-    componentInstance.requirement = requirement;
+  openUpdateModal(prerequisite: Prerequisite, isReadonly: boolean) {
+    const modalRef = this.modalService.openMedium(PrerequisiteModalComponent, true);
+    const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
+    componentInstance.prerequisite = prerequisite;
     componentInstance.isReadonly = isReadonly;
     modalRef.result
-      .then(updatedRequirement => {
+      .then(() => {
         this.reload();
       })
       .catch(() => {
@@ -77,7 +77,7 @@ export class RequirementsOverviewComponent extends OverviewComponent<Requirement
   }
 
   onFilterClick() {
-    const modalRef = this.modalService.openMedium(RequirementsFilterModalComponent, true);
+    const modalRef = this.modalService.openMedium(PrerequisitesFilterModalComponent, true);
     modalRef.componentInstance.currentFiltering = this.filter;
     modalRef.result
       .then(updatedFilter => {
@@ -95,24 +95,24 @@ export class RequirementsOverviewComponent extends OverviewComponent<Requirement
     });
   }
 
-  handleRequirementActionClick(action: CompetenceCatalogAction, requirement: Requirement) {
+  handlePrerequisiteActionClick(action: CompetenceCatalogAction, prerequisite: Prerequisite) {
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openBacklinkModal(requirement);
+      this.openBacklinkModal(prerequisite);
     }
     if (action === CompetenceCatalogAction.DELETE) {
-      this.openDeleteModal(requirement);
+      this.openDeleteModal(prerequisite);
     }
   }
 
-  private openBacklinkModal(requirement: Requirement) {
-    const modalRef = this.modalService.openMedium(RequirementBacklinkComponent);
-    (<RequirementBacklinkComponent>modalRef.componentInstance).requirement = requirement;
+  private openBacklinkModal(prerequisite: Prerequisite) {
+    const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent);
+    (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = prerequisite;
   }
 
-  private openDeleteModal(requirement: Requirement) {
-    const modalRef = this.modalService.openLarge(RequirementDeleteComponent);
-    const componentInstance = <RequirementDeleteComponent>modalRef.componentInstance;
-    componentInstance.requirement = requirement.id;
+  private openDeleteModal(prerequisite: Prerequisite) {
+    const modalRef = this.modalService.openLarge(PrerequisiteDeleteComponent);
+    const componentInstance = <PrerequisiteDeleteComponent>modalRef.componentInstance;
+    componentInstance.prerequisite = prerequisite.id;
     modalRef.result
       .then(idForDeletion => {
         this.itemsRepository.delete(idForDeletion)

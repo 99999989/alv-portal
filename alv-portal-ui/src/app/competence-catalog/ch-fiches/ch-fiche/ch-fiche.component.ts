@@ -28,11 +28,11 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 import { ChFicheDescriptionModalComponent } from '../ch-fiche-description-modal/ch-fiche-description-modal.component';
-import { Requirement } from '../../../shared/backend-services/competence-catalog/requirement/requirement.types';
-import { RequirementRepository } from '../../../shared/backend-services/competence-catalog/requirement/requirement.repository';
-import { RequirementBacklinkComponent } from '../../shared/backlinks/requirement-backlinks/requirement-backlink.component';
-import { RequirementSearchModalComponent } from '../requirement-search-modal/requirement-search-modal.component';
-import { RequirementModalComponent } from '../../shared/requirement-modal/requirement-modal.component';
+import { Prerequisite } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite.types';
+import { PrerequisiteRepository } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite-repository.service';
+import { PrerequisiteBacklinkComponent } from '../../shared/backlinks/prerequisite-backlinks/prerequisite-backlink.component';
+import { PrerequisiteSearchModalComponent } from '../prerequisite-search-modal/prerequisite-search-modal.component';
+import { PrerequisiteModalComponent } from '../../shared/prerequisite-modal/prerequisite-modal.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -67,7 +67,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     OCCUPATIONS: true,
     [CompetenceType.BASIC]: true,
     [CompetenceType.SPECIALIST]: true,
-    REQUIREMENTS: true
+    PREREQUISITES: true
   };
 
   competenceTypes = Object.values(CompetenceType);
@@ -76,7 +76,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
-  requirements: Requirement[] = [];
+  prerequisites: Prerequisite[] = [];
 
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
@@ -90,7 +90,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
   };
 
-  linkRequirementAction: ActionDefinition<CompetenceCatalogAction> = {
+  linkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
     icon: ['fas', 'search-plus'],
     label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
@@ -102,13 +102,13 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     label: 'portal.competence-catalog.ch-fiches.actions.unlink'
   };
 
-  unlinkRequirementAction: ActionDefinition<CompetenceCatalogAction> = {
+  unlinkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.UNLINK,
     icon: ['fas', 'unlink'],
     label: 'portal.competence-catalog.ch-fiches.actions.unlink'
   };
 
-  backlinkRequirementAction: ActionDefinition<CompetenceCatalogAction> = {
+  backlinkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
@@ -125,7 +125,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   };
 
   competenceSetsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
-  requirementActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  prerequisiteActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
   chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
   constructor(private modalService: ModalService,
@@ -133,7 +133,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
               private occupationLabelRepository: OccupationLabelRepository,
               private competenceSetRepository: CompetenceSetRepository,
               protected authenticationService: AuthenticationService,
-              private requirementRepository: RequirementRepository,
+              private prerequisiteRepository: PrerequisiteRepository,
               private notificationsService: NotificationsService) {
     super(authenticationService);
   }
@@ -151,8 +151,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     this.chFicheDescriptionActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.deleteChFicheAction] : [])
     );
-    this.requirementActions$ = this.isCompetenceCatalogEditor$.pipe(
-      map(isEditor => isEditor ? [this.backlinkRequirementAction, this.unlinkRequirementAction] : [this.backlinkRequirementAction])
+    this.prerequisiteActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.backlinkPrerequisiteAction, this.unlinkPrerequisiteAction] : [this.backlinkPrerequisiteAction])
     );
   }
 
@@ -163,7 +163,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   reset() {
     this.resolvedOccupations = [];
     this.competences = defaultCompetences();
-    this.requirements = [];
+    this.prerequisites = [];
   }
 
   addOccupation() {
@@ -225,9 +225,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       });
   }
 
-  toggleRequirements(collapsed: boolean) {
+  togglePrerequisites(collapsed: boolean) {
     if (!collapsed) {
-      this.loadRequirements().subscribe();
+      this.loadPrerequisites().subscribe();
     }
   }
 
@@ -237,9 +237,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  loadRequirements(): Observable<Requirement[]> {
-    return this.requirementRepository.findByIds(this.chFiche.requirementIds).pipe(
-      tap(requirements => this.requirements = requirements)
+  loadPrerequisites(): Observable<Prerequisite[]> {
+    return this.prerequisiteRepository.findByIds(this.chFiche.prerequisiteIds).pipe(
+      tap(requirements => this.prerequisites = requirements)
     );
   }
 
@@ -304,23 +304,23 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       );
   }
 
-  handleRequirementActionClick(action: CompetenceCatalogAction, index?: number) {
+  handlePrerequisiteActionClick(action: CompetenceCatalogAction, index?: number) {
     if (action === CompetenceCatalogAction.LINK) {
-      this.addRequirement();
+      this.addPrerequisite();
     }
     if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkRequirement(index);
+      this.unlinkPrerequisite(index);
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openRequirementsBacklinkModal(index);
+      this.openPrerequisiteBacklinkModal(index);
     }
   }
 
-  viewRequirement(requirement: Requirement) {
-    const modalRef = this.modalService.openLarge(RequirementModalComponent);
+  viewPrerequisite(prerequisite: Prerequisite) {
+    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent);
     if (this.chFiche.title) {
-      const componentInstance = <RequirementModalComponent>modalRef.componentInstance;
-      componentInstance.requirement = requirement;
+      const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
+      componentInstance.prerequisite = prerequisite;
       componentInstance.isReadonly = true;
     }
   }
@@ -372,16 +372,18 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
-  private addRequirement() {
-    const modalRef = this.modalService.openMedium(RequirementSearchModalComponent);
-    (<RequirementSearchModalComponent>modalRef.componentInstance).existingRequirementIds = this.chFiche.requirementIds;
+  private addPrerequisite() {
+    const modalRef = this.modalService.openMedium(PrerequisiteSearchModalComponent);
+    (<PrerequisiteSearchModalComponent>modalRef.componentInstance).existingPrerequisiteIds = this.chFiche.prerequisiteIds;
     modalRef.result
-      .then((requirement: Requirement) => {
-        this.chFiche.requirementIds.push(requirement.id);
-        this.loadRequirements().subscribe(() => {
-          this.collapsed['REQUIREMENTS'] = false;
+      .then((prerequisite: Prerequisite) => {
+        this.chFiche.prerequisiteIds.push(prerequisite.id);
+        this.loadPrerequisites().subscribe(() => {
+          this.collapsed['PREREQUISITES'] = false;
           this.notificationsService.success('portal.competence-catalog.ch-fiches.added-requirement-success-notification');
         });
+      })
+      .catch(() => {
       });
 
   }
@@ -399,19 +401,19 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
 
-  private unlinkRequirement(index: number) {
+  private unlinkPrerequisite(index: number) {
     this.openUnlinkConfirmModal().then(() => {
-      this.chFiche.requirementIds.splice(index, 1);
-      this.loadRequirements().subscribe(() => {
+      this.chFiche.prerequisiteIds.splice(index, 1);
+      this.loadPrerequisites().subscribe(() => {
         this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-requirement-success-notification');
       });
     }).catch(err => {
     });
   }
 
-  private openRequirementsBacklinkModal(index: number) {
-    const modalRef = this.modalService.openMedium(RequirementBacklinkComponent);
-    (<RequirementBacklinkComponent>modalRef.componentInstance).requirement = this.requirements[index];
+  private openPrerequisiteBacklinkModal(index: number) {
+    const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent);
+    (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = this.prerequisites[index];
   }
 }
 

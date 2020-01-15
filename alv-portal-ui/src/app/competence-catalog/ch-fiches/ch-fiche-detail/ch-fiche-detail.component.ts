@@ -109,7 +109,7 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
       occupations: this.chFiche.occupations,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value,
-      requirementIds: []//fixme
+      prerequisiteIds: []//fixme
     }).pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
@@ -122,7 +122,7 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
       occupations: this.chFiche.occupations,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value,
-      requirementIds: this.chFiche.requirementIds,
+      prerequisiteIds: this.chFiche.prerequisiteIds,
     }).pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }

@@ -15,7 +15,7 @@ export const mockChFiche: ChFiche = {
   id: 'chficheid',
   occupations: [{ bfsCode: 'bfsmock', chIsco5: 'chiscomock' }],
   published: false,
-  requirementIds: [
+  prerequisiteIds: [
     'req1',
     'req2'
   ],

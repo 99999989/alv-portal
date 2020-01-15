@@ -1,11 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { RequirementsOverviewComponent } from './requirements-overview/requirements-overview.component';
+import { PrerequisitesOverviewComponent } from './prerequisites-overview/prerequisites-overview.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: RequirementsOverviewComponent
+    component: PrerequisitesOverviewComponent
   },
   {
     path: '**',
@@ -24,5 +24,5 @@ const routes: Routes = [
   ]
 })
 
-export class RequirementsRoutingModule {
+export class PrerequisitesRoutingModule {
 }

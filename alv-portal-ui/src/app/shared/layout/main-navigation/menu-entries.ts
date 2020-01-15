@@ -96,7 +96,7 @@ export const CC_MAIN_MENU_ENTRIES: MenuEntry[] = [
     id: 'requirements',
     iconProp: ['far', 'ballot-check'],
     labelKey: 'portal.competence-catalog.menu-entries.requirements',
-    path: ['kk', 'requirements'],
+    path: ['kk', 'prerequisites'],
     userPredicate: isAnyUser
   },
   {

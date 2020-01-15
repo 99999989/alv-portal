@@ -16,8 +16,8 @@ import { MultiLanguageStringComponent } from './multi-language-string/multi-lang
 import { BooleanToTextPipe } from './utils/boolean-to-text.pipe';
 import { FilterByStatusesFormComponent } from './filter-by-statuses/filter-by-statuses-form/filter-by-statuses-form.component';
 import { FilterByStatusesModalComponent } from './filter-by-statuses/filter-by-statuses-modal/filter-by-statuses-modal.component';
-import { RequirementBacklinkComponent } from './backlinks/requirement-backlinks/requirement-backlink.component';
-import { RequirementModalComponent } from './requirement-modal/requirement-modal.component';
+import { PrerequisiteBacklinkComponent } from './backlinks/prerequisite-backlinks/prerequisite-backlink.component';
+import { PrerequisiteModalComponent } from './prerequisite-modal/prerequisite-modal.component';
 
 @NgModule({
   imports: [
@@ -40,8 +40,8 @@ import { RequirementModalComponent } from './requirement-modal/requirement-modal
     BooleanToTextPipe,
     FilterByStatusesFormComponent,
     FilterByStatusesModalComponent,
-    RequirementBacklinkComponent,
-    RequirementModalComponent
+    PrerequisiteBacklinkComponent,
+    PrerequisiteModalComponent
   ],
   providers: [],
   entryComponents: [
@@ -50,8 +50,8 @@ import { RequirementModalComponent } from './requirement-modal/requirement-modal
     CompetenceSetBacklinkComponent,
     CompetenceCatalogSortModalComponent,
     FilterByStatusesModalComponent,
-    RequirementBacklinkComponent,
-    RequirementModalComponent
+    PrerequisiteBacklinkComponent,
+    PrerequisiteModalComponent
   ],
   exports: [
     CompetenceSetComponent,
@@ -66,8 +66,8 @@ import { RequirementModalComponent } from './requirement-modal/requirement-modal
     MultiLanguageStringComponent,
     BooleanToTextPipe,
     FilterByStatusesFormComponent,
-    RequirementBacklinkComponent,
-    RequirementModalComponent
+    PrerequisiteBacklinkComponent,
+    PrerequisiteModalComponent
   ]
 })
 export class SharedCompetenceCatalogModule {

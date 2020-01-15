@@ -54,7 +54,7 @@
         {{'portal.global.enter' | translate}}
       </button>
 
-      <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, requirement)"
+      <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, requirement)"
                                  (itemClick)="openUpdateModal(requirement, !observables.isCompetenceCatalogEditor)"
                                  *ngFor="let requirement of items"
                                  [actions]="observables.actions"

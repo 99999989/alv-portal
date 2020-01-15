@@ -24,10 +24,10 @@ const routes: Routes = [
     }
   },
   {
-    path: 'requirements',
-    loadChildren: './requirements/requirements.module#RequirementsModule',
+    path: 'prerequisites',
+    loadChildren: './prerequisites/prerequisites.module#PrerequisitesModule',
     data: {
-      titleKey: 'portal.competence-catalog.requirements.browser-title',
+      titleKey: 'portal.competence-catalog.prerequisites.browser-title',
     }
   },
   {

@@ -1,18 +1,18 @@
 import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
 
 
-export interface Requirement {
+export interface Prerequisite {
   id: string;
   draft: boolean;
   published: boolean;
   description: TranslatedString;
 }
 
-export interface CreateRequirement {
+export interface CreatePrerequisite {
   description: TranslatedString;
 }
 
-export interface UpdateRequirement {
+export interface UpdatePrerequisite {
   draft: boolean;
   published: boolean;
   description: TranslatedString;

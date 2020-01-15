@@ -8,14 +8,14 @@ import { ChFicheRepository } from '../../../shared/backend-services/competence-c
 import { ChFiche } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
 
 @Component({
-  selector: 'alv-requirement-delete',
-  templateUrl: './requirement-delete.component.html',
-  styleUrls: ['./requirement-delete.component.scss']
+  selector: 'alv-prerequisite-delete',
+  templateUrl: './prerequisite-delete.component.html',
+  styleUrls: ['./prerequisite-delete.component.scss']
 })
-export class RequirementDeleteComponent implements OnInit {
+export class PrerequisiteDeleteComponent implements OnInit {
 
   @Input()
-  requirement: string;
+  prerequisite: string;
   chFiches$: Observable<ChFiche[]>;
   warning = {
     type: NotificationType.WARNING,
@@ -30,7 +30,7 @@ export class RequirementDeleteComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chFiches$ = this.chFicheRepository.findByRequirementId(this.requirement);
+    this.chFiches$ = this.chFicheRepository.findByPrerequisiteId(this.prerequisite);
   }
 
   cancel() {
@@ -38,7 +38,7 @@ export class RequirementDeleteComponent implements OnInit {
   }
 
   delete() {
-    this.activeModal.close(this.requirement);
+    this.activeModal.close(this.prerequisite);
   }
 
   itemClicked(setSearchResult: ChFiche) {

@@ -2,7 +2,7 @@
     competenceSetsActions: competenceSetsActions$ | async,
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
     isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
-    requirementActions: requirementActions$ | async
+    requirementActions: prerequisiteActions$ | async
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -97,19 +97,19 @@
                         (actionClick)="handleCompetenceSetActionClick($event, competenceType, competenceSet)">
     </alv-competence-set>
   </alv-competence-items-collapse-panel>
-  <alv-competence-items-collapse-panel (toggleClick)="toggleRequirements($event)"
+  <alv-competence-items-collapse-panel (actionClick)="handlePrerequisiteActionClick($event)"
                                        [darkMode]="true"
                                        [label]="'portal.competence-catalog.ch-fiches.label.requirements'"
                                        [showActionButtons]="!isReadonly"
-                                       (actionClick)="handleRequirementActionClick($event)"
-                                       [actions]="[linkRequirementAction]"
-                                       [isCollapsed]="collapsed.REQUIREMENTS"
-                                       [isEmpty]="!chFiche.requirementIds?.length"
+                                       (toggleClick)="togglePrerequisites($event)"
+                                       [actions]="[linkPrerequisiteAction]"
+                                       [isCollapsed]="collapsed.PREREQUISITES"
+                                       [isEmpty]="!chFiche.prerequisiteIds?.length"
                                        class="d-block mt-2"
   >
-    <alv-interactive-list-item (actionClick)="handleRequirementActionClick($event, index)"
-                               (itemClick)="viewRequirement(requirement)"
-                               *ngFor="let requirement of requirements; let index = index;"
+    <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, index)"
+                               (itemClick)="viewPrerequisite(requirement)"
+                               *ngFor="let requirement of prerequisites; let index = index;"
                                [actions]="observables.requirementActions"
                                [isDraft]="requirement.draft"
                                [isPublished]="requirement.published"

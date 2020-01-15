@@ -10,18 +10,18 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CommonFilters } from '../../shared/shared-competence-catalog.types';
 
-interface RequirementsFilterModalFormValue {
+interface PrerequisitesFilterModalFormValue {
   elementTypes: {};
   statusFilters?: FilterByStatusesFormValue;
 }
 
 
 @Component({
-  selector: 'alv-requirements-filter-modal',
-  templateUrl: './requirements-filter-modal.component.html',
-  styleUrls: ['./requirements-filter-modal.component.scss']
+  selector: 'alv-prerequisite-filter-modal',
+  templateUrl: './prerequisites-filter-modal.component.html',
+  styleUrls: ['./prerequisites-filter-modal.component.scss']
 })
-export class RequirementsFilterModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit, AfterViewInit {
+export class PrerequisitesFilterModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit, AfterViewInit {
   @Input() currentFiltering: CommonFilters;
   form: FormGroup;
 
@@ -47,7 +47,7 @@ export class RequirementsFilterModalComponent extends CompetenceCatalogEditorAwa
 
 
   filter() {
-    const formValue: RequirementsFilterModalFormValue = this.form.value;
+    const formValue: PrerequisitesFilterModalFormValue = this.form.value;
     let result: CommonFilters = {};
     if (formValue && formValue.hasOwnProperty('statusFilters')) {
       result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) };

@@ -1,6 +1,6 @@
-import { Requirement } from './requirement.types';
+import { Prerequisite } from './prerequisite.types';
 
-export const mockRequirement: Requirement = {
+export const mockPrerequisite: Prerequisite = {
   description: { de: 'dreq', en: 'ereq', fr: 'freq', it: 'ireq' },
   draft: false,
   id: 'aaz',

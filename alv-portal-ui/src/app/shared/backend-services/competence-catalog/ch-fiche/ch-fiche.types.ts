@@ -1,5 +1,5 @@
 import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
-import { Requirement } from '../requirement/requirement.types';
+import { Prerequisite } from '../prerequisite/prerequisite.types';
 
 export enum CompetenceType {
   BASIC = 'BASIC',
@@ -21,7 +21,7 @@ export interface ChFiche {
   competences: Competence[];
   draft?: boolean;
   published?: boolean;
-  requirementIds: string[];
+  prerequisiteIds: string[];
 }
 
 export interface CreateChFiche {
@@ -31,7 +31,7 @@ export interface CreateChFiche {
   competences: Competence[];
   draft?: boolean;
   published?: boolean;
-  requirementIds: Requirement[];
+  prerequisiteIds: Prerequisite[];
 }
 
 export interface UpdateChFiche {
@@ -41,7 +41,7 @@ export interface UpdateChFiche {
   competences: Competence[];
   draft?: boolean;
   published?: boolean;
-  requirementIds: string[];
+  prerequisiteIds: string[];
 }
 
 export interface Occupation {
@@ -60,6 +60,6 @@ export function initialChFiche(): ChFiche {
     published: false,
     occupations: [],
     competences: [],
-    requirementIds: [],
+    prerequisiteIds: [],
   };
 }

@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { atLeastOneRequiredValidator } from '../../../shared/forms/input/validators/at-least-one-required.validator';
-import { Requirement, } from '../../../shared/backend-services/competence-catalog/requirement/requirement.types';
+import { Prerequisite } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite.types';
 import { of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { RequirementRepository } from '../../../shared/backend-services/competence-catalog/requirement/requirement.repository';
+import { PrerequisiteRepository } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite-repository.service';
 import { NotificationsService } from '../../../core/notifications.service';
 import { getModalTitle } from '../utils/translation-utils';
 import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
@@ -12,13 +12,13 @@ import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-edi
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 
 @Component({
-  selector: 'alv-requirement-modal',
-  templateUrl: './requirement-modal.component.html',
-  styleUrls: ['./requirement-modal.component.scss']
+  selector: 'alv-prerequisite-modal',
+  templateUrl: './prerequisite-modal.component.html',
+  styleUrls: ['./prerequisite-modal.component.scss']
 })
-export class RequirementModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
+export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
-  @Input() requirement: Requirement;
+  @Input() prerequisite: Prerequisite;
 
   @Input() isReadonly = false;
 
@@ -35,7 +35,7 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
   draftRadioButtonOptions$ = of(draftRadioButtonOptions);
 
   constructor(private fb: FormBuilder,
-              private requirementRepository: RequirementRepository,
+              private prerequisiteRepository: PrerequisiteRepository,
               private notificationsService: NotificationsService,
               private modal: NgbActiveModal,
               protected authenticationService: AuthenticationService) {
@@ -57,8 +57,8 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
         validators: [atLeastOneRequiredValidator(['de', 'fr', 'it', 'en'])]
       })
     });
-    if (this.requirement) {
-      this.form.patchValue(this.requirement);
+    if (this.prerequisite) {
+      this.form.patchValue(this.prerequisite);
       this.isEdit = true;
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
@@ -66,9 +66,9 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
 
   submit() {
     if (this.isEdit) {
-      this.updateRequirement();
+      this.updatePrerequisite();
     } else {
-      this.createRequirement();
+      this.createPrerequisite();
     }
   }
 
@@ -77,8 +77,8 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
     this.modal.dismiss();
   }
 
-  private updateRequirement() {
-    this.requirementRepository.update(this.requirement.id, {
+  private updatePrerequisite() {
+    this.prerequisiteRepository.update(this.prerequisite.id, {
       description: this.form.get('description').value,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
@@ -86,8 +86,8 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
       .subscribe(this.handleSuccess.bind(this));
   }
 
-  private createRequirement() {
-    this.requirementRepository.create(this.form.value)
+  private createPrerequisite() {
+    this.prerequisiteRepository.create(this.form.value)
       .subscribe(this.handleSuccess.bind(this));
   }
 
