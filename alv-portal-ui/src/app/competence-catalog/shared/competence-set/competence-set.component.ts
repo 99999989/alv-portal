@@ -119,7 +119,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   viewCompetenceElementModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openLarge(CompetenceElementModalComponent, true);
+    const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
     modalRef.componentInstance.competenceElement = competenceElement;
     modalRef.componentInstance.isReadonly = true;
     modalRef.result
