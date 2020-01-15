@@ -35,7 +35,7 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
   draftRadioButtonOptions$ = of(draftRadioButtonOptions);
 
   constructor(private fb: FormBuilder,
-              private competenceElementRepository: RequirementRepository,
+              private requirementRepository: RequirementRepository,
               private notificationsService: NotificationsService,
               private modal: NgbActiveModal,
               protected authenticationService: AuthenticationService) {
@@ -66,9 +66,9 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
 
   submit() {
     if (this.isEdit) {
-      this.updateElement();
+      this.updateRequirement();
     } else {
-      this.createElement();
+      this.createRequirement();
     }
   }
 
@@ -77,8 +77,8 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
     this.modal.dismiss();
   }
 
-  private updateElement() {
-    this.competenceElementRepository.update(this.requirement.id, {
+  private updateRequirement() {
+    this.requirementRepository.update(this.requirement.id, {
       description: this.form.get('description').value,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
@@ -86,8 +86,8 @@ export class RequirementModalComponent extends CompetenceCatalogEditorAwareCompo
       .subscribe(this.handleSuccess.bind(this));
   }
 
-  private createElement() {
-    this.competenceElementRepository.create(this.form.value)
+  private createRequirement() {
+    this.requirementRepository.create(this.form.value)
       .subscribe(this.handleSuccess.bind(this));
   }
 

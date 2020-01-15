@@ -168,7 +168,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   addOccupation() {
     const modalRef = this.modalService.openMedium(OccupationSearchModalComponent);
-    modalRef.componentInstance.existingOccupations = this.chFiche.occupations.map(occupation => occupation.bfsCode);
+    (<OccupationSearchModalComponent>modalRef.componentInstance).existingOccupations = this.chFiche.occupations.map(occupation => occupation.bfsCode);
     modalRef.result
       .then((result) => {
         this.chFiche.occupations.push({

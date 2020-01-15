@@ -1,10 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map, take } from 'rxjs/operators';
 import { I18nService } from '../../../core/i18n.service';
 import { Observable } from 'rxjs';
-import { ChFicheRepository } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.repository';
 import { RequirementRepository } from '../../../shared/backend-services/competence-catalog/requirement/requirement.repository';
 import { DEFAULT_PAGE_SIZE } from '../../../shared/backend-services/request-util';
 import { Requirement } from '../../../shared/backend-services/competence-catalog/requirement/requirement.types';
@@ -20,8 +19,6 @@ import { getTranslatedString } from '../../shared/shared-competence-catalog.type
 })
 export class RequirementSearchModalComponent implements OnInit {
 
-  @Input() existingOccupations: string[];
-
   form: FormGroup;
 
   searchRequirementsFn = this.search.bind(this);
@@ -31,8 +28,7 @@ export class RequirementSearchModalComponent implements OnInit {
   constructor(private modal: NgbActiveModal,
               private fb: FormBuilder,
               private i18nService: I18nService,
-              private requirementRepository: RequirementRepository,
-              private chFicheRepository: ChFicheRepository) {
+              private requirementRepository: RequirementRepository,) {
   }
 
   ngOnInit() {
