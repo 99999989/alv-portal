@@ -58,13 +58,6 @@ pipeline {
 
         stage('Exec Maven') {
             steps {
-//                rtMavenRun(
-//                    pom: 'pom.xml',
-//                    goals: 'clean package -DskipTests -DskipITs=true -X',
-//                    deployerId: "MAVEN_DEPLOYER",
-//                    resolverId: "MAVEN_RESOLVER"
-//                )
-
                 sh '''
                   mvn --settings ./.mvn/wrapper/settings.xml package -DskipTests -DskipITs=true
                 '''
@@ -73,12 +66,6 @@ pipeline {
 
         stage('SonarQube') {
             steps {
-                //rtMavenRun(
-                //    pom: 'pom.xml',
-                //    goals: 'sonar:sonar -Dsonar.projectKey=AlvPortal -Dsonar.host.url="$SONAR_SERVER" -Dsonar.login=$SONAR_LOGIN',
-//                    deployerId: "MAVEN_DEPLOYER",
-//                    resolverId: "MAVEN_RESOLVER"
-//                )
                 sh '''
                   mvn --settings ./.mvn/wrapper/settings.xml sonar:sonar -Dsonar.projectKey=AlvPortal -Dsonar.host.url="$SONAR_SERVER" -Dsonar.login=$SONAR_LOGIN
                 '''
