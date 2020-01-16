@@ -16,7 +16,7 @@
                    [icon]="['fas', 'list-ul']"
                    class="text-primary mr-1">
           </fa-icon>
-          {{ 'portal.competence-catalog.requirements.overview.title' | translate }}
+          {{ 'portal.competence-catalog.prerequisites.overview.title' | translate }}
         </h2>
         <div class="d-flex mb-3 flex-row justify-content-between">
           <button (click)="onFilterClick()"
@@ -65,7 +65,7 @@
                                  [showActionButtons]="true"
                                  [showStatuses]="true"
                                  [superTitle]="prerequisite.id"
-                                 [type]="'portal.competence-catalog.element-type.requirement' | translate">
+                                 [type]="'portal.competence-catalog.element-type.prerequisite' | translate">
       </alv-interactive-list-item>
 
     </div>

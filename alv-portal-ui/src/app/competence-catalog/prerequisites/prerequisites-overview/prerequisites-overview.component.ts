@@ -30,13 +30,13 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
   backlinkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
-    label: 'portal.competence-catalog.requirements.overview.backlink'
+    label: 'portal.competence-catalog.prerequisites.overview.backlink'
   };
 
   deletePrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.DELETE,
     icon: ['fas', 'trash'],
-    label: 'portal.competence-catalog.requirements.overview.delete.label'
+    label: 'portal.competence-catalog.prerequisites.overview.delete.label'
   };
   actions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
@@ -118,7 +118,7 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
         this.itemsRepository.delete(idForDeletion)
           .subscribe(() => {
             this.reload();
-            this.notificationsService.success('portal.competence-catalog.requirements.deleted-success-notification');
+            this.notificationsService.success('portal.competence-catalog.prerequisites.deleted-success-notification');
           });
       })
       .catch(() => {

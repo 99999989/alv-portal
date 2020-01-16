@@ -382,7 +382,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
         this.chFiche.prerequisiteIds.push(prerequisite.id);
         this.loadPrerequisites().subscribe(() => {
           this.collapsed['PREREQUISITES'] = false;
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-requirement-success-notification');
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-prerequisite-success-notification');
         });
       })
       .catch(() => {
@@ -407,7 +407,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     this.openUnlinkConfirmModal().then(() => {
       this.chFiche.prerequisiteIds.splice(index, 1);
       this.loadPrerequisites().subscribe(() => {
-        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-requirement-success-notification');
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-prerequisite-success-notification');
       });
     }).catch(err => {
     });

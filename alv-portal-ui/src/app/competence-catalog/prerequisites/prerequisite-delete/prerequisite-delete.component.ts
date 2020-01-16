@@ -19,7 +19,7 @@ export class PrerequisiteDeleteComponent implements OnInit {
   chFiches$: Observable<ChFiche[]>;
   warning = {
     type: NotificationType.WARNING,
-    messageKey: 'portal.competence-catalog.requirements.delete-modal.reference-found-alert',
+    messageKey: 'portal.competence-catalog.prerequisites.delete-modal.reference-found-alert',
     isSticky: true
   };
 

@@ -92,7 +92,7 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
   }
 
   private handleSuccess(result) {
-    this.notificationsService.success('portal.competence-catalog.requirements.add-modal.added-success-notification');
+    this.notificationsService.success('portal.competence-catalog.prerequisites.add-modal.added-success-notification');
     if (this.createAnotherFormControl.value === true) {
       this.form.reset({
         description: {

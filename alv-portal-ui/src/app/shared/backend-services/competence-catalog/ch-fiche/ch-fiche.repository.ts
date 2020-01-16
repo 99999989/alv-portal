@@ -46,10 +46,10 @@ export class ChFicheRepository implements SearchService<ChFiche> {
       })));
   }
 
-  findByPrerequisiteId(requirementId: string): Observable<ChFiche[]> {
+  findByPrerequisiteId(prerequisiteId: string): Observable<ChFiche[]> {
     return this.roleConditionRoutingService.endpoint$.pipe(
-      switchMap(endpoint => this.http.get<ChFiche[]>(endpoint + this.findUrl + '/byRequirementId', {
-        params: new HttpParams().set('id', requirementId)
+      switchMap(endpoint => this.http.get<ChFiche[]>(endpoint + this.findUrl + '/byPrerequisiteId', {
+        params: new HttpParams().set('id', prerequisiteId)
       }))
     );
   }

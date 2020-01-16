@@ -7,7 +7,7 @@
            primaryLabel="portal.global.save">
 
   <fieldset formGroupName="description">
-    <legend>{{'portal.competence-catalog.requirements.add-modal.one-component-per-lang-label' | translate}}</legend>
+    <legend>{{'portal.competence-catalog.prerequisites.add-modal.one-component-per-lang-label' | translate}}</legend>
     <ng-container *ngFor="let formField of ['de','fr','it','en']">
       <alv-input-field [alvFormControlName]="formField"
                        [attr.data-test]="formField+'-description-input'"
@@ -16,7 +16,7 @@
                        [readonly]="isReadonly"
                        [showGroupErrors]="true"
                        [validationMessages]="[{ error: 'atLeastOneRequired', message: 'global.common-phrases.at-least-one-required' }]"
-                       label="portal.competence-catalog.requirements.add-modal.title-{{formField}}"
+                       label="portal.competence-catalog.prerequisites.add-modal.title-{{formField}}"
       >
       </alv-input-field>
     </ng-container>

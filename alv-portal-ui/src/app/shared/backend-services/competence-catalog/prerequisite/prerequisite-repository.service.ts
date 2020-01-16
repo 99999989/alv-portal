@@ -13,7 +13,7 @@ import { SearchService } from '../search-service';
 @Injectable({ providedIn: 'root' })
 export class PrerequisiteRepository implements SearchService<Prerequisite> {
 
-  private readonly resourceUrl = '/competencecatalogservice-editor/api/requirements/';
+  private readonly resourceUrl = '/competencecatalogservice-editor/api/prerequisites/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 
@@ -37,16 +37,16 @@ export class PrerequisiteRepository implements SearchService<Prerequisite> {
     });
   }
 
-  create(requirement: CreatePrerequisite): Observable<Prerequisite> {
-    return this.http.post<Prerequisite>(this.resourceUrl, requirement);
+  create(prerequisite: CreatePrerequisite): Observable<Prerequisite> {
+    return this.http.post<Prerequisite>(this.resourceUrl, prerequisite);
   }
 
-  update(id: string, requirement: UpdatePrerequisite): Observable<Prerequisite> {
-    return this.http.put<Prerequisite>(this.resourceUrl + id, requirement);
+  update(id: string, prerequisite: UpdatePrerequisite): Observable<Prerequisite> {
+    return this.http.put<Prerequisite>(this.resourceUrl + id, prerequisite);
   }
 
-  delete(requirementId: string): Observable<void> {
-    return this.http.delete<void>(`${this.resourceUrl}${requirementId}`);
+  delete(prerequisiteId: string): Observable<void> {
+    return this.http.delete<void>(`${this.resourceUrl}${prerequisiteId}`);
   }
 
 }
