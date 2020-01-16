@@ -11,13 +11,10 @@ pipeline {
         JAVA_TOOL_OPTIONS = "$JAVA_TOOL_OPTIONS $DEFAULT_JVM_OPTS"
         SERVER_URL = "https://alvch.jfrog.io/alvch"
         CREDENTIALS = "artifactory-deploy"
-        FONTAWESOME_NPM_AUTH_TOKEN="F210019D-75E0-4C3D-B1D6-CE6A1B68FBFB"
         ARTIFACTORY_SERVER = "alv-ch"
         MAVEN_HOME = "/opt/rh/rh-maven35/root/usr/share/xmvn"
         SONAR_LOGIN = credentials('SONAR_TOKEN')
         SONAR_SERVER = "${env.SONAR_HOST_URL}"
-        ARTIFACTORY_USERNAME = "developer"
-        ARTIFACTORY_PASSWORD = "aibQuCpCHR3+H/lj"
     }
 
     stages {
@@ -58,9 +55,17 @@ pipeline {
 
         stage('Exec Maven') {
             steps {
-                sh '''
-                  mvn clean deploy --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
-                '''
+                withCredentials([usernamePassword(credentialsId: 'artifactory-deploy',
+                        passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
+
+                    withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONT_AWESOME_PRO')]) {
+
+                        sh '''
+                            mvn clean deploy --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
+                        '''
+                    }
+
+                }
             }
         }
 
