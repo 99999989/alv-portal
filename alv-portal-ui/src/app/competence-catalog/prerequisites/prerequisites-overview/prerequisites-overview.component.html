@@ -54,17 +54,17 @@
         {{'portal.global.enter' | translate}}
       </button>
 
-      <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, requirement)"
-                                 (itemClick)="openUpdateModal(requirement, !observables.isCompetenceCatalogEditor)"
-                                 *ngFor="let requirement of items"
+      <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, prerequisite)"
+                                 (itemClick)="openUpdateModal(prerequisite, !observables.isCompetenceCatalogEditor)"
+                                 *ngFor="let prerequisite of items"
                                  [actions]="observables.actions"
-                                 [isDraft]="requirement.draft"
+                                 [isDraft]="prerequisite.draft"
                                  [isItemClickable]="true"
-                                 [isPublished]="requirement.published"
-                                 [multiLanguageTitle]="requirement.description"
+                                 [isPublished]="prerequisite.published"
+                                 [multiLanguageTitle]="prerequisite.description"
                                  [showActionButtons]="true"
                                  [showStatuses]="true"
-                                 [superTitle]="requirement.id"
+                                 [superTitle]="prerequisite.id"
                                  [type]="'portal.competence-catalog.element-type.requirement' | translate">
       </alv-interactive-list-item>
 

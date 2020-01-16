@@ -2,9 +2,11 @@
     competenceSetsActions: competenceSetsActions$ | async,
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
     isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
-    requirementActions: prerequisiteActions$ | async
+    prerequisiteActions: prerequisiteActions$ | async
   } as observables">
   <!--   Title-->
+  <pre>{{chFiche|json}}</pre>
+  <pre>{{prerequisites|json}}</pre>
   <div class="mb-2">
     <alv-interactive-list-item (itemClick)="editFicheName(isReadonly)"
                                *ngIf="chFiche.title; else noTitle"
@@ -108,14 +110,14 @@
                                        class="d-block mt-2"
   >
     <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, index)"
-                               (itemClick)="viewPrerequisite(requirement)"
-                               *ngFor="let requirement of prerequisites; let index = index;"
-                               [actions]="observables.requirementActions"
-                               [isDraft]="requirement.draft"
-                               [isPublished]="requirement.published"
-                               [superTitle]="requirement.id"
+                               (itemClick)="viewPrerequisite(prerequisite)"
+                               *ngFor="let prerequisite of prerequisites; let index = index;"
+                               [actions]="observables.prerequisiteActions"
+                               [isDraft]="prerequisite.draft"
+                               [isPublished]="prerequisite.published"
+                               [multiLanguageTitle]="prerequisite.description"
                                [isItemClickable]="true"
-                               [multiLanguageTitle]="requirement.description"
+                               [superTitle]="prerequisite.id"
                                [showActionButtons]="observables.isCompetenceCatalogEditor"
                                [type]="'portal.competence-catalog.element-type.requirement' | translate"
                                titleClass="font-weight-normal">

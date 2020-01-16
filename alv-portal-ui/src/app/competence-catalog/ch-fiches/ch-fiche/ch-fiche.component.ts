@@ -239,7 +239,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   loadPrerequisites(): Observable<Prerequisite[]> {
     return this.prerequisiteRepository.findByIds(this.chFiche.prerequisiteIds).pipe(
-      tap(requirements => this.prerequisites = requirements)
+      tap(prerequisites => {
+        this.prerequisites = prerequisites;
+      })
     );
   }
 
