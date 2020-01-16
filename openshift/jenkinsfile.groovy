@@ -59,7 +59,7 @@ pipeline {
         stage('Exec Maven') {
             steps {
                 sh '''
-                  mvn --settings ./.mvn/wrapper/settings.xml package -DskipTests -DskipITs=true
+                  mvn clean install --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
                 '''
             }
         }
@@ -67,7 +67,7 @@ pipeline {
         stage('SonarQube') {
             steps {
                 sh '''
-                  mvn --settings ./.mvn/wrapper/settings.xml sonar:sonar -Dsonar.projectKey=AlvPortal -Dsonar.host.url="$SONAR_SERVER" -Dsonar.login=$SONAR_LOGIN
+                  mvn sonar:sonar --settings ./.mvn/wrapper/settings.xml  -Dsonar.projectKey=AlvPortal -Dsonar.host.url="$SONAR_SERVER" -Dsonar.login=$SONAR_LOGIN
                 '''
             }
         }
