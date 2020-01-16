@@ -20,7 +20,7 @@ pipeline {
 
     stages {
 
-        stage('Miau') {
+        stage('Init') {
             steps {
                 sh '''
                   echo "PATH = ${PATH}"
@@ -58,7 +58,7 @@ pipeline {
             steps {
                 rtMavenRun(
                     pom: 'pom.xml',
-                    goals: 'clean package -DskipTests -DskipITs=true',
+                    goals: 'clean package -DskipTests -DskipITs=true -X',
                     deployerId: "MAVEN_DEPLOYER",
                     resolverId: "MAVEN_RESOLVER"
                 )
