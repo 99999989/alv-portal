@@ -55,27 +55,27 @@ pipeline {
 
         stage('Exec Maven') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'artifactory-deploy',
-                        passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
 
-                    withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONT_AWESOME_PRO')]) {
+                withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
 
-                        sh '''
-                            mvn clean deploy --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
-                        '''
-                    }
-
+                    rtMavenRun(
+                            pom: 'pom.xml',
+                            goals: 'install package -DskipTests -DskipITs=true',
+                            deployerId: "MAVEN_DEPLOYER",
+                            resolverId: "MAVEN_RESOLVER"
+                    )
                 }
+
             }
         }
 
-        stage('SonarQube') {
-            steps {
-                sh '''
-                  mvn sonar:sonar --settings ./.mvn/wrapper/settings.xml  -Dsonar.projectKey=AlvPortal -Dsonar.host.url="$SONAR_SERVER" -Dsonar.login=$SONAR_LOGIN
-                '''
-            }
-        }
+//        stage('SonarQube') {
+//            steps {
+//                sh '''
+//                  mvn sonar:sonar --settings ./.mvn/wrapper/settings.xml  -Dsonar.projectKey=AlvPortal -Dsonar.host.url="$SONAR_SERVER" -Dsonar.login=$SONAR_LOGIN
+//                '''
+//            }
+//        }
 
         stage('Publish build info') {
             steps {
