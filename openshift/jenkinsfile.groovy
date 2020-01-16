@@ -56,16 +56,12 @@ pipeline {
 
         stage('Exec Maven') {
             steps {
-//                rtMavenRun(
-//                    pom: 'pom.xml',
-//                    goals: 'clean package -DskipTests -DskipITs=true -X',
-//                    deployerId: "MAVEN_DEPLOYER",
-//                    resolverId: "MAVEN_RESOLVER"
-//                )
-
-                sh '''
-                  mvn clean package -DskipTests -DskipITs=true
-                '''
+                rtMavenRun(
+                    pom: 'pom.xml',
+                    goals: 'clean install -DskipTests -DskipITs=true',
+                    deployerId: "MAVEN_DEPLOYER",
+                    resolverId: "MAVEN_RESOLVER"
+                )
             }
         }
 
