@@ -59,7 +59,7 @@ pipeline {
         stage('Exec Maven') {
             steps {
                 sh '''
-                  mvn clean install --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
+                  mvn clean deploy --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
                 '''
             }
         }
