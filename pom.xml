@@ -82,61 +82,6 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>owasp-dependency-check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>4.0.0</version>
-                        <inherited>false</inherited>
-                        <configuration>
-                            <scanSet>
-                                <fileSet>
-                                    <!-- required in order to scan package.json -->
-                                    <directory>alv-portal-ui</directory>
-                                </fileSet>
-                            </scanSet>
-                            <failOnError>false</failOnError>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>dependency-check-report</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>aggregate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <inherited>false</inherited>
-                        <executions>
-                            <execution>
-                                <id>attach-dependency-report-artifact</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>attach-artifact</goal>
-                                </goals>
-                                <configuration>
-                                    <artifacts>
-                                        <artifact>
-                                            <file>${project.build.directory}/dependency-check-report.html</file>
-                                            <type>html</type>
-                                            <classifier>dependency-check</classifier>
-                                        </artifact>
-                                    </artifacts>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
 
     <build>
