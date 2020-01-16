@@ -16,6 +16,8 @@ pipeline {
         MAVEN_HOME = "/opt/rh/rh-maven35/root/usr/share/xmvn"
         SONAR_LOGIN = credentials('SONAR_TOKEN')
         SONAR_SERVER = "${env.SONAR_HOST_URL}"
+        ARTIFACTORY_USERNAME = "developer"
+        ARTIFACTORY_PASSWORD = "aibQuCpCHR3+H/lj"
     }
 
     stages {
@@ -56,12 +58,16 @@ pipeline {
 
         stage('Exec Maven') {
             steps {
-                rtMavenRun(
-                    pom: 'pom.xml',
-                    goals: 'clean install -DskipTests -DskipITs=true',
-                    deployerId: "MAVEN_DEPLOYER",
-                    resolverId: "MAVEN_RESOLVER"
-                )
+//                rtMavenRun(
+//                    pom: 'pom.xml',
+//                    goals: 'clean package -DskipTests -DskipITs=true -X',
+//                    deployerId: "MAVEN_DEPLOYER",
+//                    resolverId: "MAVEN_RESOLVER"
+//                )
+
+                sh '''
+                  mvn --settings ./.mvn/wrapper/settings.xml package -DskipTests -DskipITs=true
+                '''
             }
         }
 
