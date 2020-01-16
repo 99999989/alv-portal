@@ -82,6 +82,9 @@ describe('CandidateDetailModelFactory', () => {
     },
     hasFeature(featureName: FeatureName): boolean {
       return false;
+    },
+    isSysadmin(): boolean {
+      return false;
     }
   };
 

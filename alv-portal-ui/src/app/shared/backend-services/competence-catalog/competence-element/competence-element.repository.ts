@@ -2,47 +2,63 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { createPageableURLSearchParams, PagedSearchRequest } from '../../request-util';
-import { CompetenceElement, CreateCompetenceElement, UpdateCompetenceElement } from './competence-element.types';
+import {
+  CompetenceElement,
+  CreateCompetenceElement,
+  UpdateCompetenceElement
+} from './competence-element.types';
 import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
+import { KkRoleConditionRoutingService } from '../kk-role-condition-routing.service';
+import { switchMap } from 'rxjs/operators';
+import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class CompetenceElementRepository implements SearchService<CompetenceElement> {
 
-  private readonly resourceUrl = '/competencecatalogservice-editor/api/competence-elements/';
+  private readonly resourceUrl = '/api/competence-elements/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 
   private readonly findUrl = `${this.resourceUrl}_find`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              public roleConditionRoutingService: KkRoleConditionRoutingService) {
   }
 
   findById(id: string): Observable<CompetenceElement> {
-    return this.http.get<CompetenceElement>(this.resourceUrl + id);
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(endpoint => this.http.get<CompetenceElement>(endpoint + this.resourceUrl + id))
+    );
+
   }
 
   findByIds(ids: string[]): Observable<CompetenceElement[]> {
-    return this.http.post<CompetenceElement[]>(`${this.findUrl}/byIds`, ids);
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(endpoint => this.http.post<CompetenceElement[]>(endpoint + `${this.findUrl}/byIds`, ids))
+    );
+
   }
 
   search(request: PagedSearchRequest): Observable<Page<CompetenceElement>> {
     const params = createPageableURLSearchParams(request);
-    return this.http.post<Page<CompetenceElement>>(this.searchUrl, request.body, {
-      params
-    });
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(endpoint => this.http.post<Page<CompetenceElement>>(endpoint + this.searchUrl, request.body, {
+        params
+      })));
+
   }
 
   create(competenceElement: CreateCompetenceElement): Observable<CompetenceElement> {
-    return this.http.post<CompetenceElement>(this.resourceUrl, competenceElement);
+    return this.http.post<CompetenceElement>(KK_EDITOR_ENDPOINT + this.resourceUrl, competenceElement);
   }
 
   update(id: string, competenceElement: UpdateCompetenceElement): Observable<CompetenceElement> {
-    return this.http.put<CompetenceElement>(this.resourceUrl + id, competenceElement);
+    return this.http.put<CompetenceElement>(KK_EDITOR_ENDPOINT + this.resourceUrl + id, competenceElement);
   }
 
   delete(competenceElementId: string): Observable<void> {
-    return this.http.delete<void>(`${this.resourceUrl}${competenceElementId}`);
+    return this.http.delete<void>(KK_EDITOR_ENDPOINT + `${this.resourceUrl}${competenceElementId}`);
   }
 
 }
