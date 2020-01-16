@@ -28,7 +28,7 @@ export class PrerequisiteSearchModalComponent implements OnInit {
   constructor(private modal: NgbActiveModal,
               private fb: FormBuilder,
               private i18nService: I18nService,
-              private prerequisiteRepository: PrerequisiteRepository,) {
+              private prerequisiteRepository: PrerequisiteRepository) {
   }
 
   ngOnInit() {
