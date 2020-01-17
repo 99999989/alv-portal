@@ -41,8 +41,8 @@ pipeline {
                     withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
 
                         sh '''
-                            ls -l
-                            mvn clean deploy --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
+                            ls -al
+                            mvn clean deploy --settings .mvn/wrapper/settings.xml -DskipTests -DskipITs=true
                         '''
                     }
 
