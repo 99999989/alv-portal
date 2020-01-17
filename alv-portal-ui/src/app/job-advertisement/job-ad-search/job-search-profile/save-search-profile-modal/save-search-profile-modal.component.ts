@@ -1,12 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JobAdSearchProfilesRepository } from '../../../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.repository';
 import { NotificationsService } from '../../../../core/notifications.service';
-import { catchError, flatMap, take, withLatestFrom } from 'rxjs/operators';
-import { EMPTY, throwError } from 'rxjs';
-import { select, Store } from '@ngrx/store';
-import { getJobSearchFilter, JobAdSearchState } from '../../state-management/state';
+import {
+  catchError,
+  flatMap,
+  take,
+  withLatestFrom
+} from 'rxjs/operators';
+import {
+  EMPTY,
+  throwError
+} from 'rxjs';
+import {
+  select,
+  Store
+} from '@ngrx/store';
+import {
+  getJobSearchFilter,
+  JobAdSearchState
+} from '../../state-management/state';
 import { getCurrentUser } from '../../../../core/state-management/state/core.state.ts';
 import { JobSearchProfileService } from '../job-search-profile.service';
 import {
@@ -48,6 +69,7 @@ export class SaveSearchProfileModalComponent implements OnInit {
         return this.jobAdSearchProfilesRepository.create(<CreateJobAdSearchProfile>{
           name: this.form.get('name').value,
           ownerUserId: currentUser.id,
+          authorities: currentUser.authorities,
           searchFilter: this.jobSearchProfileService.mapToRequest(jobSearchFilter),
         })
           .pipe(

@@ -897,6 +897,8 @@ portal.job-ad-search-profiles.delete-confirmation-modal.question,"Möchten Sie d
 portal.job-ad-search-profiles.delete-confirmation-modal.title,Suche löschen?,Delete search?,Supprimer la recherche?,Cancellare la ricerca?,
 portal.job-ad-search-profiles.delete-confirmation-modal.button.confirm,"Ja, löschen","Yes, delete","Oui, supprimer","Sì, cancellare",
 portal.job-ad-search-profiles.delete-confirmation-modal.button.cancel,Abbrechen,Cancel,Annuler,Annullare,
+portal.job-ad-search-profiles.job-alert.enable-button,Job-Alert aktivieren,Enable Job-Alert,Annuler,Annullare,
+portal.job-ad-search-profiles.job-alert.disable-button,Job-Alert deaktiveren,Disable Job-Alert,Annuler,Annullare,
 portal.job-ad-favourites.browser-title,Stellen-Merkliste,Saved jobs,Postes favoris,Favoriti dei posti,
 portal.job-ad-favourites.notification.favourite-added,Diese Stelle wurde in Ihrer Merkliste gespeichert.,This posting has been added to your saved jobs.,Cette offre d'emploi a été ajoutée à vos favoris.,Questo posto è stato salvato nei favoriti.,
 portal.job-ad-favourites.notification.favourite-removed,Diese Stelle wurde aus Ihrer Merkliste entfernt.,This job has been removed from your saved jobs.,Le poste a été supprimé de la liste des favoris.,Questo posto è stato eliminato dai favoriti,

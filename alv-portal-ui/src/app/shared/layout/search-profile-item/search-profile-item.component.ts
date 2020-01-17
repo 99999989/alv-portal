@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { SearchProfile } from '../../backend-services/shared.types';
 
 @Component({
@@ -14,6 +19,8 @@ export class SearchProfileItemComponent {
 
   @Output() deleted = new EventEmitter<SearchProfile>();
 
+  @Output() enabledJobAlert = new EventEmitter<SearchProfile>();
+
   constructor() {
   }
 
@@ -21,6 +28,12 @@ export class SearchProfileItemComponent {
     event.preventDefault();
     event.stopPropagation();
     this.deleted.emit(this.searchProfile);
+  }
+
+  enableJobAlert(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.enabledJobAlert.emit(this.searchProfile);
   }
 
 }
