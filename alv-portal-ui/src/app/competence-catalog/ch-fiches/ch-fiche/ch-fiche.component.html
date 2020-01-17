@@ -5,8 +5,6 @@
     prerequisiteActions: prerequisiteActions$ | async
   } as observables">
   <!--   Title-->
-  <pre>{{chFiche|json}}</pre>
-  <pre>{{prerequisites|json}}</pre>
   <div class="mb-2">
     <alv-interactive-list-item (itemClick)="editFicheName(isReadonly)"
                                *ngIf="chFiche.title; else noTitle"
