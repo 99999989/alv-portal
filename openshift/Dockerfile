@@ -2,7 +2,7 @@ FROM redhat-openjdk-18/openjdk18-openshift
 
 ARG ALV_USERNAME
 ARG ALV_PASSWORD
-ENV ARTIFACTORY_SERVER="https://alvch.jfrog.io/alvch" GROUP_ID="ch.admin.seco" ARTIFACT_ID="app-portal-webapp"
+ENV ARTIFACTORY_SERVER="https://alvch.jfrog.io/artifactory" GROUP_ID="ch.admin.seco" ARTIFACT_ID="app-portal-webapp"
 # TODO resolve hardcoded version
 ENV ARTIFACT_VERSION="0.0.0-SNAPSHOT"
 ENV JAVA_OPTS="-Xms384 -Xmx384m"
