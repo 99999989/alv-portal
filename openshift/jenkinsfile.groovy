@@ -29,37 +29,38 @@ pipeline {
         }
 
         stage('Exec Maven') {
-            steps {
-
+            environment {
                 withCredentials([usernamePassword(credentialsId: 'artiffactory-curator',
-                        passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
-
-                    sh '''
-                        echo "Use user: $ARTIFACTORY_USER"
-                        mvn clean deploy --settings .mvn/wrapper/settings.xml -DskipTests -DskipITs=true
-                    '''
-
-//                    withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
-//
-//
-//                    }
-
+                        passwordVariable: 'A_PASSWORD', usernameVariable: 'A_USER')]) {
+                    ARTIFACTORY_PASSWORD = $A_PASSWORD
+                    ARTIFACTORY_USER = $A_USER
                 }
+
+                withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'faToken')]) {
+                    FONTAWESOME_NPM_AUTH_TOKEN = $faToken
+                }
+            }
+
+            steps {
+                sh '''
+                        printenv | sort
+                        mvn clean deploy --settings .mvn/wrapper/settings.xml -DskipTests -DskipITs=true
+                '''
             }
         }
 
-//        stage('SonarQube') {
-//            steps {
-//                sh '''
-//                  mvn sonar:sonar --settings ./.mvn/wrapper/settings.xml  -Dsonar.projectKey=AlvPortal -Dsonar.host.url="$SONAR_SERVER" -Dsonar.login=$SONAR_LOGIN
-//                '''
-//            }
-//        }
+        stage('SonarQube') {
+            steps {
+                sh '''
+                  mvn sonar:sonar --settings ./.mvn/wrapper/settings.xml  -Dsonar.projectKey=AlvPortal -Dsonar.host.url="$SONAR_SERVER" -Dsonar.login=$SONAR_LOGIN
+                '''
+            }
+        }
 
         stage('Publish build info') {
             steps {
                 rtPublishBuildInfo(
-                    serverId: ARTIFACTORY_SERVER
+                        serverId: ARTIFACTORY_SERVER
                 )
             }
         }
