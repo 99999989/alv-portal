@@ -15,7 +15,7 @@ RUN yum install wget -y && yum clean all -y
 RUN mkdir -p /srv/jobroom/
 
 # Download the latest version of the artifact
-RUN wget -O /srv/jobroom/app-portal.jar "$ARTIFACTORY_SERVER/$REPO_ID/$(echo "$GROUP_ID" | sed 's/\./\//g')/$ARTIFACT_ID/$ARTIFACT_VERSION/$ARTIFACT_ID-$ARTIFACT_VERSION.jar"
+RUN wget -O /srv/jobroom/alv-portal.jar "$ARTIFACTORY_SERVER/$REPO_ID/$(echo "$GROUP_ID" | sed 's/\./\//g')/$ARTIFACT_ID/$ARTIFACT_VERSION/$ARTIFACT_ID-$ARTIFACT_VERSION.jar"
 
 WORKDIR /
 
