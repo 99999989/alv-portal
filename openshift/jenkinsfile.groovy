@@ -30,15 +30,9 @@ pipeline {
 
         stage('Exec Maven') {
             environment {
-                withCredentials([usernamePassword(credentialsId: 'artiffactory-curator',
-                        passwordVariable: 'A_PASSWORD', usernameVariable: 'A_USER')]) {
-                    ARTIFACTORY_PASSWORD = $A_PASSWORD
-                    ARTIFACTORY_USER = $A_USER
-                }
-
-                withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'faToken')]) {
-                    FONTAWESOME_NPM_AUTH_TOKEN = $faToken
-                }
+                ARTIFACTORY_PASSWORD = getArtifactoryPassword()
+                ARTIFACTORY_USER = getArtifactoryUser()
+                FONTAWESOME_NPM_AUTH_TOKEN = getFontAwesomeToken()
             }
 
             steps {
@@ -64,5 +58,25 @@ pipeline {
                 )
             }
         }
+    }
+}
+
+def getArtifactoryUser() {
+    withCredentials([usernamePassword(credentialsId: 'artiffactory-curator',
+            passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
+        return  ARTIFACTORY_USER
+    }
+}
+
+def getArtifactoryPassword() {
+    withCredentials([usernamePassword(credentialsId: 'artiffactory-curator',
+            passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
+        return ARTIFACTORY_PASSWORD
+    }
+}
+
+def getFontAwesomeToken() {
+    withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'faToken')]) {
+       return faToken
     }
 }
