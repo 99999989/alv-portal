@@ -31,7 +31,7 @@ pipeline {
         stage('Exec Maven') {
             steps {
 
-                withCredentials([usernamePassword(credentialsId: 'artifactory-deployer',
+                withCredentials([usernamePassword(credentialsId: 'artifactory-deploy',
                         passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
 
                     sh '''
