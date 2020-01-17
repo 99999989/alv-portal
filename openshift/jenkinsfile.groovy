@@ -36,15 +36,13 @@ pipeline {
 
                     sh '''
                         echo "Use user: $ARTIFACTORY_USER"
+                        mvn clean deploy --settings .mvn/wrapper/settings.xml -DskipTests -DskipITs=true
                     '''
 
-                    withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
-
-                        sh '''
-                            ls -al
-                            mvn clean deploy --settings .mvn/wrapper/settings.xml -DskipTests -DskipITs=true
-                        '''
-                    }
+//                    withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
+//
+//
+//                    }
 
                 }
             }
