@@ -62,14 +62,14 @@ pipeline {
 }
 
 def getArtifactoryUser() {
-    withCredentials([usernamePassword(credentialsId: 'artiffactory-curator',
+    withCredentials([usernamePassword(credentialsId: 'artifactory-deploy',
             passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
         return  ARTIFACTORY_USER
     }
 }
 
 def getArtifactoryPassword() {
-    withCredentials([usernamePassword(credentialsId: 'artiffactory-curator',
+    withCredentials([usernamePassword(credentialsId: 'artifactory-deploy',
             passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
         return ARTIFACTORY_PASSWORD
     }
