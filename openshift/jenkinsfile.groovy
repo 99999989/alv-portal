@@ -31,7 +31,7 @@ pipeline {
         stage('Exec Maven') {
             environment {
                 ARTIFACTORY_PASSWORD = getArtifactoryPassword()
-                ARTIFACTORY_USER = getArtifactoryUser()
+                ARTIFACTORY_USERNAME = getArtifactoryUser()
                 FONTAWESOME_NPM_AUTH_TOKEN = getFontAwesomeToken()
             }
 
