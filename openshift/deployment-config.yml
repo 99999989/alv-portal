@@ -64,7 +64,7 @@ items:
               app: alv-portal
           name: alv-portal
       spec:
-          host: alv-portal-TARGET.apps.admin.arbeitslosenkasse.ch
+          host: job-room-dev.apps.admin.arbeitslosenkasse.ch
           port:
               targetPort: 8080-tcp
           to:
@@ -77,6 +77,6 @@ items:
               - conditions:
                     - status: 'True'
                       type: Admitted
-                host: alv-portal-TARGET.apps.admin.arbeitslosenkasse.ch
+                host: job-room-dev.apps.admin.arbeitslosenkasse.ch
                 routerName: router
                 wildcardPolicy: None
