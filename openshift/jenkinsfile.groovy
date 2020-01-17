@@ -24,7 +24,6 @@ pipeline {
                 sh '''
                   echo "PATH = ${PATH}"
                   echo "MAVEN_HOME = ${MAVEN_HOME}"
-                  mvn --version
               '''
             }
         }
@@ -35,7 +34,9 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'artifactory-deployer',
                         passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
 
-                    sh 'echo "Use user: $ARTIFACTORY_USER"'
+                    sh '''
+                        echo "Use user: $ARTIFACTORY_USER"
+                    '''
 
                     withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
 
