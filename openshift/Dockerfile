@@ -6,7 +6,7 @@ ENV ARTIFACTORY_SERVER="https://alvch.jfrog.io/artifactory" GROUP_ID="ch.admin.s
 ENV REPO_ID="libs-snapshots-local"
 # TODO resolve hardcoded version
 ENV ARTIFACT_VERSION="0.0.0-SNAPSHOT"
-ENV JAVA_OPTS="-Xms384 -Xmx384m"
+ENV JAVA_OPTS="-Xms384m -Xmx384m"
 
 USER root
 
