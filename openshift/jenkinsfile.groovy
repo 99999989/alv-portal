@@ -32,12 +32,15 @@ pipeline {
         stage('Exec Maven') {
             steps {
 
-                withCredentials([usernamePassword(credentialsId: 'artiffactory-curator',
+                withCredentials([usernamePassword(credentialsId: 'artifactory-deployer',
                         passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
+
+                    sh 'echo "Use user: $ARTIFACTORY_USER"'
 
                     withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
 
                         sh '''
+                            ls -l
                             mvn clean deploy --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
                         '''
                     }
