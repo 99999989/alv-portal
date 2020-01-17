@@ -32,7 +32,7 @@ pipeline {
         stage('Exec Maven') {
             steps {
 
-                withCredentials([usernamePassword(credentialsId: 'artifactory-deploy',
+                withCredentials([usernamePassword(credentialsId: 'artiffactory-curator',
                         passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
 
                     withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
