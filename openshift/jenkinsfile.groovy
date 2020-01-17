@@ -29,43 +29,20 @@ pipeline {
             }
         }
 
-        stage('Artifactory configuration') {
-            steps {
-                rtServer(
-                    id: ARTIFACTORY_SERVER,
-                    url: SERVER_URL,
-                    credentialsId: CREDENTIALS
-                )
-
-                rtMavenDeployer(
-                    id: "MAVEN_DEPLOYER",
-                    serverId: ARTIFACTORY_SERVER,
-                    releaseRepo: "libs-releases-local",
-                    snapshotRepo: "libs-snapshots-local"
-                )
-
-                rtMavenResolver(
-                    id: "MAVEN_RESOLVER",
-                    serverId: ARTIFACTORY_SERVER,
-                    releaseRepo: "libs-releases-ocp",
-                    snapshotRepo: "libs-snapshots"
-                )
-            }
-        }
-
         stage('Exec Maven') {
             steps {
 
-                withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'artifactory-deploy',
+                        passwordVariable: 'ARTIFACTORY_PASSWORD', usernameVariable: 'ARTIFACTORY_USER')]) {
 
-                    rtMavenRun(
-                            pom: 'pom.xml',
-                            goals: 'install package -DskipTests -DskipITs=true',
-                            deployerId: "MAVEN_DEPLOYER",
-                            resolverId: "MAVEN_RESOLVER"
-                    )
+                    withCredentials([string(credentialsId: 'font-awesome-pro', variable: 'FONTAWESOME_NPM_AUTH_TOKEN')]) {
+
+                        sh '''
+                            mvn clean deploy --settings ./.mvn/wrapper/settings.xml -DskipTests -DskipITs=true
+                        '''
+                    }
+
                 }
-
             }
         }
 
