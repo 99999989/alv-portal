@@ -9,6 +9,8 @@ import {
 } from './prerequisite.types';
 import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
+import { KkRoleConditionRoutingService } from '../kk-role-condition-routing.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class PrerequisiteRepository implements SearchService<Prerequisite> {
@@ -19,22 +21,31 @@ export class PrerequisiteRepository implements SearchService<Prerequisite> {
 
   private readonly findUrl = `${this.resourceUrl}_find`;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              public roleConditionRoutingService: KkRoleConditionRoutingService) {
   }
 
   findById(id: string): Observable<Prerequisite> {
-    return this.http.get<Prerequisite>(this.resourceUrl + id);
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(
+        endpoint => this.http.get<Prerequisite>(this.resourceUrl + id))
+    );
   }
 
   findByIds(ids: string[]): Observable<Prerequisite[]> {
-    return this.http.post<Prerequisite[]>(`${this.findUrl}/byIds`, ids);
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(
+        endpoint => this.http.post<Prerequisite[]>(`${this.findUrl}/byIds`, ids))
+    );
   }
 
   search(request: PagedSearchRequest): Observable<Page<Prerequisite>> {
+
     const params = createPageableURLSearchParams(request);
-    return this.http.post<Page<Prerequisite>>(this.searchUrl, request.body, {
-      params
-    });
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(
+        endpoint => this.http.post<Page<Prerequisite>>(this.searchUrl, request.body, { params }))
+    );
   }
 
   create(prerequisite: CreatePrerequisite): Observable<Prerequisite> {
