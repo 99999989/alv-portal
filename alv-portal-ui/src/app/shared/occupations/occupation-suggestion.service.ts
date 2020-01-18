@@ -1,12 +1,7 @@
-import {
-  forkJoin,
-  Observable,
-  of
-} from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import {
   OccupationLabelRepository,
   OccupationTypes,
-  REFERENCE_SERVICE_API_VERSION
 } from '../backend-services/reference-service/occupation-label.repository';
 import { Injectable } from '@angular/core';
 import {
@@ -36,10 +31,10 @@ export class OccupationSuggestionService {
     return forkJoin(occupations.map((o) => this.translate(o, language)));
   }
 
-  translate(occupation: OccupationTypeaheadItem, language: string, apiVersion = REFERENCE_SERVICE_API_VERSION.V_1): Observable<OccupationTypeaheadItem> {
+  translate(occupation: OccupationTypeaheadItem, language: string): Observable<OccupationTypeaheadItem> {
     const occupationCode = this.translateableOccupationCode(occupation);
     if (occupationCode) {
-      return this.occupationLabelRepository.getOccupationLabelsByKey(occupationCode.type, occupationCode.value, language, apiVersion).pipe(
+      return this.occupationLabelRepository.getOccupationLabelsByKey(occupationCode.type, occupationCode.value, language).pipe(
         map((label) => {
           return new OccupationTypeaheadItem(<OccupationTypeaheadItemType>occupation.type, occupation.payload, label.default, occupation.order);
         })
@@ -61,16 +56,13 @@ export class OccupationSuggestionService {
   }
 
   fetchCompetenceCatalogOccupations(query: string, occupationTypes: OccupationTypes[]): Observable<Array<OccupationTypeaheadItem>> {
-    return this.fetch(query, occupationTypes, this.toCompetenceCatalogOccupationCode, REFERENCE_SERVICE_API_VERSION.V_2).pipe(
+    return this.fetch(query, occupationTypes, this.toCompetenceCatalogOccupationCode).pipe(
       map(occupations => occupations.map(o => Object.assign(o, { label: o.label + ' (' + o.payload.type + '-' + o.payload.value + ')' }))));
   }
 
-  /**
-   * @param apiVersion todo remove as soon as we have only 1 copy of reference service
-   */
-  private fetch(query: string, occupationTypes: OccupationTypes[], occupationMapping: OccupationLabelSuggestionMapper, apiVersion = REFERENCE_SERVICE_API_VERSION.V_1)
+  private fetch(query: string, occupationTypes: OccupationTypes[], occupationMapping: OccupationLabelSuggestionMapper)
     : Observable<OccupationTypeaheadItem[]> {
-    return this.occupationLabelRepository.suggestOccupations(query, occupationTypes, apiVersion)
+    return this.occupationLabelRepository.suggestOccupations(query, occupationTypes)
       .pipe(
         map((occupationLabelAutocomplete) => {
           const occupationItems = occupationLabelAutocomplete.occupations
