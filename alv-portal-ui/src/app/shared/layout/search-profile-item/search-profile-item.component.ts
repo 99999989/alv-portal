@@ -4,7 +4,7 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { SearchProfile } from '../../backend-services/shared.types';
+import { JobAdSearchProfileResult } from '../../backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 
 @Component({
   selector: 'alv-search-profile-item',
@@ -15,11 +15,11 @@ export class SearchProfileItemComponent {
 
   @Input() baseRouterLink: string; // e.g. '/job-search'
 
-  @Input() searchProfile: SearchProfile;
+  @Input() searchProfile: JobAdSearchProfileResult;
 
-  @Output() deleted = new EventEmitter<SearchProfile>();
+  @Output() deleted = new EventEmitter<JobAdSearchProfileResult>();
 
-  @Output() enabledJobAlert = new EventEmitter<SearchProfile>();
+  @Output() enabledJobAlert = new EventEmitter<JobAdSearchProfileResult>();
 
   constructor() {
   }

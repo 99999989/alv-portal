@@ -20,12 +20,14 @@ import { CompanyContactManagementComponent } from './user-settings/company-conta
 import { UploadProgressbarComponent } from './progress/upload-progressbar/upload-progressbar.component';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedAppContextModule } from './app-context/shared-app-context.module';
+import { JobAlertModalComponent } from './layout/search-profile-item/jobalert-modal/jobalert-modal.component';
 
 @NgModule({
   declarations: [
     DummyComponent,
     LegalTermsDirective,
     LegalTermsModalComponent,
+    JobAlertModalComponent,
     GATrackingEventDirective,
     UserSettingsComponent,
     CompanyContactManagementComponent,
@@ -45,7 +47,8 @@ import { SharedAppContextModule } from './app-context/shared-app-context.module'
     NgbProgressbarModule
   ],
   entryComponents: [
-    LegalTermsModalComponent
+    LegalTermsModalComponent,
+    JobAlertModalComponent
   ],
   exports: [
     CommonModule,

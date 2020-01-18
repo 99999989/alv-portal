@@ -28,7 +28,8 @@
       class="d-block"
       [searchProfile]="jobSearchProfile"
         baseRouterLink="/job-search"
-        (deleted)="onDeleteProfile($event)">
+        (deleted)="onDeleteProfile($event)"
+        (enabledJobAlert)="onJobAlertEnabled($event)">
       </alv-search-profile-item>
 
 

@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -37,6 +42,11 @@ export class ModalComponent {
    * (optional) attribute to set visibility of primary action, default true
    */
   @Input() showPrimaryButton = true;
+
+  /**
+   * (optional) attribute to set visibility of secondary action, default true
+   */
+  @Input() showSecondaryButton = true;
 
   /**
    * (optional) attribute to set disabled state of primary action

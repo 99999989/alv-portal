@@ -9,6 +9,7 @@ import {
   CreateJobAdSearchProfile,
   JobAdSearchProfileResult,
   JobAdSearchProfilesSearchResponse,
+  JobAlertDto,
   ResolvedJobAdSearchProfile,
   UpdateJobAdSearchProfile
 } from './job-ad-search-profiles.types';
@@ -17,6 +18,8 @@ import {
 export class JobAdSearchProfilesRepository {
 
   private readonly resourceUrl = '/jobadservice/api/searchProfiles';
+
+  private readonly resourceUrlJobAlert = '/jobadservice/api/searchProfiles/jobalert';
 
   private readonly searchUrl = `${this.resourceUrl}/_search`;
 
@@ -51,6 +54,14 @@ export class JobAdSearchProfilesRepository {
   }
 
   findById(id: string): Observable<ResolvedJobAdSearchProfile> {
+    return this.http.get<ResolvedJobAdSearchProfile>(`${this.resourceUrl}/${id}`);
+  }
+
+  enableJobAlert(jobAlert: JobAlertDto): Observable<JobAdSearchProfileResult> {
+    return this.http.post<JobAdSearchProfileResult>(`${this.resourceUrlJobAlert}/${jobAlert.searchProfileId}`, jobAlert);
+  }
+
+  disableJobAlert(id: string): Observable<ResolvedJobAdSearchProfile> {
     return this.http.get<ResolvedJobAdSearchProfile>(`${this.resourceUrl}/${id}`);
   }
 

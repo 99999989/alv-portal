@@ -6,6 +6,13 @@
     {{searchProfile.name}}
   </div>
   <div class="flex-grow-1"></div>
+  <button *ngIf="searchProfile.jobAlert"
+    class="btn btn-toggle-icon"
+          (click)="enableJobAlert($event)"
+          [attr.title]="'portal.job-ad-search-profiles.job-alert.enable-button' | translate">
+    <fa-icon [fixedWidth]="true"
+             [icon]="['fas', 'envelope']"></fa-icon>
+  </button>
   <button class="btn btn-toggle-icon"
           (click)="enableJobAlert($event)"
           [attr.title]="'portal.job-ad-search-profiles.job-alert.enable-button' | translate">

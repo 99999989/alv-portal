@@ -37,6 +37,19 @@ export interface JobAdSearchProfileResult {
   id?: string;
   name: string;
   createdTime?: Date;
+  jobAlert?: JobAlertDto;
+}
+
+export interface JobAlertDto {
+  searchProfileId: string;
+  currentLanguage: string;
+  email: string;
+  interval: Interval;
+}
+export enum Interval {
+  INT_1DAY = 'INT_1DAY',
+  INT_3DAY = 'INT_3DAY',
+  INT_5DAY = 'INT_5DAY',
 }
 
 export interface ResolvedJobSearchFilter {
