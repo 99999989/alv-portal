@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ProofOfWorkEfforts, ProofOfWorkEffortsSearchRequest, WorkEffort } from './proof-of-work-efforts.types';
 import { map } from 'rxjs/operators';
 import { Page } from '../shared.types';
-import { createPageableURLSearchParams } from "../request-util";
+import { createPageableURLSearchParams } from '../request-util';
 
 @Injectable({ providedIn: 'root' })
 export class ProofOfWorkEffortsRepository {

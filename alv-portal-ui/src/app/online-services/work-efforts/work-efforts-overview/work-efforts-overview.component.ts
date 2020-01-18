@@ -24,7 +24,7 @@ import {
 import { I18nService } from '../../../core/i18n.service';
 import { Languages } from '../../../core/languages.constants';
 import { ProofOfWorkEffortsModel } from './proof-of-work-efforts/proof-of-work-efforts.model';
-import { DEFAULT_PAGE_SIZE } from "../../../shared/backend-services/request-util";
+import { DEFAULT_PAGE_SIZE } from '../../../shared/backend-services/request-util';
 
 @Component({
   selector: 'alv-work-efforts-overview',
