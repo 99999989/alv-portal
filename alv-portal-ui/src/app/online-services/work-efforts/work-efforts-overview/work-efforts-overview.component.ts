@@ -11,7 +11,7 @@ import {
   initialWorkEffortsFilter,
   WorkEffortApplyStatusFilter,
   WorkEffortsFilter,
-  WorkEffortsFilterPeriod,
+  WorkEffortsControlPeriodFilter,
   WorkEffortsFilterValues
 } from './work-efforts-overview-filter.types';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
@@ -24,6 +24,7 @@ import {
 import { I18nService } from '../../../core/i18n.service';
 import { Languages } from '../../../core/languages.constants';
 import { ProofOfWorkEffortsModel } from './proof-of-work-efforts/proof-of-work-efforts.model';
+import { DEFAULT_PAGE_SIZE } from "../../../shared/backend-services/request-util";
 
 @Component({
   selector: 'alv-work-efforts-overview',
@@ -37,7 +38,7 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   readonly SEARCH_QUERY_MIN_LENGTH = 3;
 
   readonly FILTER_RESET_VALUES = {
-    period: WorkEffortsFilterPeriod.ALL_MONTHS,
+    period: WorkEffortsControlPeriodFilter.ALL_MONTHS,
     workEffortResult: WorkEffortApplyStatusFilter.ALL
   };
 
@@ -69,6 +70,7 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
     this.currentBadges = this.workEffortsOverviewFilterBadgesMapper.mapFilterBadges(value);
     this._currentFilter = value;
   }
+
   constructor(private fb: FormBuilder,
               private modalService: ModalService,
               private authenticationService: AuthenticationService,
@@ -98,17 +100,29 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
       map(language => language === Languages.EN)
     );
 
-    this.onScroll();
+    this.loadItems();
   }
 
-  onScroll() {
+  loadItems() {
     this.authenticationService.getCurrentUser().pipe(
       filter(user => !!user),
-      flatMap(user => this.proofOfWorkEffortsRepository.findByOwnerUserId(user.id, this.page++)),
+      flatMap(user => this.proofOfWorkEffortsRepository.search({
+          page: this.page++,
+          size: DEFAULT_PAGE_SIZE,
+          body: {...this.currentFilter, ownerUserId: user.id}
+        }
+      )),
+      map(response => response.content),
       map(proofOfWorkEffortsList => proofOfWorkEffortsList.map(proofOfWorkEfforts => new ProofOfWorkEffortsModel(proofOfWorkEfforts)))
     ).subscribe(proofOfWorkEffortsModels => {
       this.proofOfWorkEffortsModels = [...(this.proofOfWorkEffortsModels || []), ...proofOfWorkEffortsModels];
     });
+  }
+
+  reload() {
+    this.page = 0;
+    this.proofOfWorkEffortsModels = [];
+    this.loadItems();
   }
 
   reloadProofOfWorkEfforts(proofOfWorkEffortsModel: ProofOfWorkEffortsModel) {
@@ -140,10 +154,10 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   private applyFilter(newFilter: WorkEffortsFilterValues) {
     this.currentFilter = {
       ...this.currentFilter,
-      period: newFilter.period,
-      workEffortResult: newFilter.workEffortResult
+      controlPeriod: newFilter.controlPeriod,
+      applyStatus: newFilter.applyStatus
     };
-    // TODO: call search/filter endpoint
+    this.reload();
   }
 
   private applyQuery(newQuery: string) {
@@ -151,6 +165,6 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
       ...this.currentFilter,
       query: newQuery
     };
-    // TODO: call search/filter endpoint
+    this.reload();
   }
 }

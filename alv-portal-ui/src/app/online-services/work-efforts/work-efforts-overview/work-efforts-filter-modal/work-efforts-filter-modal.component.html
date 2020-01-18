@@ -6,14 +6,14 @@
            primaryLabel="entity.action.ok">
   <fieldset>
     <alv-select
-      [alvControl]="form.get('period')"
-      [options$]="periodOptions$"
-      label="portal.work-efforts.filter-modal.period.label">
+      [alvControl]="form.get('controlPeriod')"
+      [options$]="controlPeriodOptions$"
+      label="portal.work-efforts.filter-modal.control-period.label">
     </alv-select>
     <alv-select
-      [alvControl]="form.get('workEffortResult')"
-      [options$]="workEffortResultOptions$"
-      label="portal.work-efforts.filter-modal.result.label">
+      [alvControl]="form.get('applyStatus')"
+      [options$]="applyStatusOptions$"
+      label="portal.work-efforts.filter-modal.apply-status.label">
     </alv-select>
   </fieldset>
 </alv-modal>
