@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProofOfWorkEfforts, ProofOfWorkEffortsSearchRequest, WorkEffort } from './proof-of-work-efforts.types';
+import { ProofOfWorkEfforts, WorkEffort } from './proof-of-work-efforts.types';
 import { map } from 'rxjs/operators';
 import { Page } from '../shared.types';
-import { createPageableURLSearchParams } from '../request-util';
+import {createPageableURLSearchParams, PagedSearchRequest} from '../request-util';
 
 @Injectable({ providedIn: 'root' })
 export class ProofOfWorkEffortsRepository {
@@ -18,7 +18,7 @@ export class ProofOfWorkEffortsRepository {
   constructor(private http: HttpClient) {
   }
 
-  search(request: ProofOfWorkEffortsSearchRequest): Observable<Page<ProofOfWorkEfforts>> {
+  search(request: PagedSearchRequest): Observable<Page<ProofOfWorkEfforts>> {
     const params = createPageableURLSearchParams(request);
     return this.http.post<Page<ProofOfWorkEfforts>>(this.searchUrl, request.body, {
       params
