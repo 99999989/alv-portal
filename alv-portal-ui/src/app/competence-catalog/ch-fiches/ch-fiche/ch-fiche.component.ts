@@ -214,7 +214,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     (<CompetenceSetSearchModalComponent>modalRef.componentInstance).existingSetIds = this.chFiche.competences.map(competence => competence.competenceSetId);
     modalRef.result
       .then((competenceSet: CompetenceSetSearchResult) => {
-        this.addCompetence(competenceType, competenceSet);
+        this.addCompetence(competenceType, competenceSet.id);
       })
       .catch(() => {
       });
@@ -287,10 +287,10 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  private addCompetence(competenceType: CompetenceType, competenceSet: CompetenceSetSearchResult) {
+  private addCompetence(competenceType: CompetenceType, competenceSetId: string) {
     this.chFiche.competences.push({
       type: competenceType,
-      competenceSetId: competenceSet.id
+      competenceSetId: competenceSetId
     });
     this.loadCompetences(competenceType).subscribe(result => {
       this.collapsed[competenceType] = false;
@@ -302,14 +302,14 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     const modalRef = this.modalService.openMedium(CompetenceSetInFicheSettingsModalComponent);
     (<CompetenceSetInFicheSettingsModalComponent>modalRef.componentInstance).competenceType = competenceType;
     modalRef.result.then((newCompetenceType: CompetenceType) => {
-      this.setNewCompetenceTypeToCompetenceSet(newCompetenceType, competenceType, competenceSet);
+      this.setNewCompetenceTypeToCompetenceSet(newCompetenceType, competenceType, competenceSet.id);
     });
   }
 
-  private setNewCompetenceTypeToCompetenceSet(newCompetenceType: CompetenceType, competenceType: CompetenceType, competenceSet: CompetenceSetSearchResult) {
-    if (!(newCompetenceType === competenceType)) {
-      this.unlinkCompetence(this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSet.id), competenceType);
-      this.addCompetence(newCompetenceType, competenceSet);
+  private setNewCompetenceTypeToCompetenceSet(newType: CompetenceType, oldType: CompetenceType, competenceSetId: string) {
+    if (!(newType === oldType)) {
+      this.unlinkCompetence(this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSetId), oldType);
+      this.addCompetence(newType, competenceSetId);
     }
   }
 
