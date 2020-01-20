@@ -1211,6 +1211,7 @@ portal.competence-catalog.competence-sets.actions.search-and-add,Suchen & Hinzuf
 portal.competence-catalog.competence-sets.actions.unlink,Verknüpfung aufheben,Remove link,Annuler la connexion,Sopprimere collegamento,
 portal.competence-catalog.competence-sets.overview.competence-set-panel-header,Kompetenz-Set,Skill set,Ensemble de compétences,Set di competenze,
 portal.competence-catalog.competence-sets.overview.header,Kompetenz-Sets,Skill sets,Ensembles de compétences,Set di competenze,
+portal.competence-catalog.competence-sets.overview.settings,Einstellungen,Settings,Paramètres,Impostazioni,
 portal.competence-catalog.competence-sets.overview.search-label,"Suche nach Handlungswissen, ID Handlungswissen, ID Kompetenz-Set","Search by know-how, know-how ID, skill set ID","Recherche par savoirs-faire, ID savoirs-faire, ID ensemble de compétences","Ricerca per competenze operative, ID competenze operative, ID set di competenze",
 portal.competence-catalog.competence-sets.overview.usage.title,Verwendung in folgenden CH Fiches,Use in following CH Fiches,Utilisation dans les fiches CH suivantes,Uso nelle seguenti Fiche CH,
 portal.competence-catalog.competence-sets.overview.backlink,Verknüpfung ansehen,View link,Voir la connexion,Visualizzare collegamento,
