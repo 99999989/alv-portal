@@ -80,29 +80,29 @@ export class WorkEffortModel {
 
     if (applyStatus.includes(WorkEffortApplyStatus.INTERVIEW)) {
       badges.push({
-        cssClass: 'badge-work-effort-result-interview',
-        label: 'portal.work-efforts.work-effort-result.' + WorkEffortApplyStatus.INTERVIEW
+        cssClass: 'badge-work-effort-apply-status-interview',
+        label: 'portal.work-efforts.apply-status.' + WorkEffortApplyStatus.INTERVIEW
       });
     }
 
     if (applyStatus.includes(WorkEffortApplyStatus.EMPLOYED)) {
       badges.push({
-        cssClass: 'badge-work-effort-result-employed',
-        label: 'portal.work-efforts.work-effort-result.' + WorkEffortApplyStatus.EMPLOYED
+        cssClass: 'badge-work-effort-apply-status-employed',
+        label: 'portal.work-efforts.apply-status.' + WorkEffortApplyStatus.EMPLOYED
       });
     }
 
     if (applyStatus.includes(WorkEffortApplyStatus.PENDING)) {
       badges.push({
-        cssClass: 'badge-work-effort-result-pending',
-        label: 'portal.work-efforts.work-effort-result.' + WorkEffortApplyStatus.PENDING
+        cssClass: 'badge-work-effort-apply-status-pending',
+        label: 'portal.work-efforts.apply-status.' + WorkEffortApplyStatus.PENDING
       });
     }
 
     if (applyStatus.includes(WorkEffortApplyStatus.REJECTED)) {
       badges.push({
-        cssClass: 'badge-work-effort-result-rejected',
-        label: 'portal.work-efforts.work-effort-result.' + WorkEffortApplyStatus.REJECTED
+        cssClass: 'badge-work-effort-apply-status-rejected',
+        label: 'portal.work-efforts.apply-status.' + WorkEffortApplyStatus.REJECTED
       });
     }
     return badges;
