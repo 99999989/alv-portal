@@ -303,6 +303,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     (<CompetenceSetInFicheSettingsModalComponent>modalRef.componentInstance).competenceType = competenceType;
     modalRef.result.then((newCompetenceType: CompetenceType) => {
       this.setNewCompetenceTypeToCompetenceSet(newCompetenceType, competenceType, competenceSet.id);
+    }).catch(() => {
     });
   }
 
