@@ -1,32 +1,22 @@
 <alv-modal (cancelAction)="cancel()"
            (primaryAction)="submit()"
            [cancelLabel]="isReadonly ? 'entity.action.back' : 'portal.global.cancel'"
-           [showPrimaryButton]="!isReadonly"
+           [formGroup]="form"
            [modalTitle]="modalTitle"
-           primaryLabel="portal.global.save"
-           [formGroup]="form">
-
-  <fieldset>
-    <legend *ngIf="!isEdit">{{'portal.competence-catalog.competence-elements.add-modal.what-to-enter-label' | translate}}</legend>
-    <alv-select alvFormControlName="type"
-                label="portal.competence-catalog.competence-elements.add-modal.type"
-                [autofocus]="true"
-                [readonly]="isEdit"
-                [options$]="typeOptions$">
-    </alv-select>
-  </fieldset>
+           [showPrimaryButton]="!isReadonly"
+           primaryLabel="portal.global.save">
 
   <fieldset formGroupName="description">
-    <legend>{{'portal.competence-catalog.competence-elements.add-modal.one-component-per-lang-label' | translate}}</legend>
+    <legend>{{'portal.competence-catalog.prerequisites.add-modal.one-component-per-lang-label' | translate}}</legend>
     <ng-container *ngFor="let formField of ['de','fr','it','en']">
-      <alv-input-field label="portal.competence-catalog.competence-elements.add-modal.title-{{formField}}"
-                       [alvFormControlName]="formField"
+      <alv-input-field [alvFormControlName]="formField"
                        [attr.data-test]="formField+'-description-input'"
+                       [multilineMinRows]="1"
                        [multiline]="true"
                        [readonly]="isReadonly"
-                       [multilineMinRows]="1"
                        [showGroupErrors]="true"
                        [validationMessages]="[{ error: 'atLeastOneRequired', message: 'global.common-phrases.at-least-one-required' }]"
+                       label="portal.competence-catalog.prerequisites.add-modal.title-{{formField}}"
       >
       </alv-input-field>
     </ng-container>
@@ -34,13 +24,13 @@
   <ng-container *ngIf="isCompetenceCatalogEditor$|async">
     <alv-radio-button [options$]="publishedRadioButtonOptions$"
                       [readonly]="isReadonly"
-                      alvFormControlName="published"
                       [label]="'portal.competence-catalog.publication-status' | translate"
+                      alvFormControlName="published"
     ></alv-radio-button>
     <alv-radio-button [options$]="draftRadioButtonOptions$"
                       [readonly]="isReadonly"
-                      alvFormControlName="draft"
                       [label]="'portal.competence-catalog.draft-status' | translate"
+                      alvFormControlName="draft"
     ></alv-radio-button>
     <alv-checkbox *ngIf="!isReadonly && !isEdit"
                   [alvControl]="createAnotherFormControl"

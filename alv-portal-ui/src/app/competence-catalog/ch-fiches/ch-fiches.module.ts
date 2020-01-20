@@ -13,6 +13,7 @@ import { OccupationSearchModalComponent } from './occupation-search-modal/occupa
 import { ChFicheTitleModalComponent } from './ch-fiche-title-modal/ch-fiche-title-modal.component';
 import { ChFicheDescriptionModalComponent } from './ch-fiche-description-modal/ch-fiche-description-modal.component';
 import { CompetenceSetInFicheSettingsModalComponent } from './ch-fiche/competence-set-in-fiche-settings-modal/competence-set-in-fiche-settings-modal.component';
+import { PrerequisiteSearchModalComponent } from './prerequisite-search-modal/prerequisite-search-modal.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { CompetenceSetInFicheSettingsModalComponent } from './ch-fiche/competenc
     OccupationSearchModalComponent,
     ChFicheTitleModalComponent,
     ChFicheDescriptionModalComponent,
+    PrerequisiteSearchModalComponent,
     CompetenceSetInFicheSettingsModalComponent
   ],
   entryComponents: [
@@ -37,6 +39,7 @@ import { CompetenceSetInFicheSettingsModalComponent } from './ch-fiche/competenc
     OccupationSearchModalComponent,
     ChFicheTitleModalComponent,
     ChFicheDescriptionModalComponent,
+    PrerequisiteSearchModalComponent,
     CompetenceSetInFicheSettingsModalComponent
   ],
   providers: [

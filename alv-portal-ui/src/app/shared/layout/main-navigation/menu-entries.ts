@@ -93,6 +93,13 @@ export const CC_MAIN_MENU_ENTRIES: MenuEntry[] = [
     userPredicate: isAnyUser
   },
   {
+    id: 'prerequisites',
+    iconProp: ['far', 'ballot-check'],
+    labelKey: 'portal.competence-catalog.menu-entries.prerequisites',
+    path: ['kk', 'prerequisites'],
+    userPredicate: isAnyUser
+  },
+  {
     id: 'competence-elements',
     iconProp: ['fas', 'list-ul'],
     labelKey: 'portal.competence-catalog.menu-entries.competence-elements',
