@@ -202,32 +202,44 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     });
   }
 
-  unlinkCompetence(type: CompetenceType, index: number) {
-    this.openUnlinkConfirmModal().then(result => {
-      this.chFiche.competences.splice(index, 1);
-      this.loadCompetences(type)
-        .subscribe(() => {
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
-        });
+  openUnlinkCompetenceModal(type: CompetenceType, index: number) {
+    this.openUnlinkConfirmModal().then(() => {
+      this.unlinkCompetence(index, type);
     }).catch(err => {
     });
   }
 
-  addCompetence(competenceType: CompetenceType) {
+  openAddCompetenceModal(competenceType: CompetenceType) {
     const modalRef = this.modalService.openMedium(CompetenceSetSearchModalComponent);
     (<CompetenceSetSearchModalComponent>modalRef.componentInstance).existingSetIds = this.chFiche.competences.map(competence => competence.competenceSetId);
     modalRef.result
-      .then((competenceSet) => {
-        this.chFiche.competences.push({
-          type: competenceType,
-          competenceSetId: competenceSet.id
-        });
-        this.loadCompetences(competenceType).subscribe(result => {
-          this.collapsed[competenceType] = false;
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-competence-set-success-notification');
-        });
+      .then((competenceSet: CompetenceSetSearchResult) => {
+        this.addCompetence(competenceType, competenceSet);
       })
       .catch(() => {
+      });
+  }
+
+  handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceType: CompetenceType, competenceSet?: CompetenceSetSearchResult) {
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openSetBacklinkModal(competenceSet);
+    }
+    if (action === CompetenceCatalogAction.LINK) {
+      this.openAddCompetenceModal(competenceType);
+    }
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.openUnlinkCompetenceModal(competenceType, this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSet.id));
+    }
+    if (action === CompetenceCatalogAction.SETTINGS) {
+      this.openSettingsModal(competenceSet, competenceType);
+    }
+  }
+
+  private unlinkCompetence(index: number, type: CompetenceType) {
+    this.chFiche.competences.splice(index, 1);
+    this.loadCompetences(type)
+      .subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
       });
   }
 
@@ -275,23 +287,30 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceType: CompetenceType, competenceSet?: CompetenceSetSearchResult) {
-    if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openSetBacklinkModal(competenceSet);
-    }
-    if (action === CompetenceCatalogAction.LINK) {
-      this.addCompetence(competenceType);
-    }
-    if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkCompetence(competenceType, this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSet.id));
-    }
-    if (action === CompetenceCatalogAction.SETTINGS) {
-      this.openSettingsModal(competenceSet);
-    }
+  private addCompetence(competenceType: CompetenceType, competenceSet: CompetenceSetSearchResult) {
+    this.chFiche.competences.push({
+      type: competenceType,
+      competenceSetId: competenceSet.id
+    });
+    this.loadCompetences(competenceType).subscribe(result => {
+      this.collapsed[competenceType] = false;
+      this.notificationsService.success('portal.competence-catalog.ch-fiches.added-competence-set-success-notification');
+    });
   }
 
-  private openSettingsModal(competenceSet?: CompetenceSetSearchResult) {
-    this.modalService.openMedium(CompetenceSetInFicheSettingsModalComponent);
+  private openSettingsModal(competenceSet: CompetenceSetSearchResult, competenceType: CompetenceType) {
+    const modalRef = this.modalService.openMedium(CompetenceSetInFicheSettingsModalComponent);
+    (<CompetenceSetInFicheSettingsModalComponent>modalRef.componentInstance).competenceType = competenceType;
+    modalRef.result.then((newCompetenceType: CompetenceType) => {
+      this.setNewCompetenceTypeToCompetenceSet(newCompetenceType, competenceType, competenceSet);
+    });
+  }
+
+  private setNewCompetenceTypeToCompetenceSet(newCompetenceType: CompetenceType, competenceType: CompetenceType, competenceSet: CompetenceSetSearchResult) {
+    if (!(newCompetenceType === competenceType)) {
+      this.unlinkCompetence(this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSet.id), competenceType);
+      this.addCompetence(newCompetenceType, competenceSet);
+    }
   }
 
   private updateOccupationLabels(occupations: Occupation[]): Observable<ResolvedOccupation[]> {
@@ -430,6 +449,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent);
     (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = this.prerequisites[index];
   }
+
 }
 
 interface ResolvedOccupation {
