@@ -38,8 +38,8 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   readonly SEARCH_QUERY_MIN_LENGTH = 3;
 
   readonly FILTER_RESET_VALUES = {
-    period: WorkEffortsControlPeriodFilter.ALL_MONTHS,
-    workEffortResult: WorkEffortApplyStatusFilter.ALL
+    controlPeriod: WorkEffortsControlPeriodFilter.ALL_MONTHS,
+    applyStatus: WorkEffortApplyStatusFilter.ALL
   };
 
   englishNotSupportedNotification = {
@@ -93,6 +93,8 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
       .subscribe(value => {
         if (value.length >= this.SEARCH_QUERY_MIN_LENGTH) {
           this.applyQuery(value);
+        } else {
+          this.applyQuery(null);
         }
       });
 
@@ -149,6 +151,7 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
     const newFilter = { ...this.currentFilter };
     newFilter[badge.key] = this.FILTER_RESET_VALUES[badge.key];
     this.currentFilter = newFilter;
+    this.reload();
   }
 
   private applyFilter(newFilter: WorkEffortsFilterValues) {
