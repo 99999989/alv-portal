@@ -1,6 +1,6 @@
 @import "../common/colors";
 
-.badge-work-effort-result-employed {
+.badge-work-effort-apply-status-employed {
   background-color: $color-green;
   color: $color-white;
   .remove-button {
@@ -27,7 +27,7 @@
 .badge-availability,
 .badge-manage-jobads-filter,
 .badge-user-pav-or-emp,
-.badge-work-effort-period {
+.badge-work-effort-control-period {
   background-color: $color-light-yellow;
 }
 
@@ -39,16 +39,16 @@
 
 .badge-workload,
 .badge-job-experience,
-.badge-work-effort-result-pending {
+.badge-work-effort-apply-status-pending {
   background-color: $color-light-grey;
 }
 
 .badge-contract-type,
-.badge-work-effort-result-interview {
+.badge-work-effort-apply-status-interview {
   background-color: $color-light-green;
 }
 
-.badge-work-effort-result-rejected {
+.badge-work-effort-apply-status-rejected {
   background-color: $color-white;
   border: 1px solid $color-light-grey;
 }

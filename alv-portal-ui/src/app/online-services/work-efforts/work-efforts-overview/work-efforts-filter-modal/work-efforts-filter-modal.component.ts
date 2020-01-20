@@ -7,7 +7,7 @@ import {
   WorkEffortApplyStatus
 } from '../../../../shared/backend-services/work-efforts/proof-of-work-efforts.types';
 import {
-  WorkEffortsFilterPeriod,
+  WorkEffortsControlPeriodFilter,
   WorkEffortsFilterValues
 } from '../work-efforts-overview-filter.types';
 
@@ -22,9 +22,9 @@ export class WorkEffortsFilterModalComponent implements OnInit {
 
   currentFiltering: WorkEffortsFilterValues;
 
-  periodOptions$: Observable<SelectableOption[]>;
+  controlPeriodOptions$: Observable<SelectableOption[]>;
 
-  workEffortResultOptions$: Observable<SelectableOption[]>;
+  applyStatusOptions$: Observable<SelectableOption[]>;
 
   constructor(private fb: FormBuilder,
               public activeModal: NgbActiveModal) {
@@ -32,20 +32,20 @@ export class WorkEffortsFilterModalComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      period: [this.currentFiltering.period],
-      workEffortResult: [this.currentFiltering.workEffortResult]
+      controlPeriod: [this.currentFiltering.controlPeriod],
+      applyStatus: [this.currentFiltering.applyStatus]
     });
 
-    this.periodOptions$ = of(Object.values(WorkEffortsFilterPeriod)
+    this.controlPeriodOptions$ = of(Object.values(WorkEffortsControlPeriodFilter)
       .map(s => ({
-        label: 'portal.work-efforts.filter.period.' + s,
+        label: 'portal.work-efforts.filter.control-period.' + s,
         value: s
       }))
     );
 
-    this.workEffortResultOptions$ = of(Object.values(WorkEffortApplyStatus)
+    this.applyStatusOptions$ = of(Object.values(WorkEffortApplyStatus)
       .map(s => ({
-        label: 'portal.work-efforts.work-effort-result.' + s,
+        label: 'portal.work-efforts.apply-status.' + s,
         value: s
       }))
     );
@@ -53,8 +53,8 @@ export class WorkEffortsFilterModalComponent implements OnInit {
 
   filter() {
     const result: WorkEffortsFilterValues = {
-      period: this.form.controls['period'].value,
-      workEffortResult: this.form.controls['workEffortResult'].value
+      controlPeriod: this.form.controls['controlPeriod'].value,
+      applyStatus: this.form.controls['applyStatus'].value
     };
     this.activeModal.close(result);
   }

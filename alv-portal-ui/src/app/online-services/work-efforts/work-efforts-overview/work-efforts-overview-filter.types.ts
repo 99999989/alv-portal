@@ -1,4 +1,4 @@
-export enum WorkEffortsFilterPeriod {
+export enum WorkEffortsControlPeriodFilter {
   CURRENT_MONTH = 'CURRENT_MONTH',
   LAST_3_MONTHS = 'LAST_3_MONTHS',
   LAST_6_MONTHS = 'LAST_6_MONTHS',
@@ -15,18 +15,20 @@ export enum WorkEffortApplyStatusFilter {
 }
 
 export interface WorkEffortsFilterValues {
-  period: WorkEffortsFilterPeriod;
-  workEffortResult: WorkEffortApplyStatusFilter;
+  controlPeriod: WorkEffortsControlPeriodFilter;
+  applyStatus: WorkEffortApplyStatusFilter;
 }
 
 export interface WorkEffortsFilter extends WorkEffortsFilterValues {
   query: string;
-  period: WorkEffortsFilterPeriod;
-  workEffortResult: WorkEffortApplyStatusFilter;
+  ownerUserId: string;
+  controlPeriod: WorkEffortsControlPeriodFilter;
+  applyStatus: WorkEffortApplyStatusFilter;
 }
 
 export const initialWorkEffortsFilter = {
   query: null,
-  period: WorkEffortsFilterPeriod.LAST_3_MONTHS,
-  workEffortResult: WorkEffortApplyStatusFilter.ALL
+  ownerUserId: null,
+  controlPeriod: WorkEffortsControlPeriodFilter.ALL_MONTHS,
+  applyStatus: WorkEffortApplyStatusFilter.ALL
 };

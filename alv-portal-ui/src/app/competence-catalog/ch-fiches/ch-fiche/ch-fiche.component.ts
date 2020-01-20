@@ -28,6 +28,12 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 import { ChFicheDescriptionModalComponent } from '../ch-fiche-description-modal/ch-fiche-description-modal.component';
+import { CompetenceSetInFicheSettingsModalComponent } from './competence-set-in-fiche-settings-modal/competence-set-in-fiche-settings-modal.component';
+import { Prerequisite } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite.types';
+import { PrerequisiteRepository } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite-repository.service';
+import { PrerequisiteBacklinkComponent } from '../../shared/backlinks/prerequisite-backlinks/prerequisite-backlink.component';
+import { PrerequisiteSearchModalComponent } from '../prerequisite-search-modal/prerequisite-search-modal.component';
+import { PrerequisiteModalComponent } from '../../shared/prerequisite-modal/prerequisite-modal.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -61,7 +67,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   collapsed = {
     OCCUPATIONS: true,
     [CompetenceType.BASIC]: true,
-    [CompetenceType.SPECIALIST]: true
+    [CompetenceType.SPECIALIST]: true,
+    PREREQUISITES: true
   };
 
   competenceTypes = Object.values(CompetenceType);
@@ -70,7 +77,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
-  chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  prerequisites: Prerequisite[] = [];
 
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
@@ -84,15 +91,38 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
   };
 
+  linkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.LINK,
+    icon: ['fas', 'search-plus'],
+    label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
+  };
+
   unlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.UNLINK,
     icon: ['fas', 'unlink'],
     label: 'portal.competence-catalog.ch-fiches.actions.unlink'
   };
+
+  unlinkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.UNLINK,
+    icon: ['fas', 'unlink'],
+    label: 'portal.competence-catalog.ch-fiches.actions.unlink'
+  };
+
+  backlinkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
   backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
+  settingsCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.SETTINGS,
+    icon: ['fas', 'cog'],
+    label: 'portal.competence-catalog.competence-sets.overview.settings'
   };
   deleteChFicheAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.DELETE,
@@ -101,12 +131,15 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   };
 
   competenceSetsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  prerequisiteActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
   constructor(private modalService: ModalService,
               private i18nService: I18nService,
               private occupationLabelRepository: OccupationLabelRepository,
               private competenceSetRepository: CompetenceSetRepository,
               protected authenticationService: AuthenticationService,
+              private prerequisiteRepository: PrerequisiteRepository,
               private notificationsService: NotificationsService) {
     super(authenticationService);
   }
@@ -119,10 +152,13 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       takeUntil(this.ngUnsubscribe)
     ).subscribe();
     this.competenceSetsActions$ = this.isCompetenceCatalogEditor$.pipe(
-      map(isEditor => isEditor ? [this.backlinkCompetenceSetAction, this.unlinkCompetenceSetAction] : [this.backlinkCompetenceSetAction])
+      map(isEditor => isEditor ? [this.backlinkCompetenceSetAction, this.unlinkCompetenceSetAction, this.settingsCompetenceSetAction] : [this.backlinkCompetenceSetAction])
     );
     this.chFicheDescriptionActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.deleteChFicheAction] : [])
+    );
+    this.prerequisiteActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.backlinkPrerequisiteAction, this.unlinkPrerequisiteAction] : [this.backlinkPrerequisiteAction])
     );
   }
 
@@ -133,11 +169,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   reset() {
     this.resolvedOccupations = [];
     this.competences = defaultCompetences();
+    this.prerequisites = [];
   }
 
   addOccupation() {
     const modalRef = this.modalService.openMedium(OccupationSearchModalComponent);
-    modalRef.componentInstance.existingOccupations = this.chFiche.occupations.map(occupation => occupation.bfsCode);
+    (<OccupationSearchModalComponent>modalRef.componentInstance).existingOccupations = this.chFiche.occupations.map(occupation => occupation.bfsCode);
     modalRef.result
       .then((result) => {
         this.chFiche.occupations.push({
@@ -165,39 +202,65 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     });
   }
 
-  unlinkCompetence(type: CompetenceType, index: number) {
-    this.openUnlinkConfirmModal().then(result => {
-      this.chFiche.competences.splice(index, 1);
-      this.loadCompetences(type)
-        .subscribe(() => {
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
-        });
+  openUnlinkCompetenceModal(type: CompetenceType, index: number) {
+    this.openUnlinkConfirmModal().then(() => {
+      this.unlinkCompetence(index, type);
     }).catch(err => {
     });
   }
 
-  addCompetence(competenceType: CompetenceType) {
+  openAddCompetenceModal(competenceType: CompetenceType) {
     const modalRef = this.modalService.openMedium(CompetenceSetSearchModalComponent);
-    modalRef.componentInstance.existingSetIds = this.chFiche.competences.map(competence => competence.competenceSetId);
+    (<CompetenceSetSearchModalComponent>modalRef.componentInstance).existingSetIds = this.chFiche.competences.map(competence => competence.competenceSetId);
     modalRef.result
-      .then((competenceSet) => {
-        this.chFiche.competences.push({
-          type: competenceType,
-          competenceSetId: competenceSet.id
-        });
-        this.loadCompetences(competenceType).subscribe(result => {
-          this.collapsed[competenceType] = false;
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-competence-set-success-notification');
-        });
+      .then((competenceSet: CompetenceSetSearchResult) => {
+        this.addCompetence(competenceType, competenceSet.id);
       })
       .catch(() => {
       });
+  }
+
+  handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceType: CompetenceType, competenceSet?: CompetenceSetSearchResult) {
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openSetBacklinkModal(competenceSet);
+    }
+    if (action === CompetenceCatalogAction.LINK) {
+      this.openAddCompetenceModal(competenceType);
+    }
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.openUnlinkCompetenceModal(competenceType, this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSet.id));
+    }
+    if (action === CompetenceCatalogAction.SETTINGS) {
+      this.openSettingsModal(competenceSet, competenceType);
+    }
+  }
+
+  private unlinkCompetence(index: number, type: CompetenceType) {
+    this.chFiche.competences.splice(index, 1);
+    this.loadCompetences(type)
+      .subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
+      });
+  }
+
+  togglePrerequisites(collapsed: boolean) {
+    if (!collapsed) {
+      this.loadPrerequisites().subscribe();
+    }
   }
 
   toggleCompetences(competenceType: CompetenceType, collapsed: boolean) {
     if (!collapsed) {
       this.loadCompetences(competenceType).subscribe();
     }
+  }
+
+  loadPrerequisites(): Observable<Prerequisite[]> {
+    return this.prerequisiteRepository.findByIds(this.chFiche.prerequisiteIds).pipe(
+      tap(prerequisites => {
+        this.prerequisites = prerequisites;
+      })
+    );
   }
 
   getCompetencesByType(competenceType: CompetenceType): Competence[] {
@@ -224,15 +287,30 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceType: CompetenceType, competenceSet?: CompetenceSetSearchResult) {
-    if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openBacklinkModal(competenceSet);
-    }
-    if (action === CompetenceCatalogAction.LINK) {
-      this.addCompetence(competenceType);
-    }
-    if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkCompetence(competenceType, this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSet.id));
+  private addCompetence(competenceType: CompetenceType, competenceSetId: string) {
+    this.chFiche.competences.push({
+      type: competenceType,
+      competenceSetId: competenceSetId
+    });
+    this.loadCompetences(competenceType).subscribe(result => {
+      this.collapsed[competenceType] = false;
+      this.notificationsService.success('portal.competence-catalog.ch-fiches.added-competence-set-success-notification');
+    });
+  }
+
+  private openSettingsModal(competenceSet: CompetenceSetSearchResult, competenceType: CompetenceType) {
+    const modalRef = this.modalService.openMedium(CompetenceSetInFicheSettingsModalComponent);
+    (<CompetenceSetInFicheSettingsModalComponent>modalRef.componentInstance).competenceType = competenceType;
+    modalRef.result.then((newCompetenceType: CompetenceType) => {
+      this.setNewCompetenceTypeToCompetenceSet(newCompetenceType, competenceType, competenceSet.id);
+    }).catch(() => {
+    });
+  }
+
+  private setNewCompetenceTypeToCompetenceSet(newType: CompetenceType, oldType: CompetenceType, competenceSetId: string) {
+    if (!(newType === oldType)) {
+      this.unlinkCompetence(this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSetId), oldType);
+      this.addCompetence(newType, competenceSetId);
     }
   }
 
@@ -261,21 +339,25 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       );
   }
 
-  private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
-    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
-    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+  handlePrerequisiteActionClick(action: CompetenceCatalogAction, index?: number) {
+    if (action === CompetenceCatalogAction.LINK) {
+      this.addPrerequisite();
+    }
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkPrerequisite(index);
+    }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openPrerequisiteBacklinkModal(index);
+    }
   }
 
-  private loadCompetences(competenceType: CompetenceType) {
-    const competences = this.chFiche.competences
-      .filter(competence => competence.type === competenceType)
-      .map(competence => this.competenceSetRepository.findById(competence.competenceSetId));
-    const result = competences.length ? forkJoin(competences) : of([]);
-    return result.pipe(
-      tap(competenceSets => {
-        this.competences[competenceType] = competenceSets;
-      })
-    );
+  viewPrerequisite(prerequisite: Prerequisite) {
+    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent);
+    if (this.chFiche.title) {
+      const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
+      componentInstance.prerequisite = prerequisite;
+      componentInstance.isReadonly = true;
+    }
   }
 
   private openUnlinkConfirmModal(): Promise<CompetenceElement> {
@@ -319,6 +401,56 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
     }
   }
+
+  private openSetBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
+  }
+
+  private addPrerequisite() {
+    const modalRef = this.modalService.openMedium(PrerequisiteSearchModalComponent);
+    (<PrerequisiteSearchModalComponent>modalRef.componentInstance).existingPrerequisiteIds = this.chFiche.prerequisiteIds;
+    modalRef.result
+      .then((prerequisite: Prerequisite) => {
+        this.chFiche.prerequisiteIds.push(prerequisite.id);
+        this.loadPrerequisites().subscribe(() => {
+          this.collapsed['PREREQUISITES'] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-prerequisite-success-notification');
+        });
+      })
+      .catch(() => {
+      });
+
+  }
+
+  private loadCompetences(competenceType: CompetenceType): Observable<CompetenceSetSearchResult[]> {
+    const competences = this.chFiche.competences
+      .filter(competence => competence.type === competenceType)
+      .map(competence => this.competenceSetRepository.findById(competence.competenceSetId));
+    const result = competences.length ? forkJoin(competences) : of([]);
+    return result.pipe(
+      tap(competenceSets => {
+        this.competences[competenceType] = competenceSets;
+      })
+    );
+  }
+
+
+  private unlinkPrerequisite(index: number) {
+    this.openUnlinkConfirmModal().then(() => {
+      this.chFiche.prerequisiteIds.splice(index, 1);
+      this.loadPrerequisites().subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-prerequisite-success-notification');
+      });
+    }).catch(err => {
+    });
+  }
+
+  private openPrerequisiteBacklinkModal(index: number) {
+    const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent);
+    (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = this.prerequisites[index];
+  }
+
 }
 
 interface ResolvedOccupation {
