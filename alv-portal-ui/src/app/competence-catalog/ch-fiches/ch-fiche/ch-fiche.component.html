@@ -1,7 +1,8 @@
 <ng-container *ngIf="{
     competenceSetsActions: competenceSetsActions$ | async,
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
-    isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async
+    isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
+    prerequisiteActions: prerequisiteActions$ | async
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -95,5 +96,30 @@
                         [showActionButtons]="!isReadonly"
                         (actionClick)="handleCompetenceSetActionClick($event, competenceType, competenceSet)">
     </alv-competence-set>
+  </alv-competence-items-collapse-panel>
+  <alv-competence-items-collapse-panel (actionClick)="handlePrerequisiteActionClick($event)"
+                                       [darkMode]="true"
+                                       [label]="'portal.competence-catalog.ch-fiches.label.prerequisites'"
+                                       [showActionButtons]="!isReadonly"
+                                       (toggleClick)="togglePrerequisites($event)"
+                                       [actions]="[linkPrerequisiteAction]"
+                                       [isCollapsed]="collapsed.PREREQUISITES"
+                                       [isEmpty]="!chFiche.prerequisiteIds?.length"
+                                       class="d-block mt-2"
+  >
+    <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, index)"
+                               (itemClick)="viewPrerequisite(prerequisite)"
+                               *ngFor="let prerequisite of prerequisites; let index = index;"
+                               [actions]="observables.prerequisiteActions"
+                               [isDraft]="prerequisite.draft"
+                               [isPublished]="prerequisite.published"
+                               [multiLanguageTitle]="prerequisite.description"
+                               [isItemClickable]="true"
+                               [superTitle]="prerequisite.id"
+                               [showActionButtons]="observables.isCompetenceCatalogEditor"
+                               [type]="'portal.competence-catalog.element-type.prerequisite' | translate"
+                               titleClass="font-weight-normal">
+
+    </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
 </ng-container>

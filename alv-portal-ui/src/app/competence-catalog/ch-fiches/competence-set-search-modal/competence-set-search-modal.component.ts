@@ -23,7 +23,7 @@ export class CompetenceSetSearchModalComponent implements OnInit {
 
   form: FormGroup;
 
-  searchCompetenceSetsFn = this.searchCompetenceSets.bind(this);
+  searchCompetenceSetsFn = this.search.bind(this);
 
   private currentLang: string;
 
@@ -53,7 +53,7 @@ export class CompetenceSetSearchModalComponent implements OnInit {
     this.form.get('competenceSet').setValue(item);
   }
 
-  private searchCompetenceSets(term: string): Observable<TypeaheadItem<CompetenceSetSearchResult>[]> {
+  private search(term: string): Observable<TypeaheadItem<CompetenceSetSearchResult>[]> {
     return this.competenceSetRepository.search({
       page: 0,
       size: DEFAULT_PAGE_SIZE,

@@ -12,8 +12,15 @@ export enum BusinessExceptionTypes {
 
 // todo instead of inheritance we need to do duplication, the same way it's done in competence-set-types
 //    see Jira Issue DF-1920
-export interface ChFiche extends UpdateChFiche {
+export interface ChFiche {
   id?: string;
+  title?: TranslatedString;
+  description?: TranslatedString;
+  occupations: Occupation[];
+  competences: Competence[];
+  draft?: boolean;
+  published?: boolean;
+  prerequisiteIds: string[];
 }
 
 export interface CreateChFiche {
@@ -23,9 +30,17 @@ export interface CreateChFiche {
   competences: Competence[];
   draft?: boolean;
   published?: boolean;
+  prerequisiteIds: string[];
 }
 
-export interface UpdateChFiche extends CreateChFiche {
+export interface UpdateChFiche {
+  title?: TranslatedString;
+  description?: TranslatedString;
+  occupations: Occupation[];
+  competences: Competence[];
+  draft?: boolean;
+  published?: boolean;
+  prerequisiteIds: string[];
 }
 
 export interface Occupation {
@@ -43,6 +58,7 @@ export function initialChFiche(): ChFiche {
     draft: true,
     published: false,
     occupations: [],
-    competences: []
+    competences: [],
+    prerequisiteIds: [],
   };
 }
