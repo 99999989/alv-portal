@@ -69,6 +69,7 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   set currentFilter(value: WorkEffortsFilter) {
     this.currentBadges = this.workEffortsOverviewFilterBadgesMapper.mapFilterBadges(value);
     this._currentFilter = value;
+    this.filtered();
   }
 
   constructor(private fb: FormBuilder,
@@ -103,6 +104,16 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
     );
 
     this.loadItems();
+  }
+
+  filtered() {
+    let query = this.currentFilter.query;
+    let applyStatus = this.currentFilter.applyStatus;
+    let controlPeriod = this.currentFilter.controlPeriod;
+    if ((query != null && query.length > 3) || (applyStatus != this.FILTER_RESET_VALUES.applyStatus) || (controlPeriod != this.FILTER_RESET_VALUES.controlPeriod)) {
+      return true;
+    }
+    return false;
   }
 
   loadItems() {
