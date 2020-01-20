@@ -24,6 +24,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'prerequisites',
+    loadChildren: './prerequisites/prerequisites.module#PrerequisitesModule',
+    data: {
+      titleKey: 'portal.competence-catalog.prerequisites.browser-title',
+    }
+  },
+  {
     path: '**',
     redirectTo: 'ch-fiches'
   }

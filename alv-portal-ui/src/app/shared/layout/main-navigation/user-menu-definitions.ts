@@ -73,7 +73,7 @@ export const USER_MENU_DEFINITIONS: UserMenuDefinition[] = [
   },
   {
     id: 'COMPETENCE-CATALOG',
-    mainMenuEntryKeys: ['ch-fiches', 'competence-sets', 'competence-elements'],
+    mainMenuEntryKeys: ['ch-fiches', 'competence-sets', 'competence-elements', 'prerequisites'],
     onlineFormsMenuEntryKeys: [],
     settingsMenuEntryKeys: [],
     userPredicate: isAnyUser,
