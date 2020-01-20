@@ -25,8 +25,6 @@ export class ProofOfWorkEffortsComponent implements OnInit {
 
   @Input() proofOfWorkEffortsModel: ProofOfWorkEffortsModel;
 
-  @Input() filtered: boolean;
-
   @Input() expanded: boolean;
 
   @Output() reload = new EventEmitter<ProofOfWorkEffortsModel>();
@@ -45,7 +43,7 @@ export class ProofOfWorkEffortsComponent implements OnInit {
 
   ngOnInit() {
     this.isCurrentPeriod = this.proofOfWorkEffortsModel.isCurrentPeriod;
-    this.expanded = this.proofOfWorkEffortsModel.isCurrentPeriod || this.filtered;
+    this.expanded = this.expanded || this.proofOfWorkEffortsModel.isCurrentPeriod;
     this.downloadPdf$ = this.proofOfWorkEffortsRepository.downloadPdf(this.proofOfWorkEffortsModel.id);
   }
 

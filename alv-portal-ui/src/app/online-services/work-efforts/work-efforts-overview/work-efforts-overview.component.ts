@@ -58,8 +58,6 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
 
   isEnglishLanguageSelected$: Observable<boolean>;
 
-  isFiltered: boolean;
-
   private _currentFilter: WorkEffortsFilter;
 
   private page = 0;
@@ -71,7 +69,7 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   set currentFilter(value: WorkEffortsFilter) {
     this.currentBadges = this.workEffortsOverviewFilterBadgesMapper.mapFilterBadges(value);
     this._currentFilter = value;
-    this.isFiltered = this.filtered();
+    this.isFiltered();
   }
 
   constructor(private fb: FormBuilder,
@@ -108,11 +106,11 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
     this.loadItems();
   }
 
-  filtered() {
+  isFiltered() {
     const query = this.currentFilter.query;
     const applyStatus = this.currentFilter.applyStatus;
     const controlPeriod = this.currentFilter.controlPeriod;
-    if ((query != null && query.length > 3) || (applyStatus !== this.FILTER_RESET_VALUES.applyStatus) || (controlPeriod !== this.FILTER_RESET_VALUES.controlPeriod)) {
+    if ((query !== null && query.length >= this.SEARCH_QUERY_MIN_LENGTH) || (applyStatus !== this.FILTER_RESET_VALUES.applyStatus) || (controlPeriod !== this.FILTER_RESET_VALUES.controlPeriod)) {
       return true;
     }
     return false;

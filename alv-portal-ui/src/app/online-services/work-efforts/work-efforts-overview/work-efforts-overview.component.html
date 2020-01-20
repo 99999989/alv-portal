@@ -54,7 +54,7 @@
 
       <alv-proof-of-work-efforts *ngFor="let proofOfWorkEffortsModel of proofOfWorkEffortsModels"
                                  [proofOfWorkEffortsModel]="proofOfWorkEffortsModel"
-                                 [filtered]="isFiltered"
+                                 [expanded]="isFiltered()"
                                  (reload)="reloadProofOfWorkEfforts($event)"
                                  class="d-block mb-4">
       </alv-proof-of-work-efforts>
