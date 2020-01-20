@@ -43,7 +43,7 @@ export class ProofOfWorkEffortsComponent implements OnInit {
 
   ngOnInit() {
     this.isCurrentPeriod = this.proofOfWorkEffortsModel.isCurrentPeriod;
-    this.expanded = this.proofOfWorkEffortsModel.isCurrentPeriod;
+    this.expanded = this.expanded || this.proofOfWorkEffortsModel.isCurrentPeriod;
     this.downloadPdf$ = this.proofOfWorkEffortsRepository.downloadPdf(this.proofOfWorkEffortsModel.id);
   }
 
