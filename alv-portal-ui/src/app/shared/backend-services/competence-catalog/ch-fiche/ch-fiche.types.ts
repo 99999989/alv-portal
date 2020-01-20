@@ -1,5 +1,4 @@
 import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
-import { Prerequisite } from '../prerequisite/prerequisite.types';
 
 export enum CompetenceType {
   BASIC = 'BASIC',
@@ -31,7 +30,7 @@ export interface CreateChFiche {
   competences: Competence[];
   draft?: boolean;
   published?: boolean;
-  prerequisiteIds: Prerequisite[];
+  prerequisiteIds: string[];
 }
 
 export interface UpdateChFiche {
