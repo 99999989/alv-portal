@@ -28,7 +28,7 @@ export class OccupationSearchModalComponent implements OnInit {
 
   form: FormGroup;
 
-  searchOccupationsFn = this.searchOccupations.bind(this);
+  searchOccupationsFn = this.search.bind(this);
 
   private currentLang: string;
 
@@ -61,7 +61,7 @@ export class OccupationSearchModalComponent implements OnInit {
     this.modal.dismiss();
   }
 
-  searchOccupations(query: string): Observable<OccupationTypeaheadItem[]> {
+  search(query: string): Observable<OccupationTypeaheadItem[]> {
     return this.occupationSuggestionService.fetchCompetenceCatalogOccupations(query, [OccupationTypes.BFS]);
   }
 

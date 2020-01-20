@@ -57,7 +57,8 @@ export enum CompetenceCatalogAction {
   BACKLINK = 'BACKLINK',
   UNLINK = 'UNLINK',
   EDIT = 'EDIT',
-  DELETE = 'DELETE'
+  DELETE = 'DELETE',
+  SETTINGS = 'SETTINGS'
 }
 
 export interface CompetenceCatalogSortValue {
