@@ -1268,7 +1268,7 @@ portal.competence-catalog.ch-fiches.remove-description-success-notification,Besc
 portal.competence-catalog.ch-fiches.remove-description-dialog.title,Beschreibung löschen?,Delete description?,Supprimer la description?,Cancellare la descrizione?,
 portal.competence-catalog.ch-fiches.remove-description-dialog.confirmation-question,Möchten Sie die beschreibung löschen?,Do you really want to delete the description?,Voulez-vous vraiment supprimer la description de CH Fiche?,Vuoi davvero cancellare questa descrizione?,
 portal.competence-catalog.ch-fiches.added-prerequisite-success-notification,Voraussetzung hinzugefügt,Prerequisite added,Condition ajoutée,Requisito aggiunta,
-portal.competence-catalog.ch-fiches.removed-prerequisite-success-notification,Voraussetzung wurde erfolgreich gelöscht.,Prerequisite has been successfully deleted.,Condition a été supprimé.,Il Requisito è stato cancellato correttamente.,
+portal.competence-catalog.ch-fiches.removed-prerequisite-success-notification,Voraussetzung entfernt.,Prerequisite removed.,Condition annulée.,Il Requisito rimosso.,
 portal.competence-catalog.prerequisites.overview.title,Voraussetzungen,Prerequisites,Conditions,Requisiti,
 portal.competence-catalog.prerequisites.browser-title,Voraussetzungen,Prerequisites,Conditions,Requisiti,
 portal.competence-catalog.prerequisites.add-modal.one-component-per-lang-label,Bitte erfassen Sie je Sprache nur eine Voraussetzung,Please enter only one prerequisite per language,Veuillez saisir une seule condition par langue,Registrare soltanto un requisito per ciascuna lingua,
