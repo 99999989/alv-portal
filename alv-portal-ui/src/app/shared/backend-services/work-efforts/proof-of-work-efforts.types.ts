@@ -1,5 +1,3 @@
-import { WorkEffortsFilter } from '../../../online-services/work-efforts/work-efforts-overview/work-efforts-overview-filter.types';
-
 export interface ProofOfWorkEfforts {
   id?: string;
   businessCaseId: string;
