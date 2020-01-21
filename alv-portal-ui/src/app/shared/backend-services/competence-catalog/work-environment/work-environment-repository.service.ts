@@ -11,11 +11,12 @@ import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
 import { KkRoleConditionRoutingService } from '../kk-role-condition-routing.service';
 import { switchMap } from 'rxjs/operators';
+import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class WorkEnvironmentRepository implements SearchService<WorkEnvironment> {
 
-  private readonly resourceUrl = '/competencecatalogservice-editor/api/work-environments/';
+  private readonly resourceUrl = '/api/work-environments/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 
@@ -28,14 +29,14 @@ export class WorkEnvironmentRepository implements SearchService<WorkEnvironment>
   findById(id: string): Observable<WorkEnvironment> {
     return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
-        endpoint => this.http.get<WorkEnvironment>(this.resourceUrl + id))
+        endpoint => this.http.get<WorkEnvironment>(endpoint + this.resourceUrl + id))
     );
   }
 
   findByIds(ids: string[]): Observable<WorkEnvironment[]> {
     return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
-        endpoint => this.http.post<WorkEnvironment[]>(`${this.findUrl}/byIds`, ids))
+        endpoint => this.http.post<WorkEnvironment[]>(endpoint + `${this.findUrl}/byIds`, ids))
     );
   }
 
@@ -44,20 +45,20 @@ export class WorkEnvironmentRepository implements SearchService<WorkEnvironment>
     const params = createPageableURLSearchParams(request);
     return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
-        endpoint => this.http.post<Page<WorkEnvironment>>(this.searchUrl, request.body, { params }))
+        endpoint => this.http.post<Page<WorkEnvironment>>(endpoint + this.searchUrl, request.body, { params }))
     );
   }
 
   create(workEnvironment: CreateWorkEnvironment): Observable<WorkEnvironment> {
-    return this.http.post<WorkEnvironment>(this.resourceUrl, workEnvironment);
+    return this.http.post<WorkEnvironment>(KK_EDITOR_ENDPOINT + this.resourceUrl, workEnvironment);
   }
 
   update(id: string, workEnvironment: UpdateWorkEnvironment): Observable<WorkEnvironment> {
-    return this.http.put<WorkEnvironment>(this.resourceUrl + id, workEnvironment);
+    return this.http.put<WorkEnvironment>(KK_EDITOR_ENDPOINT + this.resourceUrl + id, workEnvironment);
   }
 
   delete(workEnvironmentId: string): Observable<void> {
-    return this.http.delete<void>(`${this.resourceUrl}${workEnvironmentId}`);
+    return this.http.delete<void>(KK_EDITOR_ENDPOINT + `${this.resourceUrl}${workEnvironmentId}`);
   }
 
 }

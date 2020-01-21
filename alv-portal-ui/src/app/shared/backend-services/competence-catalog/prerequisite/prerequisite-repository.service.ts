@@ -11,11 +11,12 @@ import { Page } from '../../shared.types';
 import { SearchService } from '../search-service';
 import { KkRoleConditionRoutingService } from '../kk-role-condition-routing.service';
 import { switchMap } from 'rxjs/operators';
+import { KK_EDITOR_ENDPOINT } from '../endpoints';
 
 @Injectable({ providedIn: 'root' })
 export class PrerequisiteRepository implements SearchService<Prerequisite> {
 
-  private readonly resourceUrl = '/competencecatalogservice-editor/api/prerequisites/';
+  private readonly resourceUrl = '/api/prerequisites/';
 
   private readonly searchUrl = `${this.resourceUrl}_search`;
 
@@ -28,14 +29,14 @@ export class PrerequisiteRepository implements SearchService<Prerequisite> {
   findById(id: string): Observable<Prerequisite> {
     return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
-        endpoint => this.http.get<Prerequisite>(this.resourceUrl + id))
+        endpoint => this.http.get<Prerequisite>(endpoint + this.resourceUrl + id))
     );
   }
 
   findByIds(ids: string[]): Observable<Prerequisite[]> {
     return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
-        endpoint => this.http.post<Prerequisite[]>(`${this.findUrl}/byIds`, ids))
+        endpoint => this.http.post<Prerequisite[]>(endpoint + `${this.findUrl}/byIds`, ids))
     );
   }
 
@@ -44,20 +45,20 @@ export class PrerequisiteRepository implements SearchService<Prerequisite> {
     const params = createPageableURLSearchParams(request);
     return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(
-        endpoint => this.http.post<Page<Prerequisite>>(this.searchUrl, request.body, { params }))
+        endpoint => this.http.post<Page<Prerequisite>>(endpoint + this.searchUrl, request.body, { params }))
     );
   }
 
   create(prerequisite: CreatePrerequisite): Observable<Prerequisite> {
-    return this.http.post<Prerequisite>(this.resourceUrl, prerequisite);
+    return this.http.post<Prerequisite>(KK_EDITOR_ENDPOINT + this.resourceUrl, prerequisite);
   }
 
   update(id: string, prerequisite: UpdatePrerequisite): Observable<Prerequisite> {
-    return this.http.put<Prerequisite>(this.resourceUrl + id, prerequisite);
+    return this.http.put<Prerequisite>(KK_EDITOR_ENDPOINT + this.resourceUrl + id, prerequisite);
   }
 
   delete(prerequisiteId: string): Observable<void> {
-    return this.http.delete<void>(`${this.resourceUrl}${prerequisiteId}`);
+    return this.http.delete<void>(KK_EDITOR_ENDPOINT + `${this.resourceUrl}${prerequisiteId}`);
   }
 
 }
