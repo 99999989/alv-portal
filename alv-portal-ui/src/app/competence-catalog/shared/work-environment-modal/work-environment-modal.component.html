@@ -6,6 +6,16 @@
            [showPrimaryButton]="!isReadonly"
            primaryLabel="portal.global.save">
 
+  <fieldset>
+    <legend *ngIf="!isEdit">{{'portal.competence-catalog.work-environments.add-modal.what-to-enter-label' | translate}}</legend>
+    <alv-select [autofocus]="true"
+                [options$]="typeOptions$"
+                [readonly]="isEdit"
+                alvFormControlName="type"
+                label="portal.competence-catalog.work-environments.add-modal.type">
+    </alv-select>
+  </fieldset>
+
   <fieldset formGroupName="description">
     <legend>{{'portal.competence-catalog.work-environments.add-modal.one-component-per-lang-label' | translate}}</legend>
     <ng-container *ngFor="let formField of ['de','fr','it','en']">

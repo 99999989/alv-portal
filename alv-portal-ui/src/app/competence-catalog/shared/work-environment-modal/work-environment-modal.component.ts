@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { atLeastOneRequiredValidator } from '../../../shared/forms/input/validators/at-least-one-required.validator';
-import { WorkEnvironment } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
-import { of } from 'rxjs';
+import {
+  WorkEnvironment,
+  WorkEnvironmentType
+} from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
+import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkEnvironmentRepository } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment-repository.service';
 import { NotificationsService } from '../../../core/notifications.service';
@@ -10,6 +13,7 @@ import { getModalTitle } from '../utils/translation-utils';
 import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { SelectableOption } from '../../../shared/forms/input/selectable-option.model';
 
 @Component({
   selector: 'alv-work-environment-modal',
@@ -30,6 +34,18 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
 
   isEdit = false;
 
+  typeOptions$: Observable<SelectableOption[]> = of([{
+      value: null,
+      label: 'portal.competence-catalog.work-environment.add-modal.choose-type'
+    }
+    ].concat(Object.values(WorkEnvironmentType).map(type => {
+      return {
+        label: 'portal.competence-catalog.work-environment-type.' + type,
+        value: type
+      };
+    }))
+  );
+
   publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
 
   draftRadioButtonOptions$ = of(draftRadioButtonOptions);
@@ -46,6 +62,7 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
     super.ngOnInit();
     this.createAnotherFormControl = this.fb.control(false);
     this.form = this.fb.group({
+      type: [null, Validators.required],
       published: [false, Validators.required],
       draft: [true, Validators.required],
       description: this.fb.group({
@@ -95,6 +112,7 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
     this.notificationsService.success('portal.competence-catalog.work-environments.add-modal.added-success-notification');
     if (this.createAnotherFormControl.value === true) {
       this.form.reset({
+        type: null,
         description: {
           de: '',
           fr: '',
