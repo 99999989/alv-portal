@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import {
-  CommonFilters,
   CompetenceCatalogAction,
+  WorkEnvironmentFilterValues,
 } from '../../shared/shared-competence-catalog.types';
 import { OverviewComponent } from '../../shared/overview/overview.component';
 import { FormBuilder } from '@angular/forms';
@@ -11,7 +11,10 @@ import { ActionDefinition } from '../../../shared/backend-services/shared.types'
 import { NotificationsService } from '../../../core/notifications.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { WorkEnvironment } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
+import {
+  WorkEnvironment,
+  WorkEnvironmentType
+} from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
 import { WorkEnvironmentRepository } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment-repository.service';
 import { WorkEnvironmentModalComponent } from '../../shared/work-environment-modal/work-environment-modal.component';
 import { WorkEnvironmentsFilterModalComponent } from '../work-environment-filter-modal/work-environment-filter-modal.component';
@@ -25,7 +28,9 @@ import { WorkEnvironmentDeleteComponent } from '../work-environment-delete/work-
 })
 export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnvironment> implements OnInit {
 
-  filter: CommonFilters = {};
+  filter: WorkEnvironmentFilterValues = {
+    types: Object.values(WorkEnvironmentType),
+  };
 
   backlinkWorkEnvironmentAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,

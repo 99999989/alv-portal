@@ -2,7 +2,7 @@ import { TranslatedString } from '../../../../competence-catalog/shared/shared-c
 
 export enum WorkEnvironmentType {
   SECTOR = 'SECTOR',
-  WORK_SETTING = 'SETTING',
+  WORK_SETTING = 'ENVIRONMENT', //why is this? Ask Julien
   WORK_CONDITION = 'CONDITION'
 }
 
