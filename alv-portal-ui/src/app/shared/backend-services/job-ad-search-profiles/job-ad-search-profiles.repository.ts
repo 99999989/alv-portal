@@ -65,4 +65,9 @@ export class JobAdSearchProfilesRepository {
     return this.http.get<ResolvedJobAdSearchProfile>(`${this.resourceUrl}/${id}`);
   }
 
+
+  releaseJobAlert(id: string): Observable<ResolvedJobAdSearchProfile> {
+    return this.http.get<ResolvedJobAdSearchProfile>(`${this.resourceUrl}/_action/release/${id}`);
+  }
+
 }

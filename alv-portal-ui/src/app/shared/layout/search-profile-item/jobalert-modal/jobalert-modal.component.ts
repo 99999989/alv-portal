@@ -9,7 +9,10 @@ import {
   Validators
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import {
+  Observable,
+  of
+} from 'rxjs';
 import { AbstractSubscriber } from '../../../../core/abstract-subscriber';
 import { AuthenticationService } from '../../../../core/auth/authentication.service';
 import { ModalService } from '../../modal/modal.service';
@@ -26,6 +29,7 @@ import {
 } from '../../../backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 import { mapFormToDto } from './jobalert-request-mapper';
 import { NotificationsService } from '../../../../core/notifications.service';
+import { User } from '../../../../core/auth/user.model';
 
 export interface JobAlertFormValue {
   email: string;
@@ -46,6 +50,8 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
   private isJobAlertEnabled: boolean;
 
   private currentLang: string;
+
+  private currentUser$: Observable<User>;
 
   infoNotification = {
     type: NotificationType.INFO,
@@ -83,8 +89,9 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
   ngOnInit() {
     this.i18nService.currentLanguage$.pipe(take(1))
       .subscribe(lang => this.currentLang = lang);
+    this.currentUser$ = this.authenticationService.getCurrentUser();
 
-    this.authenticationService.getCurrentUser().pipe(
+    this.currentUser$.pipe(
       takeUntil(this.ngUnsubscribe))
       .subscribe((user) => {
         if (!!user) {
@@ -116,6 +123,15 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
         this.activeModal.close();
     });
   }
+
+  onRelease() {
+    this.jobAdSearchProfilesRepository
+      .releaseJobAlert(this.searchProfile.id).subscribe(() => {
+      this.notificationsService.success('RELEASED');
+      this.activeModal.close();
+    });
+  }
+
 
   onCancel() {
     this.activeModal.dismiss();

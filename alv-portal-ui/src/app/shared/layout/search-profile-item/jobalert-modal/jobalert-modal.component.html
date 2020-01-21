@@ -27,4 +27,10 @@
     </alv-radio-button>
   </fieldset>
 
+  <button *ngIf="(currentUser$ | async).isSysadmin()"
+    (click)="onRelease()"
+          class="btn btn-primary mb-1 mb-md-0 ml-0"
+          type="button">
+    {{'Release' | translate}}
+  </button>
 </alv-modal>
