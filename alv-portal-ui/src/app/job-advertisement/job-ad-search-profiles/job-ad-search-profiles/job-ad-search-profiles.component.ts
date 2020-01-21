@@ -69,7 +69,7 @@ export class JobAdSearchProfilesComponent implements OnInit {
   }
 
   onJobAlertEnabled(searchProfile: JobAdSearchProfileResult) {
-    if (!!searchProfile.jobAlert){
+    if (!!searchProfile.jobAlert) {
       this.modalService.openLarge(JobAlertModalComponent
       ).result
         .then(result => {
