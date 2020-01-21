@@ -69,7 +69,6 @@ export class SaveSearchProfileModalComponent implements OnInit {
         return this.jobAdSearchProfilesRepository.create(<CreateJobAdSearchProfile>{
           name: this.form.get('name').value,
           ownerUserId: currentUser.id,
-          authorities: currentUser.authorities,
           searchFilter: this.jobSearchProfileService.mapToRequest(jobSearchFilter),
         })
           .pipe(
