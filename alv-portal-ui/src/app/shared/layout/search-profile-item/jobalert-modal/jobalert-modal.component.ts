@@ -25,6 +25,7 @@ import {
   JobAdSearchProfileResult
 } from '../../../backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 import { mapFormToDto } from './jobalert-request-mapper';
+import { NotificationsService } from '../../../../core/notifications.service';
 
 export interface JobAlertFormValue {
   email: string;
@@ -71,6 +72,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
               private modalService: ModalService,
               private fb: FormBuilder,
               private jobAdSearchProfilesRepository: JobAdSearchProfilesRepository,
+              private notificationsService: NotificationsService,
               private i18nService: I18nService) {
     super();
     this.form = this.fb.group({
@@ -101,13 +103,19 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
     this.isJobAlertEnabled = true;
     return this.jobAdSearchProfilesRepository
       .enableJobAlert(mapFormToDto(this.searchProfile.id, this.currentLang, formValue))
-      .subscribe(() => this.activeModal.close());
+      .subscribe(() => {
+        this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
+        this.activeModal.close();
+      });
   }
 
   onDisable() {
     this.isJobAlertEnabled = false;
     this.jobAdSearchProfilesRepository
-      .disableJobAlert(this.searchProfile.id).subscribe(() => this.activeModal.close());
+      .disableJobAlert(this.searchProfile.id).subscribe(() => {
+      this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
+        this.activeModal.close();
+    });
   }
 
   onCancel() {
