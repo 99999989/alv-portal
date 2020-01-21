@@ -26,9 +26,20 @@ import {
   ResetFilterAction,
   SearchProfileUpdatedAction
 } from '../state-management';
-import { ActionsSubject, select, Store } from '@ngrx/store';
+import {
+  ActionsSubject,
+  select,
+  Store
+} from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, take, takeUntil, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  take,
+  takeUntil,
+  tap
+} from 'rxjs/operators';
 import { JobSearchFilterParameterService } from './job-search-filter-parameter.service';
 import { JobQueryPanelValues } from '../../../widgets/job-search-widget/job-query-panel/job-query-panel-values';
 import { ScrollService } from '../../../core/scroll.service';
@@ -46,7 +57,10 @@ import {
 } from '../../../core/state-management/actions/core.actions';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { User } from '../../../core/auth/user.model';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import {
+  BlockUI,
+  NgBlockUI
+} from 'ng-block-ui';
 import { IconKey } from '../../../shared/icons/custom-icon/custom-icon.component';
 import { SaveSearchProfileModalComponent } from '../job-search-profile/save-search-profile-modal/save-search-profile-modal.component';
 import { UpdateSearchProfileModalComponent } from '../job-search-profile/update-search-profile-modal/update-search-profile-modal.component';
@@ -57,6 +71,7 @@ import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CONFIRM_DELETE_FAVOURITE_NOTE_MODAL } from '../../shared/job-ad-favourites.types';
 import { ResolvedJobAdSearchProfile } from '../../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 import { getJobAdDeleteConfirmModalConfig } from '../../../shared/search-profiles/modal-config.types';
+import { JobAlertModalComponent } from '../../../shared/layout/search-profile-item/jobalert-modal/jobalert-modal.component';
 
 
 @Component({
@@ -93,7 +108,7 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
 
   disableSaveSearchProfileButton$: Observable<boolean>;
 
-  @ViewChild('searchPanel', {static: false}) searchPanelElement: ElementRef<Element>;
+  @ViewChild('searchPanel', { static: false }) searchPanelElement: ElementRef<Element>;
 
   @BlockUI() blockUI: NgBlockUI;
 
@@ -288,6 +303,23 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
                 this.store.dispatch(new SearchProfileUpdatedAction({ searchProfile: undefined }));
                 this.notificationsService.success('portal.job-ad-search-profiles.notification.profile-deleted');
               });
+          })
+          .catch(() => {
+          });
+      }
+    });
+  }
+
+  toggleJobAlert() {
+    this.jobSearchProfile$.pipe(
+      take(1)
+    ).subscribe(searchProfile => {
+      if (searchProfile) {
+        const modalRef = this.modalService.openLarge(JobAlertModalComponent);
+        const componentInstance = <JobAlertModalComponent>modalRef.componentInstance;
+        componentInstance.searchProfile = searchProfile;
+        modalRef.result
+          .then(result => {
           })
           .catch(() => {
           });

@@ -33,7 +33,6 @@ export interface JobAlertFormValue {
   interval: Interval;
 }
 
-
 @Component({
   selector: 'alv-jobalert-modal',
   templateUrl: './jobalert-modal.component.html'
