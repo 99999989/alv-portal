@@ -19,7 +19,7 @@ export class SearchProfileItemComponent {
 
   @Output() deleted = new EventEmitter<JobAdSearchProfileResult>();
 
-  @Output() toggleJobAlert = new EventEmitter<JobAdSearchProfileResult>()
+  @Output() toggleJobAlert = new EventEmitter<JobAdSearchProfileResult>();
 
   constructor() {
   }
