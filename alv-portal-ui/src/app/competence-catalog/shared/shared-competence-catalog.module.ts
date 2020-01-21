@@ -18,6 +18,8 @@ import { FilterByStatusesFormComponent } from './filter-by-statuses/filter-by-st
 import { FilterByStatusesModalComponent } from './filter-by-statuses/filter-by-statuses-modal/filter-by-statuses-modal.component';
 import { PrerequisiteBacklinkComponent } from './backlinks/prerequisite-backlinks/prerequisite-backlink.component';
 import { PrerequisiteModalComponent } from './prerequisite-modal/prerequisite-modal.component';
+import { WorkEnvironmentModalComponent } from './work-environment-modal/work-environment-modal.component';
+import { WorkEnvironmentBacklinkComponent } from './backlinks/work-environment-backlinks/work-environment-backlink.component';
 
 @NgModule({
   imports: [
@@ -41,7 +43,9 @@ import { PrerequisiteModalComponent } from './prerequisite-modal/prerequisite-mo
     FilterByStatusesFormComponent,
     FilterByStatusesModalComponent,
     PrerequisiteBacklinkComponent,
-    PrerequisiteModalComponent
+    PrerequisiteModalComponent,
+    WorkEnvironmentModalComponent,
+    WorkEnvironmentBacklinkComponent
   ],
   providers: [],
   entryComponents: [
@@ -51,7 +55,9 @@ import { PrerequisiteModalComponent } from './prerequisite-modal/prerequisite-mo
     CompetenceCatalogSortModalComponent,
     FilterByStatusesModalComponent,
     PrerequisiteBacklinkComponent,
-    PrerequisiteModalComponent
+    PrerequisiteModalComponent,
+    WorkEnvironmentModalComponent,
+    WorkEnvironmentBacklinkComponent
   ],
   exports: [
     CompetenceSetComponent,
@@ -67,7 +73,9 @@ import { PrerequisiteModalComponent } from './prerequisite-modal/prerequisite-mo
     BooleanToTextPipe,
     FilterByStatusesFormComponent,
     PrerequisiteBacklinkComponent,
-    PrerequisiteModalComponent
+    PrerequisiteModalComponent,
+    WorkEnvironmentBacklinkComponent,
+    WorkEnvironmentModalComponent
   ]
 })
 export class SharedCompetenceCatalogModule {

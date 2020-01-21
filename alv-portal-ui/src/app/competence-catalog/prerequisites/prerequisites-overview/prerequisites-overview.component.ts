@@ -36,7 +36,7 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
   deletePrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.DELETE,
     icon: ['fas', 'trash'],
-    label: 'portal.competence-catalog.prerequisites.overview.delete.label'
+    label: 'entity.action.delete'
   };
   actions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
