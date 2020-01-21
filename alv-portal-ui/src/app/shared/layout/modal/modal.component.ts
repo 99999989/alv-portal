@@ -44,11 +44,6 @@ export class ModalComponent {
   @Input() showPrimaryButton = true;
 
   /**
-   * (optional) attribute to set visibility of secondary action, default true
-   */
-  @Input() showSecondaryButton = true;
-
-  /**
    * (optional) attribute to set disabled state of primary action
    */
   @Input() primaryButtonDisabled?: boolean;

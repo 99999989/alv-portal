@@ -43,6 +43,8 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
 
   @Input() searchProfile: JobAdSearchProfileResult;
 
+  private isJobAlertEnabled: boolean;
+
   private currentLang: string;
 
   infoNotification = {
@@ -96,12 +98,14 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
 
   onEnable(form: FormGroup) {
     const formValue = <JobAlertFormValue>form.value;
+    this.isJobAlertEnabled = true;
     return this.jobAdSearchProfilesRepository
       .enableJobAlert(mapFormToDto(this.searchProfile.id, this.currentLang, formValue))
       .subscribe(() => this.activeModal.close());
   }
 
   onDisable() {
+    this.isJobAlertEnabled = false;
     this.jobAdSearchProfilesRepository
       .disableJobAlert(this.searchProfile.id).subscribe(() => this.activeModal.close());
   }

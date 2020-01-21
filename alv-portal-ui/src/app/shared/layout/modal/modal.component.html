@@ -50,8 +50,7 @@
             (click)="handleCancelClick()">
       {{cancelLabel | translate}}
     </button>
-<!--    Needs to be refactored if its to stay -->
-    <button *ngIf="showSecondaryButton"
+    <button *ngIf="secondaryLabel"
             type="button"
             class="btn btn-secondary mr-0 mr-md-1 mb-1 mb-md-0"
             [disabled]="isLoading()"

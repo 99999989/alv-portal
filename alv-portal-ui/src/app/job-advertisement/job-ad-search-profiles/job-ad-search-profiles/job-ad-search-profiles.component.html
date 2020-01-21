@@ -29,9 +29,8 @@
       [searchProfile]="jobSearchProfile"
         baseRouterLink="/job-search"
         (deleted)="onDeleteProfile($event)"
-        (enabledJobAlert)="onJobAlertEnabled($event)">
+        (toggleJobAlert)="onJobAlertEnabled($event)">
       </alv-search-profile-item>
-
 
   </ng-container>
   <ng-container *ngIf="jobSearchProfiles && !jobSearchProfiles.length">

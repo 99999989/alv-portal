@@ -19,7 +19,7 @@ export class SearchProfileItemComponent {
 
   @Output() deleted = new EventEmitter<JobAdSearchProfileResult>();
 
-  @Output() enabledJobAlert = new EventEmitter<JobAdSearchProfileResult>();
+  @Output() toggleJobAlert = new EventEmitter<JobAdSearchProfileResult>()
 
   constructor() {
   }
@@ -30,10 +30,10 @@ export class SearchProfileItemComponent {
     this.deleted.emit(this.searchProfile);
   }
 
-  enableJobAlert(event: MouseEvent) {
+  togglingJobAlert(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
-    this.enabledJobAlert.emit(this.searchProfile);
+    this.toggleJobAlert.emit(this.searchProfile);
   }
 
 }

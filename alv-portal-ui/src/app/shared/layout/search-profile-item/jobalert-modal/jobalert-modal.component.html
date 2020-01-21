@@ -2,8 +2,7 @@
            (secondaryAction)="onDisable()"
            (cancelAction)="onCancel()"
            [formGroup]="form"
-           [showSecondaryButton]="false"
-           secondaryLabel="test"
+           secondaryLabel="!isJobAlertEnabled ? '' : 'portal.job-ad-search-profiles.job-alert.enable.modal-dialog.secondary.button'"
            modalTitle="portal.job-ad-search-profiles.job-alert.enable.modal-dialog.title"
            primaryLabel="job-detail.complaint-modal.send"
            cancelLabel="job-detail.complaint-modal.dismiss">

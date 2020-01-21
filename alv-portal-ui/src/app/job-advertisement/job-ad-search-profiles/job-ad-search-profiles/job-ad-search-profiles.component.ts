@@ -69,18 +69,6 @@ export class JobAdSearchProfilesComponent implements OnInit {
   }
 
   onJobAlertEnabled(searchProfile: JobAdSearchProfileResult) {
-    if (!!searchProfile.jobAlert) {
-      this.modalService.openLarge(JobAlertModalComponent
-      ).result
-        .then(result => {
-          this.jobAdSearchProfilesRepository.disableJobAlert(searchProfile.id)
-            .subscribe(() => {
-              this.notificationsService.success('portal.job-ad-search-profiles.notification.profile-deleted');
-            });
-        })
-        .catch(() => {
-        });
-    }
     const modalRef = this.modalService.openLarge(JobAlertModalComponent);
     modalRef.componentInstance.searchProfile = searchProfile;
     modalRef.result
