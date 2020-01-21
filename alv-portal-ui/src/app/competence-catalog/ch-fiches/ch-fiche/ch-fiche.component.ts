@@ -34,6 +34,11 @@ import { PrerequisiteRepository } from '../../../shared/backend-services/compete
 import { PrerequisiteBacklinkComponent } from '../../shared/backlinks/prerequisite-backlinks/prerequisite-backlink.component';
 import { PrerequisiteSearchModalComponent } from '../prerequisite-search-modal/prerequisite-search-modal.component';
 import { PrerequisiteModalComponent } from '../../shared/prerequisite-modal/prerequisite-modal.component';
+import { WorkEnvironment } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
+import { WorkEnvironmentRepository } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment-repository.service';
+import { WorkEnvironmentModalComponent } from '../../shared/work-environment-modal/work-environment-modal.component';
+import { WorkEnvironmentSearchModalComponent } from '../work-environment-search-modal/work-environment-search-modal.component';
+import { WorkEnvironmentBacklinkComponent } from '../../shared/backlinks/work-environment-backlinks/work-environment-backlink.component';
 
 /*
  * todo in this file we have 7 subscribe blocks. It's not good because this way when the
@@ -68,7 +73,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     OCCUPATIONS: true,
     [CompetenceType.BASIC]: true,
     [CompetenceType.SPECIALIST]: true,
-    PREREQUISITES: true
+    PREREQUISITES: true,
+    WORK_ENVIRONMENTS: true
   };
 
   competenceTypes = Object.values(CompetenceType);
@@ -78,6 +84,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
   prerequisites: Prerequisite[] = [];
+
+  workEnvironments: WorkEnvironment[] = [];
 
   linkOccupationAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
@@ -97,6 +105,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
   };
 
+  linkWorkEnvironmentAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.LINK,
+    icon: ['fas', 'search-plus'],
+    label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
+  };
+
   unlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.UNLINK,
     icon: ['fas', 'unlink'],
@@ -109,11 +123,24 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     label: 'portal.competence-catalog.ch-fiches.actions.unlink'
   };
 
+  unlinkWorkEnvironmentAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.UNLINK,
+    icon: ['fas', 'unlink'],
+    label: 'portal.competence-catalog.ch-fiches.actions.unlink'
+  };
+
   backlinkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
   };
+
+  backlinkWorkEnvironmentAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
+
   backlinkCompetenceSetAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
@@ -132,6 +159,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   competenceSetsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
   prerequisiteActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  workEnvironmentActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+
   chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
   constructor(private modalService: ModalService,
@@ -140,6 +169,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
               private competenceSetRepository: CompetenceSetRepository,
               protected authenticationService: AuthenticationService,
               private prerequisiteRepository: PrerequisiteRepository,
+              private workEnvironmentRepository: WorkEnvironmentRepository,
               private notificationsService: NotificationsService) {
     super(authenticationService);
   }
@@ -160,6 +190,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     this.prerequisiteActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.backlinkPrerequisiteAction, this.unlinkPrerequisiteAction] : [this.backlinkPrerequisiteAction])
     );
+    this.workEnvironmentActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.backlinkWorkEnvironmentAction, this.unlinkWorkEnvironmentAction] : [this.backlinkWorkEnvironmentAction])
+    );
   }
 
   ngOnChanges() {
@@ -170,6 +203,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     this.resolvedOccupations = [];
     this.competences = defaultCompetences();
     this.prerequisites = [];
+    this.workEnvironments = [];
   }
 
   addOccupation() {
@@ -249,6 +283,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
+  toggleWorkEnvironments(collapsed: boolean) {
+    if (!collapsed) {
+      this.loadWorkEnvironments().subscribe();
+    }
+  }
+
   toggleCompetences(competenceType: CompetenceType, collapsed: boolean) {
     if (!collapsed) {
       this.loadCompetences(competenceType).subscribe();
@@ -259,6 +299,14 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     return this.prerequisiteRepository.findByIds(this.chFiche.prerequisiteIds).pipe(
       tap(prerequisites => {
         this.prerequisites = prerequisites;
+      })
+    );
+  }
+
+  loadWorkEnvironments(): Observable<WorkEnvironment[]> {
+    return this.workEnvironmentRepository.findByIds(this.chFiche.workEnvironmentIds).pipe(
+      tap(workEnvironments => {
+        this.workEnvironments = workEnvironments;
       })
     );
   }
@@ -360,6 +408,27 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
+  handleWorkEnvironmentActionClick(action: CompetenceCatalogAction, index?: number) {
+    if (action === CompetenceCatalogAction.LINK) {
+      this.addWorkEnvironment();
+    }
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkWorkEnvironment(index);
+    }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openWorkEnvironmentBacklinkModal(index);
+    }
+  }
+
+  viewWorkEnvironment(workEnvironment: WorkEnvironment) {
+    const modalRef = this.modalService.openLarge(WorkEnvironmentModalComponent);
+    if (this.chFiche.title) {
+      const componentInstance = <WorkEnvironmentModalComponent>modalRef.componentInstance;
+      componentInstance.workEnvironment = workEnvironment;
+      componentInstance.isReadonly = true;
+    }
+  }
+
   private openUnlinkConfirmModal(): Promise<CompetenceElement> {
     return this.modalService.openConfirm({
       title: 'portal.competence-catalog.competence-sets.overview.delete-confirmation.title',
@@ -423,19 +492,6 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   }
 
-  private loadCompetences(competenceType: CompetenceType): Observable<CompetenceSetSearchResult[]> {
-    const competences = this.chFiche.competences
-      .filter(competence => competence.type === competenceType)
-      .map(competence => this.competenceSetRepository.findById(competence.competenceSetId));
-    const result = competences.length ? forkJoin(competences) : of([]);
-    return result.pipe(
-      tap(competenceSets => {
-        this.competences[competenceType] = competenceSets;
-      })
-    );
-  }
-
-
   private unlinkPrerequisite(index: number) {
     this.openUnlinkConfirmModal().then(() => {
       this.chFiche.prerequisiteIds.splice(index, 1);
@@ -449,6 +505,50 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   private openPrerequisiteBacklinkModal(index: number) {
     const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent);
     (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = this.prerequisites[index];
+  }
+
+
+  private addWorkEnvironment() {
+    const modalRef = this.modalService.openMedium(WorkEnvironmentSearchModalComponent);
+    (<WorkEnvironmentSearchModalComponent>modalRef.componentInstance).existingWorkEnvironmentIds = this.chFiche.workEnvironmentIds;
+    modalRef.result
+      .then((workEnvironment: WorkEnvironment) => {
+        this.chFiche.workEnvironmentIds.push(workEnvironment.id);
+        this.loadWorkEnvironments().subscribe(() => {
+          this.collapsed['WORK_ENVIRONMENTS'] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-work-environment-success-notification');
+        });
+      })
+      .catch(() => {
+      });
+
+  }
+
+  private unlinkWorkEnvironment(index: number) {
+    this.openUnlinkConfirmModal().then(() => {
+      this.chFiche.workEnvironmentIds.splice(index, 1);
+      this.loadWorkEnvironments().subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-work-environment-success-notification');
+      });
+    }).catch(err => {
+    });
+  }
+
+  private openWorkEnvironmentBacklinkModal(index: number) {
+    const modalRef = this.modalService.openMedium(WorkEnvironmentBacklinkComponent);
+    (<WorkEnvironmentBacklinkComponent>modalRef.componentInstance).workEnvironment = this.workEnvironments[index];
+  }
+
+  private loadCompetences(competenceType: CompetenceType): Observable<CompetenceSetSearchResult[]> {
+    const competences = this.chFiche.competences
+      .filter(competence => competence.type === competenceType)
+      .map(competence => this.competenceSetRepository.findById(competence.competenceSetId));
+    const result = competences.length ? forkJoin(competences) : of([]);
+    return result.pipe(
+      tap(competenceSets => {
+        this.competences[competenceType] = competenceSets;
+      })
+    );
   }
 
 }

@@ -21,6 +21,8 @@ export interface ChFiche {
   draft?: boolean;
   published?: boolean;
   prerequisiteIds: string[];
+  workEnvironmentIds: string[];
+
 }
 
 export interface CreateChFiche {
@@ -31,6 +33,7 @@ export interface CreateChFiche {
   draft?: boolean;
   published?: boolean;
   prerequisiteIds: string[];
+  workEnvironmentIds: string[];
 }
 
 export interface UpdateChFiche {
@@ -41,6 +44,7 @@ export interface UpdateChFiche {
   draft?: boolean;
   published?: boolean;
   prerequisiteIds: string[];
+  workEnvironmentIds: string[];
 }
 
 export interface Occupation {
@@ -60,5 +64,6 @@ export function initialChFiche(): ChFiche {
     occupations: [],
     competences: [],
     prerequisiteIds: [],
+    workEnvironmentIds: [],
   };
 }
