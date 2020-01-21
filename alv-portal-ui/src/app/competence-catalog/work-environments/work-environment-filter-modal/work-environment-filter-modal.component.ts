@@ -8,10 +8,11 @@ import {
 } from '../../shared/filter-by-statuses/filter-by-statuses-mapper';
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { CommonFilters } from '../../shared/shared-competence-catalog.types';
+import { WorkEnvironmentFilterValues } from '../../shared/shared-competence-catalog.types';
+import { WorkEnvironmentType } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
 
 interface WorkEnvironmentsFilterModalFormValue {
-  elementTypes: {};
+  workEnvironmentTypes: {};
   statusFilters?: FilterByStatusesFormValue;
 }
 
@@ -22,8 +23,10 @@ interface WorkEnvironmentsFilterModalFormValue {
   styleUrls: ['./work-environment-filter-modal.component.scss']
 })
 export class WorkEnvironmentsFilterModalComponent extends CompetenceCatalogEditorAwareComponent implements OnInit, AfterViewInit {
-  @Input() currentFiltering: CommonFilters;
+  @Input() currentFiltering: WorkEnvironmentFilterValues;
   form: FormGroup;
+  workEnvironmentTypes = Object.values(WorkEnvironmentType);
+
 
   constructor(private fb: FormBuilder,
               public activeModal: NgbActiveModal,
@@ -41,14 +44,16 @@ export class WorkEnvironmentsFilterModalComponent extends CompetenceCatalogEdito
   ngOnInit() {
     super.ngOnInit();
     this.form = this.fb.group({
-      elementTypes: this.fb.group(this.createControlsConfig())
+      workEnvironmentTypes: this.fb.group(this.createControlsConfig())
     });
   }
 
 
   filter() {
     const formValue: WorkEnvironmentsFilterModalFormValue = this.form.value;
-    let result: CommonFilters = {};
+    let result: WorkEnvironmentFilterValues = {
+      types: mapFormValueToWorkEnvironmentTypeFilters(formValue, this.workEnvironmentTypes)
+    };
     if (formValue && formValue.hasOwnProperty('statusFilters')) {
       result = { ...result, ...filterByStatusesFormValueToFlagsMapper(formValue.statusFilters) };
     }
@@ -60,6 +65,14 @@ export class WorkEnvironmentsFilterModalComponent extends CompetenceCatalogEdito
   }
 
   private createControlsConfig(): { [key: string]: any } {
-    return {}; // fixme
+    return this.workEnvironmentTypes.reduce((prev, curr) => {
+      prev[curr] = [this.currentFiltering.types.includes(curr)];
+      return prev;
+    }, {});
   }
+}
+
+function mapFormValueToWorkEnvironmentTypeFilters(formValue: WorkEnvironmentsFilterModalFormValue, possibleWorkEnvironmentTypes: WorkEnvironmentType[]): WorkEnvironmentType[] {
+  const res = possibleWorkEnvironmentTypes.filter((possibleElementType) => formValue.workEnvironmentTypes[possibleElementType]);
+  return res.length ? res : possibleWorkEnvironmentTypes;
 }
