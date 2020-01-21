@@ -7,6 +7,7 @@ import {
   faCircle as farCircle,
   faFileImage as farFileImage,
   faFilePdf as farFilePdf,
+  faIndustryAlt,
   faListAlt as farListAlt,
   faStar as farStar,
   faStickyNote as farStickyNote
@@ -173,6 +174,7 @@ export class IconsLibraryService {
       farCircle,
       farFileImage,
       faBallotCheck,
+      faIndustryAlt,
       farFilePdf,
       farStar,
       farListAlt,
