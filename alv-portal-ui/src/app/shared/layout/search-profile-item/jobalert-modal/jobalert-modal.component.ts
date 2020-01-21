@@ -73,7 +73,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
     super();
     this.form = this.fb.group({
       email: [false, Validators.requiredTrue],
-      intervalType: [null, Validators.required]
+      interval: [null, Validators.required]
     });
   }
 
@@ -87,7 +87,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
         if (!!user) {
           this.form = this.fb.group({
             email: ['', Validators.required],
-            intervalType: [null, Validators.required]
+            interval: [null, Validators.required]
           });
           this.patchTemplateValues(user.email);
         }
