@@ -34,14 +34,18 @@ import { PrerequisiteRepository } from '../../../shared/backend-services/compete
 import { PrerequisiteBacklinkComponent } from '../../shared/backlinks/prerequisite-backlinks/prerequisite-backlink.component';
 import { PrerequisiteSearchModalComponent } from '../prerequisite-search-modal/prerequisite-search-modal.component';
 import { PrerequisiteModalComponent } from '../../shared/prerequisite-modal/prerequisite-modal.component';
-import { WorkEnvironment } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
+import {
+  WorkEnvironment,
+  WorkEnvironmentType
+} from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
 import { WorkEnvironmentRepository } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment-repository.service';
 import { WorkEnvironmentModalComponent } from '../../shared/work-environment-modal/work-environment-modal.component';
 import { WorkEnvironmentSearchModalComponent } from '../work-environment-search-modal/work-environment-search-modal.component';
 import { WorkEnvironmentBacklinkComponent } from '../../shared/backlinks/work-environment-backlinks/work-environment-backlink.component';
+import without from 'lodash/without';
 
 /*
- * todo in this file we have 7 subscribe blocks. It's not good because this way when the
+ * todo in this file we have ~10 subscribe blocks. It's not good because this way when the
  *   @Input changes, the element is not fully redrawn. Another problem is that the subscriptions
  *   can get lost and we will end up with the memery leaks.
  *   Part of the logic should be moved to the dedicated services, and we need to strive to
@@ -78,6 +82,8 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   };
 
   competenceTypes = Object.values(CompetenceType);
+
+  workEnvironmentTypes = Object.values(WorkEnvironmentType);
 
   resolvedOccupations: ResolvedOccupation[] = [];
 
@@ -269,12 +275,13 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  private unlinkCompetence(index: number, type: CompetenceType) {
-    this.chFiche.competences.splice(index, 1);
-    this.loadCompetences(type)
-      .subscribe(() => {
-        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
-      });
+  handleWorkEnvironmentActionClick(action: CompetenceCatalogAction, workEnvironment, index?: number) {
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkWorkEnvironment(workEnvironment);
+    }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openWorkEnvironmentBacklinkModal(index);
+    }
   }
 
   togglePrerequisites(collapsed: boolean) {
@@ -408,16 +415,22 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  handleWorkEnvironmentActionClick(action: CompetenceCatalogAction, index?: number) {
-    if (action === CompetenceCatalogAction.LINK) {
-      this.addWorkEnvironment();
-    }
-    if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkWorkEnvironment(index);
-    }
-    if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openWorkEnvironmentBacklinkModal(index);
-    }
+  openAddWorkEnvironmentModal(workEnvironmentType: WorkEnvironmentType) {
+    const modalRef = this.modalService.openMedium(WorkEnvironmentSearchModalComponent);
+    const modalInstance = <WorkEnvironmentSearchModalComponent>modalRef.componentInstance;
+    modalInstance.existingWorkEnvironmentIds = this.chFiche.workEnvironmentIds;
+    modalInstance.workEnvironmentType = workEnvironmentType;
+
+    modalRef.result
+      .then((workEnvironment: WorkEnvironment) => {
+        this.chFiche.workEnvironmentIds.push(workEnvironment.id);
+        this.loadWorkEnvironments().subscribe(() => {
+          this.collapsed['WORK_ENVIRONMENTS'] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-work-environment-success-notification');
+        });
+      })
+      .catch(() => {
+      });
   }
 
   viewWorkEnvironment(workEnvironment: WorkEnvironment) {
@@ -507,31 +520,13 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = this.prerequisites[index];
   }
 
-
-  private addWorkEnvironment() {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentSearchModalComponent);
-    (<WorkEnvironmentSearchModalComponent>modalRef.componentInstance).existingWorkEnvironmentIds = this.chFiche.workEnvironmentIds;
-    modalRef.result
-      .then((workEnvironment: WorkEnvironment) => {
-        this.chFiche.workEnvironmentIds.push(workEnvironment.id);
-        this.loadWorkEnvironments().subscribe(() => {
-          this.collapsed['WORK_ENVIRONMENTS'] = false;
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-work-environment-success-notification');
-        });
-      })
-      .catch(() => {
+  //fixme better to pass the competence itself than its index and type.
+  private unlinkCompetence(index: number, type: CompetenceType) {
+    this.chFiche.competences.splice(index, 1);
+    this.loadCompetences(type)
+      .subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-competence-set-success-notification');
       });
-
-  }
-
-  private unlinkWorkEnvironment(index: number) {
-    this.openUnlinkConfirmModal().then(() => {
-      this.chFiche.workEnvironmentIds.splice(index, 1);
-      this.loadWorkEnvironments().subscribe(() => {
-        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-work-environment-success-notification');
-      });
-    }).catch(err => {
-    });
   }
 
   private openWorkEnvironmentBacklinkModal(index: number) {
@@ -551,6 +546,15 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     );
   }
 
+  private unlinkWorkEnvironment(workEnvironment: WorkEnvironment) {
+    this.openUnlinkConfirmModal().then(() => {
+      this.chFiche.workEnvironmentIds = without(this.chFiche.workEnvironmentIds, workEnvironment.id);
+      this.loadWorkEnvironments().subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-work-environment-success-notification');
+      });
+    }).catch(err => {
+    });
+  }
 }
 
 interface ResolvedOccupation {

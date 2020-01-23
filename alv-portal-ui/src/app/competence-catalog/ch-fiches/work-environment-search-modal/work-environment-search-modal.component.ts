@@ -6,7 +6,10 @@ import { I18nService } from '../../../core/i18n.service';
 import { Observable } from 'rxjs';
 import { WorkEnvironmentRepository } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment-repository.service';
 import { DEFAULT_PAGE_SIZE } from '../../../shared/backend-services/request-util';
-import { WorkEnvironment } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
+import {
+  WorkEnvironment,
+  WorkEnvironmentType
+} from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
 import { TypeaheadItem } from '../../../shared/forms/input/typeahead/typeahead-item';
 import { DEFAULT_SORT_OPTIONS } from '../../shared/constants';
 import { getTranslatedString } from '../../shared/shared-competence-catalog.types';
@@ -23,6 +26,7 @@ export class WorkEnvironmentSearchModalComponent implements OnInit {
 
   searchWorkEnvironmentsFn = this.search.bind(this);
   existingWorkEnvironmentIds: string[];
+  workEnvironmentType: WorkEnvironmentType;
   private currentLang: string;
 
   constructor(private modal: NgbActiveModal,
@@ -53,7 +57,8 @@ export class WorkEnvironmentSearchModalComponent implements OnInit {
   search(query: string): Observable<TypeaheadItem<WorkEnvironment>[]> {
     return this.workEnvironmentRepository.search({
       body: {
-        query: query
+        query: query,
+        types: [this.workEnvironmentType]
       },
       page: 0,
       sort: DEFAULT_SORT_OPTIONS.ALPHA_ASC,
