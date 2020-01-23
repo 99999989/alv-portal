@@ -1,30 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { IconKey } from '../../../shared/icons/custom-icon/custom-icon.component';
-import { ProofOfWorkEffortsRepository } from '../../../shared/backend-services/work-efforts/proof-of-work-efforts.repository';
-import { AuthenticationService } from '../../../core/auth/authentication.service';
-import { debounceTime, filter, flatMap, map, takeUntil } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { WorkEffortsFilterModalComponent } from './work-efforts-filter-modal/work-efforts-filter-modal.component';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {IconKey} from '../../../shared/icons/custom-icon/custom-icon.component';
+import {ProofOfWorkEffortsRepository} from '../../../shared/backend-services/work-efforts/proof-of-work-efforts.repository';
+import {AuthenticationService} from '../../../core/auth/authentication.service';
+import {debounceTime, filter, flatMap, map, takeUntil} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {ModalService} from '../../../shared/layout/modal/modal.service';
+import {WorkEffortsFilterModalComponent} from './work-efforts-filter-modal/work-efforts-filter-modal.component';
 import {
   initialWorkEffortsFilter,
   WorkEffortApplyStatusFilter,
-  WorkEffortsFilter,
   WorkEffortsControlPeriodFilter,
+  WorkEffortsFilter,
   WorkEffortsFilterValues
 } from './work-efforts-overview-filter.types';
-import { AbstractSubscriber } from '../../../core/abstract-subscriber';
-import { FilterBadge } from '../../../shared/layout/inline-badges/inline-badge.types';
-import { WorkEffortsOverviewFilterBadgesMapper } from './work-efforts-overview-filter-badges.mapper';
-import {
-  Notification,
-  NotificationType
-} from '../../../shared/layout/notifications/notification.model';
-import { I18nService } from '../../../core/i18n.service';
-import { Languages } from '../../../core/languages.constants';
-import { ProofOfWorkEffortsModel } from './proof-of-work-efforts/proof-of-work-efforts.model';
-import { DEFAULT_PAGE_SIZE } from '../../../shared/backend-services/request-util';
+import {AbstractSubscriber} from '../../../core/abstract-subscriber';
+import {FilterBadge} from '../../../shared/layout/inline-badges/inline-badge.types';
+import {WorkEffortsOverviewFilterBadgesMapper} from './work-efforts-overview-filter-badges.mapper';
+import {Notification, NotificationType} from '../../../shared/layout/notifications/notification.model';
+import {I18nService} from '../../../core/i18n.service';
+import {Languages} from '../../../core/languages.constants';
+import {ProofOfWorkEffortsModel} from './proof-of-work-efforts/proof-of-work-efforts.model';
+import {DEFAULT_PAGE_SIZE} from '../../../shared/backend-services/request-util';
 
 @Component({
   selector: 'alv-work-efforts-overview',
@@ -109,8 +106,7 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   isFiltered() {
     const query = this.currentFilter.query;
     const applyStatus = this.currentFilter.applyStatus;
-    const controlPeriod = this.currentFilter.controlPeriod;
-    if ((query !== null && query.length >= this.SEARCH_QUERY_MIN_LENGTH) || (applyStatus !== this.FILTER_RESET_VALUES.applyStatus) || (controlPeriod !== this.FILTER_RESET_VALUES.controlPeriod)) {
+    if ((query !== null && query.length >= this.SEARCH_QUERY_MIN_LENGTH) || (applyStatus !== this.FILTER_RESET_VALUES.applyStatus)) {
       return true;
     }
     return false;
