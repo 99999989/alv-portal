@@ -31,6 +31,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'work-environments',
+    loadChildren: './work-environments/work-environments.module#WorkEnvironmentsModule',
+    data: {
+      titleKey: 'portal.competence-catalog.work-environments.browser-title',
+    }
+  },
+  {
     path: '**',
     redirectTo: 'ch-fiches'
   }
