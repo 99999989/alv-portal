@@ -36,7 +36,7 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
 
   typeOptions$: Observable<SelectableOption[]> = of([{
       value: null,
-      label: 'portal.competence-catalog.work-environment.add-modal.choose-type'
+      label: 'portal.competence-catalog.work-environments.add-modal.choose-type'
     }
     ].concat(Object.values(WorkEnvironmentType).map(type => {
       return {
