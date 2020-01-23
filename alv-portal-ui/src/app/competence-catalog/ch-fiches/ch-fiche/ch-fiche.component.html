@@ -140,7 +140,7 @@
                                          [darkMode]="false"
                                          [isCollapsed]="false"
                                          [isEmpty]="(workEnvironments | filterByKeyValue : {type: workEnvironmentType} ).length===0"
-                                         [label]="'portal.competence-catalog.element-type.' + workEnvironmentType"
+                                         [label]="'portal.competence-catalog.work-environment-type.' + workEnvironmentType"
                                          [showActionButtons]="!isReadonly"
                                          class="d-block mt-1">
       <alv-interactive-list-item (actionClick)="handleWorkEnvironmentActionClick($event, workEnvironment)"
