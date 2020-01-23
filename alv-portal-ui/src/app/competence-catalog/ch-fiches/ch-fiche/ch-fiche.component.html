@@ -143,7 +143,7 @@
                                          [label]="'portal.competence-catalog.element-type.' + workEnvironmentType"
                                          [showActionButtons]="!isReadonly"
                                          class="d-block mt-1">
-      <alv-interactive-list-item (actionClick)="handleWorkEnvironmentActionClick($event, workEnvironment, index)"
+      <alv-interactive-list-item (actionClick)="handleWorkEnvironmentActionClick($event, workEnvironment)"
                                  (itemClick)="viewWorkEnvironment(workEnvironment)"
                                  *ngFor="let workEnvironment of workEnvironments | filterByKeyValue : {type: workEnvironmentType} ; let index = index;"
                                  [actions]="observables.workEnvironmentActions"

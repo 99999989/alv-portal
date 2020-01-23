@@ -275,12 +275,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  handleWorkEnvironmentActionClick(action: CompetenceCatalogAction, workEnvironment, index?: number) {
+  handleWorkEnvironmentActionClick(action: CompetenceCatalogAction, workEnvironment) {
     if (action === CompetenceCatalogAction.UNLINK) {
       this.unlinkWorkEnvironment(workEnvironment);
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openWorkEnvironmentBacklinkModal(index);
+      this.openWorkEnvironmentBacklinkModal(workEnvironment);
     }
   }
 
@@ -529,9 +529,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       });
   }
 
-  private openWorkEnvironmentBacklinkModal(index: number) {
+  private openWorkEnvironmentBacklinkModal(workEnvironment: WorkEnvironment) {
     const modalRef = this.modalService.openMedium(WorkEnvironmentBacklinkComponent);
-    (<WorkEnvironmentBacklinkComponent>modalRef.componentInstance).workEnvironment = this.workEnvironments[index];
+    (<WorkEnvironmentBacklinkComponent>modalRef.componentInstance).workEnvironment = workEnvironment;
   }
 
   private loadCompetences(competenceType: CompetenceType): Observable<CompetenceSetSearchResult[]> {
