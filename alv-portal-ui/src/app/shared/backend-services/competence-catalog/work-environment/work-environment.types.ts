@@ -8,6 +8,7 @@ export enum WorkEnvironmentType {
 
 export interface WorkEnvironment {
   id: string;
+  type: WorkEnvironmentType;
   draft: boolean;
   published: boolean;
   description: TranslatedString;
