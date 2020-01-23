@@ -14,6 +14,8 @@ import { ChFicheTitleModalComponent } from './ch-fiche-title-modal/ch-fiche-titl
 import { ChFicheDescriptionModalComponent } from './ch-fiche-description-modal/ch-fiche-description-modal.component';
 import { CompetenceSetInFicheSettingsModalComponent } from './ch-fiche/competence-set-in-fiche-settings-modal/competence-set-in-fiche-settings-modal.component';
 import { PrerequisiteSearchModalComponent } from './prerequisite-search-modal/prerequisite-search-modal.component';
+import { WorkEnvironmentSearchModalComponent } from './work-environment-search-modal/work-environment-search-modal.component';
+import { FilterByKeyValuePipe } from './ch-fiche/filter-by-key-value.pipe';
 
 @NgModule({
   imports: [
@@ -32,7 +34,9 @@ import { PrerequisiteSearchModalComponent } from './prerequisite-search-modal/pr
     ChFicheTitleModalComponent,
     ChFicheDescriptionModalComponent,
     PrerequisiteSearchModalComponent,
-    CompetenceSetInFicheSettingsModalComponent
+    WorkEnvironmentSearchModalComponent,
+    CompetenceSetInFicheSettingsModalComponent,
+    FilterByKeyValuePipe
   ],
   entryComponents: [
     CompetenceSetSearchModalComponent,
@@ -40,6 +44,7 @@ import { PrerequisiteSearchModalComponent } from './prerequisite-search-modal/pr
     ChFicheTitleModalComponent,
     ChFicheDescriptionModalComponent,
     PrerequisiteSearchModalComponent,
+    WorkEnvironmentSearchModalComponent,
     CompetenceSetInFicheSettingsModalComponent
   ],
   providers: [

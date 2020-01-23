@@ -2,7 +2,8 @@
     competenceSetsActions: competenceSetsActions$ | async,
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
     isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
-    prerequisiteActions: prerequisiteActions$ | async
+    prerequisiteActions: prerequisiteActions$ | async,
+    workEnvironmentActions: workEnvironmentActions$ | async
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -121,5 +122,43 @@
                                titleClass="font-weight-normal">
 
     </alv-interactive-list-item>
+  </alv-competence-items-collapse-panel>
+
+  <alv-competence-items-collapse-panel (toggleClick)="toggleWorkEnvironments($event)"
+                                       [darkMode]="true"
+                                       [isCollapsed]="collapsed.WORK_ENVIRONMENTS"
+                                       [isEmpty]="false"
+                                       [label]="'portal.competence-catalog.ch-fiches.label.work-environments'"
+                                       [showActionButtons]="!isReadonly"
+                                       class="d-block mt-2"
+  >
+
+
+    <alv-competence-items-collapse-panel (actionClick)="openAddWorkEnvironmentModal(workEnvironmentType)"
+                                         *ngFor="let workEnvironmentType of workEnvironmentTypes"
+                                         [actions]="[linkWorkEnvironmentAction]"
+                                         [darkMode]="false"
+                                         [isCollapsed]="false"
+                                         [isEmpty]="(workEnvironments | filterByKeyValue : {type: workEnvironmentType} ).length===0"
+                                         [label]="'portal.competence-catalog.work-environment-type.' + workEnvironmentType"
+                                         [showActionButtons]="!isReadonly"
+                                         class="d-block mt-1">
+      <alv-interactive-list-item (actionClick)="handleWorkEnvironmentActionClick($event, workEnvironment)"
+                                 (itemClick)="viewWorkEnvironment(workEnvironment)"
+                                 *ngFor="let workEnvironment of workEnvironments | filterByKeyValue : {type: workEnvironmentType} ; let index = index;"
+                                 [actions]="observables.workEnvironmentActions"
+                                 [isDraft]="workEnvironment.draft"
+                                 [isItemClickable]="true"
+                                 [isPublished]="workEnvironment.published"
+                                 [multiLanguageTitle]="workEnvironment.description"
+                                 [showActionButtons]="observables.isCompetenceCatalogEditor"
+                                 [superTitle]="workEnvironment.id"
+                                 [type]="'portal.competence-catalog.work-environment-type.'+workEnvironment.type | translate"
+                                 titleClass="font-weight-normal">
+
+      </alv-interactive-list-item>
+
+    </alv-competence-items-collapse-panel>
+
   </alv-competence-items-collapse-panel>
 </ng-container>

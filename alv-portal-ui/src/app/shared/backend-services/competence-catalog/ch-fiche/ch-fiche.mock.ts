@@ -24,5 +24,6 @@ export const mockChFiche: ChFiche = {
     en: 'ficheEnTitle',
     fr: 'ficheFrTitle',
     it: 'ficheItTitle'
-  }
+  },
+  workEnvironmentIds: []
 };

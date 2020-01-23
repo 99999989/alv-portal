@@ -1,5 +1,6 @@
 import { Languages } from '../../core/languages.constants';
 import { ElementType } from '../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
+import { WorkEnvironmentType } from '../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
 
 export interface TranslatedString {
   de: string;
@@ -20,6 +21,10 @@ export interface CommonFilters {
 
 export interface CompetenceElementFilterValues extends CommonFilters {
   types: ElementType[];
+}
+
+export interface WorkEnvironmentFilterValues extends CommonFilters {
+  types: WorkEnvironmentType[];
 }
 
 /*

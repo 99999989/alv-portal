@@ -1,0 +1,52 @@
+<div class="modal-header">
+
+  <div class="d-flex flex-row align-items-start w-100">
+    <div class="d-flex flex-column w-100">
+      <h2 class="modal-title">
+        {{'portal.competence-catalog.work-environments.add-modal.dialog-title' | translate}}
+      </h2>
+    </div>
+
+    <div class="flex-grow-1"></div>
+
+    <button (click)="cancel()"
+            [attr.aria-label]="'portal.global.close' | translate"
+            class="close"
+            type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+<form (ngSubmit)="submit()"
+      [formGroup]="form">
+  <div class="modal-body">
+
+
+    <fieldset>
+
+      <alv-single-typeahead [autofocus]="true"
+                            [focusFirst]="true"
+                            [loadItems]="searchWorkEnvironmentsFn"
+                            alvFormControlName="workEnvironment"
+                            label="portal.global.search">
+      </alv-single-typeahead>
+
+
+    </fieldset>
+  </div>
+  <div class="modal-footer align-items-stretch align-items-md-center flex-column-reverse flex-md-row">
+    <button (click)="cancel()"
+            class="btn btn-text mr-0 mr-md-1 mb-1 mb-md-0"
+            type="button">
+      {{'portal.global.cancel' | translate}}
+    </button>
+
+    <button [disabled]="form.pending || form.invalid"
+            class="btn btn-primary mb-1 mb-md-0 ml-0"
+            type="submit">
+      {{'portal.global.add' | translate}}
+    </button>
+  </div>
+</form>
+
+

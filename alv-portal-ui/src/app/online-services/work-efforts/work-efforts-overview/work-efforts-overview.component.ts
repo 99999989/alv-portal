@@ -10,17 +10,14 @@ import { WorkEffortsFilterModalComponent } from './work-efforts-filter-modal/wor
 import {
   initialWorkEffortsFilter,
   WorkEffortApplyStatusFilter,
-  WorkEffortsFilter,
   WorkEffortsControlPeriodFilter,
+  WorkEffortsFilter,
   WorkEffortsFilterValues
 } from './work-efforts-overview-filter.types';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
 import { FilterBadge } from '../../../shared/layout/inline-badges/inline-badge.types';
 import { WorkEffortsOverviewFilterBadgesMapper } from './work-efforts-overview-filter-badges.mapper';
-import {
-  Notification,
-  NotificationType
-} from '../../../shared/layout/notifications/notification.model';
+import { Notification, NotificationType } from '../../../shared/layout/notifications/notification.model';
 import { I18nService } from '../../../core/i18n.service';
 import { Languages } from '../../../core/languages.constants';
 import { ProofOfWorkEffortsModel } from './proof-of-work-efforts/proof-of-work-efforts.model';
@@ -109,8 +106,7 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   isFiltered() {
     const query = this.currentFilter.query;
     const applyStatus = this.currentFilter.applyStatus;
-    const controlPeriod = this.currentFilter.controlPeriod;
-    if ((query !== null && query.length >= this.SEARCH_QUERY_MIN_LENGTH) || (applyStatus !== this.FILTER_RESET_VALUES.applyStatus) || (controlPeriod !== this.FILTER_RESET_VALUES.controlPeriod)) {
+    if ((query !== null && query.length >= this.SEARCH_QUERY_MIN_LENGTH) || (applyStatus !== this.FILTER_RESET_VALUES.applyStatus)) {
       return true;
     }
     return false;
