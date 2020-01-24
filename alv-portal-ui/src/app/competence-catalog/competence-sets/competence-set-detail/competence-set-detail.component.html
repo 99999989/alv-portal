@@ -38,10 +38,12 @@
             [formGroup]="form">
         <alv-radio-button [options$]="publishedRadioButtonOptions$"
                           alvFormControlName="published"
+                          [readonly]="!isEdit"
                           [label]="'portal.competence-catalog.publication-status' | translate"
         ></alv-radio-button>
         <alv-radio-button [options$]="draftRadioButtonOptions$"
                           alvFormControlName="draft"
+                          [readonly]="!isEdit"
                           [label]="'portal.competence-catalog.draft-status' | translate"
         ></alv-radio-button>
       </form>
