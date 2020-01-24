@@ -8,12 +8,15 @@
   <div class="checkbox-radio"
        [ngClass]="radioButtonClass"
        *ngFor="let option of options$ | async; let first = first">
+<!--    in order to make the radio button enabled you need
+ to pass null to attr.disabled, see https://github.com/angular/angular/issues/11763 -->
     <input class="form-check-input"
            type="radio"
            [formControl]="control"
            [name]="name"
            [value]="option.value"
            [attr.id]="id + '-' + option.value"
+           [attr.disabled]="readonly?  true: null"
            [attr.aria-readonly]="readonly"
            [alvAutofocus]="first ? autofocus : false"
            (click)="!readonly">
