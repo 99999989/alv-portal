@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {
   ChFiche,
   Competence,
@@ -201,8 +201,10 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     );
   }
 
-  ngOnChanges() {
-    this.reset();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['chFiche']) {
+      this.reset();
+    }
   }
 
   reset() {
