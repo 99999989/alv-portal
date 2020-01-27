@@ -139,5 +139,6 @@ export interface Company {
 export enum HeadJobCenterCode {
   BEAJ0 = 'BEAJ0',
   BSA80 = 'BSA80',
-  SOAD0 = 'SOAD0'
+  SOAD0 = 'SOAD0',
+  TIA30 = 'TIA30'
 }
