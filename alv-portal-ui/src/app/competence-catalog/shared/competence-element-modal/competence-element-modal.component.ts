@@ -6,7 +6,7 @@ import {
   CompetenceElement,
   ElementType
 } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { NotificationsService } from '../../../core/notifications.service';
@@ -14,6 +14,8 @@ import { getModalTitle } from '../utils/translation-utils';
 import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { catchError } from 'rxjs/operators';
+import { BusinessExceptionTypes } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
 
 @Component({
   selector: 'alv-competence-element-modal',
@@ -100,11 +102,13 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
     })
+      .pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
 
   private createElement() {
     this.competenceElementRepository.create(this.form.value)
+      .pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
 
@@ -127,4 +131,11 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
     }
   }
 
+  private handleFailure(error) {
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_UNPUBLISH_KNOW_HOW_REFERENCED_IN_A_PUBLISHED_COMPETENCE_SET) {
+      this.notificationsService.error('portal.competence-catalog.competence-elements.add-modal.cannot_unpublish_know_how_referenced_in_a_published_competence_set');
+      return EMPTY;
+    }
+    return throwError;
+  }
 }
