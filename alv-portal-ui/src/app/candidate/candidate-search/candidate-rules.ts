@@ -178,6 +178,8 @@ function replaceWithHeadJobCenter(jobCenterCode) {
     jobCenterCode = HeadJobCenterCode.BSA80;
   } else if (jobCenterCode.startsWith('SOA')) {
     jobCenterCode = HeadJobCenterCode.SOAD0;
+  } else if (jobCenterCode.startsWith('TIA')) {
+    jobCenterCode = HeadJobCenterCode.TIA30;
   }
   return jobCenterCode;
 }
