@@ -5,7 +5,7 @@ import {
   WorkEnvironment,
   WorkEnvironmentType
 } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkEnvironmentRepository } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment-repository.service';
 import { NotificationsService } from '../../../core/notifications.service';
@@ -14,6 +14,8 @@ import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constan
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { SelectableOption } from '../../../shared/forms/input/selectable-option.model';
+import { BusinessExceptionTypes } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'alv-work-environment-modal',
@@ -100,11 +102,14 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
     })
+      .pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
 
   private createWorkEnvironment() {
     this.workEnvironmentRepository.create(this.form.value)
+      .pipe(catchError(this.handleFailure.bind(this)))
+
       .subscribe(this.handleSuccess.bind(this));
   }
 
@@ -125,6 +130,14 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
     } else {
       this.modal.close(result);
     }
+  }
+
+  private handleFailure(error) {
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_DRAFT) {
+      this.notificationsService.error('portal.competence-catalog.error-message.cannot_publish_draft');
+      return EMPTY;
+    }
+    return throwError;
   }
 
 }

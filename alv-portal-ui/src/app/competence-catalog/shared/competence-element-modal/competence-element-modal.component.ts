@@ -136,6 +136,10 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
       this.notificationsService.error('portal.competence-catalog.competence-elements.add-modal.cannot_unpublish_know_how_referenced_in_a_published_competence_set');
       return EMPTY;
     }
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_DRAFT) {
+      this.notificationsService.error('portal.competence-catalog.error-message.cannot_publish_draft');
+      return EMPTY;
+    }
     return throwError;
   }
 }

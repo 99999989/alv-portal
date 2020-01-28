@@ -143,6 +143,10 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
       this.notificationsService.error('portal.competence-catalog.ch-fiches.duplicated-beruf-error-notification');
       return EMPTY;
     }
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_DRAFT) {
+      this.notificationsService.error('portal.competence-catalog.error-message.cannot_publish_draft');
+      return EMPTY;
+    }
     return throwError;
   }
 

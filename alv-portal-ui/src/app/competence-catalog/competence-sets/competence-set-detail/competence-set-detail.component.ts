@@ -137,6 +137,10 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       this.notificationsService.error('portal.competence-catalog.competence-sets.error-message.cannot_publish_competence_set_when_know_how_is_not_published');
       return EMPTY;
     }
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_DRAFT) {
+      this.notificationsService.error('portal.competence-catalog.error-message.cannot_publish_draft');
+      return EMPTY;
+    }
     return throwError;
   }
 

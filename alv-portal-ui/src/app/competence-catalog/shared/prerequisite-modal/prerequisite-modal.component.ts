@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { atLeastOneRequiredValidator } from '../../../shared/forms/input/validators/at-least-one-required.validator';
 import { Prerequisite } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite.types';
-import { of } from 'rxjs';
+import { EMPTY, of, throwError } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PrerequisiteRepository } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite-repository.service';
 import { NotificationsService } from '../../../core/notifications.service';
@@ -10,6 +10,8 @@ import { getModalTitle } from '../utils/translation-utils';
 import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { BusinessExceptionTypes } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'alv-prerequisite-modal',
@@ -83,11 +85,14 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
     })
+      .pipe(catchError(this.handleFailure.bind(this)))
+
       .subscribe(this.handleSuccess.bind(this));
   }
 
   private createPrerequisite() {
     this.prerequisiteRepository.create(this.form.value)
+      .pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
 
@@ -107,6 +112,14 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
     } else {
       this.modal.close(result);
     }
+  }
+
+  private handleFailure(error) {
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_DRAFT) {
+      this.notificationsService.error('portal.competence-catalog.error-message.cannot_publish_draft');
+      return EMPTY;
+    }
+    return throwError;
   }
 
 }

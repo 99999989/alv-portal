@@ -1182,6 +1182,7 @@ portal.competence-catalog.competence-sets.browser-title,Kompetenz-Sets,Skill set
 portal.competence-catalog.element-type.KNOW_HOW,Handlungswissen,Know-how,Savoirs-faire,Competenze operative,
 portal.competence-catalog.element-type.KNOW_HOW_INDICATOR,Handlungswissen Indikator,Know-how indicator,Indicateur des savoirs-faire,Indicatore delle competenze operative,
 portal.competence-catalog.element-type.KNOWLEDGE,Wissen,Knowledge,Savoirs,Conoscenze,
+portal.competence-catalog.error-message.cannot_publish_draft,Cannot publish draft,Entwurf kann nicht veröffentlicht werden,Impossible de publier un objet qui a le statut En élaboration,Non può pubblicare la bozza
 portal.competence-catalog.element-type.prerequisite,Voraussetzung,Prerequisite,Condition,Requisito,
 portal.competence-catalog.competence-elements.overview.backlink,Verknüpfung ansehen,View link,Voir la connexion,Visualizzare collegamento,
 portal.competence-catalog.competence-elements.overview.no-backlink,Keine Verknüpfungen vorhanden,No links available,Pas de connexion disponible,Nessun collegamento disponibile,
