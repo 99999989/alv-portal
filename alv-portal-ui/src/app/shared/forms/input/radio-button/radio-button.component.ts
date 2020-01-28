@@ -16,6 +16,7 @@ export class RadioButtonComponent extends AbstractSelectableInput implements OnI
   @Input()
   name: string;
 
+
   @Input()
   radioButtonClass: string;
 
