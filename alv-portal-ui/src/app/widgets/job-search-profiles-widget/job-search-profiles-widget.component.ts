@@ -1,14 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { IconKey } from '../../shared/icons/custom-icon/custom-icon.component';
 import { JobAdSearchProfilesRepository } from '../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.repository';
 import { AuthenticationService } from '../../core/auth/authentication.service';
-import { flatMap, take } from 'rxjs/operators';
+import {
+  flatMap,
+  take
+} from 'rxjs/operators';
 import { ModalService } from '../../shared/layout/modal/modal.service';
 import { NotificationsService } from '../../core/notifications.service';
 import { JobAdSearchProfileResult } from '../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 import { getJobAdDeleteConfirmModalConfig } from '../../shared/search-profiles/modal-config.types';
 import { SearchProfile } from '../../shared/backend-services/shared.types';
 import { removeSearchProfileAnimation } from '../../shared/animations/animations';
+import { JobAlertModalComponent } from '../../shared/layout/search-profile-item/jobalert-modal/jobalert-modal.component';
 
 @Component({
   selector: 'alv-job-search-profiles-widget',
@@ -56,6 +63,20 @@ export class JobSearchProfilesWidgetComponent implements OnInit {
             this.notificationsService.success('portal.job-ad-search-profiles.notification.profile-deleted');
             this.jobSearchProfiles.splice(this.jobSearchProfiles.findIndex(p => p.id === profile.id), 1);
             this.initItems();
+          });
+      })
+      .catch(() => {
+      });
+  }
+
+  onJobAlertEnabled(searchProfile: JobAdSearchProfileResult) {
+    const modalRef = this.modalService.openLarge(JobAlertModalComponent);
+    modalRef.componentInstance.searchProfile = searchProfile;
+    modalRef.result
+      .then(() => {
+        this.jobAdSearchProfilesRepository.enableJobAlert(searchProfile.jobAlert)
+          .subscribe(() => {
+            this.notificationsService.success('portal.job-ad-search-profiles.notification.profile-deleted');
           });
       })
       .catch(() => {
