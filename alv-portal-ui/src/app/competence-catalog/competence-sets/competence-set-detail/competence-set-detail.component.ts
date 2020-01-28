@@ -14,12 +14,14 @@ import { CompetenceSetDeleteModalComponent } from '../competence-set-delete-moda
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
-import { of } from 'rxjs';
+import { EMPTY, of, throwError } from 'rxjs';
 import {
   draftRadioButtonOptions,
   publishedRadioButtonOptions
 } from '../../shared/constants';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BusinessExceptionTypes } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -92,7 +94,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       competenceElementIds: this.competenceSet.competenceElementIds,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
-    }).subscribe(this.handleSuccess.bind(this));
+    }).pipe(catchError(this.handleFailure.bind(this)))
+      .subscribe(this.handleSuccess.bind(this));
   }
 
   private updateCompetenceSet() {
@@ -101,7 +104,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       competenceElementIds: this.competenceSet.competenceElementIds,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
-    }).subscribe(this.handleSuccess.bind(this));
+    }).pipe(catchError(this.handleFailure.bind(this)))
+      .subscribe(this.handleSuccess.bind(this));
   }
 
   deleteCompetenceSet() {
@@ -126,6 +130,14 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     } else {
       this.router.navigate(['kk', 'competence-sets']);
     }
+  }
+
+  private handleFailure(error) {
+    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_COMPETENCE_SET_WHEN_KNOW_HOW_IS_NOT_PUBLISHED) {
+      this.notificationsService.error('portal.competence-catalog.competence-sets.error-message.cannot_publish_competence_set_when_know_how_is_not_published');
+      return EMPTY;
+    }
+    return throwError;
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
