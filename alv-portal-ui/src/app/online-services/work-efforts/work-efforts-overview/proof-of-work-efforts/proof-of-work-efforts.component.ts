@@ -54,7 +54,7 @@ export class ProofOfWorkEffortsComponent implements OnInit {
 
   manualSubmitProofOfWorkEfforts() {
     console.log("got till here");
-    const proofOfWorkEffortsSubmitModalRef = this.modalService.openMedium(ProofOfWorkEffortsSubmitModalComponent, true);
+    const proofOfWorkEffortsSubmitModalRef = this.modalService.openLarge(ProofOfWorkEffortsSubmitModalComponent, true);
     const proofOfWorkEffortsSubmitComponent = <ProofOfWorkEffortsSubmitModalComponent>proofOfWorkEffortsSubmitModalRef.componentInstance;
     proofOfWorkEffortsSubmitComponent.proofOfWorkEffortsId = this.proofOfWorkEffortsModel.id;
     proofOfWorkEffortsSubmitModalRef.result

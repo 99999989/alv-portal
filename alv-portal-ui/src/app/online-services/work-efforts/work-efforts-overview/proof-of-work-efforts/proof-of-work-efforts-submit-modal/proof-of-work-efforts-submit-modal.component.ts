@@ -6,7 +6,7 @@ import { ProofOfWorkEffortsRepository } from '../../../../../shared/backend-serv
 import { ModalService } from '../../../../../shared/layout/modal/modal.service';
 import { AuthenticationService } from '../../../../../core/auth/authentication.service';
 import { NotificationsService } from '../../../../../core/notifications.service';
-import { NotificationType } from '../../../../../shared/layout/notifications/notification.model';
+import { Notification, NotificationType } from '../../../../../shared/layout/notifications/notification.model';
 
 @Component({
   selector: 'alv-proof-of-work-efforts-submit-modal',
@@ -19,10 +19,7 @@ export class ProofOfWorkEffortsSubmitModalComponent extends AbstractSubscriber i
 
   loadingSubscription: Subscription;
 
-  warning = {
-    type: NotificationType.WARNING,
-    isSticky: true
-  }
+  warning: Notification;
 
   constructor(public activeModal: NgbActiveModal,
               private proofOfWorkEffortsRepository: ProofOfWorkEffortsRepository,
@@ -33,16 +30,20 @@ export class ProofOfWorkEffortsSubmitModalComponent extends AbstractSubscriber i
   }
 
   ngOnInit() {
+    this.warning = {
+      type: NotificationType.WARNING,
+      isSticky: true
+    } as Notification;
   }
 
   onSubmit() {
     this.loadingSubscription = this.proofOfWorkEffortsRepository.submitProofOfWorkEfforts(this.proofOfWorkEffortsId)
       .subscribe(() => {
         this.activeModal.close();
-        this.notificationsService.success('portal.job-ad-favourites.notification.favourite-note-saved');
+        this.notificationsService.success('portal.work-efforts.proof-of-work-efforts.submit-button.submit-success');
       }, () => {
         this.activeModal.close();
-        this.notificationsService.error('portal.job-ad-favourites.notification.favourite-note-saved');
+        this.notificationsService.error('portal.work-efforts.proof-of-work-efforts.submit-button.submit-error');
       });
   }
 
