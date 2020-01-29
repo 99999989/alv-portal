@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  HostBinding,
-  Inject,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, HostBinding, Inject, Input, OnInit, Output } from '@angular/core';
 import { ProofOfWorkEffortsRepository } from '../../../../shared/backend-services/work-efforts/proof-of-work-efforts.repository';
 import { WINDOW } from '../../../../core/window.service';
 import { DOCUMENT } from '@angular/common';
@@ -14,7 +6,8 @@ import { I18nService } from '../../../../core/i18n.service';
 import { ProofOfWorkEffortsModel } from './proof-of-work-efforts.model';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
 import { FileSaverService } from '../../../../shared/file-saver/file-saver.service';
-import { Observable } from 'rxjs';
+import { Observable} from 'rxjs';
+import { fiveDaysAfterEndOfMonth, fiveDaysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
 
 @Component({
   selector: 'alv-proof-of-work-efforts',
@@ -34,6 +27,8 @@ export class ProofOfWorkEffortsComponent implements OnInit {
 
   downloadPdf$: Observable<Blob>;
 
+  manualSubmitting: boolean;
+
   constructor(private proofOfWorkEffortsRepository: ProofOfWorkEffortsRepository,
               private i18nService: I18nService,
               private fileSaverService: FileSaverService,
@@ -45,11 +40,22 @@ export class ProofOfWorkEffortsComponent implements OnInit {
     this.isCurrentPeriod = this.proofOfWorkEffortsModel.isCurrentPeriod;
     this.expanded = this.expanded || this.proofOfWorkEffortsModel.isCurrentPeriod;
     this.downloadPdf$ = this.proofOfWorkEffortsRepository.downloadPdf(this.proofOfWorkEffortsModel.id);
+    this.manualSubmitting = this.isCurrentPeriod && !this.proofOfWorkEffortsModel.isSentSuccessfully && this.currentDayValidForManuelSubmitting()
   }
 
   removeWorkEffort(deletedWorkEffort: WorkEffortModel) {
     const indexToRemove = this.proofOfWorkEffortsModel.workEfforts.findIndex(workEffortModel => workEffortModel.id === deletedWorkEffort.id);
     this.proofOfWorkEffortsModel.workEfforts.splice(indexToRemove, 1);
     this.reload.emit(this.proofOfWorkEffortsModel);
+  }
+
+  tododefine() {
+    console.log("got till here");
+    // TODO
+  }
+
+  private currentDayValidForManuelSubmitting(): boolean {
+    const currentDate = new Date();
+    return currentDate >= fiveDaysBeforeEndOfMonth() && currentDate <= fiveDaysAfterEndOfMonth();
   }
 }

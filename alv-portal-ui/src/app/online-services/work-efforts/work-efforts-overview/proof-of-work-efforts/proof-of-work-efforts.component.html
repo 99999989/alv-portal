@@ -34,13 +34,23 @@
       <span class="cell-label">
         {{'portal.work-efforts.submit-status.label' | translate}}
       </span>
-      <div class="flex-grow-1">
-            {{ proofOfWorkEffortsModel.statusLabel | translate:{dateTime: proofOfWorkEffortsModel.submissionDate | date: (proofOfWorkEffortsModel.submissionDateFormat)} }}
-      </div>
-      <div class="success-icon-container">
-        <fa-icon [icon]="['fas', 'check']"
-                 class="w-100"></fa-icon>
-      </div>
+      <ng-container *ngIf="manualSubmitting; else notManualSubmitting;">
+        <button (click)="tododefine()"
+                [disabled]="proofOfWorkEffortsModel.workEfforts.length === 0"
+                type="button"
+                class="btn btn-primary btn-block btn-truncate">
+          {{'portal.work-efforts.proof-of-work-efforts.submit-button.title' | translate}}
+        </button>
+      </ng-container>
+      <ng-template #notManualSubmitting>
+        <div class="flex-grow-1">
+              {{ proofOfWorkEffortsModel.statusLabel | translate:{dateTime: proofOfWorkEffortsModel.submissionDate | date: (proofOfWorkEffortsModel.submissionDateFormat)} }}
+        </div>
+        <div class="success-icon-container">
+          <fa-icon [icon]="['fas', 'check']"
+                   class="w-100"></fa-icon>
+        </div>
+      </ng-template>
     </span>
 
     <span class="expanded-indicator">

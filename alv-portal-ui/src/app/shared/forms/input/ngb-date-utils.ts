@@ -70,6 +70,27 @@ export function tomorrow(): NgbDateStruct {
   return fromDate(date);
 }
 
+/**
+ * f.e.
+ * if end of month is 31.12., it will return 27.12.yyyy
+ * if end of month is 30.04., it will return 26.04.yyyy
+ */
+export function fiveDaysBeforeEndOfMonth(): Date {
+  let fiveDaysBeforeEndOfMonth = endOfMonth();
+  fiveDaysBeforeEndOfMonth.setDate(fiveDaysBeforeEndOfMonth.getDate() - 4);
+  return fiveDaysBeforeEndOfMonth;
+}
+
+export function fiveDaysAfterEndOfMonth(): Date {
+  let fiveDaysAfterEndOfMonth = endOfMonth();
+  fiveDaysAfterEndOfMonth.setDate(fiveDaysAfterEndOfMonth.getDate() + 5);
+  return fiveDaysAfterEndOfMonth;
+}
+
+export function endOfMonth(): Date {
+  const currentDate = new Date();
+  return new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+}
 
 /**
  * allows to add and subtract the dates. Takes the input date and adds days, months and years to it
