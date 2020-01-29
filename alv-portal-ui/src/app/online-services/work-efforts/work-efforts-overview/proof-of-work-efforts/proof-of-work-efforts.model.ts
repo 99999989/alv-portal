@@ -8,13 +8,10 @@ import {
   ProofOfWorkEffortsStatus
 } from '../../../../shared/backend-services/work-efforts/proof-of-work-efforts.types';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
-import { fiveDaysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
-
+import { daysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
+import { DATE_FORMAT, DATE_TIME_FORMAT, DAYS_DIFFERENCE } from '../work-efforts-overview-filter.types';
 
 export class ProofOfWorkEffortsModel {
-
-  readonly DATE_FORMAT : 'dd.MM.yyyy';
-  readonly DATE_TIME_FORMAT : 'dd.MM.yyyy HH:mm';
 
   id: string;
 
@@ -70,14 +67,14 @@ export class ProofOfWorkEffortsModel {
   private buildSubmissionDateAndFormat(): Date {
     let submissionDate;
     if (this.isCurrentPeriod && !this.isSentSuccessfully) {
-      submissionDate = fiveDaysBeforeEndOfMonth();
-      this.submissionDateFormat = this.DATE_FORMAT;
-    } else if (this.isSentSuccessfully){
+      submissionDate = daysBeforeEndOfMonth(DAYS_DIFFERENCE);
+      this.submissionDateFormat = DATE_FORMAT;
+    } else if (this.isSentSuccessfully) {
       submissionDate = new Date(this.proofOfWorkEfforts.lastSubmittedAt);
-      this.submissionDateFormat = this.DATE_FORMAT;
+      this.submissionDateFormat = DATE_FORMAT;
     } else {
       submissionDate = new Date(this.proofOfWorkEfforts.nextSubmissionDate);
-      this.submissionDateFormat = this.DATE_TIME_FORMAT;
+      this.submissionDateFormat = DATE_TIME_FORMAT;
     }
     submissionDate.setHours(23, 59);
     return submissionDate;

@@ -7,9 +7,10 @@ import { ProofOfWorkEffortsModel } from './proof-of-work-efforts.model';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
 import { FileSaverService } from '../../../../shared/file-saver/file-saver.service';
 import { Observable } from 'rxjs';
-import { fiveDaysAfterEndOfMonth, fiveDaysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
+import { daysAfterEndOfMonth, daysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
 import { ProofOfWorkEffortsSubmitModalComponent } from './proof-of-work-efforts-submit-modal/proof-of-work-efforts-submit-modal.component';
 import { ModalService } from '../../../../shared/layout/modal/modal.service';
+import { DAYS_DIFFERENCE } from '../work-efforts-overview-filter.types';
 
 @Component({
   selector: 'alv-proof-of-work-efforts',
@@ -43,7 +44,7 @@ export class ProofOfWorkEffortsComponent implements OnInit {
     this.isCurrentPeriod = this.proofOfWorkEffortsModel.isCurrentPeriod;
     this.expanded = this.expanded || this.proofOfWorkEffortsModel.isCurrentPeriod;
     this.downloadPdf$ = this.proofOfWorkEffortsRepository.downloadPdf(this.proofOfWorkEffortsModel.id);
-    this.manualSubmitting = this.isCurrentPeriod && !this.proofOfWorkEffortsModel.isSentSuccessfully && this.currentDayValidForManuelSubmitting()
+    this.manualSubmitting = this.isCurrentPeriod && !this.proofOfWorkEffortsModel.isSentSuccessfully && this.currentDayValidForManuelSubmitting();
   }
 
   removeWorkEffort(deletedWorkEffort: WorkEffortModel) {
@@ -53,7 +54,6 @@ export class ProofOfWorkEffortsComponent implements OnInit {
   }
 
   manualSubmitProofOfWorkEfforts() {
-    console.log("got till here");
     const proofOfWorkEffortsSubmitModalRef = this.modalService.openLarge(ProofOfWorkEffortsSubmitModalComponent, true);
     const proofOfWorkEffortsSubmitComponent = <ProofOfWorkEffortsSubmitModalComponent>proofOfWorkEffortsSubmitModalRef.componentInstance;
     proofOfWorkEffortsSubmitComponent.proofOfWorkEffortsId = this.proofOfWorkEffortsModel.id;
@@ -64,6 +64,6 @@ export class ProofOfWorkEffortsComponent implements OnInit {
 
   private currentDayValidForManuelSubmitting(): boolean {
     const currentDate = new Date();
-    return currentDate >= fiveDaysBeforeEndOfMonth() && currentDate <= fiveDaysAfterEndOfMonth();
+    return currentDate >= daysBeforeEndOfMonth(DAYS_DIFFERENCE) && currentDate <= daysAfterEndOfMonth(DAYS_DIFFERENCE);
   }
 }

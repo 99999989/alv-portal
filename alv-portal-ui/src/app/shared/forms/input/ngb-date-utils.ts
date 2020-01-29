@@ -70,21 +70,16 @@ export function tomorrow(): NgbDateStruct {
   return fromDate(date);
 }
 
-/**
- * f.e.
- * if end of month is 31.12., it will return 27.12.yyyy
- * if end of month is 30.04., it will return 26.04.yyyy
- */
-export function fiveDaysBeforeEndOfMonth(): Date {
-  let fiveDaysBeforeEndOfMonth = endOfMonth();
-  fiveDaysBeforeEndOfMonth.setDate(fiveDaysBeforeEndOfMonth.getDate() - 4);
-  return fiveDaysBeforeEndOfMonth;
+export function daysBeforeEndOfMonth(noOfDays: number): Date {
+  const beforeEndOfMonth = endOfMonth();
+  beforeEndOfMonth.setDate(beforeEndOfMonth.getDate() - (noOfDays + 1));
+  return beforeEndOfMonth;
 }
 
-export function fiveDaysAfterEndOfMonth(): Date {
-  let fiveDaysAfterEndOfMonth = endOfMonth();
-  fiveDaysAfterEndOfMonth.setDate(fiveDaysAfterEndOfMonth.getDate() + 5);
-  return fiveDaysAfterEndOfMonth;
+export function daysAfterEndOfMonth(noOfDays: number): Date {
+  const afterEndOfMonth = endOfMonth();
+  afterEndOfMonth.setDate(afterEndOfMonth.getDate() + noOfDays);
+  return afterEndOfMonth;
 }
 
 export function endOfMonth(): Date {

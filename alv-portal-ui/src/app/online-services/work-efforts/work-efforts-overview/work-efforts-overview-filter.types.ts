@@ -32,3 +32,7 @@ export const initialWorkEffortsFilter = {
   controlPeriod: WorkEffortsControlPeriodFilter.ALL_MONTHS,
   applyStatus: WorkEffortApplyStatusFilter.ALL
 };
+
+export const DATE_FORMAT = 'dd.MM.yyyy';
+export const DATE_TIME_FORMAT = 'dd.MM.yyyy HH:mm';
+export const DAYS_DIFFERENCE = 5;
