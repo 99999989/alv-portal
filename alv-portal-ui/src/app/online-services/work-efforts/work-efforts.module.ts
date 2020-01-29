@@ -13,6 +13,7 @@ import { WorkEffortFormGuard } from './work-effort-form/work-effort-form.guard';
 import { SuccessModalComponent } from './work-effort-form/success-modal/success-modal.component';
 import { AssistantLinkComponent } from './work-effort-form/assistant-link/assistant-link.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ProofOfWorkEffortsSubmitModalComponent } from './work-efforts-overview/proof-of-work-efforts/proof-of-work-efforts-submit-modal/proof-of-work-efforts-submit-modal.component';
 
 
 @NgModule({
@@ -30,11 +31,13 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     WorkEffortFormComponent,
     WorkEffortsFilterModalComponent,
     SuccessModalComponent,
-    AssistantLinkComponent
+    AssistantLinkComponent,
+    ProofOfWorkEffortsSubmitModalComponent
   ],
   entryComponents: [
     WorkEffortsFilterModalComponent,
-    SuccessModalComponent
+    SuccessModalComponent,
+    ProofOfWorkEffortsSubmitModalComponent
   ],
   providers: [
     ModalService,

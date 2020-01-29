@@ -35,7 +35,7 @@
         {{'portal.work-efforts.submit-status.label' | translate}}
       </span>
       <ng-container *ngIf="manualSubmitting; else notManualSubmitting;">
-        <button (click)="tododefine()"
+        <button (click)="manualSubmitProofOfWorkEfforts()"
                 [disabled]="proofOfWorkEffortsModel.workEfforts.length === 0"
                 type="button"
                 class="btn btn-primary btn-block btn-truncate">

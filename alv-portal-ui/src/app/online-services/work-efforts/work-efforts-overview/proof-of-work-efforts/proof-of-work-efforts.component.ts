@@ -6,8 +6,10 @@ import { I18nService } from '../../../../core/i18n.service';
 import { ProofOfWorkEffortsModel } from './proof-of-work-efforts.model';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
 import { FileSaverService } from '../../../../shared/file-saver/file-saver.service';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { fiveDaysAfterEndOfMonth, fiveDaysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
+import { ProofOfWorkEffortsSubmitModalComponent } from './proof-of-work-efforts-submit-modal/proof-of-work-efforts-submit-modal.component';
+import { ModalService } from '../../../../shared/layout/modal/modal.service';
 
 @Component({
   selector: 'alv-proof-of-work-efforts',
@@ -31,6 +33,7 @@ export class ProofOfWorkEffortsComponent implements OnInit {
 
   constructor(private proofOfWorkEffortsRepository: ProofOfWorkEffortsRepository,
               private i18nService: I18nService,
+              private modalService: ModalService,
               private fileSaverService: FileSaverService,
               @Inject(DOCUMENT) private document: any,
               @Inject(WINDOW) private window: Window) {
@@ -49,9 +52,14 @@ export class ProofOfWorkEffortsComponent implements OnInit {
     this.reload.emit(this.proofOfWorkEffortsModel);
   }
 
-  tododefine() {
+  manualSubmitProofOfWorkEfforts() {
     console.log("got till here");
-    // TODO
+    const proofOfWorkEffortsSubmitModalRef = this.modalService.openMedium(ProofOfWorkEffortsSubmitModalComponent, true);
+    const proofOfWorkEffortsSubmitComponent = <ProofOfWorkEffortsSubmitModalComponent>proofOfWorkEffortsSubmitModalRef.componentInstance;
+    proofOfWorkEffortsSubmitComponent.proofOfWorkEffortsId = this.proofOfWorkEffortsModel.id;
+    proofOfWorkEffortsSubmitModalRef.result
+      .then(() => this.reload.emit(this.proofOfWorkEffortsModel))
+      .catch(() => { });
   }
 
   private currentDayValidForManuelSubmitting(): boolean {

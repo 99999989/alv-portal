@@ -1,0 +1,21 @@
+<alv-modal (primaryAction)="onSubmit()"
+           (cancelAction)="onCancel()"
+           modalTitle="portal.job-ad-favourites.note-modal.title"
+           [icon]="['fas', 'sticky-note']"
+           primaryLabel="portal.job-ad-favourites.note-modal.action.save"
+           [cancelLabel]="'portal.job-ad-favourites.note-modal.action.cancel'"
+           [loadingSubscription]="loadingSubscription">
+
+  <alv-alert [hideDismiss]="true"
+             [notification]="warning">
+    <ul class="pl-3">
+      <li class="mb-1">
+        {{'global.legal-terms-dialog.body.content1' | translate}}
+      </li>
+      <li class="mb-1">
+        {{'global.legal-terms-dialog.body.content2' | translate}}
+      </li>
+    </ul>
+  </alv-alert>
+
+</alv-modal>
