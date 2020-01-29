@@ -1,19 +1,19 @@
 <alv-modal (primaryAction)="onSubmit()"
            (cancelAction)="onCancel()"
-           modalTitle="portal.job-ad-favourites.note-modal.title"
+           modalTitle="portal.work-efforts.proof-of-work-efforts.submit-button.modal-title"
            [icon]="['fas', 'sticky-note']"
-           primaryLabel="portal.job-ad-favourites.note-modal.action.save"
-           [cancelLabel]="'portal.job-ad-favourites.note-modal.action.cancel'"
+           primaryLabel="portal.work-efforts.proof-of-work-efforts.submit-button.submit"
+           [cancelLabel]="'portal.online-forms.cancel-button.label'"
            [loadingSubscription]="loadingSubscription">
 
   <alv-alert [hideDismiss]="true"
              [notification]="warning">
     <ul class="pl-3">
       <li class="mb-1">
-        {{'global.legal-terms-dialog.body.content1' | translate}}
+        {{'portal.work-efforts.proof-of-work-efforts.submit-button.modal-text-1' | translate}}
       </li>
       <li class="mb-1">
-        {{'global.legal-terms-dialog.body.content2' | translate}}
+        {{'portal.work-efforts.proof-of-work-efforts.submit-button.modal-text-2' | translate}}
       </li>
     </ul>
   </alv-alert>
