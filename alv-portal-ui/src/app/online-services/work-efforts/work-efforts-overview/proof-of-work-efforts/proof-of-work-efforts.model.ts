@@ -8,8 +8,12 @@ import {
   ProofOfWorkEffortsStatus
 } from '../../../../shared/backend-services/work-efforts/proof-of-work-efforts.types';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
-import { daysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
-import { DATE_FORMAT, DATE_TIME_FORMAT, DAYS_DIFFERENCE } from '../work-efforts-overview-filter.types';
+import {
+  DATE_FORMAT,
+  DATE_TIME_FORMAT,
+  daysBeforeEndOfMonth,
+  daysDifference
+} from '../work-efforts-overview-filter.types';
 
 export class ProofOfWorkEffortsModel {
 
@@ -67,7 +71,7 @@ export class ProofOfWorkEffortsModel {
   private buildSubmissionDateAndFormat(): Date {
     let submissionDate;
     if (this.isCurrentPeriod && !this.isSentSuccessfully) {
-      submissionDate = daysBeforeEndOfMonth(DAYS_DIFFERENCE);
+      submissionDate = daysBeforeEndOfMonth(daysDifference());
       this.submissionDateFormat = DATE_FORMAT;
     } else if (this.isSentSuccessfully) {
       submissionDate = new Date(this.proofOfWorkEfforts.lastSubmittedAt);

@@ -1,3 +1,5 @@
+import { addDays, endOfMonth, isSameMonth, setMonth, subDays } from 'date-fns';
+
 export enum WorkEffortsControlPeriodFilter {
   CURRENT_MONTH = 'CURRENT_MONTH',
   LAST_3_MONTHS = 'LAST_3_MONTHS',
@@ -33,6 +35,21 @@ export const initialWorkEffortsFilter = {
   applyStatus: WorkEffortApplyStatusFilter.ALL
 };
 
+export function daysDifference(): number {
+  const december: Date = setMonth(new Date(), 11);
+  if (isSameMonth(new Date(), december)) {
+    return 12;
+  }
+  return 5;
+}
+
+export function daysBeforeEndOfMonth(noOfDays: number): Date {
+  return subDays(endOfMonth(new Date()), (noOfDays - 1));
+}
+
+export function daysAfterEndOfMonth(noOfDays: number): Date {
+  return addDays(endOfMonth(new Date()), noOfDays);
+}
+
 export const DATE_FORMAT = 'dd.MM.yyyy';
 export const DATE_TIME_FORMAT = 'dd.MM.yyyy HH:mm';
-export const DAYS_DIFFERENCE = 5;

@@ -7,10 +7,14 @@ import { ProofOfWorkEffortsModel } from './proof-of-work-efforts.model';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
 import { FileSaverService } from '../../../../shared/file-saver/file-saver.service';
 import { Observable } from 'rxjs';
-import { daysAfterEndOfMonth, daysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
 import { ProofOfWorkEffortsSubmitModalComponent } from './proof-of-work-efforts-submit-modal/proof-of-work-efforts-submit-modal.component';
 import { ModalService } from '../../../../shared/layout/modal/modal.service';
-import { DAYS_DIFFERENCE } from '../work-efforts-overview-filter.types';
+import { isWithinRange } from 'date-fns';
+import {
+  daysAfterEndOfMonth,
+  daysBeforeEndOfMonth,
+  daysDifference
+} from '../work-efforts-overview-filter.types';
 
 @Component({
   selector: 'alv-proof-of-work-efforts',
@@ -63,7 +67,6 @@ export class ProofOfWorkEffortsComponent implements OnInit {
   }
 
   private currentDayValidForManuelSubmitting(): boolean {
-    const currentDate = new Date();
-    return currentDate >= daysBeforeEndOfMonth(DAYS_DIFFERENCE) && currentDate <= daysAfterEndOfMonth(DAYS_DIFFERENCE);
+    return isWithinRange(new Date(), daysBeforeEndOfMonth(daysDifference()), daysAfterEndOfMonth(5));
   }
 }
