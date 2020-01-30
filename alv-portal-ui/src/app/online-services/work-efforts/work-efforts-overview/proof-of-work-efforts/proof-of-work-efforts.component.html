@@ -34,15 +34,14 @@
       <span class="cell-label">
         {{'portal.work-efforts.submit-status.label' | translate}}
       </span>
-      <div *ngIf="manualSubmitting; else notManualSubmitting;"
-           (click)="$event.preventDefault();$event.stopPropagation()">
-        <button (click)="manualSubmitProofOfWorkEfforts()"
+      <ng-container *ngIf="manualSubmitting; else notManualSubmitting;">
+        <button (click)="manualSubmitProofOfWorkEfforts();$event.stopPropagation()"
                 [disabled]="proofOfWorkEffortsModel.workEfforts.length === 0"
                 type="button"
                 class="btn btn-primary btn-block btn-truncate">
           {{ 'portal.work-efforts.proof-of-work-efforts.submit-button.title' | translate }}
         </button>
-      </div>
+      </ng-container>
       <ng-template #notManualSubmitting>
         <div class="flex-grow-1">
               {{ proofOfWorkEffortsModel.statusLabel | translate:{dateTime: proofOfWorkEffortsModel.submissionDate | date: (proofOfWorkEffortsModel.submissionDateFormat)} }}
