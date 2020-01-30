@@ -33,6 +33,18 @@ export const defaultExceptionToNotificationMap: BusinessExceptionToNotification[
   {
     exception: BusinessExceptionTypes.GENERAL_BUSINESS_EXCEPTION,
     notification: 'portal.competence-catalog.business-error-messages.general_business_exception'
+  },
+  {
+    exception: BusinessExceptionTypes.CANNOT_DELETE_KNOW_HOW_REFERENCED_IN_COMPETENCE_SET,
+    notification: 'portal.competence-catalog.business-error-messages.cannot_delete_know_how_referenced_in_competence_set'
+  },
+  {
+    exception: BusinessExceptionTypes.CANNOT_DELETE_PREREQUISITE_REFERENCED_IN_CH_FICHE,
+    notification: 'portal.competence-catalog.business-error-messages.cannot_delete_prerequisite_referenced_in_ch_fiche'
+  },
+  {
+    exception: BusinessExceptionTypes.CANNOT_DELETE_WORK_ENVIRONMENT_REFERENCED_IN_CH_FICHE,
+    notification: 'portal.competence-catalog.business-error-messages.cannot_delete_work_environment_referenced_in_ch_fiche'
   }
 ];
 
