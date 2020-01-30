@@ -1051,7 +1051,7 @@ portal.work-efforts.proof-of-work-efforts.submit-button.modal-text-1,"Klicken Si
 portal.work-efforts.proof-of-work-efforts.submit-button.modal-text-2,"Diese Aktion kann nicht rückgängig gemacht werden.","Diese Aktion kann nicht rückgängig gemacht werden.","Cette action ne peut pas être annulée. ","Questa operazione non può essere annullata.",
 portal.work-efforts.proof-of-work-efforts.submit-button.submit,Übermitteln,Übermitteln,Transmettre,Trasmettere,
 portal.work-efforts.proof-of-work-efforts.submit-button.submit-success,"Erfolgreich übermittelt","Erfolgreich übermittelt","Transmis avec succès","Trasmissione avvenuta",
-portal.work-efforts.proof-of-work-efforts.submit-button.submit-error,Nicht übermittelt,Nicht übermittelt,,,
+portal.work-efforts.proof-of-work-efforts.submit-button.submit-error,"Es ist ein technisches Problem aufgetreten. Bitte versuchen Sie es später noch einmal.","Es ist ein technisches Problem aufgetreten. Bitte versuchen Sie es später noch einmal.","Un problème technique est survenu. Veuillez réessayer plus tard.","Si è verificato un problema tecnico. Vogliate riprovare più tardi.",
 portal.work-efforts.proof-of-work-efforts.edit-status.text,Anzahl erfasst,Anzahl erfasst,Nombre saisi,Numero di registrazioni,
 portal.work-efforts.proof-of-work-efforts.add-work-effort.button.label,Erfassen,Enter,Saisir,Registrare,
 portal.work-efforts.proof-of-work-efforts.name-cell.title,Nachweis der persönlichen Arbeitsbemühungen,Nachweis der persönlichen Arbeitsbemühungen,Preuves de recherches personnelles d'emploi,Prova degli sforzi personali intrapresi per trovare lavoro,
