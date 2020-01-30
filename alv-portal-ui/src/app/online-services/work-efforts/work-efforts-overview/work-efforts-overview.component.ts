@@ -137,7 +137,8 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   reloadProofOfWorkEfforts(proofOfWorkEffortsModel: ProofOfWorkEffortsModel) {
     this.authenticationService.getCurrentUser().pipe(
       filter(user => !!user),
-      flatMap(user => this.proofOfWorkEffortsRepository.getProofOfWorkEffortsByIdAndFilter(proofOfWorkEffortsModel.id, {
+      flatMap(user => this.proofOfWorkEffortsRepository.getProofOfWorkEffortsByIdAndFilter(
+        proofOfWorkEffortsModel.id, {
           page: 0,
           size: 1,
           body: {...this.currentFilter, ownerUserId: user.id}
