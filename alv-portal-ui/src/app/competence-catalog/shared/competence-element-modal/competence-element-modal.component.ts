@@ -6,7 +6,7 @@ import {
   CompetenceElement,
   ElementType
 } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { NotificationsService } from '../../../core/notifications.service';
@@ -15,7 +15,8 @@ import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constan
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { catchError } from 'rxjs/operators';
-import { BusinessExceptionTypes } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
+import { BusinessExceptionsHandlerService } from '../business-exceptions-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'alv-competence-element-modal',
@@ -56,7 +57,8 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
               private competenceElementRepository: CompetenceElementRepository,
               private notificationsService: NotificationsService,
               private modal: NgbActiveModal,
-              protected authenticationService: AuthenticationService) {
+              protected authenticationService: AuthenticationService,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService);
   }
 
@@ -131,15 +133,7 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
     }
   }
 
-  private handleFailure(error) {
-    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_UNPUBLISH_KNOW_HOW_REFERENCED_IN_A_PUBLISHED_COMPETENCE_SET) {
-      this.notificationsService.error('portal.competence-catalog.competence-elements.add-modal.cannot_unpublish_know_how_referenced_in_a_published_competence_set');
-      return EMPTY;
-    }
-    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_DRAFT) {
-      this.notificationsService.error('portal.competence-catalog.error-message.cannot_publish_draft');
-      return EMPTY;
-    }
-    return throwError;
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
   }
 }

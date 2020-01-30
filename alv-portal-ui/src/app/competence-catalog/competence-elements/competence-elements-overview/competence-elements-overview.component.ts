@@ -19,7 +19,9 @@ import { CompetenceElementBacklinkComponent } from '../../shared/backlinks/compe
 import { CompetenceElementDeleteComponent } from '../competence-element-delete/competence-element-delete.component';
 import { NotificationsService } from '../../../core/notifications.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
 
 @Component({
   selector: 'alv-competence-elements-overview',
@@ -49,7 +51,8 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
               protected authenticationService: AuthenticationService,
               protected fb: FormBuilder,
               protected itemsRepository: CompetenceElementRepository,
-              private notificationsService: NotificationsService) {
+              private notificationsService: NotificationsService,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService, itemsRepository, fb);
   }
 
@@ -121,6 +124,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
     modalRef.result
       .then(idForDeletion => {
         this.itemsRepository.delete(idForDeletion)
+          .pipe(catchError(this.handleFailure.bind(this)))
           .subscribe(() => {
             this.reload();
             this.notificationsService.success('portal.competence-catalog.competence-elements.deleted-success-notification');
@@ -128,5 +132,9 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
       })
       .catch(() => {
       });
+  }
+
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
   }
 }

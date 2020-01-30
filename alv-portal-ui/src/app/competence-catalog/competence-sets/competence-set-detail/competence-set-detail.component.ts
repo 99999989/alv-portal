@@ -14,14 +14,15 @@ import { CompetenceSetDeleteModalComponent } from '../competence-set-delete-moda
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
-import { EMPTY, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   draftRadioButtonOptions,
   publishedRadioButtonOptions
 } from '../../shared/constants';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BusinessExceptionTypes } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
 import { catchError } from 'rxjs/operators';
+import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -58,7 +59,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
               private modalService: ModalService,
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
-              private competenceSetRepository: CompetenceSetRepository) {
+              private competenceSetRepository: CompetenceSetRepository,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService);
   }
 
@@ -114,6 +116,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     modalRef.result
       .then(value => {
         this.competenceSetRepository.delete(this.competenceSet.id)
+          .pipe(catchError(this.handleFailure.bind(this)))
           .subscribe(() => {
             this.notificationsService.success('portal.competence-catalog.competence-sets.deleted-success-notification');
             this.router.navigate(['kk', 'competence-sets']);
@@ -132,16 +135,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     }
   }
 
-  private handleFailure(error) {
-    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_COMPETENCE_SET_WHEN_KNOW_HOW_IS_NOT_PUBLISHED) {
-      this.notificationsService.error('portal.competence-catalog.competence-sets.error-message.cannot_publish_competence_set_when_know_how_is_not_published');
-      return EMPTY;
-    }
-    if (error.error['business-exception-type'] === BusinessExceptionTypes.CANNOT_PUBLISH_DRAFT) {
-      this.notificationsService.error('portal.competence-catalog.error-message.cannot_publish_draft');
-      return EMPTY;
-    }
-    return throwError;
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
   }
 
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
