@@ -2,6 +2,9 @@
      (scrolled)="loadItems()"
      [fromRoot]="true"
      [infiniteScrollThrottle]="50"
+     *ngIf="{
+     filtered: isFiltered()
+     } as powe"
      [immediateCheck]="true"
      infiniteScroll>
   <div class="row">
@@ -54,7 +57,7 @@
 
       <alv-proof-of-work-efforts *ngFor="let proofOfWorkEffortsModel of proofOfWorkEffortsModels"
                                  [proofOfWorkEffortsModel]="proofOfWorkEffortsModel"
-                                 [expanded]="isFiltered()"
+                                 [expanded]="powe.filtered"
                                  (reload)="reloadProofOfWorkEfforts($event)"
                                  class="d-block mb-4">
       </alv-proof-of-work-efforts>
