@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { ProofOfWorkEfforts, WorkEffort } from './proof-of-work-efforts.types';
 import { map } from 'rxjs/operators';
 import { Page } from '../shared.types';
-import {createPageableURLSearchParams, PagedSearchRequest} from '../request-util';
+import { createPageableURLSearchParams, PagedSearchRequest } from '../request-util';
 
 @Injectable({ providedIn: 'root' })
 export class ProofOfWorkEffortsRepository {
@@ -25,14 +25,8 @@ export class ProofOfWorkEffortsRepository {
     });
   }
 
-  findByOwnerUserId(userId: string, page: number): Observable<ProofOfWorkEfforts[]> {
-    return this.http.get<Page<ProofOfWorkEfforts>>(`${this.searchUrl}/by-owner-user-id`, {
-      params: new HttpParams()
-        .set('userId', userId)
-        .set('page', page.toString())
-    }).pipe(
-      map(result => result.content)
-    );
+  getProofOfWorkEffortsByIdAndFilter(proofOfWorkEffortsId: string, request: PagedSearchRequest): Observable<ProofOfWorkEfforts> {
+    return this.http.post<ProofOfWorkEfforts>(`${this.resourceUrl}/${proofOfWorkEffortsId}/_search`, request.body);
   }
 
   getProofOfWorkEffortsById(proofOfWorkEffortsId: string): Observable<ProofOfWorkEfforts> {
