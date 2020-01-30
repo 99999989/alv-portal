@@ -1,4 +1,4 @@
-import { toISOLocalDate, toISOLocalDateTime, fromDate, fromISODate } from './ngb-date-utils';
+import { daysAfterEndOfMonth, fromDate, fromISODate, toISOLocalDate, toISOLocalDateTime } from './ngb-date-utils';
 
 describe('NgbDateUtils tests', () => {
 
@@ -151,6 +151,22 @@ describe('NgbDateUtils tests', () => {
   it('should convert null LocalDateTime string representation to null', () => {
     const convertedLocalDateTimeString = toISOLocalDate(fromISODate(null));
     expect(convertedLocalDateTimeString).toBe(null);
+  });
+
+  it('should calculate daysAfterEndOfMonth for currentMonth and specified noOfMonth = 5', () => {
+    const expectedDay = 5;
+    const date = daysAfterEndOfMonth(expectedDay);
+    expect(date.getFullYear()).toBe(new Date().getFullYear());
+    expect(date.getMonth()).toBe(new Date().getMonth() + 1);
+    expect(date.getDate()).toBe(expectedDay);
+  });
+
+  it('should calculate daysAfterEndOfMonth for currentMonth and specified noOfMonth = 15', () => {
+    const expectedDay = 15;
+    const date = daysAfterEndOfMonth(expectedDay);
+    expect(date.getFullYear()).toBe(new Date().getFullYear());
+    expect(date.getMonth()).toBe(new Date().getMonth() + 1);
+    expect(date.getDate()).toBe(expectedDay);
   });
 
 });
