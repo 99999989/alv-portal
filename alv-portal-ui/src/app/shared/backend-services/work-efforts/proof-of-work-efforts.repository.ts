@@ -62,6 +62,10 @@ export class ProofOfWorkEffortsRepository {
     });
   }
 
+  submitProofOfWorkEfforts(proofOfWorkEffortsId: string): Observable<null> {
+    return this.http.get<null>(`${this.resourceUrl}/${proofOfWorkEffortsId}/submit`);
+  }
+
   downloadPdf(proofOfWorkEffortsId: string): Observable<Blob> {
     return this.http.get(this.resourceUrl + '/' + proofOfWorkEffortsId + '/pdf-document', { responseType: 'blob' });
   }

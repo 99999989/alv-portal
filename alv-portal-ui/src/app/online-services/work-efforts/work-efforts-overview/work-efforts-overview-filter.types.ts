@@ -1,3 +1,5 @@
+import { isSameMonth, setMonth, startOfToday } from 'date-fns';
+
 export enum WorkEffortsControlPeriodFilter {
   CURRENT_MONTH = 'CURRENT_MONTH',
   LAST_3_MONTHS = 'LAST_3_MONTHS',
@@ -32,3 +34,14 @@ export const initialWorkEffortsFilter = {
   controlPeriod: WorkEffortsControlPeriodFilter.ALL_MONTHS,
   applyStatus: WorkEffortApplyStatusFilter.ALL
 };
+
+export function daysDifference(): number {
+  const december: Date = setMonth(startOfToday(), 11);
+  if (isSameMonth(startOfToday(), december)) {
+    return 12;
+  }
+  return 5;
+}
+
+export const DATE_FORMAT = 'dd.MM.yyyy';
+export const DATE_TIME_FORMAT = 'dd.MM.yyyy HH:mm';

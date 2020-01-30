@@ -1,0 +1,20 @@
+<alv-modal (primaryAction)="onSubmit()"
+           (cancelAction)="onCancel()"
+           modalTitle="portal.work-efforts.proof-of-work-efforts.submit-button.modal-title"
+           primaryLabel="portal.work-efforts.proof-of-work-efforts.submit-button.submit"
+           [cancelLabel]="'portal.online-forms.cancel-button.label'"
+           [loadingSubscription]="loadingSubscription">
+
+  <alv-alert [hideDismiss]="true"
+             [notification]="warning">
+    <ul class="pl-3">
+      <li class="mb-1">
+        {{ 'portal.work-efforts.proof-of-work-efforts.submit-button.modal-text-1' | translate }}
+      </li>
+      <li class="mb-1">
+        {{ 'portal.work-efforts.proof-of-work-efforts.submit-button.modal-text-2' | translate }}
+      </li>
+    </ul>
+  </alv-alert>
+
+</alv-modal>
