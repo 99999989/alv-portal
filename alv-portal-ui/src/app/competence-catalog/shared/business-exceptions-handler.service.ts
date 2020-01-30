@@ -48,9 +48,6 @@ export const defaultExceptionToNotificationMap: BusinessExceptionToNotification[
   }
 ];
 
-let a: keyof typeof BusinessExceptionTypes;
-a = 'BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE';
-
 @Injectable({
   providedIn: 'root'
 })

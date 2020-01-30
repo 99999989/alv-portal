@@ -94,8 +94,8 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
       .then(() => {
         this.chFicheRepository.delete(this.chFiche.id)
           .pipe(
+            catchError(this.handleFailure.bind(this)),
             takeUntil(this.ngUnsubscribe),
-            catchError(this.handleFailure.bind(this))
           )
           .subscribe(() => {
             this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-ch-fiche-success-notification');
