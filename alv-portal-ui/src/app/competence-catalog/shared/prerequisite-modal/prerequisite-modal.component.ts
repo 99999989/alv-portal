@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { atLeastOneRequiredValidator } from '../../../shared/forms/input/validators/at-least-one-required.validator';
 import { Prerequisite } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite.types';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PrerequisiteRepository } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite-repository.service';
 import { NotificationsService } from '../../../core/notifications.service';
@@ -10,6 +10,9 @@ import { getModalTitle } from '../utils/translation-utils';
 import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { catchError } from 'rxjs/operators';
+import { BusinessExceptionsHandlerService } from '../business-exceptions-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'alv-prerequisite-modal',
@@ -38,7 +41,8 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
               private prerequisiteRepository: PrerequisiteRepository,
               private notificationsService: NotificationsService,
               private modal: NgbActiveModal,
-              protected authenticationService: AuthenticationService) {
+              protected authenticationService: AuthenticationService,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService);
   }
 
@@ -83,11 +87,14 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
     })
+      .pipe(catchError(this.handleFailure.bind(this)))
+
       .subscribe(this.handleSuccess.bind(this));
   }
 
   private createPrerequisite() {
     this.prerequisiteRepository.create(this.form.value)
+      .pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
 
@@ -109,4 +116,8 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
     }
   }
 
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
+  }
 }
+

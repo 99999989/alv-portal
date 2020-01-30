@@ -16,7 +16,9 @@ import { PrerequisiteBacklinkComponent } from '../../shared/backlinks/prerequisi
 import { PrerequisiteDeleteComponent } from '../prerequisite-delete/prerequisite-delete.component';
 import { NotificationsService } from '../../../core/notifications.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
 
 @Component({
   selector: 'alv-prerequisites-overview',
@@ -44,7 +46,8 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
               protected authenticationService: AuthenticationService,
               protected fb: FormBuilder,
               protected itemsRepository: PrerequisiteRepository,
-              private notificationsService: NotificationsService) {
+              private notificationsService: NotificationsService,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService, itemsRepository, fb);
   }
 
@@ -116,6 +119,7 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
     modalRef.result
       .then(idForDeletion => {
         this.itemsRepository.delete(idForDeletion)
+          .pipe(catchError(this.handleFailure.bind(this)))
           .subscribe(() => {
             this.reload();
             this.notificationsService.success('portal.competence-catalog.prerequisites.deleted-success-notification');
@@ -123,5 +127,9 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
       })
       .catch(() => {
       });
+  }
+
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
   }
 }
