@@ -10,10 +10,9 @@ import {
 import { WorkEffortModel } from '../work-effort/work-effort.model';
 import {
   DATE_FORMAT,
-  DATE_TIME_FORMAT,
-  daysBeforeEndOfMonth,
-  daysDifference
+  DATE_TIME_FORMAT, daysDifference
 } from '../work-efforts-overview-filter.types';
+import { daysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
 
 export class ProofOfWorkEffortsModel {
 

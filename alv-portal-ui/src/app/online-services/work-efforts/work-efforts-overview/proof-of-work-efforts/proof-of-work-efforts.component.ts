@@ -11,10 +11,9 @@ import { ProofOfWorkEffortsSubmitModalComponent } from './proof-of-work-efforts-
 import { ModalService } from '../../../../shared/layout/modal/modal.service';
 import { isWithinRange } from 'date-fns';
 import {
-  daysAfterEndOfMonth,
-  daysBeforeEndOfMonth,
   daysDifference
 } from '../work-efforts-overview-filter.types';
+import { daysAfterEndOfMonth, daysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
 
 @Component({
   selector: 'alv-proof-of-work-efforts',

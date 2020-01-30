@@ -43,13 +43,5 @@ export function daysDifference(): number {
   return 5;
 }
 
-export function daysBeforeEndOfMonth(noOfDays: number): Date {
-  return subDays(endOfMonth(new Date()), (noOfDays - 1));
-}
-
-export function daysAfterEndOfMonth(noOfDays: number): Date {
-  return addDays(endOfMonth(new Date()), noOfDays);
-}
-
 export const DATE_FORMAT = 'dd.MM.yyyy';
 export const DATE_TIME_FORMAT = 'dd.MM.yyyy HH:mm';
