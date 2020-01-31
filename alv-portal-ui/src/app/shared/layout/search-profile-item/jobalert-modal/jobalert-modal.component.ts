@@ -48,11 +48,12 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
 
   @Input() searchProfile: JobAdSearchProfileResult;
 
-  private isJobAlertEnabled: boolean;
 
   private currentLang: string;
 
-  private currentUser$: Observable<User>;
+  isJobAlertEnabled: boolean;
+
+  currentUser$: Observable<User>;
 
   infoNotification = {
     type: NotificationType.INFO,
