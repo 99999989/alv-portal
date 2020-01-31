@@ -59,7 +59,7 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
   }
 
   openCreateModal() {
-    const modalRef = this.modalService.openMedium(PrerequisiteModalComponent, true);
+    const modalRef = this.modalService.openMedium(PrerequisiteModalComponent);
     modalRef.result
       .then(this.reload.bind(this))
       .catch(this.reload.bind(this));
@@ -67,7 +67,7 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
   }
 
   openUpdateModal(prerequisite: Prerequisite, isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(PrerequisiteModalComponent, true);
+    const modalRef = this.modalService.openMedium(PrerequisiteModalComponent);
     const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
     componentInstance.prerequisite = prerequisite;
     componentInstance.isReadonly = isReadonly;
@@ -108,12 +108,12 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
   }
 
   private openBacklinkModal(prerequisite: Prerequisite) {
-    const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent);
+    const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent, true);
     (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = prerequisite;
   }
 
   private openDeleteModal(prerequisite: Prerequisite) {
-    const modalRef = this.modalService.openLarge(PrerequisiteDeleteComponent);
+    const modalRef = this.modalService.openLarge(PrerequisiteDeleteComponent, true);
     const componentInstance = <PrerequisiteDeleteComponent>modalRef.componentInstance;
     componentInstance.prerequisite = prerequisite.id;
     modalRef.result
