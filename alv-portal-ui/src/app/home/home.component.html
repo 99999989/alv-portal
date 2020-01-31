@@ -15,29 +15,14 @@
       </div>
     </div>
 
-    <div class="d-block d-md-none w-100"
-         ngbDropdown
-         placement="bottom">
-      <button class="btn btn-secondary btn-block py-1"
-              ngbDropdownToggle>
-        <small class="d-block">{{'home.toolbar.title' | translate}}</small>
-        <span *ngFor="let toolbarButton of toolbarButtons"
-              [routerLink]="toolbarButton.route"
-              class="route-label"
-              routerLinkActive="visible"
-              tabindex="-1">
-          {{toolbarButton.label | translate}}
-        </span>
-      </button>
-      <div class="w-100"
-           ngbDropdownMenu>
-        <a *ngFor="let toolbarButton of toolbarButtons"
-           [routerLink]="toolbarButton.route"
-           class="dropdown-item"
-           routerLinkActive="active">
-          {{toolbarButton.label | translate}}
-        </a>
-      </div>
+    <div class="d-block d-md-none w-100 text-center ">
+      <small class="d-block mb-2">{{'home.toolbar.title' | translate}}</small>
+      <a *ngFor="let toolbarButton of toolbarButtons"
+         [routerLink]="toolbarButton.route"
+         class="dropdown-item"
+         routerLinkActive="active">
+        {{toolbarButton.label | translate}}
+      </a>
     </div>
 
   </div>
