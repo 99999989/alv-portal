@@ -911,6 +911,7 @@ portal.job-ad-search-profiles.job-alert.modal.interval-five-days,Alle 5 Tage,All
 portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled,E-Mail Benachrichtigung aktiviert, E-Mail Benachrichtigung aktiviert, E-Mail Benachrichtigung aktiviert, E-Mail Benachrichtigung aktiviert,
 portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled,E-Mail Benachrichtigung deaktiviert, E-Mail Benachrichtigung deaktiviert, E-Mail Benachrichtigung deaktiviert, E-Mail Benachrichtigung deaktiviert,
 portal.job-ad-search-profiles.job-alert.modal.interval-five-days,Alle 5 Tage,Alle 5 Tage,Alle 5 Tage,Alle 5 Tage
+portal.job-ad-search-profiles.job-alert.error-message-max-amount,Maximale Anzahl von Job-Alerts erreicht,You have reached the maximum amount of possible Job Alerts,You have reached the maximum amount of possible Job Alerts,You have reached the maximum amount of possible Job Alerts
 portal.job-ad-favourites.browser-title,Stellen-Merkliste,Saved jobs,Postes favoris,Favoriti dei posti,
 portal.job-ad-favourites.notification.favourite-added,Diese Stelle wurde in Ihrer Merkliste gespeichert.,This posting has been added to your saved jobs.,Cette offre d'emploi a été ajoutée à vos favoris.,Questo posto è stato salvato nei favoriti.,
 portal.job-ad-favourites.notification.favourite-removed,Diese Stelle wurde aus Ihrer Merkliste entfernt.,This job has been removed from your saved jobs.,Le poste a été supprimé de la liste des favoris.,Questo posto è stato eliminato dai favoriti,

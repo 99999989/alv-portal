@@ -86,5 +86,6 @@ export interface LocalityFilter {
 }
 
 export enum SearchProfileErrors {
-  PROFILE_ALREADY_EXISTS = 'http://www.job-room.ch/job-ad-service/problem/search-profile/already-exists'
+  PROFILE_ALREADY_EXISTS = 'http://www.job-room.ch/job-ad-service/problem/search-profile/already-exists',
+  MAX_AMOUNT_OF_JOB_ALERTS_REACHED = 'http://www.job-room.ch/job-ad-service/problem/job-alert/max-amount-reached'
 }

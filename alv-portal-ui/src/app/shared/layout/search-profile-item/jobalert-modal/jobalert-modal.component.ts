@@ -25,7 +25,8 @@ import { JobAdSearchProfilesRepository } from '../../../backend-services/job-ad-
 import { NotificationType } from '../../notifications/notification.model';
 import {
   Interval,
-  JobAdSearchProfileResult
+  JobAdSearchProfileResult,
+  SearchProfileErrors
 } from '../../../backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 import { mapFormToDto } from './jobalert-request-mapper';
 import { NotificationsService } from '../../../../core/notifications.service';
@@ -110,10 +111,16 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
     this.isJobAlertEnabled = true;
     return this.jobAdSearchProfilesRepository
       .enableJobAlert(this.searchProfile.id, mapFormToDto(this.currentLang, formValue))
-      .subscribe(() => {
-        this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
-        this.activeModal.close();
-      });
+      .subscribe((error) => {
+          this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
+          this.activeModal.close();
+        },
+        error => {
+          if (error.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
+            this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
+            this.activeModal.close();
+          }
+        });
   }
 
   onDisable() {
@@ -121,7 +128,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
     this.jobAdSearchProfilesRepository
       .disableJobAlert(this.searchProfile.id).subscribe(() => {
       this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
-        this.activeModal.close();
+      this.activeModal.close();
     });
   }
 
