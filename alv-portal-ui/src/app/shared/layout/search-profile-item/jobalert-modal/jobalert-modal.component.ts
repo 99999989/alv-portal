@@ -87,6 +87,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
   }
 
   ngOnInit() {
+    this.isJobAlertEnabled = !!this.searchProfile.jobAlertDto.email;
     this.i18nService.currentLanguage$.pipe(take(1))
       .subscribe(lang => this.currentLang = lang);
     this.currentUser$ = this.authenticationService.getCurrentUser();
@@ -108,7 +109,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
     const formValue = <JobAlertFormValue>form.value;
     this.isJobAlertEnabled = true;
     return this.jobAdSearchProfilesRepository
-      .enableJobAlert(mapFormToDto(this.searchProfile.id, this.currentLang, formValue))
+      .enableJobAlert(this.searchProfile.id, mapFormToDto(this.currentLang, formValue))
       .subscribe(() => {
         this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
         this.activeModal.close();

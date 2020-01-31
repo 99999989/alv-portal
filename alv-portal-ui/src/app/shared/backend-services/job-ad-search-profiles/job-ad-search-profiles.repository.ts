@@ -57,17 +57,16 @@ export class JobAdSearchProfilesRepository {
     return this.http.get<ResolvedJobAdSearchProfile>(`${this.resourceUrl}/${id}`);
   }
 
-  enableJobAlert(jobAlert: JobAlertDto): Observable<JobAdSearchProfileResult> {
-    return this.http.post<JobAdSearchProfileResult>(`${this.resourceUrlJobAlert}/${jobAlert.searchProfileId}`, jobAlert);
+  enableJobAlert(id: string, jobAlert: JobAlertDto): Observable<JobAdSearchProfileResult> {
+    return this.http.post<JobAdSearchProfileResult>(`${this.resourceUrlJobAlert}/${id}`, jobAlert);
   }
 
-  disableJobAlert(id: string): Observable<ResolvedJobAdSearchProfile> {
-    return this.http.get<ResolvedJobAdSearchProfile>(`${this.resourceUrl}/${id}`);
+  disableJobAlert(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.resourceUrlJobAlert}/${id}`);
   }
 
-
-  releaseJobAlert(id: string): Observable<ResolvedJobAdSearchProfile> {
-    return this.http.get<ResolvedJobAdSearchProfile>(`${this.resourceUrl}/_action/release/${id}`);
+  releaseJobAlert(id: string): Observable<void> {
+    return this.http.get<void>(`${this.resourceUrlJobAlert}/_action/release/${id}`);
   }
 
 }

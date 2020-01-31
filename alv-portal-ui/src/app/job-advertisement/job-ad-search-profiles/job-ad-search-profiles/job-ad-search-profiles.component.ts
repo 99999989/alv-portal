@@ -68,15 +68,12 @@ export class JobAdSearchProfilesComponent implements OnInit {
       });
   }
 
-  onJobAlertEnabled(searchProfile: JobAdSearchProfileResult) {
+  onJobAlertToggle(searchProfile: JobAdSearchProfileResult) {
     const modalRef = this.modalService.openLarge(JobAlertModalComponent);
     modalRef.componentInstance.searchProfile = searchProfile;
     modalRef.result
       .then(() => {
-        this.jobAdSearchProfilesRepository.enableJobAlert(searchProfile.jobAlert)
-          .subscribe(() => {
-            this.notificationsService.success('portal.job-ad-search-profiles.notification.profile-deleted');
-          });
+
       })
       .catch(() => {
       });

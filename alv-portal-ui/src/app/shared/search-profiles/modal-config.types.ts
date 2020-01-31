@@ -18,3 +18,4 @@ export function getCandidateDeleteConfirmModalConfig(profileName: string): Confi
     contentParams: { profileName: profileName }
   };
 }
+

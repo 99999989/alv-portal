@@ -37,13 +37,12 @@ export interface JobAdSearchProfileResult {
   id?: string;
   name: string;
   createdTime?: Date;
-  jobAlert?: JobAlertDto;
+  jobAlertDto?: JobAlertDto;
 }
 
 export interface JobAlertDto {
-  searchProfileId: string;
-  currentLanguage: string;
   email: string;
+  contactLanguageIsoCode: string;
   interval: Interval;
 }
 export enum Interval {

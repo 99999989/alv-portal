@@ -130,14 +130,6 @@
           </fa-icon>
           {{'portal.job-ad-search-profiles.label.delete-profile' | translate}}
         </button>
-        <button *ngIf="jobSearchProfile$ | async"
-                class="btn btn-text btn-text-icon btn-truncate mb-2"
-                (click)="toggleJobAlert()">
-          <fa-icon [icon]="['far', 'envelope']"
-                   class="mr-1">
-          </fa-icon>
-          {{'Benachrichtigung aktivieren' | translate}}
-        </button>
       </div>
     </div>
   </alv-three-column-layout>
