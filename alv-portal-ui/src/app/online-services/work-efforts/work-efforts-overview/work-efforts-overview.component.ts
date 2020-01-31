@@ -135,11 +135,19 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   }
 
   reloadProofOfWorkEfforts(proofOfWorkEffortsModel: ProofOfWorkEffortsModel) {
-    this.proofOfWorkEffortsRepository.getProofOfWorkEffortsById(proofOfWorkEffortsModel.id)
-      .subscribe(reloadedProofOfWorkEfforts => {
-        const indexToUpdate = this.proofOfWorkEffortsModels.findIndex(model => model.id === reloadedProofOfWorkEfforts.id);
-        this.proofOfWorkEffortsModels[indexToUpdate] = new ProofOfWorkEffortsModel(reloadedProofOfWorkEfforts);
-      });
+    this.authenticationService.getCurrentUser().pipe(
+      filter(user => !!user),
+      flatMap(user => this.proofOfWorkEffortsRepository.getProofOfWorkEffortsByIdAndFilter(
+        proofOfWorkEffortsModel.id, {
+          page: 0,
+          size: 1,
+          body: {...this.currentFilter, ownerUserId: user.id}
+        }
+      ))
+    ).subscribe(reloadedProofOfWorkEfforts => {
+      const indexToUpdate = this.proofOfWorkEffortsModels.findIndex(model => model.id === reloadedProofOfWorkEfforts.id);
+      this.proofOfWorkEffortsModels[indexToUpdate] = new ProofOfWorkEffortsModel(reloadedProofOfWorkEfforts);
+    });
   }
 
   openFilterModal() {

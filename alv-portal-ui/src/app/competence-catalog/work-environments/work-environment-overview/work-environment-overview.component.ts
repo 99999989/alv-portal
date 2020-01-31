@@ -10,7 +10,7 @@ import { FormBuilder } from '@angular/forms';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { NotificationsService } from '../../../core/notifications.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import {
   WorkEnvironment,
   WorkEnvironmentType
@@ -20,6 +20,8 @@ import { WorkEnvironmentModalComponent } from '../../shared/work-environment-mod
 import { WorkEnvironmentsFilterModalComponent } from '../work-environment-filter-modal/work-environment-filter-modal.component';
 import { WorkEnvironmentBacklinkComponent } from '../../shared/backlinks/work-environment-backlinks/work-environment-backlink.component';
 import { WorkEnvironmentDeleteComponent } from '../work-environment-delete/work-environment-delete.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
 
 @Component({
   selector: 'alv-work-environment-overview',
@@ -49,7 +51,8 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
               protected authenticationService: AuthenticationService,
               protected fb: FormBuilder,
               protected itemsRepository: WorkEnvironmentRepository,
-              private notificationsService: NotificationsService) {
+              private notificationsService: NotificationsService,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService, itemsRepository, fb);
   }
 
@@ -121,6 +124,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
     modalRef.result
       .then(idForDeletion => {
         this.itemsRepository.delete(idForDeletion)
+          .pipe(catchError(this.handleFailure.bind(this)))
           .subscribe(() => {
             this.reload();
             this.notificationsService.success('portal.competence-catalog.work-environments.deleted-success-notification');
@@ -128,5 +132,9 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
       })
       .catch(() => {
       });
+  }
+
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
   }
 }

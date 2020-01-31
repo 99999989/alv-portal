@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CompetenceSet } from '../../../shared/backend-services/competence-catalog/competence-set/competence-set.types';
 import { NotificationsService } from '../../../core/notifications.service';
 import {
-  BusinessExceptionTypes,
   ChFiche,
   initialChFiche
 } from '../../../shared/backend-services/competence-catalog/ch-fiche/ch-fiche.types';
@@ -12,12 +11,14 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { EMPTY, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   draftRadioButtonOptions,
   publishedRadioButtonOptions
 } from '../../shared/constants';
+import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -47,7 +48,8 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
               protected authenticationService: AuthenticationService,
               private modalService: ModalService,
               private chFicheRepository: ChFicheRepository,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService);
   }
 
@@ -91,7 +93,10 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
     modalRef.result
       .then(() => {
         this.chFicheRepository.delete(this.chFiche.id)
-          .pipe(takeUntil(this.ngUnsubscribe))
+          .pipe(
+            catchError(this.handleFailure.bind(this)),
+            takeUntil(this.ngUnsubscribe),
+          )
           .subscribe(() => {
             this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-ch-fiche-success-notification');
             this.router.navigate(['..'], { relativeTo: this.route });
@@ -138,12 +143,8 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
     }
   }
 
-  private handleFailure(error) {
-    if (error.error['business-exception-type'] === BusinessExceptionTypes.BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE) {
-      this.notificationsService.error('portal.competence-catalog.ch-fiches.duplicated-beruf-error-notification');
-      return EMPTY;
-    }
-    return throwError;
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
   }
 
 
