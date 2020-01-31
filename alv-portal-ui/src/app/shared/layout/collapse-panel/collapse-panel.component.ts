@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { collapseExpandAnimation } from '../../animations/animations';
 // Angular animations have problems with animating the transition between display:none and display:block, so we couldn't
 // implement the animation the simple way. Instead, the following hack was used:
