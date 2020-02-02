@@ -1,21 +1,13 @@
 FROM redhat-openjdk-18/openjdk18-openshift
+LABEL ch.admin.seco.app=portal
 
-ARG ALV_USERNAME
-ARG ALV_PASSWORD
-ENV ARTIFACTORY_SERVER="https://alvch.jfrog.io/artifactory" GROUP_ID="ch.admin.seco" ARTIFACT_ID="alv-portal-webapp"
-ENV REPO_ID="libs-snapshots-local"
-# TODO resolve hardcoded version
-ENV ARTIFACT_VERSION="0.0.0-SNAPSHOT"
-ENV JAVA_OPTS="-Xms384m -Xmx384m"
+ARG JAVA_OPTS="-Xms384m -Xmx384m"
 
 USER root
 
-RUN yum install wget -y && yum clean all -y
-
 RUN mkdir -p /srv/jobroom/
 
-# Download the latest version of the artifact
-RUN wget -O /srv/jobroom/alv-portal.jar "$ARTIFACTORY_SERVER/$REPO_ID/$(echo "$GROUP_ID" | sed 's/\./\//g')/$ARTIFACT_ID/$ARTIFACT_VERSION/$ARTIFACT_ID-$ARTIFACT_VERSION.jar"
+COPY alv-portal-webapp/target/alv-portal-webapp.jar /srv/jobroom/alv-portal-webapp.jar
 
 WORKDIR /
 

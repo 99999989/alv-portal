@@ -22,26 +22,22 @@ items:
                       deploymentconfig: alv-portal
               spec:
                   containers:
-                      - image: 'docker-alv-portal.default.svc:5000/development/alv-portal:latest'
+                      - image: 'docker-registry.default.svc:5000/jobroom-dev/alv-portal:latest'
                         name: alv-portal
                         ports:
-                            - containerPort: 8080
-                              protocol: TCP
-                        envFrom:
-                            - configMapRef:
-                                  name: seco-alvch
+                          - containerPort: 8080
+                            protocol: TCP
+                        resources:
+                          requests:
+                            cpu: 202m
+                            memory: 512Mi
+                          limits:
+                            cpu: 2
+                            memory: 1Gi
           test: false
           triggers:
               - type: ConfigChange
-              - type: ImageChange
-                imageChangeParams:
-                    automatic: true
-                    containerNames:
-                        - alv-portal
-                    from:
-                        kind: ImageStreamTag
-                        name: 'alv-portal:latest'
-                        namespace: development
+
     - kind: Service
       apiVersion: v1
       metadata:
@@ -64,7 +60,7 @@ items:
               app: alv-portal
           name: alv-portal
       spec:
-          host: job-room-dev.apps.admin.arbeitslosenkasse.ch
+          host: job-room-TARGET.apps.admin.arbeitslosenkasse.ch
           port:
               targetPort: 8080-tcp
           to:
@@ -77,6 +73,6 @@ items:
               - conditions:
                     - status: 'True'
                       type: Admitted
-                host: job-room-dev.apps.admin.arbeitslosenkasse.ch
+                host: job-room-TARGET.apps.admin.arbeitslosenkasse.ch
                 routerName: router
                 wildcardPolicy: None

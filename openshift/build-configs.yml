@@ -1,0 +1,63 @@
+kind: List
+apiVersion: v1
+items:
+    - kind: BuildConfig
+      apiVersion: v1
+      metadata:
+        name: alv-portal
+        namespace: cicd
+        labels:
+          build: alv-portal
+          app: alv-portal
+      spec:
+        runPolicy: Serial
+        triggers: []
+        source:
+          git:
+            ref: feature/openshift
+            uri: https://github.com/alv-ch/alv-portal.git
+          type: Git
+          sourceSecret:
+            name: alvchbot-at-github
+        strategy:
+          jenkinsPipelineStrategy:
+            jenkinsfilePath: openshift/jenkinsfile.groovy
+          type: JenkinsPipeline
+        nodeSelector: {}
+        output: {}
+        postCommit: {}
+        resources: {}
+        successfulBuildsHistoryLimit: 5
+        failedBuildsHistoryLimit: 5
+
+    - kind: ImageStream
+      apiVersion: image.openshift.io/v1
+      metadata:
+          name: alv-portal
+          namespace: jobroom-dev
+          labels:
+              build: alv-portal
+              app: alv-portal
+
+    - kind: BuildConfig
+      apiVersion: build.openshift.io/v1
+      metadata:
+          name: alv-portal-docker
+          namespace: jobroom-dev
+          labels:
+              build: alv-portal
+              app: alv-portal
+      spec:
+          source:
+              binary: {}
+          output:
+              to:
+                  kind: ImageStreamTag
+                  name: alv-portal:latest
+                  namespace: jobroom-dev
+          postCommit: {}
+          resources: {}
+          strategy:
+              dockerStrategy:
+                  dockerfilePath: ./openshift/Dockerfile
+              type: Docker

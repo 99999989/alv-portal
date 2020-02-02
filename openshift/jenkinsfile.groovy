@@ -15,6 +15,9 @@ pipeline {
         MAVEN_HOME = "/opt/rh/rh-maven35/root/usr/share/xmvn"
         SONAR_LOGIN = credentials('SONAR_TOKEN')
         SONAR_SERVER = "${env.SONAR_HOST_URL}"
+        JR_DEV = "jobroom-dev"
+        DOCKER_BUILD_NAME = "alv-portal-docker"
+        DEPLOYMENT_CONFIG = "alv-portal"
     }
 
     stages {
@@ -28,7 +31,7 @@ pipeline {
             }
         }
 
-        stage('Exec Maven') {
+        stage('Exec Maven Build') {
             environment {
                 ARTIFACTORY_PASSWORD = getArtifactoryPassword()
                 ARTIFACTORY_USERNAME = getArtifactoryUser()
@@ -37,9 +40,10 @@ pipeline {
 
             steps {
                 sh '''
-                        printenv | sort
-                        mvn clean deploy --settings .mvn/wrapper/settings.xml -DskipTests -DskipITs=true
+                   mvn package deploy -Popenshift --settings .mvn/wrapper/settings.xml -DskipTests -DskipITs=true
                 '''
+
+                rtPublishBuildInfo(serverId: ARTIFACTORY_SERVER)
             }
         }
 
@@ -51,11 +55,28 @@ pipeline {
             }
         }
 
-        stage('Publish build info') {
+        stage('Docker Build in dev') {
             steps {
-                rtPublishBuildInfo(
-                        serverId: ARTIFACTORY_SERVER
+                sh '''
+                    oc start-build -F $DOCKER_BUILD_NAME --from-dir . -n $JR_DEV
+                '''
+            }
+        }
+
+        stage('Deploy to jobroom-dev') {
+            steps {
+                openshiftDeploy(
+                        namespace: '$JR_DEV',
+                        depCfg: '$DEPLOYMENT_CONFIG',
+                        waitTime: '300000'
                 )
+
+                openshiftVerifyDeployment(
+                        namespace: '$JR_DEV',
+                        depCfg: '$DEPLOYMENT_CONFIG',
+                        replicaCount: '1',
+                        verifyReplicaCount: 'true',
+                        waitTime: '300000')
             }
         }
     }

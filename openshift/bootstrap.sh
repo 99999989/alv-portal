@@ -11,7 +11,7 @@ fi
 ## TODO check environment specific config server
 # start JHipster Registry
 java $JAVA_OPTS -Dhazelcast.logging.type=slf4j -Dlogging.config="/srv/jobroom/logback-spring.xml" \
-  -server -jar /srv/jobroom/alv-portal.jar \
+  -server -jar /srv/jobroom/alv-portal-webapp.jar \
   --spring.profiles.active=development,swagger \
   --spring.cloud.config.uri="http://admin:admin@registry-development.apps.admin.arbeitslosenkasse.ch/config" \
   --jhipster.registry.password=admin \
