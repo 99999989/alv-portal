@@ -43,6 +43,10 @@ export const defaultExceptionToNotificationMap: BusinessExceptionToNotification[
     notification: 'portal.competence-catalog.business-error-messages.cannot_delete_prerequisite_referenced_in_ch_fiche'
   },
   {
+    exception: BusinessExceptionTypes.CANNOT_DELETE_SOFTSKILL_REFERENCED_IN_CH_FICHE,
+    notification: 'portal.competence-catalog.business-error-messages.cannot_delete_softskill_referenced_in_ch_fiche'
+  },
+  {
     exception: BusinessExceptionTypes.CANNOT_DELETE_WORK_ENVIRONMENT_REFERENCED_IN_CH_FICHE,
     notification: 'portal.competence-catalog.business-error-messages.cannot_delete_work_environment_referenced_in_ch_fiche'
   }
