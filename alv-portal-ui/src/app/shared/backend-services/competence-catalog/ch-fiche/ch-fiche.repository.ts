@@ -54,6 +54,14 @@ export class ChFicheRepository implements SearchService<ChFiche> {
     );
   }
 
+  findBySoftskillId(prerequisiteId: string): Observable<ChFiche[]> {
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(endpoint => this.http.get<ChFiche[]>(endpoint + this.findUrl + '/bySoftskillId', {
+        params: new HttpParams().set('id', prerequisiteId)
+      }))
+    );
+  }
+
   findByWorkEnvironmentId(workEnvironmentId: string): Observable<ChFiche[]> {
     return this.roleConditionRoutingService.endpoint$.pipe(
       switchMap(endpoint => this.http.get<ChFiche[]>(endpoint + this.findUrl + '/byWorkEnvironmentId', {
