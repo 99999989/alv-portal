@@ -28,6 +28,7 @@ export interface ChFiche {
   draft?: boolean;
   published?: boolean;
   prerequisiteIds: string[];
+  softskillIds: string[];
   workEnvironmentIds: string[];
 
 }
@@ -40,6 +41,7 @@ export interface CreateChFiche {
   draft?: boolean;
   published?: boolean;
   prerequisiteIds: string[];
+  softskillIds: string[];
   workEnvironmentIds: string[];
 }
 
@@ -51,6 +53,7 @@ export interface UpdateChFiche {
   draft?: boolean;
   published?: boolean;
   prerequisiteIds: string[];
+  softskillIds: string[];
   workEnvironmentIds: string[];
 }
 
@@ -71,6 +74,7 @@ export function initialChFiche(): ChFiche {
     occupations: [],
     competences: [],
     prerequisiteIds: [],
+    softskillIds: [],
     workEnvironmentIds: [],
   };
 }

@@ -43,6 +43,11 @@ import { WorkEnvironmentModalComponent } from '../../shared/work-environment-mod
 import { WorkEnvironmentSearchModalComponent } from '../work-environment-search-modal/work-environment-search-modal.component';
 import { WorkEnvironmentBacklinkComponent } from '../../shared/backlinks/work-environment-backlinks/work-environment-backlink.component';
 import without from 'lodash/without';
+import { Softskill } from '../../../shared/backend-services/competence-catalog/softskill/softskill.types';
+import { SoftskillRepository } from '../../../shared/backend-services/competence-catalog/softskill/softskill-repository.service';
+import { SoftskillModalComponent } from '../../shared/softskill-modal/softskill-modal.component';
+import { SoftskillSearchModalComponent } from '../softskill-search-modal/softskill-search-modal.component';
+import { SoftskillBacklinkComponent } from '../../shared/backlinks/softskill-backlinks/softskill-backlink.component';
 
 /*
  * todo in this file we have ~10 subscribe blocks. It's not good because this way when the
@@ -78,6 +83,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     [CompetenceType.BASIC]: true,
     [CompetenceType.SPECIALIST]: true,
     PREREQUISITES: true,
+    SOFTSKILLS: true,
     WORK_ENVIRONMENTS: true
   };
 
@@ -90,6 +96,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   competences: { [index: string]: CompetenceSetSearchResult[] } = defaultCompetences();
 
   prerequisites: Prerequisite[] = [];
+  softskills: Softskill[] = [];
 
   workEnvironments: WorkEnvironment[] = [];
 
@@ -106,6 +113,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   };
 
   linkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.LINK,
+    icon: ['fas', 'search-plus'],
+    label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
+  };
+
+  linkSoftskillAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.LINK,
     icon: ['fas', 'search-plus'],
     label: 'portal.competence-catalog.ch-fiches.actions.search-and-add'
@@ -129,6 +142,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     label: 'portal.competence-catalog.ch-fiches.actions.unlink'
   };
 
+  unlinkSoftskillAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.UNLINK,
+    icon: ['fas', 'unlink'],
+    label: 'portal.competence-catalog.ch-fiches.actions.unlink'
+  };
+
   unlinkWorkEnvironmentAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.UNLINK,
     icon: ['fas', 'unlink'],
@@ -136,6 +155,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   };
 
   backlinkPrerequisiteAction: ActionDefinition<CompetenceCatalogAction> = {
+    name: CompetenceCatalogAction.BACKLINK,
+    icon: ['fas', 'link'],
+    label: 'portal.competence-catalog.competence-sets.overview.backlink'
+  };
+
+  backlinkSoftskillAction: ActionDefinition<CompetenceCatalogAction> = {
     name: CompetenceCatalogAction.BACKLINK,
     icon: ['fas', 'link'],
     label: 'portal.competence-catalog.competence-sets.overview.backlink'
@@ -165,6 +190,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   competenceSetsActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
   prerequisiteActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
+  softskillActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
   workEnvironmentActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
 
   chFicheDescriptionActions$: Observable<ActionDefinition<CompetenceCatalogAction>[]>;
@@ -175,6 +201,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
               private competenceSetRepository: CompetenceSetRepository,
               protected authenticationService: AuthenticationService,
               private prerequisiteRepository: PrerequisiteRepository,
+              private softskillRepository: SoftskillRepository,
               private workEnvironmentRepository: WorkEnvironmentRepository,
               private notificationsService: NotificationsService) {
     super(authenticationService);
@@ -196,6 +223,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     this.prerequisiteActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.backlinkPrerequisiteAction, this.unlinkPrerequisiteAction] : [this.backlinkPrerequisiteAction])
     );
+    this.softskillActions$ = this.isCompetenceCatalogEditor$.pipe(
+      map(isEditor => isEditor ? [this.backlinkSoftskillAction, this.unlinkSoftskillAction] : [this.backlinkSoftskillAction])
+    );
     this.workEnvironmentActions$ = this.isCompetenceCatalogEditor$.pipe(
       map(isEditor => isEditor ? [this.backlinkWorkEnvironmentAction, this.unlinkWorkEnvironmentAction] : [this.backlinkWorkEnvironmentAction])
     );
@@ -211,6 +241,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     this.resolvedOccupations = [];
     this.competences = defaultCompetences();
     this.prerequisites = [];
+    this.softskills = [];
     this.workEnvironments = [];
   }
 
@@ -292,6 +323,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
+  toggleSoftskills(collapsed: boolean) {
+    if (!collapsed) {
+      this.loadSoftskills().subscribe();
+    }
+  }
+
   toggleWorkEnvironments(collapsed: boolean) {
     if (!collapsed) {
       this.loadWorkEnvironments().subscribe();
@@ -308,6 +345,14 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     return this.prerequisiteRepository.findByIds(this.chFiche.prerequisiteIds).pipe(
       tap(prerequisites => {
         this.prerequisites = prerequisites;
+      })
+    );
+  }
+
+  loadSoftskills(): Observable<Softskill[]> {
+    return this.softskillRepository.findByIds(this.chFiche.softskillIds).pipe(
+      tap(softskills => {
+        this.softskills = softskills;
       })
     );
   }
@@ -405,6 +450,27 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
       this.openPrerequisiteBacklinkModal(index);
+    }
+  }
+
+  handleSoftskillActionClick(action: CompetenceCatalogAction, index?: number) {
+    if (action === CompetenceCatalogAction.LINK) {
+      this.addSoftskill();
+    }
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkSoftskill(index);
+    }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openSoftskillBacklinkModal(index);
+    }
+  }
+
+  viewSoftskill(softskill: Softskill) {
+    const modalRef = this.modalService.openLarge(SoftskillModalComponent);
+    if (this.chFiche.title) {
+      const componentInstance = <SoftskillModalComponent>modalRef.componentInstance;
+      componentInstance.softskill = softskill;
+      componentInstance.isReadonly = true;
     }
   }
 
@@ -507,6 +573,22 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   }
 
+  private addSoftskill() {
+    const modalRef = this.modalService.openMedium(SoftskillSearchModalComponent);
+    (<SoftskillSearchModalComponent>modalRef.componentInstance).existingSoftskillIds = this.chFiche.softskillIds;
+    modalRef.result
+      .then((softskill: Softskill) => {
+        this.chFiche.softskillIds.push(softskill.id);
+        this.loadSoftskills().subscribe(() => {
+          this.collapsed['SOFTSKILLS'] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-softskill-success-notification');
+        });
+      })
+      .catch(() => {
+      });
+
+  }
+
   private unlinkPrerequisite(index: number) {
     this.openUnlinkConfirmModal().then(() => {
       this.chFiche.prerequisiteIds.splice(index, 1);
@@ -517,9 +599,24 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     });
   }
 
+  private unlinkSoftskill(index: number) {
+    this.openUnlinkConfirmModal().then(() => {
+      this.chFiche.softskillIds.splice(index, 1);
+      this.loadSoftskills().subscribe(() => {
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-softskill-success-notification');
+      });
+    }).catch(err => {
+    });
+  }
+
   private openPrerequisiteBacklinkModal(index: number) {
     const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent);
     (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = this.prerequisites[index];
+  }
+
+  private openSoftskillBacklinkModal(index: number) {
+    const modalRef = this.modalService.openMedium(SoftskillBacklinkComponent);
+    (<SoftskillBacklinkComponent>modalRef.componentInstance).softskill = this.softskills[index];
   }
 
   //fixme better to pass the competence itself than its index and type.
