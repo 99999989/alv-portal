@@ -81,6 +81,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
         this.reload();
       })
       .catch(() => {
+        this.reload();
       });
   }
 
@@ -131,6 +132,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
           });
       })
       .catch(() => {
+        this.reload();
       });
   }
 
