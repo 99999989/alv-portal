@@ -77,12 +77,8 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
     componentInstance.workEnvironment = workEnvironment;
     componentInstance.isReadonly = isReadonly;
     modalRef.result
-      .then(() => {
-        this.reload();
-      })
-      .catch(() => {
-        this.reload();
-      });
+      .then(this.reload.bind(this))
+      .catch(this.reload.bind(this));
   }
 
   onFilterClick() {
@@ -93,8 +89,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
         this.filter = updatedFilter;
         this.reload();
       })
-      .catch(() => {
-      });
+      .catch(this.reload.bind(this));
   }
 
   onScroll() {
@@ -131,9 +126,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
             this.notificationsService.success('portal.competence-catalog.work-environments.deleted-success-notification');
           });
       })
-      .catch(() => {
-        this.reload();
-      });
+      .catch(this.reload.bind(this));
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {
