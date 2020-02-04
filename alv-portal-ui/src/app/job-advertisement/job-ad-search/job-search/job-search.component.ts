@@ -21,6 +21,7 @@ import {
   getTotalCount,
   isLoading,
   JobAdSearchState,
+  JobAlertToggledAction,
   JobSearchFilter,
   LoadNextPageAction,
   ResetFilterAction,
@@ -69,7 +70,10 @@ import { NotificationsService } from '../../../core/notifications.service';
 import { JobSearchProfileService } from '../job-search-profile/job-search-profile.service';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CONFIRM_DELETE_FAVOURITE_NOTE_MODAL } from '../../shared/job-ad-favourites.types';
-import { ResolvedJobAdSearchProfile } from '../../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
+import {
+  ResolvedJobAdSearchProfile,
+  SearchProfileErrors
+} from '../../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 import { getJobAdDeleteConfirmModalConfig } from '../../../shared/search-profiles/modal-config.types';
 import { JobAlertModalComponent } from '../../../shared/layout/search-profile-item/jobalert-modal/jobalert-modal.component';
 
@@ -107,6 +111,8 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
   currentLanguage$: Observable<string>;
 
   disableSaveSearchProfileButton$: Observable<boolean>;
+
+  searchProfile: ResolvedJobAdSearchProfile;
 
   @ViewChild('searchPanel', { static: false }) searchPanelElement: ElementRef<Element>;
 
@@ -311,22 +317,40 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
   }
 
   toggleJobAlert() {
-    this.jobSearchProfile$.pipe(
-      take(1)
-    ).subscribe(searchProfile => {
-      if (searchProfile) {
-        const modalRef = this.modalService.openLarge(JobAlertModalComponent);
-        const componentInstance = <JobAlertModalComponent>modalRef.componentInstance;
-        componentInstance.searchProfile = searchProfile;
-        modalRef.result
-          .then(result => {
-            this.jobSearchProfile$ = this.store.pipe(select(getJobAdSearchProfile))
-          })
-          .catch(() => {
+    this.jobSearchProfile$.pipe(take(1))
+      .subscribe(jobSearchProfile => this.searchProfile = jobSearchProfile);
+
+    const modalRef = this.modalService.openLarge(JobAlertModalComponent);
+    const componentInstance = <JobAlertModalComponent>modalRef.componentInstance;
+    componentInstance.searchProfile = this.searchProfile;
+
+    modalRef.result
+      .then(result => {
+        if (!!result.searchProfileId) {
+          this.jobAdSearchProfilesRepository
+            .disableJobAlert(result.searchProfileId)
+            .subscribe((error) => {
+              //TODO: fago double check
+            this.searchProfile.jobAlertDto = null;
+            this.store.dispatch(new JobAlertToggledAction({ searchProfile: this.searchProfile }));
+            this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
           });
-      }
-    });
+        } else {
+          this.jobAdSearchProfilesRepository
+            .enableJobAlert(result.searchProfile.id, result.jobAlertDto)
+            .subscribe((searchProfile) => {
+              this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
+              this.store.dispatch(new JobAlertToggledAction({ searchProfile: searchProfile }));
+            });
+        }
+      })
+      .catch((error) => {
+        if (error.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
+          this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
+        }
+      })
   }
+
 
   getTotalCountLabel(totalCount: string): string {
     return totalCount === '1' ? 'portal.job-ad-search.results-count.label.singular' :

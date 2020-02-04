@@ -12,7 +12,10 @@ import {
 } from 'rxjs/operators';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { NotificationsService } from '../../../core/notifications.service';
-import { JobAdSearchProfileResult } from '../../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
+import {
+  JobAdSearchProfileResult,
+  SearchProfileErrors
+} from '../../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 import { getJobAdDeleteConfirmModalConfig } from '../../../shared/search-profiles/modal-config.types';
 import { removeSearchProfileAnimation } from '../../../shared/animations/animations';
 import { JobAlertModalComponent } from '../../../shared/layout/search-profile-item/jobalert-modal/jobalert-modal.component';
@@ -75,13 +78,31 @@ export class JobAdSearchProfilesComponent implements OnInit {
   }
 
   onJobAlertToggle(searchProfile: JobAdSearchProfileResult) {
+    //TODO: fago fix duplication
     const modalRef = this.modalService.openLarge(JobAlertModalComponent);
     modalRef.componentInstance.searchProfile = searchProfile;
     modalRef.result
-      .then(() => {
-        this.reload();
+      .then((result) => {
+        if (!!result.searchProfileId) {
+          this.jobAdSearchProfilesRepository
+            .disableJobAlert(result.searchProfileId).subscribe((error) => {
+            this.reload();
+            this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
+          });
+        } else {
+          this.jobAdSearchProfilesRepository
+            .enableJobAlert(result.searchProfile.id, result.jobAlertDto)
+            .subscribe((searchProfile) => {
+              this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
+              this.reload();
+            });
+        }
+
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
+          this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
+        }
       });
   }
 }

@@ -1,4 +1,7 @@
-import { initialState, JobAdSearchState } from '../state';
+import {
+  initialState,
+  JobAdSearchState
+} from '../state';
 import {
   Actions,
   APPLY_FILTER,
@@ -9,6 +12,7 @@ import {
   INITIALIZE_RESULT_LIST,
   JOB_ADVERTISEMENT_DETAIL_LOADED,
   JOB_ADVERTISEMENT_DETAIL_UNLOADED,
+  JOB_ALERT_TOGGLED,
   LOAD_NEXT_PAGE,
   NEXT_PAGE_LOADED,
   NEXT_PAGE_NOT_AVAILABLE,
@@ -202,6 +206,14 @@ export function jobAdSearchReducer(state = initialState, action: Actions): JobAd
     }
 
     case SEARCH_PROFILE_UPDATED: {
+      newState = {
+        ...state,
+        jobAdSearchProfile: action.payload.searchProfile
+      };
+      break;
+    }
+
+    case JOB_ALERT_TOGGLED: {
       newState = {
         ...state,
         jobAdSearchProfile: action.payload.searchProfile

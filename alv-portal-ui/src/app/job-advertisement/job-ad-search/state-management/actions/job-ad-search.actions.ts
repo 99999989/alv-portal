@@ -45,6 +45,8 @@ export const FAVOURITE_ITEM_LOADED = 'JOBS:FAVOURITE_ITEM_LOADED';
 
 export const SEARCH_PROFILE_UPDATED = 'JOBS:SEARCH_PROFILE_UPDATED';
 
+export const JOB_ALERT_TOGGLED = 'JOBS:JOB_ALERT_TOGGLED';
+
 
 export class InitializeResultListAction implements Action {
   readonly type = INITIALIZE_RESULT_LIST;
@@ -200,6 +202,13 @@ export class SearchProfileUpdatedAction implements Action {
   }
 }
 
+export class JobAlertToggledAction implements Action {
+  readonly type = JOB_ALERT_TOGGLED;
+
+  constructor(public payload: { searchProfile: ResolvedJobAdSearchProfile }) {
+  }
+}
+
 export type Actions =
   | InitializeResultListAction
   | ResultListAlreadyInitializedAction
@@ -224,4 +233,5 @@ export type Actions =
   | ResetAction
   | FavouriteItemLoadedAction
   | EffectErrorOccurredAction
-  | SearchProfileUpdatedAction;
+  | SearchProfileUpdatedAction
+  | JobAlertToggledAction;

@@ -26,9 +26,8 @@ import { NotificationType } from '../../notifications/notification.model';
 import {
   Interval,
   JobAdSearchProfileResult,
-  SearchProfileErrors
+  JobAlertDto
 } from '../../../backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
-import { mapFormToDto } from './jobalert-request-mapper';
 import { NotificationsService } from '../../../../core/notifications.service';
 import { User } from '../../../../core/auth/user.model';
 
@@ -48,6 +47,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
 
   @Input() searchProfile: JobAdSearchProfileResult;
 
+  jobAlertDto: JobAlertDto;
 
   private currentLang: string;
 
@@ -110,26 +110,21 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
   onEnable(form: FormGroup) {
     const formValue = <JobAlertFormValue>form.value;
     this.isJobAlertEnabled = true;
-    return this.jobAdSearchProfilesRepository
-      .enableJobAlert(this.searchProfile.id, mapFormToDto(this.currentLang, formValue))
-      .subscribe((error) => {
-          this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
-          this.activeModal.close();
-        },
-        error => {
-          if (error.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
-            this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
-            this.activeModal.close();
-          }
-        });
+    this.jobAlertDto = {
+      email: formValue.email,
+      contactLanguageIsoCode: this.currentLang,
+      interval: formValue.interval
+    };
+    this.activeModal.close({
+      searchProfile: this.searchProfile,
+      jobAlertDto: this.jobAlertDto
+    });
   }
 
   onDisable() {
     this.isJobAlertEnabled = false;
-    this.jobAdSearchProfilesRepository
-      .disableJobAlert(this.searchProfile.id).subscribe(() => {
-      this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
-      this.activeModal.close();
+    this.activeModal.close({
+      searchProfileId: this.searchProfile.id,
     });
   }
 
