@@ -252,7 +252,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   openAddCompetenceModal(competenceType: CompetenceType) {
-    const modalRef = this.modalService.openMedium(CompetenceSetSearchModalComponent);
+    const modalRef = this.modalService.openLarge(CompetenceSetSearchModalComponent);
     (<CompetenceSetSearchModalComponent>modalRef.componentInstance).existingSetIds = this.chFiche.competences.map(competence => competence.competenceSetId);
     modalRef.result
       .then((competenceSet: CompetenceSetSearchResult) => {
@@ -418,7 +418,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   openAddWorkEnvironmentModal(workEnvironmentType: WorkEnvironmentType) {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentSearchModalComponent);
+    const modalRef = this.modalService.openLarge(WorkEnvironmentSearchModalComponent);
     const modalInstance = <WorkEnvironmentSearchModalComponent>modalRef.componentInstance;
     modalInstance.existingWorkEnvironmentIds = this.chFiche.workEnvironmentIds;
     modalInstance.workEnvironmentType = workEnvironmentType;
@@ -452,7 +452,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   editFicheDescription(isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(ChFicheDescriptionModalComponent);
+    const modalRef = this.modalService.openLarge(ChFicheDescriptionModalComponent);
     (<ChFicheDescriptionModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
     if (this.chFiche.description) {
       (<ChFicheDescriptionModalComponent>modalRef.componentInstance).chFicheDescription = this.chFiche.description;
@@ -492,7 +492,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   private addPrerequisite() {
-    const modalRef = this.modalService.openMedium(PrerequisiteSearchModalComponent);
+    const modalRef = this.modalService.openLarge(PrerequisiteSearchModalComponent);
     (<PrerequisiteSearchModalComponent>modalRef.componentInstance).existingPrerequisiteIds = this.chFiche.prerequisiteIds;
     modalRef.result
       .then((prerequisite: Prerequisite) => {

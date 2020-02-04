@@ -64,7 +64,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
   }
 
   openCreateModal() {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentModalComponent);
+    const modalRef = this.modalService.openLarge(WorkEnvironmentModalComponent);
     modalRef.result
       .then(this.reload.bind(this))
       .catch(this.reload.bind(this));
@@ -72,7 +72,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
   }
 
   openUpdateModal(workEnvironment: WorkEnvironment, isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentModalComponent);
+    const modalRef = this.modalService.openLarge(WorkEnvironmentModalComponent);
     const componentInstance = <WorkEnvironmentModalComponent>modalRef.componentInstance;
     componentInstance.workEnvironment = workEnvironment;
     componentInstance.isReadonly = isReadonly;
