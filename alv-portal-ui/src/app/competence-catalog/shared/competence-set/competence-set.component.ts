@@ -222,7 +222,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   private openBacklinkModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openMedium(CompetenceElementBacklinkComponent);
+    const modalRef = this.modalService.openMedium(CompetenceElementBacklinkComponent, true);
     (<CompetenceElementBacklinkComponent>modalRef.componentInstance).competenceElement = competenceElement;
   }
 
