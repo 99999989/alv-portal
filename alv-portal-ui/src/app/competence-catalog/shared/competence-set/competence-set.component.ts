@@ -119,7 +119,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   viewCompetenceElementModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
+    const modalRef = this.modalService.openLarge(CompetenceElementModalComponent, true);
     modalRef.componentInstance.competenceElement = competenceElement;
     modalRef.componentInstance.isReadonly = true;
     modalRef.result
@@ -135,7 +135,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   addKnowHow() {
-    const modalRef = this.modalService.openMedium(CompetenceElementSearchModalComponent);
+    const modalRef = this.modalService.openLarge(CompetenceElementSearchModalComponent);
     modalRef.componentInstance.elementType = ElementType.KNOW_HOW;
     modalRef.result
       .then((competenceElement) => {
@@ -200,7 +200,7 @@ export class CompetenceSetComponent extends CompetenceCatalogEditorAwareComponen
   }
 
   private addCompetenceElement(type: ElementType) {
-    const modalRef = this.modalService.openMedium(CompetenceElementSearchModalComponent);
+    const modalRef = this.modalService.openLarge(CompetenceElementSearchModalComponent);
     modalRef.componentInstance.elementType = type;
     modalRef.componentInstance.existingElementIds = this.competenceSet.competenceElementIds;
     modalRef.result
