@@ -9,7 +9,16 @@ import { FileSaverService } from '../../../../shared/file-saver/file-saver.servi
 import { Observable } from 'rxjs';
 import { ProofOfWorkEffortsSubmitModalComponent } from './proof-of-work-efforts-submit-modal/proof-of-work-efforts-submit-modal.component';
 import { ModalService } from '../../../../shared/layout/modal/modal.service';
-import { addDays, isWithinRange, startOfMonth, startOfToday } from 'date-fns';
+import {
+  addDays,
+  endOfToday,
+  isEqual,
+  isSameDay,
+  isWithinRange,
+  startOfDay,
+  startOfMonth,
+  startOfToday
+} from 'date-fns';
 import {
   daysDifference
 } from '../work-efforts-overview-filter.types';
@@ -81,7 +90,9 @@ export class ProofOfWorkEffortsComponent implements OnInit {
    * f.e. in January, previous ControlPeriod '2019-12' is valid for manual submitting from 01.01. - 05.01 (inclusive)
    */
   private isPreviousPeriodValidForSubmitting(): boolean {
-    return !this.isCurrentPeriod && isWithinRange(addDays(this.proofOfWorkEffortsModel.endDate, 1), startOfMonth(startOfToday()), daysAfterStartOfMonth(5));
+    const endDate = this.proofOfWorkEffortsModel.endDate;
+    const firstOfMonth = startOfMonth(startOfToday());
+    return !this.isCurrentPeriod && isEqual(startOfDay(addDays(endDate, 1)), firstOfMonth) && isWithinRange(startOfToday(), firstOfMonth, daysAfterStartOfMonth(5));
   }
 
 }
