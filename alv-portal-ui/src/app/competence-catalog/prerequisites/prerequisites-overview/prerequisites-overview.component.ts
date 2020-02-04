@@ -72,11 +72,8 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
     componentInstance.prerequisite = prerequisite;
     componentInstance.isReadonly = isReadonly;
     modalRef.result
-      .then(() => {
-        this.reload();
-      })
-      .catch(() => {
-      });
+      .then(this.reload.bind(this))
+      .catch(this.reload.bind(this));
   }
 
   onFilterClick() {
@@ -125,8 +122,7 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
             this.notificationsService.success('portal.competence-catalog.prerequisites.deleted-success-notification');
           });
       })
-      .catch(() => {
-      });
+      .catch(this.reload.bind(this));
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {
