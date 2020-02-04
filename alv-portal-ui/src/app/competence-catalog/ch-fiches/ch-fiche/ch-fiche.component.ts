@@ -400,15 +400,6 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     });
   }
 
-  viewPrerequisite(prerequisite: Prerequisite) {
-    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent, false);
-    if (this.chFiche.title) {
-      const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
-      componentInstance.prerequisite = prerequisite;
-      componentInstance.isReadonly = true;
-    }
-  }
-
   private setNewCompetenceTypeToCompetenceSet(newType: CompetenceType, oldType: CompetenceType, competenceSetId: string) {
     if (!(newType === oldType)) {
       this.unlinkCompetence(this.chFiche.competences.findIndex(competence => competence.competenceSetId === competenceSetId), oldType);
@@ -475,7 +466,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   viewPrerequisite(prerequisite: Prerequisite) {
-    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent);
+    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent, false);
     if (this.chFiche.title) {
       const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
       componentInstance.prerequisite = prerequisite;
