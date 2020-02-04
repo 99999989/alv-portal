@@ -389,6 +389,110 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
+  handlePrerequisiteActionClick(action: CompetenceCatalogAction, index?: number) {
+    if (action === CompetenceCatalogAction.LINK) {
+      this.addPrerequisite();
+    }
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkPrerequisite(index);
+    }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openPrerequisiteBacklinkModal(index);
+    }
+  }
+
+  handleSoftskillActionClick(action: CompetenceCatalogAction, index?: number) {
+    if (action === CompetenceCatalogAction.LINK) {
+      this.addSoftskill();
+    }
+    if (action === CompetenceCatalogAction.UNLINK) {
+      this.unlinkSoftskill(index);
+    }
+    if (action === CompetenceCatalogAction.BACKLINK) {
+      this.openSoftskillBacklinkModal(index);
+    }
+  }
+
+  viewSoftskill(softskill: Softskill) {
+    const modalRef = this.modalService.openLarge(SoftskillModalComponent);
+    if (this.chFiche.title) {
+      const componentInstance = <SoftskillModalComponent>modalRef.componentInstance;
+      componentInstance.softskill = softskill;
+      componentInstance.isReadonly = true;
+    }
+  }
+
+  viewPrerequisite(prerequisite: Prerequisite) {
+    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent, false);
+    if (this.chFiche.title) {
+      const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
+      componentInstance.prerequisite = prerequisite;
+      componentInstance.isReadonly = true;
+    }
+  }
+
+  openAddWorkEnvironmentModal(workEnvironmentType: WorkEnvironmentType) {
+    const modalRef = this.modalService.openLarge(WorkEnvironmentSearchModalComponent);
+    const modalInstance = <WorkEnvironmentSearchModalComponent>modalRef.componentInstance;
+    modalInstance.existingWorkEnvironmentIds = this.chFiche.workEnvironmentIds;
+    modalInstance.workEnvironmentType = workEnvironmentType;
+
+    modalRef.result
+      .then((workEnvironment: WorkEnvironment) => {
+        this.chFiche.workEnvironmentIds.push(workEnvironment.id);
+        this.loadWorkEnvironments().subscribe(() => {
+          this.collapsed['WORK_ENVIRONMENTS'] = false;
+          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-work-environment-success-notification');
+        });
+      })
+      .catch(() => {
+      });
+  }
+
+  viewWorkEnvironment(workEnvironment: WorkEnvironment) {
+    const modalRef = this.modalService.openLarge(WorkEnvironmentModalComponent);
+    if (this.chFiche.title) {
+      const componentInstance = <WorkEnvironmentModalComponent>modalRef.componentInstance;
+      componentInstance.workEnvironment = workEnvironment;
+      componentInstance.isReadonly = true;
+    }
+  }
+
+  editFicheDescription(isReadonly: boolean) {
+    const modalRef = this.modalService.openLarge(ChFicheDescriptionModalComponent);
+    (<ChFicheDescriptionModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
+    if (this.chFiche.description) {
+      (<ChFicheDescriptionModalComponent>modalRef.componentInstance).chFicheDescription = this.chFiche.description;
+    }
+    modalRef.result
+      .then((multiLanguageTitle) => {
+        this.chFiche.description = multiLanguageTitle;
+        this.notificationsService.success('portal.competence-catalog.ch-fiches.edit-description-success-notification');
+
+      })
+      .catch(() => {
+      });
+  }
+
+  handleDescriptionActionClick(action: CompetenceCatalogAction) {
+    if (action === CompetenceCatalogAction.DELETE) {
+      this.modalService.openConfirm({
+        title: 'portal.competence-catalog.ch-fiches.remove-description-dialog.title',
+        content: 'portal.competence-catalog.ch-fiches.remove-description-dialog.confirmation-question',
+        confirmLabel: 'entity.action.yes-delete',
+      })
+        .result
+        .then(() => {
+            this.chFiche.description = null;
+            this.notificationsService.success('portal.competence-catalog.ch-fiches.remove-description-success-notification');
+          }
+        )
+        .catch(() => {
+        });
+
+    }
+  }
+
   private addCompetence(competenceType: CompetenceType, competenceSetId: string) {
     this.chFiche.competences.push({
       type: competenceType,
@@ -432,77 +536,6 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       );
   }
 
-  handlePrerequisiteActionClick(action: CompetenceCatalogAction, index?: number) {
-    if (action === CompetenceCatalogAction.LINK) {
-      this.addPrerequisite();
-    }
-    if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkPrerequisite(index);
-    }
-    if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openPrerequisiteBacklinkModal(index);
-    }
-  }
-
-  handleSoftskillActionClick(action: CompetenceCatalogAction, index?: number) {
-    if (action === CompetenceCatalogAction.LINK) {
-      this.addSoftskill();
-    }
-    if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkSoftskill(index);
-    }
-    if (action === CompetenceCatalogAction.BACKLINK) {
-      this.openSoftskillBacklinkModal(index);
-    }
-  }
-
-  viewSoftskill(softskill: Softskill) {
-    const modalRef = this.modalService.openLarge(SoftskillModalComponent);
-    if (this.chFiche.title) {
-      const componentInstance = <SoftskillModalComponent>modalRef.componentInstance;
-      componentInstance.softskill = softskill;
-      componentInstance.isReadonly = true;
-    }
-  }
-
-  viewPrerequisite(prerequisite: Prerequisite) {
-    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent, false);
-    if (this.chFiche.title) {
-      const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
-      componentInstance.prerequisite = prerequisite;
-      componentInstance.isReadonly = true;
-    }
-  }
-
-
-
-  openAddWorkEnvironmentModal(workEnvironmentType: WorkEnvironmentType) {
-    const modalRef = this.modalService.openLarge(WorkEnvironmentSearchModalComponent);
-    const modalInstance = <WorkEnvironmentSearchModalComponent>modalRef.componentInstance;
-    modalInstance.existingWorkEnvironmentIds = this.chFiche.workEnvironmentIds;
-    modalInstance.workEnvironmentType = workEnvironmentType;
-
-    modalRef.result
-      .then((workEnvironment: WorkEnvironment) => {
-        this.chFiche.workEnvironmentIds.push(workEnvironment.id);
-        this.loadWorkEnvironments().subscribe(() => {
-          this.collapsed['WORK_ENVIRONMENTS'] = false;
-          this.notificationsService.success('portal.competence-catalog.ch-fiches.added-work-environment-success-notification');
-        });
-      })
-      .catch(() => {
-      });
-  }
-
-  viewWorkEnvironment(workEnvironment: WorkEnvironment) {
-    const modalRef = this.modalService.openLarge(WorkEnvironmentModalComponent);
-    if (this.chFiche.title) {
-      const componentInstance = <WorkEnvironmentModalComponent>modalRef.componentInstance;
-      componentInstance.workEnvironment = workEnvironment;
-      componentInstance.isReadonly = true;
-    }
-  }
-
   private openSettingsModal(competenceSet: CompetenceSetSearchResult, competenceType: CompetenceType) {
     const modalRef = this.modalService.openMedium(CompetenceSetInFicheSettingsModalComponent, true);
     (<CompetenceSetInFicheSettingsModalComponent>modalRef.componentInstance).competenceType = competenceType;
@@ -517,41 +550,6 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       title: 'portal.competence-catalog.competence-sets.overview.delete-confirmation.title',
       content: 'portal.competence-catalog.competence-sets.overview.delete-confirmation.text'
     }).result;
-  }
-
-  editFicheDescription(isReadonly: boolean) {
-    const modalRef = this.modalService.openLarge(ChFicheDescriptionModalComponent);
-    (<ChFicheDescriptionModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
-    if (this.chFiche.description) {
-      (<ChFicheDescriptionModalComponent>modalRef.componentInstance).chFicheDescription = this.chFiche.description;
-    }
-    modalRef.result
-      .then((multiLanguageTitle) => {
-        this.chFiche.description = multiLanguageTitle;
-        this.notificationsService.success('portal.competence-catalog.ch-fiches.edit-description-success-notification');
-
-      })
-      .catch(() => {
-      });
-  }
-
-  handleDescriptionActionClick(action: CompetenceCatalogAction) {
-    if (action === CompetenceCatalogAction.DELETE) {
-      this.modalService.openConfirm({
-        title: 'portal.competence-catalog.ch-fiches.remove-description-dialog.title',
-        content: 'portal.competence-catalog.ch-fiches.remove-description-dialog.confirmation-question',
-        confirmLabel: 'entity.action.yes-delete',
-      })
-        .result
-        .then(() => {
-            this.chFiche.description = null;
-            this.notificationsService.success('portal.competence-catalog.ch-fiches.remove-description-success-notification');
-          }
-        )
-        .catch(() => {
-        });
-
-    }
   }
 
   private openSetBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
