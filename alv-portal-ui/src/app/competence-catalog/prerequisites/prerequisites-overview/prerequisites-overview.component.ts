@@ -59,7 +59,7 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
   }
 
   openCreateModal() {
-    const modalRef = this.modalService.openMedium(PrerequisiteModalComponent, true);
+    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent, true);
     modalRef.result
       .then(this.reload.bind(this))
       .catch(this.reload.bind(this));
@@ -67,7 +67,7 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
   }
 
   openUpdateModal(prerequisite: Prerequisite, isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(PrerequisiteModalComponent, true);
+    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent, true);
     const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
     componentInstance.prerequisite = prerequisite;
     componentInstance.isReadonly = isReadonly;
