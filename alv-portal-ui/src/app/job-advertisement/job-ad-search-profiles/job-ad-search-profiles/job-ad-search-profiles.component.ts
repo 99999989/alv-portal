@@ -68,12 +68,18 @@ export class JobAdSearchProfilesComponent implements OnInit {
       });
   }
 
+  reload() {
+    this.jobSearchProfiles = [];
+    this.page = 0;
+    this.onScroll();
+  }
+
   onJobAlertToggle(searchProfile: JobAdSearchProfileResult) {
     const modalRef = this.modalService.openLarge(JobAlertModalComponent);
     modalRef.componentInstance.searchProfile = searchProfile;
     modalRef.result
       .then(() => {
-
+        this.reload();
       })
       .catch(() => {
       });

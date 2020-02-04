@@ -1,136 +1,156 @@
-<div #searchPanel
-     class="container-fluid query-search-area pt-4 pt-lg-5 pb-4">
-  <div class="form-row">
-    <h2 class="sr-only">
-      {{'portal.job-ad-search.browser-title' | translate}}
-    </h2>
-    <alv-job-query-panel class="col-lg-9"
-                         (jobQueryPanelValuesChange)="onQueryChange($event)"
-                         [showSpinner]="resultsAreLoading$ | async"
-                         [jobQueryPanelValues]="jobSearchFilter$ | async">
-    </alv-job-query-panel>
+<ng-container
+  *ngIf="{jobSearchProfile: jobSearchProfile$ | async,
+          jobAlertEmail: (jobSearchProfile$ | async).jobAlertDto.email} as observables">
+  <div #searchPanel
+       class="container-fluid query-search-area pt-4 pt-lg-5 pb-4">
+    <div class="form-row">
+      <h2 class="sr-only">
+        {{'portal.job-ad-search.browser-title' | translate}}
+      </h2>
+      <alv-job-query-panel class="col-lg-9"
+                           (jobQueryPanelValuesChange)="onQueryChange($event)"
+                           [showSpinner]="resultsAreLoading$ | async"
+                           [jobQueryPanelValues]="jobSearchFilter$ | async">
+      </alv-job-query-panel>
 
-    <div class="col-lg-3 d-flex">
-      <button class="reset-button btn btn-text mt-1 mt-lg-0 flex-grow-1 flex-lg-grow-0"
-              (click)="onResetFilter()">
-        {{ 'job-search.toolbar.reset' | translate }}
-      </button>
+      <div class="col-lg-3 d-flex">
+        <button class="reset-button btn btn-text mt-1 mt-lg-0 flex-grow-1 flex-lg-grow-0"
+                (click)="onResetFilter()">
+          {{ 'job-search.toolbar.reset' | translate }}
+        </button>
+      </div>
     </div>
   </div>
-</div>
-<div (scrolled)="onScroll()"
-     [fromRoot]="true"
-     [infiniteScrollThrottle]="50"
-     [immediateCheck]="true"
-     class="container-fluid"
-     infiniteScroll>
+  <div (scrolled)="onScroll()"
+       [fromRoot]="true"
+       [infiniteScrollThrottle]="50"
+       [immediateCheck]="true"
+       class="container-fluid"
+       infiniteScroll>
 
-  <alv-three-column-layout [mobileOrdering]="[1, 2, null]"
-                           [stickyTop]="layoutConstants.STICKY_TOP_SEARCH + searchPanelHeight">
-    <div class="left-column">
-      <div class="alv-bar mb-1 d-flex">
+    <alv-three-column-layout [mobileOrdering]="[1, 2, null]"
+                             [stickyTop]="layoutConstants.STICKY_TOP_SEARCH + searchPanelHeight">
+      <div class="left-column">
+        <div class="alv-bar mb-1 d-flex">
         <span *ngIf="resultsAreLoading$ | async; else resultsCount"
               data-test="count-placeholder">...</span>
-        <ng-template #resultsCount>
-          <strong *ngIf="totalCount$ | async | number as totalCount">
-            <span data-test="resultCount">{{totalCount}}</span>
-            {{getTotalCountLabel(totalCount) | translate}}
-          </strong>
-        </ng-template>
-        <div class="flex-grow-1"></div>
+          <ng-template #resultsCount>
+            <strong *ngIf="totalCount$ | async | number as totalCount">
+              <span data-test="resultCount">{{totalCount}}</span>
+              {{getTotalCountLabel(totalCount) | translate}}
+            </strong>
+          </ng-template>
+          <div class="flex-grow-1"></div>
 
-        <!-- Mobile Menu -->
-        <div class="job-search-mobile-menu d-block d-lg-none">
-          <div class="d-inline-block"
-               ngbDropdown
-               container="body"
-               placement="bottom-right">
-            <button id="job-search-mobile-menu"
-                    class="btn btn-text btn-icon no-dropdown-indicator"
-                    [ngbTooltip]="'portal.global.actions' | translate"
-                    placement="left"
-                    ngbDropdownToggle
-                    [attr.aria-label]="'portal.global.actions' | translate">
-              <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
-            </button>
-            <div aria-hidden="true"
-                 ngbDropdownMenu>
-              <a *ngIf="jobSearchMailToLink$ | async as jobSearchMailToLink"
-                 class="dropdown-item"
-                 [href]="jobSearchMailToLink">
-                {{'portal.job-search.sendLink' | translate}}
-              </a>
-              <button *ngIf="currentUser$ | async"
-                      (click)="saveSearchProfile()"
-                      [disabled]="disableSaveSearchProfileButton$ | async"
-                      class="dropdown-item">
-                {{'portal.job-ad-search-profiles.label.save-profile' | translate}}
+          <!-- Mobile Menu -->
+          <div class="job-search-mobile-menu d-block d-lg-none">
+            <div class="d-inline-block"
+                 ngbDropdown
+                 container="body"
+                 placement="bottom-right">
+              <button id="job-search-mobile-menu"
+                      class="btn btn-text btn-icon no-dropdown-indicator"
+                      [ngbTooltip]="'portal.global.actions' | translate"
+                      placement="left"
+                      ngbDropdownToggle
+                      [attr.aria-label]="'portal.global.actions' | translate">
+                <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
               </button>
-              <button *ngIf="jobSearchProfile$ | async"
-                      (click)="deleteSearchProfile()"
-                      class="dropdown-item">
-                {{'portal.job-ad-search-profiles.label.delete-profile' | translate}}
-              </button>
+              <div aria-hidden="true"
+                   ngbDropdownMenu>
+                <a *ngIf="jobSearchMailToLink$ | async as jobSearchMailToLink"
+                   class="dropdown-item"
+                   [href]="jobSearchMailToLink">
+                  {{'portal.job-search.sendLink' | translate}}
+                </a>
+                <button *ngIf="currentUser$ | async"
+                        (click)="saveSearchProfile()"
+                        [disabled]="disableSaveSearchProfileButton$ | async"
+                        class="dropdown-item">
+                  {{'portal.job-ad-search-profiles.label.save-profile' | translate}}
+                </button>
+                <button *ngIf="observables.jobSearchProfile"
+                        (click)="deleteSearchProfile()"
+                        class="dropdown-item">
+                  {{'portal.job-ad-search-profiles.label.delete-profile' | translate}}
+                </button>
+              </div>
             </div>
           </div>
+
         </div>
-
+        <h2 class="sr-only">
+          {{'job-search.filter.title' | translate}}
+        </h2>
+        <alv-filter-panel (filterPanelValueChange)="onFiltersChange($event)"
+                          [filterPanelValues]="jobSearchFilter$ | async">
+        </alv-filter-panel>
       </div>
-      <h2 class="sr-only">
-        {{'job-search.filter.title' | translate}}
-      </h2>
-      <alv-filter-panel (filterPanelValueChange)="onFiltersChange($event)"
-                        [filterPanelValues]="jobSearchFilter$ | async">
-      </alv-filter-panel>
-    </div>
 
-    <div class="main-column">
-      <h2 class="sr-only">
-        Stellen Suchresultate
-      </h2>
-      <ng-container *ngIf="jobSearchResults$ | async as jobSearchResults">
-        <alv-job-search-result *ngFor="let jobSearchResult of jobSearchResults; trackBy: trackById"
-                               [jobSearchResult]="jobSearchResult"
-                               [language]="currentLanguage$ | async"
-                               [currentUser]="currentUser$ | async"
-                               (addFavourite)="addFavourite($event)"
-                               (updatedFavourite)="updatedFavourite($event)"
-                               (removeFavourite)="removeFavourite($event)"
-                               routerLinkBase="/job-search">
-        </alv-job-search-result>
-        <div *ngIf="!jobSearchResults.length">
-          {{'global.common-phrases.no-results-found' | translate}}
+      <div class="main-column">
+        <h2 class="sr-only">
+          Stellen Suchresultate
+        </h2>
+        <ng-container *ngIf="jobSearchResults$ | async as jobSearchResults">
+          <alv-job-search-result *ngFor="let jobSearchResult of jobSearchResults; trackBy: trackById"
+                                 [jobSearchResult]="jobSearchResult"
+                                 [language]="currentLanguage$ | async"
+                                 [currentUser]="currentUser$ | async"
+                                 (addFavourite)="addFavourite($event)"
+                                 (updatedFavourite)="updatedFavourite($event)"
+                                 (removeFavourite)="removeFavourite($event)"
+                                 routerLinkBase="/job-search">
+          </alv-job-search-result>
+          <div *ngIf="!jobSearchResults.length">
+            {{'global.common-phrases.no-results-found' | translate}}
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="right-column">
+        <div class="w-100 mb-3 text-right text-md-left d-flex flex-column align-items-start">
+          <a *ngIf="jobSearchMailToLink$ | async as jobSearchMailToLink"
+             class="btn btn-text btn-text-icon btn-truncate mb-2"
+             [href]="jobSearchMailToLink">
+            <fa-icon class="mr-1"
+                     [icon]="['fas', 'share']"></fa-icon>
+            {{'portal.job-search.sendLink' | translate}}
+          </a>
+          <button *ngIf="currentUser$ | async"
+                  class="btn btn-text btn-text-icon btn-truncate mb-2"
+                  [disabled]="disableSaveSearchProfileButton$ | async"
+                  (click)="saveSearchProfile()">
+            <fa-icon [icon]="['fas', 'bell']"
+                     class="mr-1">
+            </fa-icon>
+            {{'portal.job-ad-search-profiles.label.save-profile' | translate}}
+          </button>
+          <button *ngIf="observables.jobSearchProfile"
+                  class="btn btn-text btn-text-icon btn-truncate mb-2"
+                  (click)="deleteSearchProfile()">
+            <fa-icon [icon]="['fas', 'trash-alt']"
+                     class="mr-1">
+            </fa-icon>
+            {{'portal.job-ad-search-profiles.label.delete-profile' | translate}}
+          </button>
+          <button *ngIf="observables.jobAlertEmail"
+                  class="btn btn-text btn-text-icon btn-truncate mb-2"
+                  (click)="toggleJobAlert()">
+            <fa-icon [icon]="['fas', 'envelope']"
+                     class="mr-1">
+            </fa-icon>
+            {{'Benachrichtung deaktivieren' | translate}}
+          </button>
+          <button *ngIf="observables.jobSearchProfile && observables.jobAlertEmail === null"
+                  class="btn btn-text btn-text-icon btn-truncate mb-2"
+                  (click)="toggleJobAlert()">
+            <fa-icon [icon]="['far', 'envelope']"
+                     class="mr-1">
+            </fa-icon>
+            {{'Benachrichtung aktivieren' | translate}}
+          </button>
         </div>
-      </ng-container>
-    </div>
-
-    <div class="right-column">
-      <div class="w-100 mb-3 text-right text-md-left d-flex flex-column align-items-start">
-        <a *ngIf="jobSearchMailToLink$ | async as jobSearchMailToLink"
-           class="btn btn-text btn-text-icon btn-truncate mb-2"
-           [href]="jobSearchMailToLink">
-          <fa-icon class="mr-1"
-                   [icon]="['fas', 'share']"></fa-icon>
-          {{'portal.job-search.sendLink' | translate}}
-        </a>
-        <button *ngIf="currentUser$ | async"
-           class="btn btn-text btn-text-icon btn-truncate mb-2"
-                [disabled]="disableSaveSearchProfileButton$ | async"
-           (click)="saveSearchProfile()">
-          <fa-icon [icon]="['fas', 'bell']"
-                   class="mr-1">
-          </fa-icon>
-          {{'portal.job-ad-search-profiles.label.save-profile' | translate}}
-        </button>
-        <button *ngIf="jobSearchProfile$ | async"
-                class="btn btn-text btn-text-icon btn-truncate mb-2"
-                (click)="deleteSearchProfile()">
-          <fa-icon [icon]="['fas', 'trash-alt']"
-                   class="mr-1">
-          </fa-icon>
-          {{'portal.job-ad-search-profiles.label.delete-profile' | translate}}
-        </button>
       </div>
-    </div>
-  </alv-three-column-layout>
-</div>
+    </alv-three-column-layout>
+  </div>
+</ng-container>

@@ -20,6 +20,7 @@ export interface ResolvedJobAdSearchProfile {
   createdTime?: Date;
   updatedTime?: Date;
   searchFilter: ResolvedJobSearchFilter;
+  jobAlertDto?: JobAlertDto;
 }
 
 export interface CreateJobAdSearchProfile {
@@ -45,6 +46,7 @@ export interface JobAlertDto {
   contactLanguageIsoCode: string;
   interval: Interval;
 }
+
 export enum Interval {
   INT_1DAY = 'INT_1DAY',
   INT_3DAY = 'INT_3DAY',

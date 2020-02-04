@@ -320,6 +320,7 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
         componentInstance.searchProfile = searchProfile;
         modalRef.result
           .then(result => {
+            this.jobSearchProfile$ = this.store.pipe(select(getJobAdSearchProfile))
           })
           .catch(() => {
           });

@@ -53,6 +53,11 @@ export class JobSearchProfilesWidgetComponent implements OnInit {
     });
   }
 
+  reload() {
+    this.jobSearchProfiles = [];
+    this.initItems();
+  }
+
   onDeleteProfile(profile: SearchProfile) {
     this.modalService.openConfirm(
       getJobAdDeleteConfirmModalConfig(profile.name)
@@ -74,7 +79,7 @@ export class JobSearchProfilesWidgetComponent implements OnInit {
     modalRef.componentInstance.searchProfile = searchProfile;
     modalRef.result
       .then(() => {
-            this.notificationsService.success('portal.job-ad-search-profiles.notification.profile-deleted');
+        this.reload();
       })
       .catch(() => {
       });
