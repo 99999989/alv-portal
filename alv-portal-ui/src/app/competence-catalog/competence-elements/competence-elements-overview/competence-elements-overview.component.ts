@@ -77,11 +77,8 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
     componentInstance.competenceElement = competenceElement;
     componentInstance.isReadonly = isReadonly;
     modalRef.result
-      .then(updatedCompetenceElement => {
-        this.reload();
-      })
-      .catch(() => {
-      });
+      .then(this.reload.bind(this))
+      .catch(this.reload.bind(this));
   }
 
   onFilterClick() {
@@ -130,8 +127,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
             this.notificationsService.success('portal.competence-catalog.competence-elements.deleted-success-notification');
           });
       })
-      .catch(() => {
-      });
+      .catch((this.reload.bind(this)));
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {
