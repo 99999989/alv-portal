@@ -23,7 +23,7 @@ export class SortButtonComponent implements OnInit {
   }
 
   onClick() {
-      const modalRef = this.modalService.openMedium(CompetenceCatalogSortModalComponent);
+      const modalRef = this.modalService.openMedium(CompetenceCatalogSortModalComponent, true);
       modalRef.componentInstance.currentSorting = this.currentSorting;
       modalRef.result
         .then(updatedSorting => {

@@ -30,6 +30,10 @@ export class ProofOfWorkEffortsModel {
 
   submissionDate: Date;
 
+  startDate: Date;
+
+  endDate: Date;
+
   submissionDateFormat: string;
 
   hasPdfDocument: boolean;
@@ -44,23 +48,27 @@ export class ProofOfWorkEffortsModel {
 
     this.id = this.proofOfWorkEfforts.id;
 
+    this.startDate = new Date(this.proofOfWorkEfforts.startDate + 'T00:00:00');
+
+    this.endDate = new Date(this.proofOfWorkEfforts.endDate + 'T23:59:59');
+
     this.isSentSuccessfully = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED
       || this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
-
-    this.isCurrentPeriod = this.checkIsCurrentPeriod();
 
     this.isClosed = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
 
     this.isBeforeEmployment = this.proofOfWorkEfforts.controlPeriod.type === ControlPeriodType.BEFORE_UNEMPLOYMENT;
+
+    this.hasPdfDocument = !!this.proofOfWorkEfforts.documentId;
 
     this.controlPeriodDateString = this.proofOfWorkEfforts.controlPeriod.value;
 
     this.monthValue = this.proofOfWorkEfforts.controlPeriod.value ?
       parseInt(this.proofOfWorkEfforts.controlPeriod.value.split('-')[1], 10) : null;
 
-    this.submissionDate = this.buildSubmissionDateAndFormat();
+    this.isCurrentPeriod = this.checkIsCurrentPeriod();
 
-    this.hasPdfDocument = !!this.proofOfWorkEfforts.documentId;
+    this.submissionDate = this.buildSubmissionDateAndFormat();
 
     this.statusLabel = this.getStatusLabel();
 
@@ -85,9 +93,7 @@ export class ProofOfWorkEffortsModel {
 
   private checkIsCurrentPeriod(): boolean {
     const today = new Date();
-    const startDate = new Date(this.proofOfWorkEfforts.startDate + 'T00:00:00');
-    const endDate = new Date(this.proofOfWorkEfforts.endDate + 'T23:59:59');
-    return today >= startDate && today <= endDate;
+    return today >= this.startDate && today <= this.endDate;
   }
 
   private getStatusLabel(): string {
@@ -109,4 +115,3 @@ export class ProofOfWorkEffortsModel {
   }
 
 }
-

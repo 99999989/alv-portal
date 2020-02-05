@@ -252,7 +252,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   openAddCompetenceModal(competenceType: CompetenceType) {
-    const modalRef = this.modalService.openMedium(CompetenceSetSearchModalComponent);
+    const modalRef = this.modalService.openLarge(CompetenceSetSearchModalComponent);
     (<CompetenceSetSearchModalComponent>modalRef.componentInstance).existingSetIds = this.chFiche.competences.map(competence => competence.competenceSetId);
     modalRef.result
       .then((competenceSet: CompetenceSetSearchResult) => {
@@ -355,13 +355,13 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     });
   }
 
-  private openSettingsModal(competenceSet: CompetenceSetSearchResult, competenceType: CompetenceType) {
-    const modalRef = this.modalService.openMedium(CompetenceSetInFicheSettingsModalComponent);
-    (<CompetenceSetInFicheSettingsModalComponent>modalRef.componentInstance).competenceType = competenceType;
-    modalRef.result.then((newCompetenceType: CompetenceType) => {
-      this.setNewCompetenceTypeToCompetenceSet(newCompetenceType, competenceType, competenceSet.id);
-    }).catch(() => {
-    });
+  viewPrerequisite(prerequisite: Prerequisite) {
+    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent, false);
+    if (this.chFiche.title) {
+      const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
+      componentInstance.prerequisite = prerequisite;
+      componentInstance.isReadonly = true;
+    }
   }
 
   private setNewCompetenceTypeToCompetenceSet(newType: CompetenceType, oldType: CompetenceType, competenceSetId: string) {
@@ -408,17 +408,17 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  viewPrerequisite(prerequisite: Prerequisite) {
-    const modalRef = this.modalService.openLarge(PrerequisiteModalComponent);
-    if (this.chFiche.title) {
-      const componentInstance = <PrerequisiteModalComponent>modalRef.componentInstance;
-      componentInstance.prerequisite = prerequisite;
-      componentInstance.isReadonly = true;
-    }
+  private openSettingsModal(competenceSet: CompetenceSetSearchResult, competenceType: CompetenceType) {
+    const modalRef = this.modalService.openMedium(CompetenceSetInFicheSettingsModalComponent, true);
+    (<CompetenceSetInFicheSettingsModalComponent>modalRef.componentInstance).competenceType = competenceType;
+    modalRef.result.then((newCompetenceType: CompetenceType) => {
+      this.setNewCompetenceTypeToCompetenceSet(newCompetenceType, competenceType, competenceSet.id);
+    }).catch(() => {
+    });
   }
 
   openAddWorkEnvironmentModal(workEnvironmentType: WorkEnvironmentType) {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentSearchModalComponent);
+    const modalRef = this.modalService.openLarge(WorkEnvironmentSearchModalComponent);
     const modalInstance = <WorkEnvironmentSearchModalComponent>modalRef.componentInstance;
     modalInstance.existingWorkEnvironmentIds = this.chFiche.workEnvironmentIds;
     modalInstance.workEnvironmentType = workEnvironmentType;
@@ -452,7 +452,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   editFicheDescription(isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(ChFicheDescriptionModalComponent);
+    const modalRef = this.modalService.openLarge(ChFicheDescriptionModalComponent);
     (<ChFicheDescriptionModalComponent>modalRef.componentInstance).isReadonly = isReadonly;
     if (this.chFiche.description) {
       (<ChFicheDescriptionModalComponent>modalRef.componentInstance).chFicheDescription = this.chFiche.description;
@@ -487,12 +487,12 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   private openSetBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
-    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent, true);
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
   private addPrerequisite() {
-    const modalRef = this.modalService.openMedium(PrerequisiteSearchModalComponent);
+    const modalRef = this.modalService.openLarge(PrerequisiteSearchModalComponent);
     (<PrerequisiteSearchModalComponent>modalRef.componentInstance).existingPrerequisiteIds = this.chFiche.prerequisiteIds;
     modalRef.result
       .then((prerequisite: Prerequisite) => {
@@ -518,7 +518,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   private openPrerequisiteBacklinkModal(index: number) {
-    const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent);
+    const modalRef = this.modalService.openMedium(PrerequisiteBacklinkComponent, true);
     (<PrerequisiteBacklinkComponent>modalRef.componentInstance).prerequisite = this.prerequisites[index];
   }
 
@@ -532,7 +532,7 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
   }
 
   private openWorkEnvironmentBacklinkModal(workEnvironment: WorkEnvironment) {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentBacklinkComponent);
+    const modalRef = this.modalService.openMedium(WorkEnvironmentBacklinkComponent, true);
     (<WorkEnvironmentBacklinkComponent>modalRef.componentInstance).workEnvironment = workEnvironment;
   }
 
