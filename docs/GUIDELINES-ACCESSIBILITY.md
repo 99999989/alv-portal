@@ -69,6 +69,9 @@ Forms provide interactivity with websites. If coded properly, basic forms are na
 
 https://www.accessibility-developer-guide.com/examples/forms/
 
+## Dialogs
+
+The dialogs that have forms inside should not be escapable. The dialogs for forting, filtering, previewing should be escapable.  
 ## Helper Tools
 
 ### Bookmarklets
