@@ -73,12 +73,6 @@ export class JobAdSearchProfilesComponent implements OnInit {
       });
   }
 
-  reload() {
-    this.jobSearchProfiles = [];
-    this.page = 0;
-    this.onScroll();
-  }
-
   onJobAlertToggle(searchProfile: JobAdSearchProfileResult) {
     const modalRef = this.modalService.openLarge(JobAlertModalComponent);
     modalRef.componentInstance.searchProfile = searchProfile;
@@ -86,8 +80,8 @@ export class JobAdSearchProfilesComponent implements OnInit {
       .then((result) => {
         if (!!result.searchProfileId) {
           this.jobAdSearchProfilesRepository
-            .disableJobAlert(result.searchProfileId).subscribe((error) => {
-            this.reload();
+            .disableJobAlert(result.searchProfileId).subscribe((profile) => {
+            this.jobSearchProfiles[this.jobSearchProfiles.findIndex(searchProfile => searchProfile.id === profile.id)].jobAlertDto = profile.jobAlertDto;;
             this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
           });
         } else {
@@ -101,9 +95,9 @@ export class JobAdSearchProfilesComponent implements OnInit {
               }
               return EMPTY;
             }))
-            .subscribe(() => {
+            .subscribe((profile) => {
+              this.jobSearchProfiles[this.jobSearchProfiles.findIndex(searchProfile => searchProfile.id === profile.id)].jobAlertDto = profile.jobAlertDto;
               this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
-              this.reload();
             })
         }
       })
