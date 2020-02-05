@@ -329,10 +329,10 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
     componentInstance.searchProfile = this.searchProfile;
     modalRef.result
       .then(result => {
-        if (!!result.searchProfileId) {
-          this.disableJobAlert(result);
-        } else {
+        if (result.jobAlertDto) {
           this.enableJobAlert(result);
+        } else {
+          this.disableJobAlert(result);
         }
       })
       .catch(() => {
@@ -350,7 +350,7 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
 
   private enableJobAlert(result) {
     this.jobAdSearchProfilesRepository
-      .enableJobAlert(result.searchProfile.id, result.jobAlertDto).pipe(
+      .enableJobAlert(result.searchProfileId, result.jobAlertDto).pipe(
       catchError(err => {
         if (!!err.error.type) {
           if (err.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {

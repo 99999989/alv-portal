@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
-  FormGroup,
+  FormControl,
   Validators
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,17 +25,10 @@ import { JobAdSearchProfilesRepository } from '../../../backend-services/job-ad-
 import { NotificationType } from '../../notifications/notification.model';
 import {
   Interval,
-  JobAdSearchProfileResult,
-  JobAlertDto
+  JobAdSearchProfileResult
 } from '../../../backend-services/job-ad-search-profiles/job-ad-search-profiles.types';
 import { NotificationsService } from '../../../../core/notifications.service';
 import { User } from '../../../../core/auth/user.model';
-
-export interface JobAlertFormValue {
-  email: string;
-  currentLanguage: string;
-  interval: Interval;
-}
 
 @Component({
   selector: 'alv-jobalert-modal',
@@ -43,11 +36,9 @@ export interface JobAlertFormValue {
 })
 export class JobAlertModalComponent extends AbstractSubscriber implements OnInit {
 
-  form: FormGroup;
+  interval: FormControl;
 
   @Input() searchProfile: JobAdSearchProfileResult;
-
-  jobAlertDto: JobAlertDto;
 
   private currentLang: string;
 
@@ -82,10 +73,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
               private notificationsService: NotificationsService,
               private i18nService: I18nService) {
     super();
-    this.form = this.fb.group({
-      email: [null, Validators.requiredTrue],
-      interval: [null, Validators.required]
-    });
+    this.interval = this.fb.control('INT_1DAY', Validators.required);
   }
 
   ngOnInit() {
@@ -93,38 +81,33 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
     this.i18nService.currentLanguage$.pipe(take(1))
       .subscribe(lang => this.currentLang = lang);
     this.currentUser$ = this.authenticationService.getCurrentUser();
+    this.fb.control({
+      interval: [this.searchProfile.jobAlertDto.interval || 'INT_1DAY', Validators.required]
+    });
+  }
 
+  onEnable(form: FormControl) {
+    const formValue = <FormControl>form.value;
     this.currentUser$.pipe(
       takeUntil(this.ngUnsubscribe))
       .subscribe((user) => {
         if (!!user) {
-          this.form = this.fb.group({
-            email: ['', Validators.required],
-            interval: [this.searchProfile.jobAlertDto.interval || null, Validators.required]
-          });
-          this.patchTemplateValues(user.email);
-        }
-      });
-  }
-
-  onEnable(form: FormGroup) {
-    const formValue = <JobAlertFormValue>form.value;
-    this.isJobAlertEnabled = true;
-    this.jobAlertDto = {
-      email: formValue.email,
-      contactLanguageIsoCode: this.currentLang,
-      interval: formValue.interval
-    };
-    this.activeModal.close({
-      searchProfile: this.searchProfile,
-      jobAlertDto: this.jobAlertDto
-    });
+          this.isJobAlertEnabled = true;
+          this.activeModal.close({
+            searchProfileId: this.searchProfile.id,
+            jobAlertDto: {
+              email: user.email,
+              contactLanguageIsoCode: this.currentLang,
+              interval: formValue
+            }
+        })
+      }});
   }
 
   onDisable() {
     this.isJobAlertEnabled = false;
     this.activeModal.close({
-      searchProfileId: this.searchProfile.id,
+      searchProfileId: this.searchProfile.id
     });
   }
 
@@ -136,16 +119,9 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
     });
   }
 
-
   onCancel() {
     this.activeModal.dismiss();
     return;
-  }
-
-  private patchTemplateValues(email: string): void {
-    this.form.patchValue({
-      email: email
-    });
   }
 
 }

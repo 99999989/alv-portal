@@ -79,31 +79,40 @@ export class JobSearchProfilesWidgetComponent implements OnInit {
     modalRef.componentInstance.searchProfile = searchProfile;
     modalRef.result
       .then((result) => {
-        if (!!result.searchProfileId) {
-          this.jobAdSearchProfilesRepository
-            .disableJobAlert(result.searchProfileId).subscribe((profile) => {
-            this.jobSearchProfiles[this.jobSearchProfiles.findIndex(searchProfile => searchProfile.id === profile.id)].jobAlertDto = profile.jobAlertDto;
-            this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
-          });
+        if (result.jobAlertDto) {
+          this.enableJobAlert(result)
         } else {
-          this.jobAdSearchProfilesRepository
-            .enableJobAlert(result.searchProfile.id, result.jobAlertDto).pipe(
-            catchError(err => {
-              if (!!err.error.type) {
-                if (err.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
-                  this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
-                }
-              }
-              return EMPTY;
-            }))
-            .subscribe((profile) => {
-              this.jobSearchProfiles[this.jobSearchProfiles.findIndex(searchProfile => searchProfile.id === profile.id)].jobAlertDto = profile.jobAlertDto;
-              this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
-            })
+          this.disableJobAlert(result)
         }
       })
       .catch(() => {
       });
   }
+
+  private enableJobAlert(result) {
+    this.jobAdSearchProfilesRepository
+      .enableJobAlert(result.searchProfileId, result.jobAlertDto).pipe(
+      catchError(err => {
+        if (!!err.error.type) {
+          if (err.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
+            this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
+          }
+        }
+        return EMPTY;
+      }))
+      .subscribe((profile) => {
+        this.jobSearchProfiles[this.jobSearchProfiles.findIndex(searchProfile => searchProfile.id === profile.id)].jobAlertDto = profile.jobAlertDto;
+        this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
+      })
+  }
+
+  private disableJobAlert(result) {
+    this.jobAdSearchProfilesRepository
+      .disableJobAlert(result.searchProfileId).subscribe((profile) => {
+      this.jobSearchProfiles[this.jobSearchProfiles.findIndex(searchProfile => searchProfile.id === profile.id)].jobAlertDto = profile.jobAlertDto;
+      this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
+    });
+  }
+
 
 }

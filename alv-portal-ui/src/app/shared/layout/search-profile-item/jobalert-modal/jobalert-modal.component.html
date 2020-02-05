@@ -1,7 +1,6 @@
-<alv-modal (primaryAction)="onEnable(this.form)"
+<alv-modal (primaryAction)="onEnable(this.interval)"
            (secondaryAction)="onDisable()"
            (cancelAction)="onCancel()"
-           [formGroup]="form"
            [secondaryLabel]="!isJobAlertEnabled ? '' : 'portal.job-ad-search-profiles.job-alert.enable.modal-dialog.secondary.button'"
            modalTitle="portal.job-ad-search-profiles.job-alert.enable.modal-dialog.title"
            primaryLabel="entity.action.save"
@@ -17,12 +16,11 @@
   </alv-alert>
   <fieldset>
     <p class="mt-3 mb-2"><strong>{{'portal.job-ad-search-profiles.job-alert.enable.modal-dialog.alert.email-title' | translate}}</strong></p>
-    <alv-input-field alvFormControlName="email"
-                     readonly="true">
-    </alv-input-field>
+    <div>{{(currentUser$ | async).email}}</div>
+    <br>
     <alv-radio-button
       [label]="'portal.job-ad-search-profiles.job-alert.enable.modal-dialog.alert.paragraph.interval' | translate"
-      alvFormControlName="interval"
+      [alvControl]="interval"
       [options$]="jobAlertOptions$">
     </alv-radio-button>
   </fieldset>
