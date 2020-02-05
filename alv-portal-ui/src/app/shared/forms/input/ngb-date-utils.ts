@@ -1,5 +1,5 @@
 import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { addDays, endOfMonth, format, startOfToday, subDays } from 'date-fns';
+import { addDays, endOfMonth, format, startOfMonth, startOfToday, subDays } from 'date-fns';
 
 /**
  * Converts a NgbDateStruct with hours and minutes parameters to an (8601) ISOLocalDatetime string representation without timezone information
@@ -116,4 +116,15 @@ export function daysBeforeEndOfMonth(noOfDays: number): Date {
  */
 export function daysAfterEndOfMonth(noOfDays: number): Date {
   return addDays(endOfMonth(startOfToday()), noOfDays);
+}
+
+/**
+ * adding noOfDays from the start of the current month
+ * f.e. for December and noOfDays = 5, it would return 05.12.yyyy
+ * f.e. for April and noOfDays = 5, it would return 05.04.yyyy
+ *
+ * @param noOfDays
+ */
+export function daysAfterStartOfMonth(noOfDays: number): Date {
+  return addDays(startOfMonth(startOfToday()), (noOfDays - 1));
 }

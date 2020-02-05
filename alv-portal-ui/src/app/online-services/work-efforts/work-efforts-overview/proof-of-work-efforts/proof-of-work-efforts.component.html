@@ -38,7 +38,7 @@
         <button (click)="manualSubmitProofOfWorkEfforts();$event.stopPropagation()"
                 [disabled]="proofOfWorkEffortsModel.workEfforts.length === 0"
                 type="button"
-                class="btn btn-primary btn-block">
+                class="btn btn-primary btn-block btn-truncate">
           {{ 'portal.work-efforts.proof-of-work-efforts.submit-button.title' | translate }}
         </button>
       </ng-container>
