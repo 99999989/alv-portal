@@ -111,7 +111,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   }
 
   deleteCompetenceSet() {
-    const modalRef = this.modalService.openLarge(CompetenceSetDeleteModalComponent);
+    const modalRef = this.modalService.openLarge(CompetenceSetDeleteModalComponent, true);
     (<CompetenceSetDeleteModalComponent>modalRef.componentInstance).competenceSetId = this.competenceSet.id;
     modalRef.result
       .then(value => {
@@ -146,7 +146,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   }
 
   private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
-    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent, true);
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 
