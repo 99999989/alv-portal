@@ -117,9 +117,9 @@
                                [multiLanguageTitle]="prerequisite.description"
                                [isItemClickable]="true"
                                [superTitle]="prerequisite.id"
-                               [showActionButtons]="observables.isCompetenceCatalogEditor"
+                               [showActionButtons]="true"
                                [type]="'portal.competence-catalog.element-type.prerequisite' | translate"
-                               titleClass="font-weight-normal">
+                               >
 
     </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
@@ -151,10 +151,9 @@
                                  [isItemClickable]="true"
                                  [isPublished]="workEnvironment.published"
                                  [multiLanguageTitle]="workEnvironment.description"
-                                 [showActionButtons]="observables.isCompetenceCatalogEditor"
+                                 [showActionButtons]="true"
                                  [superTitle]="workEnvironment.id"
-                                 [type]="'portal.competence-catalog.work-environment-type.'+workEnvironment.type | translate"
-                                 titleClass="font-weight-normal">
+                                 [type]="'portal.competence-catalog.work-environment-type.'+workEnvironment.type | translate">
 
       </alv-interactive-list-item>
 
