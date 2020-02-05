@@ -100,7 +100,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
               contactLanguageIsoCode: this.currentLang,
               interval: formValue
             }
-        })
+        });
       }});
   }
 

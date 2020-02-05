@@ -336,7 +336,7 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
         }
       })
       .catch(() => {
-      })
+      });
   }
 
   private disableJobAlert(result) {

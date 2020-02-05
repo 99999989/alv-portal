@@ -102,7 +102,7 @@ export class JobAdSearchProfilesComponent implements OnInit {
       .subscribe((profile) => {
         this.jobSearchProfiles[this.jobSearchProfiles.findIndex(searchProfile => searchProfile.id === profile.id)].jobAlertDto = profile.jobAlertDto;
         this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
-      })
+      });
   }
 
   private disableJobAlert(result) {

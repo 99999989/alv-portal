@@ -80,9 +80,9 @@ export class JobSearchProfilesWidgetComponent implements OnInit {
     modalRef.result
       .then((result) => {
         if (result.jobAlertDto) {
-          this.enableJobAlert(result)
+          this.enableJobAlert(result);
         } else {
-          this.disableJobAlert(result)
+          this.disableJobAlert(result);
         }
       })
       .catch(() => {
@@ -103,7 +103,7 @@ export class JobSearchProfilesWidgetComponent implements OnInit {
       .subscribe((profile) => {
         this.jobSearchProfiles[this.jobSearchProfiles.findIndex(searchProfile => searchProfile.id === profile.id)].jobAlertDto = profile.jobAlertDto;
         this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
-      })
+      });
   }
 
   private disableJobAlert(result) {
