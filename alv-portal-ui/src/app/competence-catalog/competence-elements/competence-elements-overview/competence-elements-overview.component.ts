@@ -64,7 +64,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   openCreateModal() {
-    const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
+    const modalRef = this.modalService.openLarge(CompetenceElementModalComponent, false);
     modalRef.result
       .then(this.reload.bind(this))
       .catch(this.reload.bind(this));
@@ -72,16 +72,13 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   openUpdateModal(competenceElement: CompetenceElement, isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(CompetenceElementModalComponent, true);
+    const modalRef = this.modalService.openLarge(CompetenceElementModalComponent, false);
     const componentInstance = <CompetenceElementModalComponent>modalRef.componentInstance;
     componentInstance.competenceElement = competenceElement;
     componentInstance.isReadonly = isReadonly;
     modalRef.result
-      .then(updatedCompetenceElement => {
-        this.reload();
-      })
-      .catch(() => {
-      });
+      .then(this.reload.bind(this))
+      .catch(this.reload.bind(this));
   }
 
   onFilterClick() {
@@ -113,12 +110,12 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   private openBacklinkModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openMedium(CompetenceElementBacklinkComponent);
+    const modalRef = this.modalService.openMedium(CompetenceElementBacklinkComponent, true);
     (<CompetenceElementBacklinkComponent>modalRef.componentInstance).competenceElement = competenceElement;
   }
 
   private openDeleteModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openLarge(CompetenceElementDeleteComponent);
+    const modalRef = this.modalService.openLarge(CompetenceElementDeleteComponent, true);
     const componentInstance = <CompetenceElementDeleteComponent>modalRef.componentInstance;
     componentInstance.competenceElementId = competenceElement.id;
     modalRef.result
@@ -130,8 +127,7 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
             this.notificationsService.success('portal.competence-catalog.competence-elements.deleted-success-notification');
           });
       })
-      .catch(() => {
-      });
+      .catch((this.reload.bind(this)));
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {
