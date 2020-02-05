@@ -1,0 +1,27 @@
+<button *ngIf="!isAlwaysExpanded"
+        class="collapse-button title-bar alv-bar btn d-flex align-items-center w-100"
+        type="button"
+        tabindex="-1"
+        [class.collapsed]="isCollapsed"
+        (click)="toggle()"
+        [attr.aria-expanded]="!isCollapsed"
+        [attr.aria-controls]="panelId">
+  {{ panelTitle | translate }}
+  <span class="flex-grow-1"></span>
+  <ng-container *ngIf="!isAlwaysExpanded">
+    <fa-icon class="collapse-icon"
+             [icon]="['fas', 'chevron-up']"></fa-icon>
+    <fa-icon class="expand-icon"
+             [icon]="['fas', 'chevron-down']"></fa-icon>
+  </ng-container>
+</button>
+<div *ngIf="isAlwaysExpanded"
+     class="title-bar alv-bar w-100">
+  {{ panelTitle | translate }}
+</div>
+<div class="panel-content"
+     [id]="panelId"
+     [ngbCollapse]="isCollapsed"
+     [@expandCollapse]="isCollapsed ? 'closed' : 'open'">
+  <ng-content></ng-content>
+</div>

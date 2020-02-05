@@ -18,6 +18,25 @@
 
     </div>
     <div class="main-column">
+
+
+
+
+      <alv-collapse-panel [panelId]="'work-effort-notification'"
+                          [isCollapsed]="true"
+                          panelTitle="portal.work-efforts.edit-form.note.note-text.paragraph-title" >
+        <alv-alert [hideDismiss]="true"
+                   [notification]="bottomAlert">
+          <div *ngFor="let number of [1,2,3,4,5,6]">
+            {{'portal.work-efforts.edit-form.note.note-text.paragraph' + number | translate}}
+          </div>
+        </alv-alert>
+      </alv-collapse-panel>
+
+
+
+
+
       <div class="d-block d-lg-none w-100 mb-4"
            ngbDropdown
            placement="bottom">
@@ -294,17 +313,6 @@
             </ng-container>
           </fieldset>
 
-        </alv-collapse-panel>
-
-        <alv-collapse-panel [panelId]="'work-effort-notification'"
-                            [isCollapsed]="true"
-                            panelTitle="portal.work-efforts.edit-form.note.note-text.paragraph-title" >
-          <alv-alert [hideDismiss]="true"
-                     [notification]="bottomAlert">
-            <div *ngFor="let number of [1,2,3,4,5,6]">
-              {{'portal.work-efforts.edit-form.note.note-text.paragraph' + number | translate}}
-            </div>
-          </alv-alert>
         </alv-collapse-panel>
 
 <!--        <alv-alert [hideDismiss]="true"-->
