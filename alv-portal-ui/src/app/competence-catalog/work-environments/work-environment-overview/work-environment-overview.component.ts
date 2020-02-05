@@ -64,7 +64,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
   }
 
   openCreateModal() {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentModalComponent, true);
+    const modalRef = this.modalService.openLarge(WorkEnvironmentModalComponent, false);
     modalRef.result
       .then(this.reload.bind(this))
       .catch(this.reload.bind(this));
@@ -72,16 +72,13 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
   }
 
   openUpdateModal(workEnvironment: WorkEnvironment, isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentModalComponent, true);
+    const modalRef = this.modalService.openLarge(WorkEnvironmentModalComponent, false);
     const componentInstance = <WorkEnvironmentModalComponent>modalRef.componentInstance;
     componentInstance.workEnvironment = workEnvironment;
     componentInstance.isReadonly = isReadonly;
     modalRef.result
-      .then(() => {
-        this.reload();
-      })
-      .catch(() => {
-      });
+      .then(this.reload.bind(this))
+      .catch(this.reload.bind(this));
   }
 
   onFilterClick() {
@@ -92,8 +89,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
         this.filter = updatedFilter;
         this.reload();
       })
-      .catch(() => {
-      });
+      .catch(this.reload.bind(this));
   }
 
   onScroll() {
@@ -113,12 +109,12 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
   }
 
   private openBacklinkModal(workEnvironment: WorkEnvironment) {
-    const modalRef = this.modalService.openMedium(WorkEnvironmentBacklinkComponent);
+    const modalRef = this.modalService.openMedium(WorkEnvironmentBacklinkComponent, true);
     (<WorkEnvironmentBacklinkComponent>modalRef.componentInstance).workEnvironment = workEnvironment;
   }
 
   private openDeleteModal(workEnvironment: WorkEnvironment) {
-    const modalRef = this.modalService.openLarge(WorkEnvironmentDeleteComponent);
+    const modalRef = this.modalService.openLarge(WorkEnvironmentDeleteComponent, true);
     const componentInstance = <WorkEnvironmentDeleteComponent>modalRef.componentInstance;
     componentInstance.workEnvironment = workEnvironment.id;
     modalRef.result
@@ -130,8 +126,7 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
             this.notificationsService.success('portal.competence-catalog.work-environments.deleted-success-notification');
           });
       })
-      .catch(() => {
-      });
+      .catch(this.reload.bind(this));
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {
