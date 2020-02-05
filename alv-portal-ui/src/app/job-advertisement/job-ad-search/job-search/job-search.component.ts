@@ -32,8 +32,12 @@ import {
   select,
   Store
 } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import {
+  EMPTY,
+  Observable
+} from 'rxjs';
+import {
+  catchError,
   distinctUntilChanged,
   filter,
   map,
@@ -323,34 +327,43 @@ export class JobSearchComponent extends AbstractSubscriber implements OnInit, Af
     const modalRef = this.modalService.openLarge(JobAlertModalComponent);
     const componentInstance = <JobAlertModalComponent>modalRef.componentInstance;
     componentInstance.searchProfile = this.searchProfile;
-
     modalRef.result
       .then(result => {
         if (!!result.searchProfileId) {
-          this.jobAdSearchProfilesRepository
-            .disableJobAlert(result.searchProfileId)
-            .subscribe((error) => {
-              //TODO: fago double check
-            this.searchProfile.jobAlertDto = null;
-            this.store.dispatch(new JobAlertToggledAction({ searchProfile: this.searchProfile }));
-            this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
-          });
+          this.disableJobAlert(result);
         } else {
-          this.jobAdSearchProfilesRepository
-            .enableJobAlert(result.searchProfile.id, result.jobAlertDto)
-            .subscribe((searchProfile) => {
-              this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
-              this.store.dispatch(new JobAlertToggledAction({ searchProfile: searchProfile }));
-            });
+          this.enableJobAlert(result);
         }
       })
-      .catch((error) => {
-        if (error.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
-          this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
-        }
+      .catch(() => {
       })
   }
 
+  private disableJobAlert(result) {
+    this.jobAdSearchProfilesRepository
+      .disableJobAlert(result.searchProfileId)
+      .subscribe((searchProfile) => {
+        this.store.dispatch(new JobAlertToggledAction({ searchProfile: searchProfile }));
+        this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-disabled');
+      });
+  }
+
+  private enableJobAlert(result) {
+    this.jobAdSearchProfilesRepository
+      .enableJobAlert(result.searchProfile.id, result.jobAlertDto).pipe(
+      catchError(err => {
+        if (!!err.error.type) {
+          if (err.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
+            this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
+          }
+        }
+        return EMPTY;
+      }))
+      .subscribe((searchProfile) => {
+        this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
+        this.store.dispatch(new JobAlertToggledAction({ searchProfile: searchProfile }));
+      });
+  }
 
   getTotalCountLabel(totalCount: string): string {
     return totalCount === '1' ? 'portal.job-ad-search.results-count.label.singular' :

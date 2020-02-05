@@ -83,7 +83,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
               private i18nService: I18nService) {
     super();
     this.form = this.fb.group({
-      email: [false, Validators.requiredTrue],
+      email: [null, Validators.requiredTrue],
       interval: [null, Validators.required]
     });
   }
@@ -100,7 +100,7 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
         if (!!user) {
           this.form = this.fb.group({
             email: ['', Validators.required],
-            interval: [null, Validators.required]
+            interval: [this.searchProfile.jobAlertDto.interval || null, Validators.required]
           });
           this.patchTemplateValues(user.email);
         }

@@ -1,6 +1,6 @@
 <ng-container
   *ngIf="{jobSearchProfile: jobSearchProfile$ | async,
-          jobAlertEmail: (jobSearchProfile$ | async)?.jobAlertDto.email} as observables">
+          jobAlertEmail: (jobSearchProfile$ | async)?.jobAlertDto?.email} as observables">
   <div #searchPanel
        class="container-fluid query-search-area pt-4 pt-lg-5 pb-4">
     <div class="form-row">
@@ -133,7 +133,7 @@
             </fa-icon>
             {{'portal.job-ad-search-profiles.label.delete-profile' | translate}}
           </button>
-          <button *ngIf="observables.jobAlertEmail"
+          <button *ngIf="observables?.jobAlertEmail"
                   class="btn btn-text btn-text-icon btn-truncate mb-2"
                   (click)="toggleJobAlert()">
             <fa-icon [icon]="['fas', 'envelope']"

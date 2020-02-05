@@ -6,6 +6,7 @@ import { IconKey } from '../../shared/icons/custom-icon/custom-icon.component';
 import { JobAdSearchProfilesRepository } from '../../shared/backend-services/job-ad-search-profiles/job-ad-search-profiles.repository';
 import { AuthenticationService } from '../../core/auth/authentication.service';
 import {
+  catchError,
   flatMap,
   take
 } from 'rxjs/operators';
@@ -19,6 +20,7 @@ import { getJobAdDeleteConfirmModalConfig } from '../../shared/search-profiles/m
 import { SearchProfile } from '../../shared/backend-services/shared.types';
 import { removeSearchProfileAnimation } from '../../shared/animations/animations';
 import { JobAlertModalComponent } from '../../shared/layout/search-profile-item/jobalert-modal/jobalert-modal.component';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'alv-job-search-profiles-widget',
@@ -90,17 +92,22 @@ export class JobSearchProfilesWidgetComponent implements OnInit {
           });
         } else {
           this.jobAdSearchProfilesRepository
-            .enableJobAlert(result.searchProfile.id, result.jobAlertDto)
+            .enableJobAlert(result.searchProfile.id, result.jobAlertDto).pipe(
+            catchError(err => {
+              if (!!err.error.type) {
+                if (err.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
+                  this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
+                }
+              }
+              return EMPTY;
+            }))
             .subscribe((searchProfile) => {
               this.notificationsService.success('portal.job-ad-search-profiles.job-alert.modal.success.job-alert-enabled');
               this.reload();
             });
         }
       })
-      .catch((error) => {
-        if (error.error.type === SearchProfileErrors.MAX_AMOUNT_OF_JOB_ALERTS_REACHED) {
-          this.notificationsService.warning('portal.job-ad-search-profiles.job-alert.error-message-max-amount');
-        }
+      .catch(() => {
       });
   }
 

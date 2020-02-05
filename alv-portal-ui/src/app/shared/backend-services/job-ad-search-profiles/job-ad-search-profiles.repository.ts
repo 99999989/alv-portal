@@ -58,11 +58,11 @@ export class JobAdSearchProfilesRepository {
   }
 
   enableJobAlert(id: string, jobAlert: JobAlertDto): Observable<ResolvedJobAdSearchProfile> {
-    return this.http.post<ResolvedJobAdSearchProfile>(`${this.resourceUrlJobAlert}/${id}`, jobAlert);
+    return this.http.post<ResolvedJobAdSearchProfile>(`${this.resourceUrlJobAlert}/_action/enable/${id}`, jobAlert);
   }
 
-  disableJobAlert(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.resourceUrlJobAlert}/${id}`);
+  disableJobAlert(id: string): Observable<ResolvedJobAdSearchProfile> {
+    return this.http.post<ResolvedJobAdSearchProfile>(`${this.resourceUrlJobAlert}/_action/disable/${id}`, null);
   }
 
   releaseJobAlert(id: string): Observable<void> {
