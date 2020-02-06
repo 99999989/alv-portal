@@ -24,6 +24,7 @@ export const zipCityDefaultValidators: ZipCityValidators = {
   ]
 };
 
+
 @Component({
   selector: 'alv-zip-city-input',
   templateUrl: './zip-city-input.component.html',
@@ -72,12 +73,18 @@ export class ZipCityInputComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const {zipCityAutoComplete, zipCode, city} = this.zipCityFormValue;
+    const { zipCityAutoComplete, zipCode, city } = this.zipCityFormValue;
 
     this.zipAndCity = this.fb.group({
-      zipCityAutoComplete: [{value: zipCityAutoComplete, disabled: this.parentForm.disabled}, this.validators.zipCityAutoComplete],
-      zipCode: [{value: zipCode, disabled: this.parentForm.disabled}, this.validators.zipCode],
-      city: [{value: city, disabled: this.parentForm.disabled}, this.validators.city]
+      zipCityAutoComplete: [{
+        value: zipCityAutoComplete,
+        disabled: this.parentForm.disabled
+      }, this.validators.zipCityAutoComplete],
+      zipCode: [{
+        value: zipCode,
+        disabled: this.parentForm.disabled
+      }, this.validators.zipCode],
+      city: [{ value: city, disabled: this.parentForm.disabled }, this.validators.city]
     });
     this.parentForm.addControl('zipAndCity', this.zipAndCity);
     this.toggleAutocomplete(this._countryIsoCode);
