@@ -1,0 +1,18 @@
+<alv-modal (cancelAction)="cancel()"
+           (primaryAction)="filter()"
+           [formGroup]="form"
+           cancelLabel="entity.action.cancel"
+           modalTitle="portal.global.filter"
+           primaryLabel="entity.action.ok">
+  <fieldset formGroupName="workEnvironmentTypes">
+    <alv-checkbox *ngFor="let type of workEnvironmentTypes"
+                  [alvFormControlName]="type"
+                  [attr.data-test]="type+'-sort-checkbox'"
+                  [label]="'portal.competence-catalog.work-environment-type.' + type"
+                  class="d-block mb-1">
+    </alv-checkbox>
+  </fieldset>
+  <alv-filter-by-statuses-form *ngIf="isCompetenceCatalogEditor$ | async"
+                               [parentForm]="form"
+  ></alv-filter-by-statuses-form>
+</alv-modal>

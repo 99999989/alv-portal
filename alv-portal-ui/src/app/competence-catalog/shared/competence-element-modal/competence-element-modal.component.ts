@@ -14,6 +14,9 @@ import { getModalTitle } from '../utils/translation-utils';
 import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
+import { catchError } from 'rxjs/operators';
+import { BusinessExceptionsHandlerService } from '../business-exceptions-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'alv-competence-element-modal',
@@ -54,7 +57,8 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
               private competenceElementRepository: CompetenceElementRepository,
               private notificationsService: NotificationsService,
               private modal: NgbActiveModal,
-              protected authenticationService: AuthenticationService) {
+              protected authenticationService: AuthenticationService,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService);
   }
 
@@ -100,11 +104,13 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
     })
+      .pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
 
   private createElement() {
     this.competenceElementRepository.create(this.form.value)
+      .pipe(catchError(this.handleFailure.bind(this)))
       .subscribe(this.handleSuccess.bind(this));
   }
 
@@ -127,4 +133,7 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
     }
   }
 
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
+  }
 }

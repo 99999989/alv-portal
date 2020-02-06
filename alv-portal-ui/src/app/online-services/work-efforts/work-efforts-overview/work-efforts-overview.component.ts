@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IconKey } from '../../../shared/icons/custom-icon/custom-icon.component';
-import { ProofOfWorkEfforts } from '../../../shared/backend-services/work-efforts/proof-of-work-efforts.types';
 import { ProofOfWorkEffortsRepository } from '../../../shared/backend-services/work-efforts/proof-of-work-efforts.repository';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { debounceTime, filter, flatMap, map, takeUntil } from 'rxjs/operators';
@@ -11,20 +10,18 @@ import { WorkEffortsFilterModalComponent } from './work-efforts-filter-modal/wor
 import {
   initialWorkEffortsFilter,
   WorkEffortApplyStatusFilter,
+  WorkEffortsControlPeriodFilter,
   WorkEffortsFilter,
-  WorkEffortsFilterPeriod,
   WorkEffortsFilterValues
 } from './work-efforts-overview-filter.types';
 import { AbstractSubscriber } from '../../../core/abstract-subscriber';
 import { FilterBadge } from '../../../shared/layout/inline-badges/inline-badge.types';
 import { WorkEffortsOverviewFilterBadgesMapper } from './work-efforts-overview-filter-badges.mapper';
-import {
-  Notification,
-  NotificationType
-} from '../../../shared/layout/notifications/notification.model';
+import { Notification, NotificationType } from '../../../shared/layout/notifications/notification.model';
 import { I18nService } from '../../../core/i18n.service';
 import { Languages } from '../../../core/languages.constants';
 import { ProofOfWorkEffortsModel } from './proof-of-work-efforts/proof-of-work-efforts.model';
+import { DEFAULT_PAGE_SIZE } from '../../../shared/backend-services/request-util';
 
 @Component({
   selector: 'alv-work-efforts-overview',
@@ -38,8 +35,8 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   readonly SEARCH_QUERY_MIN_LENGTH = 3;
 
   readonly FILTER_RESET_VALUES = {
-    period: WorkEffortsFilterPeriod.ALL_MONTHS,
-    workEffortResult: WorkEffortApplyStatusFilter.ALL
+    controlPeriod: WorkEffortsControlPeriodFilter.ALL_MONTHS,
+    applyStatus: WorkEffortApplyStatusFilter.ALL
   };
 
   englishNotSupportedNotification = {
@@ -69,7 +66,9 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
   set currentFilter(value: WorkEffortsFilter) {
     this.currentBadges = this.workEffortsOverviewFilterBadgesMapper.mapFilterBadges(value);
     this._currentFilter = value;
+    this.isFiltered();
   }
+
   constructor(private fb: FormBuilder,
               private modalService: ModalService,
               private authenticationService: AuthenticationService,
@@ -92,6 +91,8 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
       .subscribe(value => {
         if (value.length >= this.SEARCH_QUERY_MIN_LENGTH) {
           this.applyQuery(value);
+        } else {
+          this.applyQuery(null);
         }
       });
 
@@ -99,25 +100,54 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
       map(language => language === Languages.EN)
     );
 
-    this.onScroll();
+    this.loadItems();
   }
 
-  onScroll() {
+  isFiltered() {
+    const query = this.currentFilter.query;
+    const applyStatus = this.currentFilter.applyStatus;
+    if ((query !== null && query.length >= this.SEARCH_QUERY_MIN_LENGTH) || (applyStatus !== this.FILTER_RESET_VALUES.applyStatus)) {
+      return true;
+    }
+    return false;
+  }
+
+  loadItems() {
     this.authenticationService.getCurrentUser().pipe(
       filter(user => !!user),
-      flatMap(user => this.proofOfWorkEffortsRepository.findByOwnerUserId(user.id, this.page++)),
+      flatMap(user => this.proofOfWorkEffortsRepository.search({
+          page: this.page++,
+          size: DEFAULT_PAGE_SIZE,
+          body: {...this.currentFilter, ownerUserId: user.id}
+        }
+      )),
+      map(response => response.content),
       map(proofOfWorkEffortsList => proofOfWorkEffortsList.map(proofOfWorkEfforts => new ProofOfWorkEffortsModel(proofOfWorkEfforts)))
     ).subscribe(proofOfWorkEffortsModels => {
       this.proofOfWorkEffortsModels = [...(this.proofOfWorkEffortsModels || []), ...proofOfWorkEffortsModels];
     });
   }
 
+  reload() {
+    this.page = 0;
+    this.proofOfWorkEffortsModels = [];
+    this.loadItems();
+  }
+
   reloadProofOfWorkEfforts(proofOfWorkEffortsModel: ProofOfWorkEffortsModel) {
-    this.proofOfWorkEffortsRepository.getProofOfWorkEffortsById(proofOfWorkEffortsModel.id)
-      .subscribe(reloadedProofOfWorkEfforts => {
-        const indexToUpdate = this.proofOfWorkEffortsModels.findIndex(model => model.id === reloadedProofOfWorkEfforts.id);
-        this.proofOfWorkEffortsModels[indexToUpdate] = new ProofOfWorkEffortsModel(reloadedProofOfWorkEfforts);
-      });
+    this.authenticationService.getCurrentUser().pipe(
+      filter(user => !!user),
+      flatMap(user => this.proofOfWorkEffortsRepository.getProofOfWorkEffortsByIdAndFilter(
+        proofOfWorkEffortsModel.id, {
+          page: 0,
+          size: 1,
+          body: {...this.currentFilter, ownerUserId: user.id}
+        }
+      ))
+    ).subscribe(reloadedProofOfWorkEfforts => {
+      const indexToUpdate = this.proofOfWorkEffortsModels.findIndex(model => model.id === reloadedProofOfWorkEfforts.id);
+      this.proofOfWorkEffortsModels[indexToUpdate] = new ProofOfWorkEffortsModel(reloadedProofOfWorkEfforts);
+    });
   }
 
   openFilterModal() {
@@ -136,15 +166,16 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
     const newFilter = { ...this.currentFilter };
     newFilter[badge.key] = this.FILTER_RESET_VALUES[badge.key];
     this.currentFilter = newFilter;
+    this.reload();
   }
 
   private applyFilter(newFilter: WorkEffortsFilterValues) {
     this.currentFilter = {
       ...this.currentFilter,
-      period: newFilter.period,
-      workEffortResult: newFilter.workEffortResult
+      controlPeriod: newFilter.controlPeriod,
+      applyStatus: newFilter.applyStatus
     };
-    // TODO: call search/filter endpoint
+    this.reload();
   }
 
   private applyQuery(newQuery: string) {
@@ -152,6 +183,6 @@ export class WorkEffortsOverviewComponent extends AbstractSubscriber implements 
       ...this.currentFilter,
       query: newQuery
     };
-    // TODO: call search/filter endpoint
+    this.reload();
   }
 }

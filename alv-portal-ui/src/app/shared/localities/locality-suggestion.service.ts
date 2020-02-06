@@ -9,6 +9,9 @@ import {
 import { LocalityInputType, LocalityTypeaheadItem } from './locality-typeahead-item';
 import { ZipAndCity, ZipAndCityTypeaheadItem } from './zip-and-city-typeahead-item';
 
+
+const ISO_CANTON_CODE_LIECHTENSTEIN = 'FL';
+
 @Injectable({ providedIn: 'root' })
 export class LocalitySuggestionService {
 
@@ -50,7 +53,7 @@ export class LocalitySuggestionService {
 
     return this.localityRepository.suggestLocalities(query, false).pipe(
       map((localityAutocomplete) => localityAutocomplete.localities
-        .filter((locality) => locality.zipCode !== '----')
+        .filter((locality) => locality.zipCode !== '----' && locality.cantonCode !== ISO_CANTON_CODE_LIECHTENSTEIN)
         .sort(localityComparator)
         .map((o: LocalitySuggestion, index) => LocalitySuggestionService.toZipAndCityTypeaheadItem(o, index))
       )

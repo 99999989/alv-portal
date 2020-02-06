@@ -1,7 +1,9 @@
 <ng-container *ngIf="{
     competenceSetsActions: competenceSetsActions$ | async,
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
-    isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async
+    isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
+    prerequisiteActions: prerequisiteActions$ | async,
+    workEnvironmentActions: workEnvironmentActions$ | async
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -95,5 +97,67 @@
                         [showActionButtons]="!isReadonly"
                         (actionClick)="handleCompetenceSetActionClick($event, competenceType, competenceSet)">
     </alv-competence-set>
+  </alv-competence-items-collapse-panel>
+  <alv-competence-items-collapse-panel (actionClick)="handlePrerequisiteActionClick($event)"
+                                       [darkMode]="true"
+                                       [label]="'portal.competence-catalog.ch-fiches.label.prerequisites'"
+                                       [showActionButtons]="!isReadonly"
+                                       (toggleClick)="togglePrerequisites($event)"
+                                       [actions]="[linkPrerequisiteAction]"
+                                       [isCollapsed]="collapsed.PREREQUISITES"
+                                       [isEmpty]="!chFiche.prerequisiteIds?.length"
+                                       class="d-block mt-2"
+  >
+    <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, index)"
+                               (itemClick)="viewPrerequisite(prerequisite)"
+                               *ngFor="let prerequisite of prerequisites; let index = index;"
+                               [actions]="observables.prerequisiteActions"
+                               [isDraft]="prerequisite.draft"
+                               [isPublished]="prerequisite.published"
+                               [multiLanguageTitle]="prerequisite.description"
+                               [isItemClickable]="true"
+                               [superTitle]="prerequisite.id"
+                               [showActionButtons]="true"
+                               [type]="'portal.competence-catalog.element-type.prerequisite' | translate"
+                               >
+
+    </alv-interactive-list-item>
+  </alv-competence-items-collapse-panel>
+
+  <alv-competence-items-collapse-panel (toggleClick)="toggleWorkEnvironments($event)"
+                                       [darkMode]="true"
+                                       [isCollapsed]="collapsed.WORK_ENVIRONMENTS"
+                                       [isEmpty]="false"
+                                       [label]="'portal.competence-catalog.ch-fiches.label.work-environments'"
+                                       [showActionButtons]="!isReadonly"
+                                       class="d-block mt-2"
+  >
+
+
+    <alv-competence-items-collapse-panel (actionClick)="openAddWorkEnvironmentModal(workEnvironmentType)"
+                                         *ngFor="let workEnvironmentType of workEnvironmentTypes"
+                                         [actions]="[linkWorkEnvironmentAction]"
+                                         [darkMode]="false"
+                                         [isCollapsed]="false"
+                                         [isEmpty]="(workEnvironments | filterByKeyValue : {type: workEnvironmentType} ).length===0"
+                                         [label]="'portal.competence-catalog.work-environment-type.' + workEnvironmentType"
+                                         [showActionButtons]="!isReadonly"
+                                         class="d-block mt-1">
+      <alv-interactive-list-item (actionClick)="handleWorkEnvironmentActionClick($event, workEnvironment)"
+                                 (itemClick)="viewWorkEnvironment(workEnvironment)"
+                                 *ngFor="let workEnvironment of workEnvironments | filterByKeyValue : {type: workEnvironmentType} ; let index = index;"
+                                 [actions]="observables.workEnvironmentActions"
+                                 [isDraft]="workEnvironment.draft"
+                                 [isItemClickable]="true"
+                                 [isPublished]="workEnvironment.published"
+                                 [multiLanguageTitle]="workEnvironment.description"
+                                 [showActionButtons]="true"
+                                 [superTitle]="workEnvironment.id"
+                                 [type]="'portal.competence-catalog.work-environment-type.'+workEnvironment.type | translate">
+
+      </alv-interactive-list-item>
+
+    </alv-competence-items-collapse-panel>
+
   </alv-competence-items-collapse-panel>
 </ng-container>

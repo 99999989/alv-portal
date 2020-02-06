@@ -14,12 +14,15 @@ import { CompetenceSetDeleteModalComponent } from '../competence-set-delete-moda
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
 import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   draftRadioButtonOptions,
   publishedRadioButtonOptions
 } from '../../shared/constants';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { catchError } from 'rxjs/operators';
+import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -56,7 +59,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
               private modalService: ModalService,
               private notificationsService: NotificationsService,
               protected authenticationService: AuthenticationService,
-              private competenceSetRepository: CompetenceSetRepository) {
+              private competenceSetRepository: CompetenceSetRepository,
+              private businessExceptionsHandlerService: BusinessExceptionsHandlerService) {
     super(authenticationService);
   }
 
@@ -92,7 +96,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       competenceElementIds: this.competenceSet.competenceElementIds,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
-    }).subscribe(this.handleSuccess.bind(this));
+    }).pipe(catchError(this.handleFailure.bind(this)))
+      .subscribe(this.handleSuccess.bind(this));
   }
 
   private updateCompetenceSet() {
@@ -101,15 +106,17 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       competenceElementIds: this.competenceSet.competenceElementIds,
       draft: this.form.get('draft').value,
       published: this.form.get('published').value
-    }).subscribe(this.handleSuccess.bind(this));
+    }).pipe(catchError(this.handleFailure.bind(this)))
+      .subscribe(this.handleSuccess.bind(this));
   }
 
   deleteCompetenceSet() {
-    const modalRef = this.modalService.openLarge(CompetenceSetDeleteModalComponent);
+    const modalRef = this.modalService.openLarge(CompetenceSetDeleteModalComponent, true);
     (<CompetenceSetDeleteModalComponent>modalRef.componentInstance).competenceSetId = this.competenceSet.id;
     modalRef.result
       .then(value => {
         this.competenceSetRepository.delete(this.competenceSet.id)
+          .pipe(catchError(this.handleFailure.bind(this)))
           .subscribe(() => {
             this.notificationsService.success('portal.competence-catalog.competence-sets.deleted-success-notification');
             this.router.navigate(['kk', 'competence-sets']);
@@ -128,6 +135,10 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     }
   }
 
+  private handleFailure(error: HttpErrorResponse): Observable<never> {
+    return this.businessExceptionsHandlerService.handleError(error);
+  }
+
   handleCompetenceSetActionClick(action: CompetenceCatalogAction, competenceSet: CompetenceSetSearchResult) {
     if (action === CompetenceCatalogAction.BACKLINK) {
       this.openBacklinkModal(competenceSet);
@@ -135,7 +146,7 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   }
 
   private openBacklinkModal(competenceSetSearchResult: CompetenceSetSearchResult) {
-    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent);
+    const modalRef = this.modalService.openMedium(CompetenceSetBacklinkComponent, true);
     (<CompetenceSetBacklinkComponent>modalRef.componentInstance).competenceSetSearchResult = competenceSetSearchResult;
   }
 

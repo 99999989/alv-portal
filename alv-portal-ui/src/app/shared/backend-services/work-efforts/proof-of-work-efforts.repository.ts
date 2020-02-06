@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ProofOfWorkEfforts, WorkEffort } from './proof-of-work-efforts.types';
 import { map } from 'rxjs/operators';
 import { Page } from '../shared.types';
+import { createPageableURLSearchParams, PagedSearchRequest } from '../request-util';
 
 @Injectable({ providedIn: 'root' })
 export class ProofOfWorkEffortsRepository {
@@ -17,14 +18,15 @@ export class ProofOfWorkEffortsRepository {
   constructor(private http: HttpClient) {
   }
 
-  findByOwnerUserId(userId: string, page: number): Observable<ProofOfWorkEfforts[]> {
-    return this.http.get<Page<ProofOfWorkEfforts>>(`${this.searchUrl}/by-owner-user-id`, {
-      params: new HttpParams()
-        .set('userId', userId)
-        .set('page', page.toString())
-    }).pipe(
-      map(result => result.content)
-    );
+  search(request: PagedSearchRequest): Observable<Page<ProofOfWorkEfforts>> {
+    const params = createPageableURLSearchParams(request);
+    return this.http.post<Page<ProofOfWorkEfforts>>(this.searchUrl, request.body, {
+      params
+    });
+  }
+
+  getProofOfWorkEffortsByIdAndFilter(proofOfWorkEffortsId: string, request: PagedSearchRequest): Observable<ProofOfWorkEfforts> {
+    return this.http.post<ProofOfWorkEfforts>(`${this.resourceUrl}/${proofOfWorkEffortsId}/_search`, request.body);
   }
 
   getProofOfWorkEffortsById(proofOfWorkEffortsId: string): Observable<ProofOfWorkEfforts> {
@@ -52,6 +54,10 @@ export class ProofOfWorkEffortsRepository {
     return this.http.post<ProofOfWorkEfforts>(`${this.actionUrl}/update-work-effort`, workEffort, {
       params: new HttpParams().set('userId', userId)
     });
+  }
+
+  submitProofOfWorkEfforts(proofOfWorkEffortsId: string): Observable<null> {
+    return this.http.get<null>(`${this.resourceUrl}/${proofOfWorkEffortsId}/submit`);
   }
 
   downloadPdf(proofOfWorkEffortsId: string): Observable<Blob> {

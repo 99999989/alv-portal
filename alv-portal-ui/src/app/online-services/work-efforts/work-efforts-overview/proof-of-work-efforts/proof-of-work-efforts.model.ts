@@ -8,7 +8,11 @@ import {
   ProofOfWorkEffortsStatus
 } from '../../../../shared/backend-services/work-efforts/proof-of-work-efforts.types';
 import { WorkEffortModel } from '../work-effort/work-effort.model';
-
+import {
+  DATE_FORMAT,
+  DATE_TIME_FORMAT, daysDifference
+} from '../work-efforts-overview-filter.types';
+import { daysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
 
 export class ProofOfWorkEffortsModel {
 
@@ -26,6 +30,10 @@ export class ProofOfWorkEffortsModel {
 
   submissionDate: Date;
 
+  startDate: Date;
+
+  endDate: Date;
+
   submissionDateFormat: string;
 
   hasPdfDocument: boolean;
@@ -40,6 +48,10 @@ export class ProofOfWorkEffortsModel {
 
     this.id = this.proofOfWorkEfforts.id;
 
+    this.startDate = new Date(this.proofOfWorkEfforts.startDate + 'T00:00:00');
+
+    this.endDate = new Date(this.proofOfWorkEfforts.endDate + 'T23:59:59');
+
     this.isSentSuccessfully = this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.SUBMITTED
       || this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED;
 
@@ -47,42 +59,50 @@ export class ProofOfWorkEffortsModel {
 
     this.isBeforeEmployment = this.proofOfWorkEfforts.controlPeriod.type === ControlPeriodType.BEFORE_UNEMPLOYMENT;
 
+    this.hasPdfDocument = !!this.proofOfWorkEfforts.documentId;
+
     this.controlPeriodDateString = this.proofOfWorkEfforts.controlPeriod.value;
 
     this.monthValue = this.proofOfWorkEfforts.controlPeriod.value ?
       parseInt(this.proofOfWorkEfforts.controlPeriod.value.split('-')[1], 10) : null;
 
-    this.submissionDate = this.buildSubmissionDate();
+    this.isCurrentPeriod = this.checkIsCurrentPeriod();
 
-    this.submissionDateFormat = this.isSentSuccessfully ? 'dd.MM.yyyy' : 'dd.MM.yyyy HH:mm';
-
-    this.hasPdfDocument = !!this.proofOfWorkEfforts.documentId;
+    this.submissionDate = this.buildSubmissionDateAndFormat();
 
     this.statusLabel = this.getStatusLabel();
-
-    this.isCurrentPeriod = this.checkIsCurrentPeriod();
 
     this.workEfforts = this.proofOfWorkEfforts.workEfforts.map(workEffort => new WorkEffortModel(workEffort, this.proofOfWorkEfforts));
   }
 
-  private buildSubmissionDate(): Date {
-    const submissionDate = new Date(this.isSentSuccessfully ?
-      this.proofOfWorkEfforts.lastSubmittedAt : this.proofOfWorkEfforts.nextSubmissionDate);
+  private buildSubmissionDateAndFormat(): Date {
+    let submissionDate;
+    if (this.isCurrentPeriod && !this.isSentSuccessfully) {
+      submissionDate = daysBeforeEndOfMonth(daysDifference());
+      this.submissionDateFormat = DATE_FORMAT;
+    } else if (this.isSentSuccessfully) {
+      submissionDate = new Date(this.proofOfWorkEfforts.lastSubmittedAt);
+      this.submissionDateFormat = DATE_FORMAT;
+    } else {
+      submissionDate = new Date(this.proofOfWorkEfforts.nextSubmissionDate);
+      this.submissionDateFormat = DATE_TIME_FORMAT;
+    }
     submissionDate.setHours(23, 59);
     return submissionDate;
   }
 
   private checkIsCurrentPeriod(): boolean {
     const today = new Date();
-    const startDate = new Date(this.proofOfWorkEfforts.startDate + 'T00:00:00');
-    const endDate = new Date(this.proofOfWorkEfforts.endDate + 'T00:00:00');
-    return today >= startDate && today <= endDate;
+    return today >= this.startDate && today <= this.endDate;
   }
 
   private getStatusLabel(): string {
     const baseLabel = 'portal.work-efforts.submit-status.text.';
     if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.OPEN ||
       this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.RE_OPENED) {
+      if (this.isCurrentPeriod && this.proofOfWorkEfforts) {
+        return baseLabel + 'current-open';
+      }
       return baseLabel + 'open';
     }
     if (this.proofOfWorkEfforts.status === ProofOfWorkEffortsStatus.CLOSED) {
@@ -95,4 +115,3 @@ export class ProofOfWorkEffortsModel {
   }
 
 }
-

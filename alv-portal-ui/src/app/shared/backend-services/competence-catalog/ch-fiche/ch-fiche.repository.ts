@@ -46,6 +46,22 @@ export class ChFicheRepository implements SearchService<ChFiche> {
       })));
   }
 
+  findByPrerequisiteId(prerequisiteId: string): Observable<ChFiche[]> {
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(endpoint => this.http.get<ChFiche[]>(endpoint + this.findUrl + '/byPrerequisiteId', {
+        params: new HttpParams().set('id', prerequisiteId)
+      }))
+    );
+  }
+
+  findByWorkEnvironmentId(workEnvironmentId: string): Observable<ChFiche[]> {
+    return this.roleConditionRoutingService.endpoint$.pipe(
+      switchMap(endpoint => this.http.get<ChFiche[]>(endpoint + this.findUrl + '/byWorkEnvironmentId', {
+        params: new HttpParams().set('id', workEnvironmentId)
+      }))
+    );
+  }
+
   create(chFiche: CreateChFiche): Observable<ChFiche> {
     return this.http.post<ChFiche>(KK_EDITOR_ENDPOINT + this.resourceUrl, chFiche);
   }

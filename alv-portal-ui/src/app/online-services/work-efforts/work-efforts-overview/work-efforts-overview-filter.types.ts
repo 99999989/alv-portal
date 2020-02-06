@@ -1,4 +1,6 @@
-export enum WorkEffortsFilterPeriod {
+import { isSameMonth, setMonth, startOfToday } from 'date-fns';
+
+export enum WorkEffortsControlPeriodFilter {
   CURRENT_MONTH = 'CURRENT_MONTH',
   LAST_3_MONTHS = 'LAST_3_MONTHS',
   LAST_6_MONTHS = 'LAST_6_MONTHS',
@@ -15,18 +17,31 @@ export enum WorkEffortApplyStatusFilter {
 }
 
 export interface WorkEffortsFilterValues {
-  period: WorkEffortsFilterPeriod;
-  workEffortResult: WorkEffortApplyStatusFilter;
+  controlPeriod: WorkEffortsControlPeriodFilter;
+  applyStatus: WorkEffortApplyStatusFilter;
 }
 
 export interface WorkEffortsFilter extends WorkEffortsFilterValues {
   query: string;
-  period: WorkEffortsFilterPeriod;
-  workEffortResult: WorkEffortApplyStatusFilter;
+  ownerUserId: string;
+  controlPeriod: WorkEffortsControlPeriodFilter;
+  applyStatus: WorkEffortApplyStatusFilter;
 }
 
 export const initialWorkEffortsFilter = {
   query: null,
-  period: WorkEffortsFilterPeriod.LAST_3_MONTHS,
-  workEffortResult: WorkEffortApplyStatusFilter.ALL
+  ownerUserId: null,
+  controlPeriod: WorkEffortsControlPeriodFilter.ALL_MONTHS,
+  applyStatus: WorkEffortApplyStatusFilter.ALL
 };
+
+export function daysDifference(): number {
+  const december: Date = setMonth(startOfToday(), 11);
+  if (isSameMonth(startOfToday(), december)) {
+    return 12;
+  }
+  return 5;
+}
+
+export const DATE_FORMAT = 'dd.MM.yyyy';
+export const DATE_TIME_FORMAT = 'dd.MM.yyyy HH:mm';

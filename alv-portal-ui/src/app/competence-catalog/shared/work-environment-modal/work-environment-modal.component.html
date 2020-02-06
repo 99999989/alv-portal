@@ -1,0 +1,51 @@
+<alv-modal (cancelAction)="cancel()"
+           (primaryAction)="submit()"
+           [cancelLabel]="isReadonly ? 'entity.action.back' : 'portal.global.cancel'"
+           [formGroup]="form"
+           [modalTitle]="modalTitle"
+           [showPrimaryButton]="!isReadonly"
+           primaryLabel="portal.global.save">
+
+  <fieldset>
+    <legend *ngIf="!isEdit">{{'portal.competence-catalog.work-environments.add-modal.what-to-enter-label' | translate}}</legend>
+    <alv-select [autofocus]="true"
+                [options$]="typeOptions$"
+                [readonly]="isEdit"
+                alvFormControlName="type"
+                label="portal.competence-catalog.work-environments.add-modal.type">
+    </alv-select>
+  </fieldset>
+
+  <fieldset formGroupName="description">
+    <legend>{{'portal.competence-catalog.work-environments.add-modal.one-component-per-lang-label' | translate}}</legend>
+    <ng-container *ngFor="let formField of ['de','fr','it','en']">
+      <alv-input-field [alvFormControlName]="formField"
+                       [attr.data-test]="formField+'-description-input'"
+                       [multilineMinRows]="1"
+                       [multiline]="true"
+                       [readonly]="isReadonly"
+                       [showGroupErrors]="true"
+                       [validationMessages]="[{ error: 'atLeastOneRequired', message: 'global.common-phrases.at-least-one-required' }]"
+                       label="portal.competence-catalog.work-environments.add-modal.title-{{formField}}"
+      >
+      </alv-input-field>
+    </ng-container>
+  </fieldset>
+  <ng-container *ngIf="isCompetenceCatalogEditor$|async">
+    <alv-radio-button [label]="'portal.competence-catalog.publication-status' | translate"
+                      [options$]="publishedRadioButtonOptions$"
+                      [readonly]="isReadonly || !isEdit"
+                      alvFormControlName="published"
+    ></alv-radio-button>
+    <alv-radio-button [label]="'portal.competence-catalog.draft-status' | translate"
+                      [options$]="draftRadioButtonOptions$"
+                      [readonly]="isReadonly || !isEdit"
+                      alvFormControlName="draft"
+    ></alv-radio-button>
+    <alv-checkbox *ngIf="!isReadonly && !isEdit"
+                  [alvControl]="createAnotherFormControl"
+    >{{'entity.action.create-another' | translate}}</alv-checkbox>
+  </ng-container>
+
+
+</alv-modal>

@@ -3,10 +3,12 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 import {
   faAddressBook as farAddressBook,
+  faBallotCheck,
   faCircle as farCircle,
   faEnvelope as farEnvelope,
   faFileImage as farFileImage,
   faFilePdf as farFilePdf,
+  faIndustryAlt,
   faListAlt as farListAlt,
   faStar as farStar,
   faStickyNote as farStickyNote
@@ -172,6 +174,8 @@ export class IconsLibraryService {
       farAddressBook,
       farCircle,
       farFileImage,
+      faBallotCheck,
+      faIndustryAlt,
       farFilePdf,
       farStar,
       farListAlt,
