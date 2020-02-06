@@ -59,7 +59,7 @@ export class SoftskillsOverviewComponent extends OverviewComponent<Softskill> im
   }
 
   openCreateModal() {
-    const modalRef = this.modalService.openMedium(SoftskillModalComponent, true);
+    const modalRef = this.modalService.openLarge(SoftskillModalComponent, false);
     modalRef.result
       .then(this.reload.bind(this))
       .catch(this.reload.bind(this));
@@ -67,7 +67,7 @@ export class SoftskillsOverviewComponent extends OverviewComponent<Softskill> im
   }
 
   openUpdateModal(softskill: Softskill, isReadonly: boolean) {
-    const modalRef = this.modalService.openMedium(SoftskillModalComponent, true);
+    const modalRef = this.modalService.openLarge(SoftskillModalComponent, false);
     const componentInstance = <SoftskillModalComponent>modalRef.componentInstance;
     componentInstance.softskill = softskill;
     componentInstance.isReadonly = isReadonly;
