@@ -6,6 +6,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedJobAdvertisementModule } from '../shared/shared-job-advertisement.module';
 import { ModalService } from '../../shared/layout/modal/modal.service';
 import { JobAdSearchProfilesComponent } from './job-ad-search-profiles/job-ad-search-profiles.component';
+import { JobAdSearchProfilesGuard } from './job-ad-search-profiles-guard';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { JobAdSearchProfilesComponent } from './job-ad-search-profiles/job-ad-se
   ],
   entryComponents: [],
   providers: [
-    ModalService
+    ModalService,
+    JobAdSearchProfilesGuard
   ]
 })
 export class JobAdSearchProfilesModule {

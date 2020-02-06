@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {
+  RouterModule,
+  Routes
+} from '@angular/router';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { AuthenticatedGuard } from './core/auth/authenticated.guard';
 import { NotAuthenticatedGuard } from './core/auth/not-authenticated.guard';
@@ -110,7 +113,6 @@ const appRoutes: Routes = [
     path: 'job-search-profiles',
     loadChildren: './job-advertisement/job-ad-search-profiles/job-ad-search-profiles.module#JobAdSearchProfilesModule',
     canActivate: [AppContextGuard],
-    canActivateChild: [AuthenticatedGuard],
     canDeactivate: [LazyModuleDeactivateGuard],
     data: {
       moduleName: ModuleName.JOB_SEARCH_PROFILES,
