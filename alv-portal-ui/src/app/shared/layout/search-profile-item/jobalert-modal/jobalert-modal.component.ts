@@ -77,12 +77,12 @@ export class JobAlertModalComponent extends AbstractSubscriber implements OnInit
   }
 
   ngOnInit() {
-    this.isJobAlertEnabled = !!this.searchProfile.jobAlertDto.email;
+    this.isJobAlertEnabled = !!this.searchProfile.jobAlertDto;
     this.i18nService.currentLanguage$.pipe(take(1))
       .subscribe(lang => this.currentLang = lang);
     this.currentUser$ = this.authenticationService.getCurrentUser();
     this.fb.control({
-      interval: [this.searchProfile.jobAlertDto.interval || 'INT_1DAY', Validators.required]
+      interval: [!!this.searchProfile.jobAlertDto ? this.searchProfile.jobAlertDto.interval : 'INT_1DAY', Validators.required]
     });
   }
 
