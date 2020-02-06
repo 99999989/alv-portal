@@ -9,11 +9,24 @@ import { FileSaverService } from '../../../../shared/file-saver/file-saver.servi
 import { Observable } from 'rxjs';
 import { ProofOfWorkEffortsSubmitModalComponent } from './proof-of-work-efforts-submit-modal/proof-of-work-efforts-submit-modal.component';
 import { ModalService } from '../../../../shared/layout/modal/modal.service';
-import { isWithinRange } from 'date-fns';
+import {
+  addDays,
+  endOfToday,
+  isEqual,
+  isSameDay,
+  isWithinRange,
+  startOfDay,
+  startOfMonth,
+  startOfToday
+} from 'date-fns';
 import {
   daysDifference
 } from '../work-efforts-overview-filter.types';
-import { daysAfterEndOfMonth, daysBeforeEndOfMonth } from '../../../../shared/forms/input/ngb-date-utils';
+import {
+  daysAfterEndOfMonth,
+  daysAfterStartOfMonth,
+  daysBeforeEndOfMonth
+} from '../../../../shared/forms/input/ngb-date-utils';
 
 @Component({
   selector: 'alv-proof-of-work-efforts',
@@ -47,7 +60,8 @@ export class ProofOfWorkEffortsComponent implements OnInit {
     this.isCurrentPeriod = this.proofOfWorkEffortsModel.isCurrentPeriod;
     this.expanded = this.expanded || this.proofOfWorkEffortsModel.isCurrentPeriod;
     this.downloadPdf$ = this.proofOfWorkEffortsRepository.downloadPdf(this.proofOfWorkEffortsModel.id);
-    this.manualSubmitting = this.isCurrentPeriod && !this.proofOfWorkEffortsModel.isSentSuccessfully && this.currentDayValidForManuelSubmitting();
+    this.manualSubmitting = !this.proofOfWorkEffortsModel.isSentSuccessfully
+      && (this.isCurrentPeriodValidForSubmitting() || this.isPreviousPeriodValidForSubmitting());
   }
 
   removeWorkEffort(deletedWorkEffort: WorkEffortModel) {
@@ -65,7 +79,20 @@ export class ProofOfWorkEffortsComponent implements OnInit {
       .catch(() => { });
   }
 
-  private currentDayValidForManuelSubmitting(): boolean {
-    return isWithinRange(new Date(), daysBeforeEndOfMonth(daysDifference()), daysAfterEndOfMonth(5));
+  /**
+   * f.e. in January, current ControlPeriod '2020-01' is valid for manual submitting from 27.01. - 05.02 (inclusive)
+   */
+  private isCurrentPeriodValidForSubmitting(): boolean {
+    return this.isCurrentPeriod && isWithinRange(startOfToday(), daysBeforeEndOfMonth(daysDifference()), daysAfterEndOfMonth(5));
   }
+
+  /**
+   * f.e. in January, previous ControlPeriod '2019-12' is valid for manual submitting from 01.01. - 05.01 (inclusive)
+   */
+  private isPreviousPeriodValidForSubmitting(): boolean {
+    const endDate = this.proofOfWorkEffortsModel.endDate;
+    const firstOfMonth = startOfMonth(startOfToday());
+    return !this.isCurrentPeriod && isEqual(startOfDay(addDays(endDate, 1)), firstOfMonth) && isWithinRange(startOfToday(), firstOfMonth, daysAfterStartOfMonth(5));
+  }
+
 }
