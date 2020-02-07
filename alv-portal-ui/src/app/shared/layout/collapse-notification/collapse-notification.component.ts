@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { collapseExpandAnimation } from '../../animations/animations';
+import { Notification, NotificationType } from '../notifications/notification.model';
 // Angular animations have problems with animating the transition between display:none and display:block, so we couldn't
 // implement the animation the simple way. Instead, the following hack was used:
 // 1. We only collapse to 1 px, so that no optimizer can remove the panel content from the DOM
@@ -16,6 +17,24 @@ import { collapseExpandAnimation } from '../../animations/animations';
 })
 export class CollapseNotificationComponent {
 
+  notificationClass = 'empty';
+
+  @Input()
+  set notification(value: Notification) {
+    this._notification = value;
+    this.setNotificationClasses();
+  }
+
+  get notification(): Notification {
+    return this._notification;
+  }
+
+  decorateClass: ClassDecoration = {};
+
+  icon = '';
+
+  private _notification: Notification;
+
   @Input() panelId: string;
 
   @Input() panelTitle: string;
@@ -28,6 +47,25 @@ export class CollapseNotificationComponent {
 
   @Input()
   isAlwaysExpanded = false;
+
+  constructor() {
+    this.decorateClass[NotificationType.ERROR] = {
+      icon: 'ban',
+      background: 'error'
+    };
+    this.decorateClass[NotificationType.INFO] = {
+      icon: 'info',
+      background: 'info'
+    };
+    this.decorateClass[NotificationType.SUCCESS] = {
+      icon: 'check',
+      background: 'success'
+    };
+    this.decorateClass[NotificationType.WARNING] = {
+      icon: 'exclamation',
+      background: 'warning'
+    };
+  }
 
   toggle() {
     this.isCollapsed ? this.expand() : this.collapse();
@@ -46,4 +84,17 @@ export class CollapseNotificationComponent {
   private emitCollapseEvent() {
     this.collapsed.emit(this.isCollapsed);
   }
+
+  private setNotificationClasses() {
+    this.icon = this.decorateClass[this._notification.type].icon;
+    this.notificationClass = this.decorateClass[this._notification.type].background;
+  }
 }
+
+interface ClassDecoration {
+  [s: number]: {
+    icon: string;
+    background: string;
+  };
+}
+

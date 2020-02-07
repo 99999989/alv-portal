@@ -1,14 +1,14 @@
 @import "../../../../scss/common/colors";
+@import "../../../../scss/common/variables";
 
 .title-bar {
   color: $color-black;
   text-decoration: none;
-  border-bottom: 1px solid $color-medium-grey;
-  margin-bottom: 0.5em;
   text-align: left;
   font-size: 1rem;
   min-height: 41px;
   padding: 0.5rem 1.25rem;
+  font-weight: 700;
 }
 
 button.collapse-button {
@@ -16,8 +16,10 @@ button.collapse-button {
     box-shadow: none;
   }
   &:hover {
-    background: darken($color-light-grey, 10%);
     color: $color-primary;
+  }
+  &:not(.btn-sm):not(.btn-icon):not(.btn-text-icon):not(.btn-toggle-icon):not(.ngb-dp-arrow-btn) {
+    padding: 0px 20px 0px 0px !important;
   }
   .collapse-icon, .expand-icon {
     color: $color-primary;
@@ -40,4 +42,72 @@ button.collapse-button {
 .panel-content {
   display: block;
   transform-origin: top;
+  margin-bottom: 0.5em;
 }
+
+.notification {
+  display: flex;
+  .icon {
+    padding: 10px 8px;
+    min-width: 40px;
+    min-height: 47px;
+    color: $color-white;
+    display: flex;
+    justify-content: center;
+  }
+
+  .text {
+    align-self: center;
+    padding: 0px 10px;
+  }
+
+  &.info {
+    background-color: $color-light-blue;
+
+    .icon {
+      background-color: $color-blue;
+    }
+  }
+
+  &.warning {
+    background-color: $color-yellow;
+
+    .icon {
+      background-color: $color-orange;
+    }
+  }
+
+  &.error {
+    background-color: $color-light-red;
+
+    .icon {
+      background-color: $color-red;
+    }
+  }
+
+  &.success {
+    background-color: $color-light-green;
+
+    .icon {
+      background-color: $color-green;
+    }
+  }
+
+  &.empty {
+    background-color: $color-super-light-grey;
+    border: 1px solid $color-medium-grey;
+
+    .text {
+      text-align: center;
+      color: $color-dark-grey;
+      width: 100%;
+    }
+  }
+}
+
+:host-context(.global-notification) {
+  .notification {
+    box-shadow: $box-shadow-default;
+  }
+}
+
