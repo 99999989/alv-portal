@@ -115,19 +115,19 @@ export class User {
       this.isCompetenceCatalogEditor();
   }
 
-  isAdmin() {
+  isAdmin(): boolean {
     return this.hasAnyAuthorities([UserRole.ROLE_ADMIN]);
   }
 
-  isSysadmin() {
+  isSysadmin(): boolean {
     return this.hasAnyAuthorities([UserRole.ROLE_SYSADMIN]);
   }
 
-  isCompetenceCatalogEditor() {
+  isCompetenceCatalogEditor(): boolean {
     return this.hasAnyAuthorities([UserRole.ROLE_KK_EDITOR]);
   }
 
-  isLegalTermAcceptanceRequired() {
+  isLegalTermAcceptanceRequired(): boolean {
     return !this.legalTermsAccepted && this.isRegistered() && !this.isCompetenceCatalogEditor();
   }
 
