@@ -2,6 +2,11 @@ import { Languages } from '../../core/languages.constants';
 import { ElementType } from '../../shared/backend-services/competence-catalog/competence-element/competence-element.types';
 import { WorkEnvironmentType } from '../../shared/backend-services/competence-catalog/work-environment/work-environment.types';
 
+export interface WorkflowFormValue {
+  draft: boolean;
+  published: boolean;
+}
+
 export interface TranslatedString {
   de: string;
   fr: string;

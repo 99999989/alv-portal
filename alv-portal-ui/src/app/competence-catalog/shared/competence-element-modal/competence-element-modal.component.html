@@ -32,16 +32,7 @@
     </ng-container>
   </fieldset>
   <ng-container *ngIf="isCompetenceCatalogEditor$|async">
-    <alv-radio-button [options$]="publishedRadioButtonOptions$"
-                      [readonly]="isReadonly || !isEdit"
-                      alvFormControlName="published"
-                      [label]="'portal.competence-catalog.publication-status' | translate"
-    ></alv-radio-button>
-    <alv-radio-button [options$]="draftRadioButtonOptions$"
-                      [readonly]="isReadonly || !isEdit"
-                      alvFormControlName="draft"
-                      [label]="'portal.competence-catalog.draft-status' | translate"
-    ></alv-radio-button>
+    <alv-workflow-form></alv-workflow-form>
     <alv-checkbox *ngIf="!isReadonly && !isEdit"
                   [alvControl]="createAnotherFormControl"
     >{{'entity.action.create-another' | translate}}</alv-checkbox>

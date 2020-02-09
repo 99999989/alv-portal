@@ -11,7 +11,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompetenceElementRepository } from '../../../shared/backend-services/competence-catalog/competence-element/competence-element.repository';
 import { NotificationsService } from '../../../core/notifications.service';
 import { getModalTitle } from '../utils/translation-utils';
-import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { catchError } from 'rxjs/operators';
@@ -49,9 +48,6 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
 
   isEdit = false;
 
-  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
-
-  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
 
   constructor(private fb: FormBuilder,
               private competenceElementRepository: CompetenceElementRepository,
@@ -63,6 +59,7 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
   }
 
   ngOnInit() {
+
     super.ngOnInit();
     this.createAnotherFormControl = this.fb.control(false);
     this.form = this.fb.group({

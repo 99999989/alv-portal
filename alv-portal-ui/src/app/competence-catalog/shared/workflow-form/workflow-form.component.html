@@ -1,0 +1,10 @@
+<alv-radio-button [label]="'portal.competence-catalog.publication-status' | translate"
+                  [options$]="publishedRadioButtonOptions$"
+                  [readonly]="isReadonly || !isEdit || !isPublishable"
+                  alvFormControlName="published"
+></alv-radio-button>
+<alv-radio-button [label]="'portal.competence-catalog.draft-status' | translate"
+                  [options$]="draftRadioButtonOptions$"
+                  [readonly]="isReadonly || !isEdit"
+                  alvFormControlName="draft"
+></alv-radio-button>

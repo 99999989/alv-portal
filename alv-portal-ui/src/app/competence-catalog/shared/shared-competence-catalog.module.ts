@@ -20,6 +20,7 @@ import { PrerequisiteBacklinkComponent } from './backlinks/prerequisite-backlink
 import { PrerequisiteModalComponent } from './prerequisite-modal/prerequisite-modal.component';
 import { WorkEnvironmentModalComponent } from './work-environment-modal/work-environment-modal.component';
 import { WorkEnvironmentBacklinkComponent } from './backlinks/work-environment-backlinks/work-environment-backlink.component';
+import { WorkflowFormComponent } from './workflow-form/workflow-form.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { WorkEnvironmentBacklinkComponent } from './backlinks/work-environment-b
     PrerequisiteBacklinkComponent,
     PrerequisiteModalComponent,
     WorkEnvironmentModalComponent,
-    WorkEnvironmentBacklinkComponent
+    WorkEnvironmentBacklinkComponent,
+    WorkflowFormComponent
   ],
   providers: [],
   entryComponents: [
