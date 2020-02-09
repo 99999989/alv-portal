@@ -14,9 +14,10 @@ import {
   SortType
 } from '../shared-competence-catalog.types';
 import { DEFAULT_SORT_OPTIONS } from '../constants';
+import { CompetenceItem } from '../../../shared/backend-services/competence-catalog/competence-item.types';
 
 
-export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent implements OnInit {
+export class OverviewComponent<T extends CompetenceItem> extends CompetenceCatalogEditorAwareComponent implements OnInit {
 
   sort: CompetenceCatalogSortValue = {
     type: SortType.DATE_DESC,
@@ -91,6 +92,10 @@ export class OverviewComponent<T> extends CompetenceCatalogEditorAwareComponent 
       case SortType.ALPHA_ASC:
         return DEFAULT_SORT_OPTIONS.ALPHA_ASC;
     }
+  }
+
+  protected isItemDeletable(item: T): boolean {
+    return !item.published;
   }
 
 }

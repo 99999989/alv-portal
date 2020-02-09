@@ -84,26 +84,35 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
     }
   }
 
+  isDeletable(): boolean {
+    return !this.chFiche.published;
+  }
+
+
   deleteChFiche() {
-    const modalRef = this.modalService.openConfirm({
-      title: 'portal.competence-catalog.ch-fiches.delete-modal.title',
-      content: 'portal.competence-catalog.ch-fiches.delete-modal.confirmation',
-      confirmLabel: 'portal.global.delete-confirm'
-    });
-    modalRef.result
-      .then(() => {
-        this.chFicheRepository.delete(this.chFiche.id)
-          .pipe(
-            catchError(this.handleFailure.bind(this)),
-            takeUntil(this.ngUnsubscribe),
-          )
-          .subscribe(() => {
-            this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-ch-fiche-success-notification');
-            this.router.navigate(['..'], { relativeTo: this.route });
-          });
-      })
-      .catch(() => {
+    if (!this.isDeletable()) {
+      this.notificationsService.error('portal.competence-catalog.business-error-messages.cannot_delete_in_status_published');
+    } else {
+      const modalRef = this.modalService.openConfirm({
+        title: 'portal.competence-catalog.ch-fiches.delete-modal.title',
+        content: 'portal.competence-catalog.ch-fiches.delete-modal.confirmation',
+        confirmLabel: 'portal.global.delete-confirm'
       });
+      modalRef.result
+        .then(() => {
+          this.chFicheRepository.delete(this.chFiche.id)
+            .pipe(
+              catchError(this.handleFailure.bind(this)),
+              takeUntil(this.ngUnsubscribe),
+            )
+            .subscribe(() => {
+              this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-ch-fiche-success-notification');
+              this.router.navigate(['..'], { relativeTo: this.route });
+            });
+        })
+        .catch(() => {
+        });
+    }
   }
 
   private createChFiche() {

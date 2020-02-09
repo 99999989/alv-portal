@@ -110,19 +110,23 @@ export class PrerequisitesOverviewComponent extends OverviewComponent<Prerequisi
   }
 
   private openDeleteModal(prerequisite: Prerequisite) {
-    const modalRef = this.modalService.openLarge(PrerequisiteDeleteComponent, true);
-    const componentInstance = <PrerequisiteDeleteComponent>modalRef.componentInstance;
-    componentInstance.prerequisite = prerequisite.id;
-    modalRef.result
-      .then(idForDeletion => {
-        this.itemsRepository.delete(idForDeletion)
-          .pipe(catchError(this.handleFailure.bind(this)))
-          .subscribe(() => {
-            this.reload();
-            this.notificationsService.success('portal.competence-catalog.prerequisites.deleted-success-notification');
-          });
-      })
-      .catch(this.reload.bind(this));
+    if (!this.isItemDeletable(prerequisite)) {
+      this.notificationsService.error('portal.competence-catalog.business-error-messages.cannot_delete_in_status_published');
+    } else {
+      const modalRef = this.modalService.openLarge(PrerequisiteDeleteComponent, true);
+      const componentInstance = <PrerequisiteDeleteComponent>modalRef.componentInstance;
+      componentInstance.prerequisite = prerequisite.id;
+      modalRef.result
+        .then(idForDeletion => {
+          this.itemsRepository.delete(idForDeletion)
+            .pipe(catchError(this.handleFailure.bind(this)))
+            .subscribe(() => {
+              this.reload();
+              this.notificationsService.success('portal.competence-catalog.prerequisites.deleted-success-notification');
+            });
+        })
+        .catch(this.reload.bind(this));
+    }
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {

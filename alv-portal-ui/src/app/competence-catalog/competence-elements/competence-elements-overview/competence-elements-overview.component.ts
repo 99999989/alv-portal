@@ -115,22 +115,28 @@ export class CompetenceElementsOverviewComponent extends OverviewComponent<Compe
   }
 
   private openDeleteModal(competenceElement: CompetenceElement) {
-    const modalRef = this.modalService.openLarge(CompetenceElementDeleteComponent, true);
-    const componentInstance = <CompetenceElementDeleteComponent>modalRef.componentInstance;
-    componentInstance.competenceElementId = competenceElement.id;
-    modalRef.result
-      .then(idForDeletion => {
-        this.itemsRepository.delete(idForDeletion)
-          .pipe(catchError(this.handleFailure.bind(this)))
-          .subscribe(() => {
-            this.reload();
-            this.notificationsService.success('portal.competence-catalog.competence-elements.deleted-success-notification');
-          });
-      })
-      .catch((this.reload.bind(this)));
+    if (!this.isItemDeletable(competenceElement)) {
+      this.notificationsService.error('portal.competence-catalog.business-error-messages.cannot_delete_in_status_published');
+    } else {
+      const modalRef = this.modalService.openLarge(CompetenceElementDeleteComponent, true);
+      const componentInstance = <CompetenceElementDeleteComponent>modalRef.componentInstance;
+      componentInstance.competenceElementId = competenceElement.id;
+      modalRef.result
+        .then(idForDeletion => {
+          this.itemsRepository.delete(idForDeletion)
+            .pipe(catchError(this.handleFailure.bind(this)))
+            .subscribe(() => {
+              this.reload();
+              this.notificationsService.success('portal.competence-catalog.competence-elements.deleted-success-notification');
+            });
+        })
+        .catch((this.reload.bind(this)));
+    }
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {
     return this.businessExceptionsHandlerService.handleError(error);
   }
+
+
 }

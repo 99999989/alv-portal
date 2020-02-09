@@ -1,10 +1,9 @@
 import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
+import { CompetenceItem } from '../competence-item.types';
 
 
-export interface Prerequisite {
+export interface Prerequisite extends CompetenceItem {
   id: string;
-  draft: boolean;
-  published: boolean;
   description: TranslatedString;
 }
 

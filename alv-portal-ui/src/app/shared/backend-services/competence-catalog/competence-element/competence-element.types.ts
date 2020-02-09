@@ -1,4 +1,5 @@
 import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
+import { CompetenceItem } from '../competence-item.types';
 
 export enum ElementType {
   KNOW_HOW = 'KNOW_HOW',
@@ -6,11 +7,9 @@ export enum ElementType {
   KNOWLEDGE = 'KNOWLEDGE'
 }
 
-export interface CompetenceElement {
+export interface CompetenceElement extends CompetenceItem {
   id: string;
   type: ElementType;
-  draft: boolean;
-  published: boolean;
   description: TranslatedString;
 }
 

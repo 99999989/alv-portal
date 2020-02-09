@@ -110,20 +110,29 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
       .subscribe(this.handleSuccess.bind(this));
   }
 
+  isDeletable(): boolean {
+    return !this.competenceSet.published;
+  }
+
+
   deleteCompetenceSet() {
-    const modalRef = this.modalService.openLarge(CompetenceSetDeleteModalComponent, true);
-    (<CompetenceSetDeleteModalComponent>modalRef.componentInstance).competenceSetId = this.competenceSet.id;
-    modalRef.result
-      .then(value => {
-        this.competenceSetRepository.delete(this.competenceSet.id)
-          .pipe(catchError(this.handleFailure.bind(this)))
-          .subscribe(() => {
-            this.notificationsService.success('portal.competence-catalog.competence-sets.deleted-success-notification');
-            this.router.navigate(['kk', 'competence-sets']);
-          });
-      })
-      .catch(() => {
-      });
+    if (!this.isDeletable()) {
+      this.notificationsService.error('portal.competence-catalog.business-error-messages.cannot_delete_in_status_published');
+    } else {
+      const modalRef = this.modalService.openLarge(CompetenceSetDeleteModalComponent, true);
+      (<CompetenceSetDeleteModalComponent>modalRef.componentInstance).competenceSetId = this.competenceSet.id;
+      modalRef.result
+        .then(value => {
+          this.competenceSetRepository.delete(this.competenceSet.id)
+            .pipe(catchError(this.handleFailure.bind(this)))
+            .subscribe(() => {
+              this.notificationsService.success('portal.competence-catalog.competence-sets.deleted-success-notification');
+              this.router.navigate(['kk', 'competence-sets']);
+            });
+        })
+        .catch(() => {
+        });
+    }
   }
 
   private handleSuccess(result: CompetenceSet) {

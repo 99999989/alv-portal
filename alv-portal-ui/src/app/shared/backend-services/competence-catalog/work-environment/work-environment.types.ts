@@ -1,4 +1,5 @@
 import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
+import { CompetenceItem } from '../competence-item.types';
 
 export enum WorkEnvironmentType {
   SECTOR = 'SECTOR',
@@ -6,11 +7,9 @@ export enum WorkEnvironmentType {
   CONDITION = 'CONDITION'
 }
 
-export interface WorkEnvironment {
+export interface WorkEnvironment extends CompetenceItem {
   id: string;
   type: WorkEnvironmentType;
-  draft: boolean;
-  published: boolean;
   description: TranslatedString;
 }
 

@@ -1,4 +1,5 @@
 import { CompetenceElement } from '../competence-element/competence-element.types';
+import { CompetenceItem } from '../competence-item.types';
 
 export interface CompetenceSet {
   id: string;
@@ -22,10 +23,8 @@ export interface UpdateCompetenceSet {
   competenceElementIds: string[];
 }
 
-export interface CompetenceSetSearchResult {
+export interface CompetenceSetSearchResult extends CompetenceItem {
   id?: string;
-  draft?: boolean;
-  published?: boolean;
   knowHow: CompetenceElement | null;
   competenceElementIds: string[];
 }

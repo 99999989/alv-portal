@@ -1,4 +1,5 @@
 import { TranslatedString } from '../../../../competence-catalog/shared/shared-competence-catalog.types';
+import { CompetenceItem } from '../competence-item.types';
 
 export enum CompetenceType {
   BASIC = 'BASIC',
@@ -17,16 +18,12 @@ export enum BusinessExceptionTypes {
   CANNOT_DELETE_IN_STATUS_PUBLISHED = 'CANNOT_DELETE_IN_STATUS_PUBLISHED'
 }
 
-// todo instead of inheritance we need to do duplication, the same way it's done in competence-set-types
-//    see Jira Issue DF-1920
-export interface ChFiche {
+export interface ChFiche extends CompetenceItem {
   id?: string;
   title?: TranslatedString;
   description?: TranslatedString;
   occupations: Occupation[];
   competences: Competence[];
-  draft?: boolean;
-  published?: boolean;
   prerequisiteIds: string[];
   workEnvironmentIds: string[];
 

@@ -114,19 +114,23 @@ export class WorkEnvironmentsOverviewComponent extends OverviewComponent<WorkEnv
   }
 
   private openDeleteModal(workEnvironment: WorkEnvironment) {
-    const modalRef = this.modalService.openLarge(WorkEnvironmentDeleteComponent, true);
-    const componentInstance = <WorkEnvironmentDeleteComponent>modalRef.componentInstance;
-    componentInstance.workEnvironment = workEnvironment.id;
-    modalRef.result
-      .then(idForDeletion => {
-        this.itemsRepository.delete(idForDeletion)
-          .pipe(catchError(this.handleFailure.bind(this)))
-          .subscribe(() => {
-            this.reload();
-            this.notificationsService.success('portal.competence-catalog.work-environments.deleted-success-notification');
-          });
-      })
-      .catch(this.reload.bind(this));
+    if (!this.isItemDeletable(workEnvironment)) {
+      this.notificationsService.error('portal.competence-catalog.business-error-messages.cannot_delete_in_status_published');
+    } else {
+      const modalRef = this.modalService.openLarge(WorkEnvironmentDeleteComponent, true);
+      const componentInstance = <WorkEnvironmentDeleteComponent>modalRef.componentInstance;
+      componentInstance.workEnvironment = workEnvironment.id;
+      modalRef.result
+        .then(idForDeletion => {
+          this.itemsRepository.delete(idForDeletion)
+            .pipe(catchError(this.handleFailure.bind(this)))
+            .subscribe(() => {
+              this.reload();
+              this.notificationsService.success('portal.competence-catalog.work-environments.deleted-success-notification');
+            });
+        })
+        .catch(this.reload.bind(this));
+    }
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {
