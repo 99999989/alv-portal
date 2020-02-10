@@ -5,20 +5,14 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { WorkflowFormValue } from '../shared-competence-catalog.types';
 
 @Component({
-  selector: 'alv-workflow-form',
+  selector: 'alv-workflow-form[parentForm][workflowFormValue][isReadonly][isEdit]',
   templateUrl: './workflow-form.component.html',
   styleUrls: ['./workflow-form.component.scss']
 })
 export class WorkflowFormComponent implements OnInit {
-
-  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
-
-  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
-
-  isPublishable: boolean;
-
   @Input()
   parentForm: FormGroup;
+
   @Input()
   workflowFormValue: WorkflowFormValue;
 
@@ -27,6 +21,14 @@ export class WorkflowFormComponent implements OnInit {
 
   @Input()
   isEdit: boolean;
+
+  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
+
+  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
+
+  isPublishable: boolean;
+
+
   published: FormControl;
   draft: FormControl;
 
