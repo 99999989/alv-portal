@@ -3,7 +3,9 @@
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
     isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
     prerequisiteActions: prerequisiteActions$ | async,
-    workEnvironmentActions: workEnvironmentActions$ | async
+    workEnvironmentActions: workEnvironmentActions$ | async,
+    softskillActions: softskillActions$ | async
+
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -141,10 +143,9 @@
                                [isItemClickable]="true"
                                [isPublished]="softskill.published"
                                [multiLanguageTitle]="softskill.description"
-                               [showActionButtons]="observables.isCompetenceCatalogEditor"
+                               [showActionButtons]="true"
                                [superTitle]="softskill.id"
-                               [type]="'portal.competence-catalog.element-type.softskill' | translate"
-                               titleClass="font-weight-normal">
+                               [type]="'portal.competence-catalog.element-type.softskill' | translate">
 
     </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
