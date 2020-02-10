@@ -60,7 +60,7 @@
                                        [showActionButtons]="!isReadonly"
                                        [actions]="[linkOccupationAction]"
                                        (actionClick)="handleOccupationActionClick($event)">
-    <alv-interactive-list-item *ngFor="let resolvedOccupation of resolvedOccupations; let index = index"
+    <alv-interactive-list-item (actionClick)="unlinkOccupation(resolvedOccupation)"
                                [type]="'CH-ISCO5 ' + resolvedOccupation.occupation.chIsco5"
                                [superTitle]="'BFS ' + resolvedOccupation.occupation.bfsCode"
                                [multiLanguageTitle]="{
@@ -72,7 +72,7 @@
                                [isItemClickable]="false"
                                [showActionButtons]="!isReadonly"
                                [actions]="[unlinkCompetenceSetAction]"
-                               (actionClick)="unlinkOccupation(index)">
+                               *ngFor="let resolvedOccupation of resolvedOccupations">
     </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>
 
@@ -110,7 +110,7 @@
                                        [isEmpty]="!chFiche.prerequisiteIds?.length"
                                        class="d-block mt-2"
   >
-    <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, index)"
+    <alv-interactive-list-item (actionClick)="handlePrerequisiteActionClick($event, index, prerequisite)"
                                (itemClick)="viewPrerequisite(prerequisite)"
                                *ngFor="let prerequisite of prerequisites; let index = index;"
                                [actions]="observables.prerequisiteActions"

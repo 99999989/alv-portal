@@ -264,9 +264,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
       });
   }
 
-  unlinkOccupation(index: number) {
+  unlinkOccupation(occupation: Occupation) {
     this.openUnlinkConfirmModal().then(result => {
-      this.chFiche.occupations.splice(index, 1);
+      this.chFiche.occupations = without(this.chFiche.occupations, occupation);
       this.updateOccupationLabels(this.chFiche.occupations)
         .subscribe(() => {
           this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-occupation-success-notification');
@@ -389,24 +389,24 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     }
   }
 
-  handlePrerequisiteActionClick(action: CompetenceCatalogAction, index?: number) {
+  handlePrerequisiteActionClick(action: CompetenceCatalogAction, index?: number, prerequisite: Prerequisite) {
     if (action === CompetenceCatalogAction.LINK) {
       this.addPrerequisite();
     }
     if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkPrerequisite(index);
+      this.unlinkPrerequisite(prerequisite);
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
       this.openPrerequisiteBacklinkModal(index);
     }
   }
 
-  handleSoftskillActionClick(action: CompetenceCatalogAction, index?: number) {
+  handleSoftskillActionClick(action: CompetenceCatalogAction, index?: number, softskill) {
     if (action === CompetenceCatalogAction.LINK) {
       this.addSoftskill();
     }
     if (action === CompetenceCatalogAction.UNLINK) {
-      this.unlinkSoftskill(index);
+      this.unlinkSoftskill(softskill);
     }
     if (action === CompetenceCatalogAction.BACKLINK) {
       this.openSoftskillBacklinkModal(index);
@@ -589,9 +589,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
 
   }
 
-  private unlinkPrerequisite(index: number) {
+  private unlinkPrerequisite(prerequisite: Prerequisite) {
     this.openUnlinkConfirmModal().then(() => {
-      this.chFiche.prerequisiteIds.splice(index, 1);
+      this.chFiche.prerequisiteIds = without(this.chFiche.prerequisiteIds, prerequisite.id);
       this.loadPrerequisites().subscribe(() => {
         this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-prerequisite-success-notification');
       });
@@ -599,9 +599,9 @@ export class ChFicheComponent extends CompetenceCatalogEditorAwareComponent impl
     });
   }
 
-  private unlinkSoftskill(index: number) {
+  private unlinkSoftskill(softskill: Softskill) {
     this.openUnlinkConfirmModal().then(() => {
-      this.chFiche.softskillIds.splice(index, 1);
+      this.chFiche.softskillIds = without(this.chFiche.softskillIds, softskill.id);
       this.loadSoftskills().subscribe(() => {
         this.notificationsService.success('portal.competence-catalog.ch-fiches.removed-softskill-success-notification');
       });
