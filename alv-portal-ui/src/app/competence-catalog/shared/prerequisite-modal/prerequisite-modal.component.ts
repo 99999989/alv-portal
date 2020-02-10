@@ -13,6 +13,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { catchError } from 'rxjs/operators';
 import { BusinessExceptionsHandlerService } from '../business-exceptions-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { WorkflowFormValue } from '../shared-competence-catalog.types';
 
 @Component({
   selector: 'alv-prerequisite-modal',
@@ -26,6 +27,9 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
   @Input() isReadonly = false;
 
   form: FormGroup;
+
+  workflowFormValue: WorkflowFormValue;
+
 
   createAnotherFormControl: FormControl;
 
@@ -66,6 +70,10 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
       this.isEdit = true;
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
+    this.workflowFormValue = {
+      published: this.prerequisite.published,
+      draft: this.prerequisite.draft
+    };
   }
 
   submit() {
