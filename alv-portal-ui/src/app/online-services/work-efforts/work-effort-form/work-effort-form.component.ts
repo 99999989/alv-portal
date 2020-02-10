@@ -113,6 +113,7 @@ export class WorkEffortFormComponent extends AbstractSubscriber implements OnIni
     }
   ];
   bottomAlert: Notification = {
+    messageKey: 'portal.work-efforts.edit-form.note.note-text.paragraph-title',
     isSticky: true,
     type: NotificationType.WARNING
   };
