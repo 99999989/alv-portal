@@ -13,6 +13,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { catchError } from 'rxjs/operators';
 import { BusinessExceptionsHandlerService } from '../business-exceptions-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { WorkflowFormValue } from '../shared-competence-catalog.types';
 
 @Component({
   selector: 'alv-softskill-modal',
@@ -28,6 +29,8 @@ export class SoftskillModalComponent extends CompetenceCatalogEditorAwareCompone
   form: FormGroup;
 
   createAnotherFormControl: FormControl;
+
+  workflowFormValue: WorkflowFormValue;
 
   modalTitle: string;
 
@@ -66,6 +69,10 @@ export class SoftskillModalComponent extends CompetenceCatalogEditorAwareCompone
       this.isEdit = true;
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
+    this.workflowFormValue = {
+      published: this.softskill.published,
+      draft: this.softskill.draft
+    };
   }
 
   submit() {
