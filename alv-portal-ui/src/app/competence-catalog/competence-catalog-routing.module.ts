@@ -31,6 +31,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'softskills',
+    loadChildren: './softskills/softskills.module#SoftskillsModule',
+    data: {
+      titleKey: 'portal.competence-catalog.softskills.browser-title',
+    }
+  },
+  {
     path: 'work-environments',
     loadChildren: './work-environments/work-environments.module#WorkEnvironmentsModule',
     data: {

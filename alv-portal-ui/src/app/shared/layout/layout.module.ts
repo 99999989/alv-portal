@@ -57,6 +57,7 @@ import { SearchProfileItemComponent } from './search-profile-item/search-profile
 import { SharedAppContextModule } from '../app-context/shared-app-context.module';
 import { CollapseDirective } from './collapse-panel/collapse.directive';
 import { ChiscoAlertComponent } from './notifications/alert/chisco-alert/chisco-alert.component';
+import { CollapseNotificationComponent } from './collapse-notification/collapse-notification.component';
 
 @NgModule({
   imports: [
@@ -110,7 +111,8 @@ import { ChiscoAlertComponent } from './notifications/alert/chisco-alert/chisco-
     EnvironmentRibbonComponent,
     SearchProfileItemComponent,
     CollapseDirective,
-    ChiscoAlertComponent
+    ChiscoAlertComponent,
+    CollapseNotificationComponent
   ],
   providers: [
     CandidateContactRepository
@@ -156,7 +158,8 @@ import { ChiscoAlertComponent } from './notifications/alert/chisco-alert/chisco-
     EnvironmentRibbonComponent,
     SearchProfileItemComponent,
     CollapseDirective,
-    ChiscoAlertComponent
+    ChiscoAlertComponent,
+    CollapseNotificationComponent
   ]
 })
 export class LayoutModule {
