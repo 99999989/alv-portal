@@ -21,3 +21,8 @@ export const draftRadioButtonOptions = [{
   label: 'portal.competence-catalog.draft-statuses.approved'
 }
 ];
+
+export const defaultWorkflowValue = {
+  published: false,
+  draft: true
+};

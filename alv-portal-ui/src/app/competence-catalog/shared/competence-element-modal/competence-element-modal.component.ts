@@ -17,6 +17,7 @@ import { catchError } from 'rxjs/operators';
 import { BusinessExceptionsHandlerService } from '../business-exceptions-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WorkflowFormValue } from '../shared-competence-catalog.types';
+import { defaultWorkflowValue } from '../constants';
 
 @Component({
   selector: 'alv-competence-element-modal',
@@ -43,10 +44,8 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
 
   form: FormGroup;
 
-  workflowFormValue: WorkflowFormValue = {
-    published: false,
-    draft: true
-  };
+  workflowFormValue: WorkflowFormValue = defaultWorkflowValue;
+
 
   createAnotherFormControl: FormControl;
 

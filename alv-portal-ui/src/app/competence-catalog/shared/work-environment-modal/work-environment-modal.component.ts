@@ -10,7 +10,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkEnvironmentRepository } from '../../../shared/backend-services/competence-catalog/work-environment/work-environment-repository.service';
 import { NotificationsService } from '../../../core/notifications.service';
 import { getModalTitle } from '../utils/translation-utils';
-import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
+import { defaultWorkflowValue } from '../constants';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { SelectableOption } from '../../../shared/forms/input/selectable-option.model';
@@ -34,10 +34,7 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
 
   createAnotherFormControl: FormControl;
 
-  workflowFormValue: WorkflowFormValue = {
-    published: false,
-    draft: true
-  };
+  workflowFormValue: WorkflowFormValue = defaultWorkflowValue;
 
   modalTitle: string;
 
@@ -54,10 +51,6 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
       };
     }))
   );
-
-  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
-
-  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
 
   constructor(private fb: FormBuilder,
               private workEnvironmentRepository: WorkEnvironmentRepository,

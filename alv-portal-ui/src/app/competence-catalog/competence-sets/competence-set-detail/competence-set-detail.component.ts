@@ -17,11 +17,8 @@ import {
   WorkflowFormValue
 } from '../../shared/shared-competence-catalog.types';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
-import { Observable, of } from 'rxjs';
-import {
-  draftRadioButtonOptions,
-  publishedRadioButtonOptions
-} from '../../shared/constants';
+import { Observable } from 'rxjs';
+import { defaultWorkflowValue } from '../../shared/constants';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
 import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
@@ -36,17 +33,13 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
 
   competenceSet: CompetenceSetSearchResult;
 
-  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
-
-  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
-
   isEdit: boolean;
 
   readonly = false;
 
   form: FormGroup;
 
-  workflowFormValue: WorkflowFormValue;
+  workflowFormValue: WorkflowFormValue = defaultWorkflowValue;
 
   createAnotherFormControl: FormControl;
 

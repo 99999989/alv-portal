@@ -16,6 +16,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WorkflowFormValue } from '../../shared/shared-competence-catalog.types';
+import { defaultWorkflowValue } from '../../shared/constants';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -32,10 +33,7 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
 
   form: FormGroup;
 
-  workflowFormValue: WorkflowFormValue = {
-    published: false,
-    draft: true
-  };
+  workflowFormValue: WorkflowFormValue = defaultWorkflowValue;
 
   showErrors: boolean;
 

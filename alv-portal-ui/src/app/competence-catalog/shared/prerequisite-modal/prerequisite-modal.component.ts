@@ -2,12 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { atLeastOneRequiredValidator } from '../../../shared/forms/input/validators/at-least-one-required.validator';
 import { Prerequisite } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite.types';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PrerequisiteRepository } from '../../../shared/backend-services/competence-catalog/prerequisite/prerequisite-repository.service';
 import { NotificationsService } from '../../../core/notifications.service';
 import { getModalTitle } from '../utils/translation-utils';
-import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
+import { defaultWorkflowValue } from '../constants';
 import { CompetenceCatalogEditorAwareComponent } from '../competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { AuthenticationService } from '../../../core/auth/authentication.service';
 import { catchError } from 'rxjs/operators';
@@ -28,20 +28,13 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
 
   form: FormGroup;
 
-  workflowFormValue: WorkflowFormValue = {
-    published: false,
-    draft: true
-  };
+  workflowFormValue: WorkflowFormValue = defaultWorkflowValue;
 
   createAnotherFormControl: FormControl;
 
   modalTitle: string;
 
   isEdit = false;
-
-  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
-
-  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
 
   constructor(private fb: FormBuilder,
               private prerequisiteRepository: PrerequisiteRepository,
