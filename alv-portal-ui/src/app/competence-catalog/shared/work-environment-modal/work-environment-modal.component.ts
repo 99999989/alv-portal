@@ -17,6 +17,7 @@ import { SelectableOption } from '../../../shared/forms/input/selectable-option.
 import { catchError } from 'rxjs/operators';
 import { BusinessExceptionsHandlerService } from '../business-exceptions-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { WorkflowFormValue } from '../shared-competence-catalog.types';
 
 @Component({
   selector: 'alv-work-environment-modal',
@@ -32,6 +33,8 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
   form: FormGroup;
 
   createAnotherFormControl: FormControl;
+
+  workflowFormValue: WorkflowFormValue;
 
   modalTitle: string;
 
@@ -83,6 +86,10 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
       this.isEdit = true;
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
+    this.workflowFormValue = {
+      published: this.workEnvironment.published,
+      draft: this.workEnvironment.draft
+    };
   }
 
   submit() {
