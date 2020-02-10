@@ -1,8 +1,11 @@
-<alv-radio-button [label]="'portal.competence-catalog.publication-status' | translate"
-                  [options$]="publishedRadioButtonOptions$"
-                  [readonly]="isReadonly || !isEdit || !isPublishable"
-                  [alvControl]="published"
-></alv-radio-button>
+<div [ngbTooltip]="!isPublishable ? ('portal.competence-catalog.business-error-messages.cannot_publish_draft' | translate) : null"
+     [placement]="'top-left'">
+  <alv-radio-button [alvControl]="published"
+                    [label]="'portal.competence-catalog.publication-status' | translate"
+                    [options$]="publishedRadioButtonOptions$"
+                    [readonly]="isReadonly || !isEdit || !isPublishable"
+  ></alv-radio-button>
+</div>
 <alv-radio-button [label]="'portal.competence-catalog.draft-status' | translate"
                   [options$]="draftRadioButtonOptions$"
                   [readonly]="isReadonly || !isEdit"
