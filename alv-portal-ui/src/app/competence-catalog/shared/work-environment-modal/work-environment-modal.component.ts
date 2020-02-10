@@ -34,7 +34,10 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
 
   createAnotherFormControl: FormControl;
 
-  workflowFormValue: WorkflowFormValue;
+  workflowFormValue: WorkflowFormValue = {
+    published: false,
+    draft: true
+  };
 
   modalTitle: string;
 
@@ -82,12 +85,12 @@ export class WorkEnvironmentModalComponent extends CompetenceCatalogEditorAwareC
     if (this.workEnvironment) {
       this.form.patchValue(this.workEnvironment);
       this.isEdit = true;
+      this.workflowFormValue = {
+        published: this.workEnvironment.published,
+        draft: this.workEnvironment.draft
+      };
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
-    this.workflowFormValue = {
-      published: this.workEnvironment.published,
-      draft: this.workEnvironment.draft
-    };
   }
 
   submit() {

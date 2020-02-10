@@ -43,7 +43,10 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
 
   form: FormGroup;
 
-  workflowFormValue: WorkflowFormValue;
+  workflowFormValue: WorkflowFormValue = {
+    published: false,
+    draft: true
+  };
 
   createAnotherFormControl: FormControl;
 
@@ -79,12 +82,12 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
     if (this.competenceElement) {
       this.form.patchValue(this.competenceElement);
       this.isEdit = true;
+      this.workflowFormValue = {
+        published: this.competenceElement.published,
+        draft: this.competenceElement.draft
+      };
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
-    this.workflowFormValue = {
-      published: this.competenceElement.published,
-      draft: this.competenceElement.draft
-    };
   }
 
   submit() {

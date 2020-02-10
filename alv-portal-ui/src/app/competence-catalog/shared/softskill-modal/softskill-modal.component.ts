@@ -30,7 +30,10 @@ export class SoftskillModalComponent extends CompetenceCatalogEditorAwareCompone
 
   createAnotherFormControl: FormControl;
 
-  workflowFormValue: WorkflowFormValue;
+  workflowFormValue: WorkflowFormValue = {
+    published: false,
+    draft: true
+  };
 
   modalTitle: string;
 
@@ -65,12 +68,13 @@ export class SoftskillModalComponent extends CompetenceCatalogEditorAwareCompone
     if (this.softskill) {
       this.form.patchValue(this.softskill);
       this.isEdit = true;
+      this.workflowFormValue = {
+        published: this.softskill.published,
+        draft: this.softskill.draft
+      };
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
-    this.workflowFormValue = {
-      published: this.softskill.published,
-      draft: this.softskill.draft
-    };
+
   }
 
   submit() {

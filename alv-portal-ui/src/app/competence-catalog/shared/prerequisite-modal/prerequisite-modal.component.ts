@@ -28,8 +28,10 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
 
   form: FormGroup;
 
-  workflowFormValue: WorkflowFormValue;
-
+  workflowFormValue: WorkflowFormValue = {
+    published: false,
+    draft: true
+  };
 
   createAnotherFormControl: FormControl;
 
@@ -66,12 +68,12 @@ export class PrerequisiteModalComponent extends CompetenceCatalogEditorAwareComp
     if (this.prerequisite) {
       this.form.patchValue(this.prerequisite);
       this.isEdit = true;
+      this.workflowFormValue = {
+        published: this.prerequisite.published,
+        draft: this.prerequisite.draft
+      };
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
-    this.workflowFormValue = {
-      published: this.prerequisite.published,
-      draft: this.prerequisite.draft
-    };
   }
 
   submit() {
