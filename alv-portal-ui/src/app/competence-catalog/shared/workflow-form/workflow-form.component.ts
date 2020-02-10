@@ -26,9 +26,6 @@ export class WorkflowFormComponent implements OnInit {
 
   draftRadioButtonOptions$ = of(draftRadioButtonOptions);
 
-  isPublishable: boolean;
-
-
   published: FormControl;
   draft: FormControl;
 
@@ -38,10 +35,7 @@ export class WorkflowFormComponent implements OnInit {
   ngOnInit() {
     this.draft = this.fb.control(this.workflowFormValue.draft);
     this.published = this.fb.control(this.workflowFormValue.published);
-    this.isPublishable = !this.workflowFormValue.draft;
     this.parentForm.addControl('draft', this.published);
     this.parentForm.addControl('published', this.draft);
   }
-
-
 }
