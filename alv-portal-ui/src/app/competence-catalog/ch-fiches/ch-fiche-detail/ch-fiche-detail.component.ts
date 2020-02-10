@@ -11,14 +11,11 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-catalog-editor-aware/competence-catalog-editor-aware.component';
 import { catchError, takeUntil } from 'rxjs/operators';
 import { ModalService } from '../../../shared/layout/modal/modal.service';
-import { Observable, of } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  draftRadioButtonOptions,
-  publishedRadioButtonOptions
-} from '../../shared/constants';
+import { Observable } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { WorkflowFormValue } from '../../shared/shared-competence-catalog.types';
 
 @Component({
   selector: 'alv-competence-set-detail',
@@ -35,9 +32,10 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
 
   form: FormGroup;
 
-  publishedRadioButtonOptions$ = of(publishedRadioButtonOptions);
-
-  draftRadioButtonOptions$ = of(draftRadioButtonOptions);
+  workflowFormValue: WorkflowFormValue = {
+    published: false,
+    draft: true
+  };
 
   showErrors: boolean;
 
@@ -57,15 +55,16 @@ export class ChFicheDetailComponent extends CompetenceCatalogEditorAwareComponen
     super.ngOnInit();
     this.createAnotherFormControl = this.fb.control(false);
     this.isEdit = !!this.route.snapshot.data.chFiche;
+    this.form = this.fb.group({});
     if (this.route.snapshot.data.chFiche) {
       this.chFiche = this.route.snapshot.data.chFiche;
+      this.workflowFormValue = {
+        published: this.chFiche.published,
+        draft: this.chFiche.draft
+      };
     } else {
       this.reset();
     }
-    this.form = this.fb.group({
-      published: [this.chFiche.published, Validators.required],
-      draft: [this.chFiche.draft, Validators.required],
-    });
   }
 
   reset() {
