@@ -295,12 +295,16 @@
           </fieldset>
 
         </alv-collapse-panel>
-        <alv-alert [hideDismiss]="true"
-                   [notification]="bottomAlert">
+
+        <alv-collapse-notification [panelId]="'work-effort-notification'"
+                                   [isCollapsed]="true"
+                                   [notification]="bottomAlert"
+                                   panelTitle="portal.work-efforts.edit-form.note.note-text.paragraph-title" >
           <div *ngFor="let number of [1,2,3,4,5,6]">
             {{'portal.work-efforts.edit-form.note.note-text.paragraph' + number | translate}}
           </div>
-        </alv-alert>
+        </alv-collapse-notification>
+
         <div class="d-flex justify-content-end">
           <ng-container *ngIf="!readonly">
             <button (click)="goToWorkEffortsList()"
