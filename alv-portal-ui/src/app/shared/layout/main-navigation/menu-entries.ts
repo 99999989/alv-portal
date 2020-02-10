@@ -100,6 +100,13 @@ export const CC_MAIN_MENU_ENTRIES: MenuEntry[] = [
     userPredicate: isAnyUser
   },
   {
+    id: 'softskills',
+    iconProp: ['far', 'user'],
+    labelKey: 'portal.competence-catalog.menu-entries.softskills',
+    path: ['kk', 'softskills'],
+    userPredicate: isAnyUser
+  },
+  {
     id: 'work-environments',
     iconProp: ['far', 'industry-alt'],
     labelKey: 'portal.competence-catalog.menu-entries.work-environments',
