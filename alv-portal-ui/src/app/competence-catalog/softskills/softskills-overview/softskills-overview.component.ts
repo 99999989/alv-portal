@@ -113,20 +113,24 @@ export class SoftskillsOverviewComponent extends OverviewComponent<Softskill> im
   }
 
   private openDeleteModal(softskill: Softskill) {
-    const modalRef = this.modalService.openLarge(SoftskillDeleteComponent);
-    const componentInstance = <SoftskillDeleteComponent>modalRef.componentInstance;
-    componentInstance.softskill = softskill.id;
-    modalRef.result
-      .then(idForDeletion => {
-        this.itemsRepository.delete(idForDeletion)
-          .pipe(catchError(this.handleFailure.bind(this)))
-          .subscribe(() => {
-            this.reload();
-            this.notificationsService.success('portal.competence-catalog.softskills.deleted-success-notification');
-          });
-      })
-      .catch(() => {
-      });
+    if (!this.isItemDeletable(softskill)) {
+      this.notificationsService.error('portal.competence-catalog.business-error-messages.cannot_delete_in_status_published');
+    } else {
+      const modalRef = this.modalService.openLarge(SoftskillDeleteComponent);
+      const componentInstance = <SoftskillDeleteComponent>modalRef.componentInstance;
+      componentInstance.softskill = softskill.id;
+      modalRef.result
+        .then(idForDeletion => {
+          this.itemsRepository.delete(idForDeletion)
+            .pipe(catchError(this.handleFailure.bind(this)))
+            .subscribe(() => {
+              this.reload();
+              this.notificationsService.success('portal.competence-catalog.softskills.deleted-success-notification');
+            });
+        })
+        .catch(() => {
+        });
+    }
   }
 
   private handleFailure(error: HttpErrorResponse): Observable<never> {
