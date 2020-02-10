@@ -1,0 +1,44 @@
+<button *ngIf="!isAlwaysExpanded"
+        class="collapse-button title-bar alv-bar btn d-flex align-items-center w-100 notification" [ngClass]="notificationClass"
+        type="button"
+        tabindex="-1"
+        [class.collapsed]="isCollapsed"
+        (click)="toggle()"
+        [attr.aria-expanded]="!isCollapsed"
+        [attr.aria-controls]="panelId">
+  <div class="icon">
+    <fa-icon [icon]="['fas', icon]"></fa-icon>
+  </div>
+  <div class="text w-100">
+    {{ panelTitle | translate }}
+  </div>
+  <span class="flex-grow-1"></span>
+  <ng-container *ngIf="!isAlwaysExpanded">
+    <fa-icon class="collapse-icon"
+             [icon]="['fas', 'chevron-up']"></fa-icon>
+    <fa-icon class="expand-icon"
+             [icon]="['fas', 'chevron-down']"></fa-icon>
+  </ng-container>
+</button>
+
+<div *ngIf="isAlwaysExpanded"
+     class="title-bar alv-bar w-100 notification" [ngClass]="notificationClass">
+  <div class="icon">
+    <fa-icon [icon]="['fas', icon]"></fa-icon>
+  </div>
+  <div class="text w-100">
+    {{ panelTitle | translate }}
+  </div>
+</div>
+<div [ngClass]="isCollapsed ? 'mb-2' : 'mb-0'" ></div>
+<div class="panel-content"
+     [id]="panelId"
+     [ngbCollapse]="isCollapsed"
+     [@expandCollapse]="isCollapsed ? 'closed' : 'open'">
+  <div class="notification" [ngClass]="notificationClass">
+    <div class="icon"></div>
+    <div class="text w-100 mb-2">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
