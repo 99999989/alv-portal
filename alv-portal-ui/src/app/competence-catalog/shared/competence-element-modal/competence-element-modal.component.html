@@ -32,7 +32,11 @@
     </ng-container>
   </fieldset>
   <ng-container *ngIf="isCompetenceCatalogEditor$|async">
-    <alv-workflow-form></alv-workflow-form>
+    <alv-workflow-form [isEdit]="isEdit"
+                       [isReadonly]="isReadonly"
+                       [parentForm]="form"
+                       [workflowFormValue]="workflowFormValue"
+    ></alv-workflow-form>
     <alv-checkbox *ngIf="!isReadonly && !isEdit"
                   [alvControl]="createAnotherFormControl"
     >{{'entity.action.create-another' | translate}}</alv-checkbox>

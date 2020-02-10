@@ -16,6 +16,7 @@ import { AuthenticationService } from '../../../core/auth/authentication.service
 import { catchError } from 'rxjs/operators';
 import { BusinessExceptionsHandlerService } from '../business-exceptions-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { WorkflowFormValue } from '../shared-competence-catalog.types';
 
 @Component({
   selector: 'alv-competence-element-modal',
@@ -41,6 +42,8 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
   );
 
   form: FormGroup;
+
+  workflowFormValue: WorkflowFormValue;
 
   createAnotherFormControl: FormControl;
 
@@ -80,6 +83,10 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
       this.isEdit = true;
     }
     this.modalTitle = getModalTitle(this.isReadonly, this.isEdit);
+    this.workflowFormValue = {
+      published: this.competenceElement.published,
+      draft: this.competenceElement.draft
+    };
   }
 
   submit() {

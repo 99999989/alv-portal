@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { of } from 'rxjs';
 import { draftRadioButtonOptions, publishedRadioButtonOptions } from '../constants';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { WorkflowFormValue } from '../shared-competence-catalog.types';
 
 @Component({
@@ -27,14 +27,18 @@ export class WorkflowFormComponent implements OnInit {
 
   @Input()
   isEdit: boolean;
+  published: FormControl;
+  draft: FormControl;
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
   }
 
   ngOnInit() {
+    this.draft = this.fb.control(this.workflowFormValue.draft);
+    this.published = this.fb.control(this.workflowFormValue.published);
     this.isPublishable = !this.workflowFormValue.draft;
-    this.parentForm.addControl('draft', this.workflowFormValue.draft);
-    this.parentForm.addControl('published', this.workflowFormValue.published);
+    this.parentForm.addControl('draft', this.published);
+    this.parentForm.addControl('published', this.draft);
   }
 
 
