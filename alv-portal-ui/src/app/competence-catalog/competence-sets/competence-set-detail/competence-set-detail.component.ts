@@ -12,14 +12,17 @@ import { CompetenceCatalogEditorAwareComponent } from '../../shared/competence-c
 import { ModalService } from '../../../shared/layout/modal/modal.service';
 import { CompetenceSetDeleteModalComponent } from '../competence-set-delete-modal/competence-set-delete-modal.component';
 import { ActionDefinition } from '../../../shared/backend-services/shared.types';
-import { CompetenceCatalogAction } from '../../shared/shared-competence-catalog.types';
+import {
+  CompetenceCatalogAction,
+  WorkflowFormValue
+} from '../../shared/shared-competence-catalog.types';
 import { CompetenceSetBacklinkComponent } from '../../shared/backlinks/competence-set-backlinks/competence-set-backlink.component';
 import { Observable, of } from 'rxjs';
 import {
   draftRadioButtonOptions,
   publishedRadioButtonOptions
 } from '../../shared/constants';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs/operators';
 import { BusinessExceptionsHandlerService } from '../../shared/business-exceptions-handler.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -42,6 +45,8 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
   readonly = false;
 
   form: FormGroup;
+
+  workflowFormValue: WorkflowFormValue;
 
   createAnotherFormControl: FormControl;
 
@@ -73,10 +78,13 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     } else {
       this.reset();
     }
-    this.form = this.fb.group({
-      published: [this.competenceSet.published, Validators.required],
-      draft: [this.competenceSet.draft, Validators.required],
-    });
+    this.form = this.fb.group({});
+
+    this.workflowFormValue = {
+      published: this.competenceSet.published,
+      draft: this.competenceSet.draft
+    };
+
   }
 
   saveCompetenceSet() {

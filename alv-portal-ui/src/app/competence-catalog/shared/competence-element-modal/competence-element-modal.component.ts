@@ -67,8 +67,6 @@ export class CompetenceElementModalComponent extends CompetenceCatalogEditorAwar
     this.createAnotherFormControl = this.fb.control(false);
     this.form = this.fb.group({
       type: [null, Validators.required],
-      published: [false, Validators.required],
-      draft: [true, Validators.required],
       description: this.fb.group({
         de: [''],
         fr: [''],

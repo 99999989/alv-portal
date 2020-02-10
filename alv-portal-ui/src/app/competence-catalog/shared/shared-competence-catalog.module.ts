@@ -85,7 +85,8 @@ import { WorkflowFormComponent } from './workflow-form/workflow-form.component';
     PrerequisiteModalComponent,
     SoftskillModalComponent,
     WorkEnvironmentBacklinkComponent,
-    WorkEnvironmentModalComponent
+    WorkEnvironmentModalComponent,
+    WorkflowFormComponent
   ]
 })
 export class SharedCompetenceCatalogModule {

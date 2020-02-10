@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { atLeastOneRequiredValidator } from '../../../shared/forms/input/validators/at-least-one-required.validator';
 import { Softskill } from '../../../shared/backend-services/competence-catalog/softskill/softskill.types';
 import { Observable, of } from 'rxjs';
@@ -53,8 +53,6 @@ export class SoftskillModalComponent extends CompetenceCatalogEditorAwareCompone
     super.ngOnInit();
     this.createAnotherFormControl = this.fb.control(false);
     this.form = this.fb.group({
-      published: [false, Validators.required],
-      draft: [true, Validators.required],
       description: this.fb.group({
         de: [''],
         fr: [''],
