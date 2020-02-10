@@ -3,7 +3,9 @@
     chFicheDescriptionActions: chFicheDescriptionActions$ | async,
     isCompetenceCatalogEditor: isCompetenceCatalogEditor$ | async,
     prerequisiteActions: prerequisiteActions$ | async,
-    workEnvironmentActions: workEnvironmentActions$ | async
+    workEnvironmentActions: workEnvironmentActions$ | async,
+    softskillActions: softskillActions$ | async
+
   } as observables">
   <!--   Title-->
   <div class="mb-2">
@@ -120,6 +122,30 @@
                                [showActionButtons]="true"
                                [type]="'portal.competence-catalog.element-type.prerequisite' | translate"
                                >
+
+    </alv-interactive-list-item>
+  </alv-competence-items-collapse-panel>
+  <alv-competence-items-collapse-panel (actionClick)="handleSoftskillActionClick($event)"
+                                       (toggleClick)="toggleSoftskills($event)"
+                                       [actions]="[linkSoftskillAction]"
+                                       [darkMode]="true"
+                                       [isCollapsed]="collapsed.SOFTSKILLS"
+                                       [isEmpty]="!chFiche.softskillIds?.length"
+                                       [label]="'portal.competence-catalog.ch-fiches.label.softskills'"
+                                       [showActionButtons]="!isReadonly"
+                                       class="d-block mt-2"
+  >
+    <alv-interactive-list-item (actionClick)="handleSoftskillActionClick($event, index)"
+                               (itemClick)="viewSoftskill(softskill)"
+                               *ngFor="let softskill of softskills; let index = index;"
+                               [actions]="observables.softskillActions"
+                               [isDraft]="softskill.draft"
+                               [isItemClickable]="true"
+                               [isPublished]="softskill.published"
+                               [multiLanguageTitle]="softskill.description"
+                               [showActionButtons]="true"
+                               [superTitle]="softskill.id"
+                               [type]="'portal.competence-catalog.element-type.softskill' | translate">
 
     </alv-interactive-list-item>
   </alv-competence-items-collapse-panel>

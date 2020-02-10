@@ -9,6 +9,7 @@ export enum CompetenceType {
 export enum BusinessExceptionTypes {
   CANNOT_DELETE_KNOW_HOW_REFERENCED_IN_COMPETENCE_SET = 'CANNOT_DELETE_KNOW_HOW_REFERENCED_IN_COMPETENCE_SET',
   CANNOT_DELETE_PREREQUISITE_REFERENCED_IN_CH_FICHE = 'CANNOT_DELETE_PREREQUISITE_REFERENCED_IN_CH_FICHE',
+  CANNOT_DELETE_SOFTSKILL_REFERENCED_IN_CH_FICHE = 'CANNOT_DELETE_SOFTSKILL_REFERENCED_IN_CH_FICHE',
   CANNOT_DELETE_WORK_ENVIRONMENT_REFERENCED_IN_CH_FICHE = 'CANNOT_DELETE_WORK_ENVIRONMENT_REFERENCED_IN_CH_FICHE',
   GENERAL_BUSINESS_EXCEPTION = 'GENERAL_BUSINESS_EXCEPTION',
   BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE = 'BFS_CODE_ALREADY_REFERENCED_IN_CH_FICHE',
@@ -25,6 +26,7 @@ export interface ChFiche extends CompetenceItem {
   occupations: Occupation[];
   competences: Competence[];
   prerequisiteIds: string[];
+  softskillIds: string[];
   workEnvironmentIds: string[];
 
 }
@@ -37,6 +39,7 @@ export interface CreateChFiche {
   draft?: boolean;
   published?: boolean;
   prerequisiteIds: string[];
+  softskillIds: string[];
   workEnvironmentIds: string[];
 }
 
@@ -48,6 +51,7 @@ export interface UpdateChFiche {
   draft?: boolean;
   published?: boolean;
   prerequisiteIds: string[];
+  softskillIds: string[];
   workEnvironmentIds: string[];
 }
 
@@ -68,6 +72,7 @@ export function initialChFiche(): ChFiche {
     occupations: [],
     competences: [],
     prerequisiteIds: [],
+    softskillIds: [],
     workEnvironmentIds: [],
   };
 }

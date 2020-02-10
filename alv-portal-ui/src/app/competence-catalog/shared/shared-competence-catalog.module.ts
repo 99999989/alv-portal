@@ -20,6 +20,8 @@ import { PrerequisiteBacklinkComponent } from './backlinks/prerequisite-backlink
 import { PrerequisiteModalComponent } from './prerequisite-modal/prerequisite-modal.component';
 import { WorkEnvironmentModalComponent } from './work-environment-modal/work-environment-modal.component';
 import { WorkEnvironmentBacklinkComponent } from './backlinks/work-environment-backlinks/work-environment-backlink.component';
+import { SoftskillBacklinkComponent } from './backlinks/softskill-backlinks/softskill-backlink.component';
+import { SoftskillModalComponent } from './softskill-modal/softskill-modal.component';
 import { WorkflowFormComponent } from './workflow-form/workflow-form.component';
 
 @NgModule({
@@ -44,7 +46,9 @@ import { WorkflowFormComponent } from './workflow-form/workflow-form.component';
     FilterByStatusesFormComponent,
     FilterByStatusesModalComponent,
     PrerequisiteBacklinkComponent,
+    SoftskillBacklinkComponent,
     PrerequisiteModalComponent,
+    SoftskillModalComponent,
     WorkEnvironmentModalComponent,
     WorkEnvironmentBacklinkComponent,
     WorkflowFormComponent
@@ -58,6 +62,8 @@ import { WorkflowFormComponent } from './workflow-form/workflow-form.component';
     FilterByStatusesModalComponent,
     PrerequisiteBacklinkComponent,
     PrerequisiteModalComponent,
+    SoftskillModalComponent,
+    SoftskillBacklinkComponent,
     WorkEnvironmentModalComponent,
     WorkEnvironmentBacklinkComponent
   ],
@@ -75,7 +81,9 @@ import { WorkflowFormComponent } from './workflow-form/workflow-form.component';
     BooleanToTextPipe,
     FilterByStatusesFormComponent,
     PrerequisiteBacklinkComponent,
+    SoftskillBacklinkComponent,
     PrerequisiteModalComponent,
+    SoftskillModalComponent,
     WorkEnvironmentBacklinkComponent,
     WorkEnvironmentModalComponent
   ]
