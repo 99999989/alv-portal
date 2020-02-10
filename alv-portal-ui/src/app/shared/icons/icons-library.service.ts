@@ -10,7 +10,8 @@ import {
   faIndustryAlt,
   faListAlt as farListAlt,
   faStar as farStar,
-  faStickyNote as farStickyNote
+  faStickyNote as farStickyNote,
+  faUser as farUser,
 } from '@fortawesome/pro-regular-svg-icons';
 
 import {
@@ -178,7 +179,8 @@ export class IconsLibraryService {
       farFilePdf,
       farStar,
       farListAlt,
-      farStickyNote
+      farStickyNote,
+      farUser
     );
   }
 }

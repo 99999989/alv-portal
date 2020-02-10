@@ -16,6 +16,7 @@ import { CompetenceSetInFicheSettingsModalComponent } from './ch-fiche/competenc
 import { PrerequisiteSearchModalComponent } from './prerequisite-search-modal/prerequisite-search-modal.component';
 import { WorkEnvironmentSearchModalComponent } from './work-environment-search-modal/work-environment-search-modal.component';
 import { FilterByKeyValuePipe } from './ch-fiche/filter-by-key-value.pipe';
+import { SoftskillSearchModalComponent } from './softskill-search-modal/softskill-search-modal.component';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { FilterByKeyValuePipe } from './ch-fiche/filter-by-key-value.pipe';
     ChFicheTitleModalComponent,
     ChFicheDescriptionModalComponent,
     PrerequisiteSearchModalComponent,
+    SoftskillSearchModalComponent,
     WorkEnvironmentSearchModalComponent,
     CompetenceSetInFicheSettingsModalComponent,
     FilterByKeyValuePipe
@@ -44,6 +46,7 @@ import { FilterByKeyValuePipe } from './ch-fiche/filter-by-key-value.pipe';
     ChFicheTitleModalComponent,
     ChFicheDescriptionModalComponent,
     PrerequisiteSearchModalComponent,
+    SoftskillSearchModalComponent,
     WorkEnvironmentSearchModalComponent,
     CompetenceSetInFicheSettingsModalComponent
   ],

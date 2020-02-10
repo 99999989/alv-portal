@@ -19,6 +19,7 @@ export const mockChFiche: ChFiche = {
     'req1',
     'req2'
   ],
+  softskillIds: [],
   title: {
     de: 'ficheDeTitle',
     en: 'ficheEnTitle',
