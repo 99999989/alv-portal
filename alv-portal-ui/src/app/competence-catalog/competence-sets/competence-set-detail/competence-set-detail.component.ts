@@ -68,16 +68,14 @@ export class CompetenceSetDetailComponent extends CompetenceCatalogEditorAwareCo
     this.isEdit = !!this.route.snapshot.data.competenceSet;
     if (this.route.snapshot.data.competenceSet) {
       this.competenceSet = this.route.snapshot.data.competenceSet;
+      this.workflowFormValue = {
+        published: this.competenceSet.published,
+        draft: this.competenceSet.draft
+      };
     } else {
       this.reset();
     }
     this.form = this.fb.group({});
-
-    this.workflowFormValue = {
-      published: this.competenceSet.published,
-      draft: this.competenceSet.draft
-    };
-
   }
 
   saveCompetenceSet() {
